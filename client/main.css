@@ -1,0 +1,11 @@
+/* CSS declarations go here */
+.app > div {
+  margin-top: 20px;
+}
+
+.block {
+  padding: 5px;
+  -webkit-box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.6);
+  -moz-box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.6);
+  box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.6);
+}
