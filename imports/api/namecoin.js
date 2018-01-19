@@ -57,6 +57,14 @@ Meteor.methods({
     let address = bitcore.Address.fromPublicKey(new bitcore.PublicKey(publicKey), network);
     return Message(message).verify(address, signature);
   },
+  'getHash'(params) {
+    check(params, Array);
+    let string = "";
+    params.forEach((e) => {
+      string += e;
+    })
+    return CryptoJS.SHA256(string).toString();
+  }
 });
 
 function getAddress(publicKey) {

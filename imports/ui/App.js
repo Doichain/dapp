@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import BasicInfo from './BasicInfo'
 import Wallet from './Wallet';
 import Signature from './Signature';
+import Hash from './Hash';
 
 export default class App extends Component {
 
@@ -14,6 +15,7 @@ export default class App extends Component {
         <BasicInfo/>
         <Wallet/>
         <Signature/>
+        <Hash/>
       </div>
     );
   }
