@@ -3,6 +3,7 @@ import BasicInfo from './BasicInfo'
 import Wallet from './Wallet';
 import Signature from './Signature';
 import Hash from './Hash';
+import Blockchain from './Blockchain';
 
 export default class App extends Component {
 
@@ -16,6 +17,7 @@ export default class App extends Component {
         <Wallet/>
         <Signature/>
         <Hash/>
+        <Blockchain/>
       </div>
     );
   }

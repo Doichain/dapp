@@ -8,6 +8,7 @@ import Base58 from 'bs58';
 import bitcore from 'bitcore-lib';
 import Message from 'bitcore-message';
 
+const NAMESPACE = 'e/';
 const VERSION_BYTE = '34';
 var network = bitcore.Networks.add({
   name: 'namecoin',
@@ -25,11 +26,6 @@ var client = new namecoin.Client({
 });
 
 Meteor.methods({
-  'getName'(id) {
-    check(id, String);
-    let syncFunc = Meteor.wrapAsync(nameShow);
-    return syncFunc(id);
-  },
   'getBlockCount'() {
     let syncFunc = Meteor.wrapAsync(getBlockCount);
     return syncFunc();
@@ -64,6 +60,53 @@ Meteor.methods({
       string += e;
     })
     return CryptoJS.SHA256(string).toString();
+  },
+  'nameNew'(hash) {
+    check(hash, String);
+    let id = NAMESPACE+hash;
+    let syncFunc = Meteor.wrapAsync(nameShow);
+    let nameFound = true;
+    try {
+      let result = syncFunc(id);
+      console.log(result);
+    } catch(error) {
+      if(error.message.startsWith('name not found')) nameFound = false;
+      else throw error;
+    }
+    if(nameFound) return "Already in blockchain"
+    syncFunc = Meteor.wrapAsync(nameNew);
+    return syncFunc(id);
+  },
+  'nameFirstUpdate'(hash, signature, dataHash, rand, tx) {
+    check(hash, String);
+    check(signature, String);
+    check(dataHash, String);
+    check(rand, String);
+    check(tx, String);
+    let id = NAMESPACE+hash;
+    let value = "{signature: '"+signature+"', data_hash: '"+dataHash+"'}";
+    let syncFunc = Meteor.wrapAsync(nameFirstUpdate);
+    return syncFunc(id, rand, tx, value);
+  },
+  'writeInBlockchain'(hash, signature, dataHash) {
+    check(hash, String);
+    check(signature, String);
+    check(dataHash, String);
+    let id = 'e/'+hash;
+    let syncFunc = Meteor.wrapAsync(nameShow);
+    let nameFound = true;
+    try {
+      syncFunc(id);
+    } catch(error) {
+      if(error.message.startsWith('name not found')) nameFound = false;
+      else throw error;
+    }
+    if(nameFound) return "Already in blockchain"
+    syncFunc = Meteor.wrapAsync(nameNew);
+    let result = syncFunc(id);
+    syncFunc = Meteor.wrapAsync(nameFirstUpdate);
+    console.log(result);
+    return syncFunc(id, result[1], result[0], "{signature: '"+signature+"', data_hash: '"+dataHash+"'}");
   }
 });
 
@@ -77,6 +120,18 @@ function getAddress(publicKey) {
   address = new Buffer(address.toString('hex')+checksum,'hex');
   address = Base58.encode(address);
   return address;
+}
+
+function nameFirstUpdate(id, rand, tx, value, callback) {
+  client.cmd('name_firstupdate', id, rand, tx, value, function(err, result) {
+    callback(err, result);
+  });
+}
+
+function nameNew(id, callback) {
+  client.cmd('name_new', id, function(err, result) {
+    callback(err, result);
+  });
 }
 
 function nameShow(id, callback) {
