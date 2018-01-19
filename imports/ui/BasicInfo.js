@@ -15,11 +15,12 @@ export default class BasicInfo extends Component {
         <ul>
           <li>Blocks: {this.state.blockCount}</li>
         </ul>
+        <button onClick={()=>this.updateInfo()}>Update</button>
       </div>
     );
   }
 
-  componentWillMount() {
+  updateInfo() {
     this.updateBlockCount();
   }
 
