@@ -19,41 +19,45 @@ export default class Wallet extends Component {
       <div className="block">
         Signature:
         <div style={{paddingLeft: "20px"}}>
-          <div style={{paddingLeft: "20px", paddingTop: "10px"}}>
+          <div style={{paddingTop: "10px"}}>
             Generate:
-            <div>
-              <span>Private Key: </span>
-              <input onChange={(evt) => {this.setState({generatePrivateKey: evt.target.value})}}/>
+            <div style={{paddingLeft: "20px"}}>
+              <div>
+                <span>Private Key: </span>
+                <input onChange={(evt) => {this.setState({generatePrivateKey: evt.target.value})}}/>
+              </div>
+              <div>
+                <span>Email: </span>
+                <input onChange={(evt) => {this.setState({generateEmail: evt.target.value})}}/>
+              </div>
+              <div>
+                <span>Signature:</span>{this.state.signature!==undefined?this.state.signature:""}
+              </div>
+              <button onClick={()=>this.generateSignature()}>Generieren</button>
             </div>
-            <div>
-              <span>Email: </span>
-              <input onChange={(evt) => {this.setState({generateEmail: evt.target.value})}}/>
-            </div>
-            <div>
-              <span>Signature:</span>{this.state.signature!==undefined?this.state.signature:""}
-            </div>
-            <button onClick={()=>this.generateSignature()}>Generieren</button>
           </div>
-          <div style={{paddingLeft: "20px", paddingTop: "10px"}}>
+          <div style={{paddingTop: "10px"}}>
             Verify:
-            <div>
-              <span>Public Key: </span>
-              <input onChange={(evt) => {this.setState({verifyPublicKey: evt.target.value})}}/>
+            <div style={{paddingLeft: "20px"}}>
+              <div>
+                <span>Public Key: </span>
+                <input onChange={(evt) => {this.setState({verifyPublicKey: evt.target.value})}}/>
+              </div>
+              <div>
+                <span>Email: </span>
+                <input onChange={(evt) => {this.setState({verifyEmail: evt.target.value})}}/>
+              </div>
+              <div>
+                <span>Signature: </span>
+                <input onChange={(evt) => {this.setState({verifySignature: evt.target.value})}}/>
+              </div>
+              <div>
+                <span>Verification:</span><span>{this.state.signatureVerification!==undefined?
+                  this.state.signatureVerification === true?"true":"false"
+                :""}</span>
+              </div>
+              <button onClick={()=>this.verifySignature()}>Verify</button>
             </div>
-            <div>
-              <span>Email: </span>
-              <input onChange={(evt) => {this.setState({verifyEmail: evt.target.value})}}/>
-            </div>
-            <div>
-              <span>Signature: </span>
-              <input onChange={(evt) => {this.setState({verifySignature: evt.target.value})}}/>
-            </div>
-            <div>
-              <span>Verification:</span><span>{this.state.signatureVerification!==undefined?
-                this.state.signatureVerification === true?"true":"false"
-              :""}</span>
-            </div>
-            <button onClick={()=>this.verifySignature()}>Verify</button>
           </div>
         </div>
       </div>
