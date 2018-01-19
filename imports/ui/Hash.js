@@ -23,11 +23,11 @@ export default class Hash extends Component {
             Signature Hash:
             <div style={{paddingLeft: "20px"}}>
               <div>
-                <span>Signature (Sender): </span>
+                <span>Signature(Sender): </span>
                 <input onChange={(evt) => {this.setState({signatureSender: evt.target.value})}}/>
               </div>
               <div>
-                <span>Signature (Recipient): </span>
+                <span>Signature(Recipient): </span>
                 <input onChange={(evt) => {this.setState({signatureRecipient: evt.target.value})}}/>
               </div>
               <div>
