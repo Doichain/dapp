@@ -34,7 +34,7 @@ export default class Blockchain extends Component {
             </div>
           </div>
           <div style={{paddingTop: "10px"}}>
-            New first update:
+            Name first update:
             <div style={{paddingLeft: "20px"}}>
               <div>
                 <span>Hash: </span>
