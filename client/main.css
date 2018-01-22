@@ -1,6 +1,87 @@
-/* CSS declarations go here */
-.app > div {
-  margin-top: 20px;
+body {
+  font-family: sans-serif;
+  background-color: #4c4c4c;
+  background-image: -moz-linear-gradient(top, #4c4c4c 0%, #131313 100%);
+  background-image: -webkit-linear-gradient(top, #4c4c4c 0%,#131313 100%);
+  background-image: linear-gradient(to bottom, #4c4c4c 0%,#131313 100%);
+  background-attachment: fixed;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  padding: 0;
+  margin: 0;
+
+  font-size: 14px;
+}
+
+#app {
+  border-radius: 3px;
+  max-width: 600px;
+  margin: 20px auto;
+  min-height: 100%;
+  background: white;
+}
+
+#menu-bar {
+  display: flex;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  padding: 0 15px 0 15px;
+  line-height: 57px;
+  background-color: #2b2b2b;
+  color: #b1b3be;
+  font-size: 14px;
+}
+
+#menu {
+  float: right;
+  background-color: #2b2b2b;
+  color: #b1b3be;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  z-index: 15; /* Over close-div */
+}
+
+.menu-button {
+  line-height: 1;
+}
+
+.menu-button i {
+  margin-top: 15px;
+  cursor: pointer;
+  position: relative;
+  z-index: 15; /* Over close-div */
+}
+
+.menu-button i:hover {
+  color: #74757b;
+}
+
+.menu-entry {
+  padding: 10px;
+}
+
+.menu-entry:hover {
+  -webkit-box-shadow: inset 1px 2px 10px 1px rgba(0,0,0,0.3);
+  -moz-box-shadow: inset 1px 2px 10px 1px rgba(0,0,0,0.3);
+  box-shadow: inset 1px 2px 10px 1px rgba(0,0,0,0.3);
+}
+
+.close-div {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.title {
+  flex-grow: 1;
 }
 
 .block {

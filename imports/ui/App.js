@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Menu from './Menu';
 import BasicInfo from './BasicInfo'
 import Wallet from './Wallet';
 import Signature from './Signature';
@@ -8,11 +9,14 @@ import Blockchain from './Blockchain';
 export default class App extends Component {
 
   render() {
+    let menuEntries = [
+      {name: 'Home', value: 'home'},
+      {name: 'Basic Information', value: 'basic_info'}
+    ]
+
     return (
-      <div className="app">
-        <header>
-          <h1>Meteor (React) - Namecoin</h1>
-        </header>
+      <div id="app">
+        <Menu entries={menuEntries}/>
         <BasicInfo/>
         <Wallet/>
         <Signature/>
