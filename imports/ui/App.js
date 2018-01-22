@@ -19,7 +19,8 @@ export default class App extends Component {
     let menuEntries = [
       {name: 'Main Page', value: 'home'},
       {name: 'Blockchain Information', value: 'basic_info'},
-      {name: 'Wallets', value: 'wallets'}
+      {name: 'Wallets', value: 'wallets'},
+      {name: 'Hashes', value: 'hashes'}
     ]
 
     return (
@@ -36,6 +37,7 @@ export default class App extends Component {
     switch(this.state.activePage) {
       case 'basic_info': return (<BasicInfo/>);
       case 'wallets': return (<Wallet/>);
+      case 'hashes': return (<Hash/>);
       case 'home':
       default: return (<Home/>);
     }

@@ -8,58 +8,82 @@ export default class Hash extends Component {
       signatureRecipient: undefined,
       ip: undefined,
       timestamp: undefined,
-      signatureHash: undefined,
+      signatureHash: '',
       data: undefined,
-      dataHash: undefined
+      dataHash: ''
     }
   }
 
   render() {
     return (
-      <div className="block">
-        Hash:
-        <div style={{paddingLeft: "20px"}}>
-          <div style={{paddingTop: "10px"}}>
-            Signature Hash:
-            <div style={{paddingLeft: "20px"}}>
-              <div>
-                <span>Signature(Sender): </span>
-                <input onChange={(evt) => {this.setState({signatureSender: evt.target.value})}}/>
-              </div>
-              <div>
-                <span>Signature(Recipient): </span>
-                <input onChange={(evt) => {this.setState({signatureRecipient: evt.target.value})}}/>
-              </div>
-              <div>
-                <span>IP(#.#.#.#): </span>
-                <input onChange={(evt) => {this.setState({ip: evt.target.value})}}/>
-              </div>
-              <div>
-                <span>Timestamp(yyyy-mm-ddThh:mm:ss+timezone[hh:mm]): </span>
-                <input onChange={(evt) => {this.setState({timestamp: evt.target.value})}}/>
-              </div>
-              <div>
-                <span>Hash: </span>{this.state.signatureHash!==undefined?this.state.signatureHash:""}
-              </div>
-              <button onClick={()=>this.generateSignatureHash()}>Generieren</button>
+      <div>
+        <div className="page-title">Hashes</div>
+        <div className="block-wrapper">
+          Signature Hash:
+          <div className="block">
+            <table>
+              <tbody>
+                <tr>
+                  <td>Signature (Sender):</td>
+                  <td><input onChange={(evt) => {this.setState({signatureSender: evt.target.value})}}/></td>
+                </tr>
+                <tr>
+                  <td>Signature (Recipient):</td>
+                  <td><input onChange={(evt) => {this.setState({signatureRecipient: evt.target.value})}}/></td>
+                </tr>
+                <tr>
+                  <td>IP (#.#.#.#):</td>
+                  <td><input onChange={(evt) => {this.setState({ip: evt.target.value})}}/></td>
+                </tr>
+                <tr>
+                  <td>Timestamp<br/>(yyyy-mm-ddThh:mm:ss+timezone[hh:mm]):</td>
+                  <td><input onChange={(evt) => {this.setState({timestamp: evt.target.value})}}/></td>
+                </tr>
+              </tbody>
+            </table>
+            <div style={{marginTop: '10px'}}>
+              <span>Hash:</span>
+              <button title="Copy to clipboard" className="clipboard-button" onClick={()=>{this.copyToClipboard("signature_hash")}}>
+                <i className="material-icons">content_copy</i>
+              </button>
+              <input ref={"signature_hash"} style={{width: '100%', margin: '5px 0px'}} value={this.state.signatureHash} readOnly/>
+            </div>
+            <div className="align-right">
+              <div className="button" onClick={()=>this.generateSignatureHash()}>Generate</div>
             </div>
           </div>
-          <div style={{paddingTop: "10px"}}>
-            Data Hash:
-            <div style={{paddingLeft: "20px"}}>
-              <div>
-                <span>Data: </span>
-                <input onChange={(evt) => {this.setState({data: evt.target.value})}}/>
-              </div>
-              <div>
-                <span>Hash: </span>{this.state.dataHash!==undefined?this.state.dataHash:""}
-              </div>
-              <button onClick={()=>this.generateDataHash()}>Generieren</button>
+        </div>
+        <div className="block-wrapper">
+          Data Hash:
+          <div className="block">
+            <table>
+              <tbody>
+                <tr>
+                  <td>Data (JSON):</td>
+                  <td><input onChange={(evt) => {this.setState({data: evt.target.value})}}/></td>
+                </tr>
+              </tbody>
+            </table>
+            <div style={{marginTop: '10px'}}>
+              <span>Hash:</span>
+              <button title="Copy to clipboard" className="clipboard-button" onClick={()=>{this.copyToClipboard("data_hash")}}>
+                <i className="material-icons">content_copy</i>
+              </button>
+              <input ref={"data_hash"} style={{width: '100%', margin: '5px 0px'}} value={this.state.dataHash} readOnly/>
+            </div>
+            <div className="align-right">
+              <div className="button" onClick={()=>this.generateDataHash()}>Generate</div>
             </div>
           </div>
         </div>
       </div>
     );
+  }
+
+  copyToClipboard(type) {
+    let object = this.refs[type];
+    object.select();
+    document.execCommand("Copy");
   }
 
   generateSignatureHash() {
