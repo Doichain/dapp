@@ -20,7 +20,7 @@ export default class BasicInfo extends Component {
             </tr>
           </tbody>
         </table>
-        <div style={{display: 'flex', flexDirection: 'row-reverse'}}>
+        <div className="align-right">
           <div className="button" onClick={()=>this.updateInfo()}>Refresh</div>
         </div>
       </div>

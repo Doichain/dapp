@@ -18,7 +18,8 @@ export default class App extends Component {
   render() {
     let menuEntries = [
       {name: 'Main Page', value: 'home'},
-      {name: 'Blockchain Information', value: 'basic_info'}
+      {name: 'Blockchain Information', value: 'basic_info'},
+      {name: 'Wallets', value: 'wallets'}
     ]
 
     return (
@@ -32,8 +33,12 @@ export default class App extends Component {
   }
 
   renderContent() {
-    if(this.state.activePage === 'basic_info') return (<BasicInfo/>);
-    return (<Home/>);
+    switch(this.state.activePage) {
+      case 'basic_info': return (<BasicInfo/>);
+      case 'wallets': return (<Wallet/>);
+      case 'home':
+      default: return (<Home/>);
+    }
   }
 
   navigate(entry) {

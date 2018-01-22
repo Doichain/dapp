@@ -134,3 +134,48 @@ body {
 	position:relative;
 	top:1px;
 }
+
+.block {
+  position: relative;
+  padding: 15px;
+  -webkit-box-shadow: inset 2px 3px 24px -9px rgba(0,0,0,1);
+  -moz-box-shadow: inset 2px 3px 24px -9px rgba(0,0,0,1);
+  box-shadow: inset 2px 3px 24px -9px rgba(0,0,0,1);
+}
+
+.block-wrapper {
+  padding: 10px;
+}
+
+.align-right {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.wallet-remove-button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  border-radius: 60px;
+  background-color: #ff3e3e;
+  opacity: 0.5;
+  font-size: 1px;
+  cursor: pointer;
+}
+
+.wallet-remove-button:hover {
+  opacity: 1;
+}
+
+.wallet-remove-button i {
+  font-size: 16px
+}
+
+.clipboard-button {
+  margin-left: 5px; 
+  padding: 0px;
+}
+
+.clipboard-button i {
+  font-size: 14px;
+}
