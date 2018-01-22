@@ -11,7 +11,7 @@ export default class BasicInfo extends Component {
   render() {
     return (
       <div>
-        <div className="page-title">Basic Information</div>
+        <div className="page-title">Blockchain Information</div>
         <table>
           <tbody>
             <tr>
