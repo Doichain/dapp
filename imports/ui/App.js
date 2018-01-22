@@ -20,6 +20,7 @@ export default class App extends Component {
       {name: 'Main Page', value: 'home'},
       {name: 'Blockchain Information', value: 'basic_info'},
       {name: 'Wallets', value: 'wallets'},
+      {name: 'Signature', value: 'signature'},
       {name: 'Hashes', value: 'hashes'}
     ]
 
@@ -37,6 +38,7 @@ export default class App extends Component {
     switch(this.state.activePage) {
       case 'basic_info': return (<BasicInfo/>);
       case 'wallets': return (<Wallet/>);
+      case 'signature': return (<Signature/>);
       case 'hashes': return (<Hash/>);
       case 'home':
       default: return (<Home/>);

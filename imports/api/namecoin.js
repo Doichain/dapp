@@ -44,14 +44,32 @@ Meteor.methods({
   'signMessage'(privateKey, message) {
     check(privateKey, String);
     check(message, String);
-    return Message(message).sign(new bitcore.PrivateKey(privateKey));
+    let privKey;
+    try {
+      privKey = new bitcore.PrivateKey(privateKey);
+    } catch(error) {
+      return "Invalid private key"
+    }
+    return Message(message).sign(privKey);
   },
   'verifySignature'(publicKey, message, signature) {
     check(publicKey, String);
     check(message, String);
     check(signature, String);
-    let address = bitcore.Address.fromPublicKey(new bitcore.PublicKey(publicKey), network);
-    return Message(message).verify(address, signature);
+    let pubKey;
+    try {
+      pubKey = new bitcore.PublicKey(publicKey)
+    } catch(error) {
+      return "Invalid public key"
+    }
+    let address = bitcore.Address.fromPublicKey(pubKey, network);
+    let valid;
+    try {
+      valid = Message(message).verify(address, signature);
+    } catch(error) {
+      return "Invalid signature"
+    }
+    return valid
   },
   'getHash'(params) {
     check(params, Array);
