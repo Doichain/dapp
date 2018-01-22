@@ -17,7 +17,7 @@ export default class Wallet extends Component {
   render() {
     return (
       <div>
-        <div className="page-title">Wallets</div>
+        <div className="page-title">Signature</div>
         <div className="block-wrapper">
           Generate:
           <div className="block">
