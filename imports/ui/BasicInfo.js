@@ -10,12 +10,19 @@ export default class BasicInfo extends Component {
 
   render() {
     return (
-      <div className='block'>
-        Basic Infos:
-        <ul>
-          <li>Blocks: {this.state.blockCount}</li>
-        </ul>
-        <button onClick={()=>this.updateInfo()}>Update</button>
+      <div>
+        <div className="page-title">Basic Information</div>
+        <table>
+          <tbody>
+            <tr>
+              <td>Blocks:</td>
+              <td>{this.state.blockCount?this.state.blockCount:"-"}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style={{display: 'flex', flexDirection: 'row-reverse'}}>
+          <div className="button" onClick={()=>this.updateInfo()}>Refresh</div>
+        </div>
       </div>
     );
   }

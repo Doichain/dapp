@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 
 export default class Menu extends Component {
   static propTypes = {
-    entries: PropTypes.array.isRequired
+    entries: PropTypes.array.isRequired,
+    navigate: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -38,7 +39,13 @@ export default class Menu extends Component {
 
   renderEntry(entry) {
     return (
-      <div key={entry.value} className="menu-entry">
+      <div
+        key={entry.value}
+        className="menu-entry"
+        onClick={()=>{
+          this.props.navigate(entry);
+          this.setState({open: false});
+        }}>
         {entry.name}
       </div>
     );
