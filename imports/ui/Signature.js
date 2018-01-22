@@ -101,6 +101,10 @@ export default class Wallet extends Component {
         this.setState({
            signature: result
         });
+      } else {
+        this.setState({
+           signature: error.error
+        });
       }
     });
   }
@@ -114,6 +118,10 @@ export default class Wallet extends Component {
       if(!error) {
         this.setState({
            signatureVerification: result
+        });
+      } else {
+        this.setState({
+           signatureVerification: error.error
         });
       }
     });

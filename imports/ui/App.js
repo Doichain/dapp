@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Menu from './Menu';
 import Home from './Home';
-import BasicInfo from './BasicInfo'
 import Wallet from './Wallet';
 import Signature from './Signature';
 import Hash from './Hash';
@@ -18,10 +17,10 @@ export default class App extends Component {
   render() {
     let menuEntries = [
       {name: 'Main Page', value: 'home'},
-      {name: 'Blockchain Information', value: 'basic_info'},
       {name: 'Wallets', value: 'wallets'},
       {name: 'Signature', value: 'signature'},
-      {name: 'Hashes', value: 'hashes'}
+      {name: 'Hashes', value: 'hashes'},
+      {name: 'Blockchain', value: 'blockchain'}
     ]
 
     return (
@@ -36,10 +35,10 @@ export default class App extends Component {
 
   renderContent() {
     switch(this.state.activePage) {
-      case 'basic_info': return (<BasicInfo/>);
       case 'wallets': return (<Wallet/>);
       case 'signature': return (<Signature/>);
       case 'hashes': return (<Hash/>);
+      case 'blockchain': return (<Blockchain/>);
       case 'home':
       default: return (<Home/>);
     }

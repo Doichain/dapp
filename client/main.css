@@ -121,7 +121,7 @@ body {
 	text-shadow:0px 1px 0px #1f1f1e;
 }
 
-.button:hover {
+.button:hover:not(.disabled) {
 	background:-moz-linear-gradient(top, #080d06 5%, #4d4d4d 100%);
 	background:-webkit-linear-gradient(top, #080d06 5%, #4d4d4d 100%);
 	background:-o-linear-gradient(top, #080d06 5%, #4d4d4d 100%);
@@ -130,9 +130,14 @@ body {
 	background-color:#080d06;
 }
 
-.button:active {
+.button:active:not(.disabled) {
 	position:relative;
 	top:1px;
+}
+
+.button.disabled {
+	opacity: 0.2;
+  cursor: default;
 }
 
 .block {
@@ -172,7 +177,7 @@ body {
 }
 
 .clipboard-button {
-  margin-left: 5px; 
+  margin-left: 5px;
   padding: 0px;
 }
 

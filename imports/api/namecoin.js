@@ -28,7 +28,14 @@ var client = new namecoin.Client({
 Meteor.methods({
   'getBlockCount'() {
     let syncFunc = Meteor.wrapAsync(getBlockCount);
-    return syncFunc();
+    let count;
+    try {
+      count = syncFunc();
+    } catch(error) {
+      if(error.message.startsWith('connect ETIMEDOUT')) throw new Meteor.Error("Timeout")
+      else throw error;
+    }
+    return count;
   },
   'getKeys'() {
     let privateKey
@@ -47,9 +54,7 @@ Meteor.methods({
     let privKey;
     try {
       privKey = new bitcore.PrivateKey(privateKey);
-    } catch(error) {
-      return "Invalid private key"
-    }
+    } catch(error) {throw new Meteor.Error("Invalid private key")}
     return Message(message).sign(privKey);
   },
   'verifySignature'(publicKey, message, signature) {
@@ -59,16 +64,12 @@ Meteor.methods({
     let pubKey;
     try {
       pubKey = new bitcore.PublicKey(publicKey)
-    } catch(error) {
-      return "Invalid public key"
-    }
+    } catch(error) {throw new Meteor.Error("Invalid public key")}
     let address = bitcore.Address.fromPublicKey(pubKey, network);
     let valid;
     try {
       valid = Message(message).verify(address, signature);
-    } catch(error) {
-      return "Invalid signature"
-    }
+    } catch(error) {throw new Meteor.Error("Invalid signature")}
     return valid
   },
   'getHash'(params) {
@@ -86,14 +87,21 @@ Meteor.methods({
     let nameFound = true;
     try {
       let result = syncFunc(id);
-      console.log(result);
     } catch(error) {
+      if(error.message.startsWith('connect ETIMEDOUT')) throw new Meteor.Error("Timeout")
       if(error.message.startsWith('name not found')) nameFound = false;
       else throw error;
     }
-    if(nameFound) return "Already in blockchain"
+    if(nameFound) throw new Meteor.Error("Already in blockchain")
     syncFunc = Meteor.wrapAsync(nameNew);
-    return syncFunc(id);
+    let result
+    try {
+      result = syncFunc(id);
+    } catch(error) {
+      if(error.message.startsWith('connect ETIMEDOUT')) throw new Meteor.Error("Timeout")
+      else throw error;
+    }
+    return result;
   },
   'nameFirstUpdate'(hash, signature, dataHash, rand, tx) {
     check(hash, String);
@@ -104,27 +112,14 @@ Meteor.methods({
     let id = NAMESPACE+hash;
     let value = "{signature: '"+signature+"', data_hash: '"+dataHash+"'}";
     let syncFunc = Meteor.wrapAsync(nameFirstUpdate);
-    return syncFunc(id, rand, tx, value);
-  },
-  'writeInBlockchain'(hash, signature, dataHash) {
-    check(hash, String);
-    check(signature, String);
-    check(dataHash, String);
-    let id = 'e/'+hash;
-    let syncFunc = Meteor.wrapAsync(nameShow);
-    let nameFound = true;
+    let result
     try {
-      syncFunc(id);
+      result = syncFunc(id, rand, tx, value);
     } catch(error) {
-      if(error.message.startsWith('name not found')) nameFound = false;
+      if(error.message.startsWith('connect ETIMEDOUT')) throw new Meteor.Error("Timeout")
       else throw error;
     }
-    if(nameFound) return "Already in blockchain"
-    syncFunc = Meteor.wrapAsync(nameNew);
-    let result = syncFunc(id);
-    syncFunc = Meteor.wrapAsync(nameFirstUpdate);
-    console.log(result);
-    return syncFunc(id, result[1], result[0], "{signature: '"+signature+"', data_hash: '"+dataHash+"'}");
+    return result;
   }
 });
 
