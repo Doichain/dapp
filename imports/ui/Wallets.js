@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
 
-export default class Wallet extends Component {
+import { Wallets } from '../api/wallets.js';
+
+class Wallet extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      wallets: []
-    }
   }
 
   render() {
     return (
       <div>
         <div className="page-title">Wallets</div>
-        {this.state.wallets.map(wallet=>(this.renderWallet(wallet)))}
+        {this.props.wallets.map(wallet=>(this.renderWallet(wallet)))}
         <div className="align-right">
           <div className="button" onClick={()=>this.generateWallet()}>Add Wallet</div>
         </div>
@@ -60,23 +60,25 @@ export default class Wallet extends Component {
   }
 
   removeWallet(wallet) {
-    let index = this.state.wallets.findIndex((w)=>{if(w.privateKey === wallet.privateKey) return true;})
-    let wallets = this.state.wallets;
-    wallets.splice(index, 1);
-    this.setState({wallets: wallets});
+    Wallets.remove(wallet._id)
   }
 
   generateWallet() {
     Meteor.call('getKeys', (error, result) => {
       if(!error) {
-        this.setState({
-           wallets: [...this.state.wallets, {
-             privateKey: result.privateKey,
-             publicKey: result.publicKey,
-             address: result.address
-           }]
+        Wallets.insert({
+          privateKey: result.privateKey,
+          publicKey: result.publicKey,
+          address: result.address,
+          createdAt: new Date(),
         });
       }
     });
   }
 }
+
+export default withTracker(() => {
+  return {
+    wallets: Wallets.find({}).fetch(),
+  };
+})(Wallet);

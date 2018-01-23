@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Menu from './Menu';
 import Home from './Home';
-import Wallet from './Wallet';
+import Wallets from './Wallets';
 import Signature from './Signature';
 import Hash from './Hash';
 import Blockchain from './Blockchain';
@@ -35,7 +35,7 @@ export default class App extends Component {
 
   renderContent() {
     switch(this.state.activePage) {
-      case 'wallets': return (<Wallet/>);
+      case 'wallets': return (<Wallets/>);
       case 'signature': return (<Signature/>);
       case 'hashes': return (<Hash/>);
       case 'blockchain': return (<Blockchain/>);
