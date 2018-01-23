@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 export default class Soi extends Component {
   render() {
-    return {
+    return (
       <li>
         <table>
           <tbody>
@@ -24,7 +24,7 @@ export default class Soi extends Component {
             </tr>
             <tr>
               <td>Soi timestamp:</td>
-              <td>{this.props.soi.soi_timestamp}</td>
+              <td>{this.props.soi.soi_timestamp.toString()}</td>
             </tr>
             <tr>
               <td>Doi timestamp:</td>
@@ -33,6 +33,6 @@ export default class Soi extends Component {
           </tbody>
         </table>
       </li>
-    };
+    )
   }
 }
