@@ -8,8 +8,8 @@ You need a valide token for some of the REST calls. Get the token with:
 
 * Url: ``/api/login``
 * Parameter:
-``username`` - Authentification Username
-``password`` - Authentification Password
+    + ``username`` - Authentification Username
+    + ``password`` - Authentification Password
 
 Response with valide credentials:
 ```
@@ -33,10 +33,10 @@ Create SOI
 * Auth Required: yes
 * Url: ``/api/soi``
 * Parameter:
-``recipient`` - Email recipient
-``sender`` - Email sender
-``customer_number`` - Recipient customer number
-``data_json`` - JSON string with recipient/SOI data
+    + ``recipient`` - Email recipient
+    + ``sender`` - Email sender
+    + ``customer_number`` - Recipient customer number
+    + ``data_json`` - JSON string with recipient/SOI data
 
 
 ## Useful meteor database calls
