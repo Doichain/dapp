@@ -15,10 +15,6 @@ export default class Soi extends Component {
               <td>{this.props.soi.sender}</td>
             </tr>
             <tr>
-              <td>Customer number:</td>
-              <td>{this.props.soi.customer_number}</td>
-            </tr>
-            <tr>
               <td>Data Json:</td>
               <td>{this.props.soi.data_json}</td>
             </tr>
@@ -29,6 +25,10 @@ export default class Soi extends Component {
             <tr>
               <td>Doi timestamp:</td>
               <td>{this.props.soi.doi_timestamp}</td>
+            </tr>
+            <tr>
+              <td>Created by:</td>
+              <td>{this.props.soi.createdBy}</td>
             </tr>
           </tbody>
         </table>
