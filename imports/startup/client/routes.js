@@ -8,11 +8,15 @@ import NotFoundPage from '../../ui/pages/NotFoundPage.js';
 
 i18n.setLocale('en');
 
+function NestedRoute(props) {
+  const component = p => <props.component {...p} children={props.children} />
+  return <Route exact={props.exact} path={props.path} render={component} />
+}
+
 export const renderRoutes = () => (
   <BrowserRouter>
-    <Switch>
-      <Route exact path="/" component={AppContainer}/>
+    <NestedRoute path="/" component={AppContainer}>
       <Route path="*" component={NotFoundPage} />
-    </Switch>
+    </NestedRoute>
   </BrowserRouter>
 );
