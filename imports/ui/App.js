@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-
 import { withTracker } from 'meteor/react-meteor-data';
-import { Sois } from '../api/sois.js';
+import { Sois } from '../api/sois.js'
 import Login from './Login.js';
 import Soi from './Soi.js';
 
 class App extends Component {
-
   renderSois() {
     return (
       <ul>
@@ -15,6 +13,10 @@ class App extends Component {
         ))}
       </ul>
     );
+  }
+
+  componentDidMount() {
+    Meteor.call('recipients.insert', 'email');
   }
 
   render() {
@@ -31,7 +33,10 @@ class App extends Component {
 }
 
 export default withTracker(() => {
+  Meteor.subscribe('sois');
+  console.log(Meteor.users);
   return {
+    users: Meteor.users,
     sois: Sois.find({}).fetch(),
     currentUser: Meteor.user(),
   };

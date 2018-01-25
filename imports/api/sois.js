@@ -4,6 +4,13 @@ import { check } from 'meteor/check';
 
 export const Sois = new Mongo.Collection('sois');
 
+if(Meteor.isServer) {
+  Meteor.publish('sois', function soisPublication() {
+    if(this.userId) return Sois.find();
+    else this.ready();
+  });
+}
+
 Meteor.methods({
   'sois.insert'(recipient, sender, data_json) {
     check(recipient, String);

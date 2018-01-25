@@ -1,12 +1,12 @@
 ## REST API
 
-List of REST API Calls
+List of REST API Calls for the version 1
 
 ### Authentification
 
 You need a valide token for some of the REST calls. Get the token with:
 
-* Url: ``/api/login``
+* Url: ``/api/v1/login``
 * Parameter:
     + ``username`` - Authentification Username
     + ``password`` - Authentification Password
@@ -31,7 +31,7 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 
 Create SOI
 * Auth Required: yes
-* Url: ``/api/soi``
+* Url: ``/api/v1/soi``
 * Parameter:
     + ``recipient`` - Email recipient
     + ``sender`` - Email sender
