@@ -1,0 +1,20 @@
+{
+  "components": {
+    "connectionNotification": {
+      "tryingToConnect": "Trying to connect",
+      "connectionIssue": "There seems to be a connection issue"
+    }
+  },
+  "pages": {
+    "notFoundPage": {
+      "pageNotFound": "Page not found"
+    }
+  },
+  "api": {
+    "recipients": {
+      "insert": {
+        "accessDenied": "Cannot add recipients without permissions"
+      }
+    }
+  }
+}

@@ -18,7 +18,14 @@ ecmascript@0.9.0              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.3.0            # Server-side component of the `meteor shell` command
 
 planettraining:material-design-icons-font
-react-meteor-data
 nimble:restivus
 accounts-password
 alanning:roles
+mdg:validated-method
+ddp-rate-limiter
+universe:i18n
+react-meteor-data
+aldeed:collection2-core
+aldeed:schema-deny
+session
+less
