@@ -12,8 +12,7 @@ const getKeyPair = () => {
       publicKey: publicKey.toString('hex').toUpperCase()
     }
   } catch(exception) {
-    throw new Meteor.Error('namecoin.getKeyPair.exception',
-      `Exception while getting key pair: ${exception}`);
+    throw new Meteor.Error('namecoin.getKeyPair.exception', exception);
   }
 };
 

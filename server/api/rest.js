@@ -1,3 +1,5 @@
+import addOptIn from '../../imports/modules/server/opt-ins/add.js'
+
 var Api = new Restivus({
   apiPath: 'api/',
   version: 'v1',
@@ -11,13 +13,12 @@ Api.addRoute('opt-in', {authRequired: true}, {
     roleRequired: ['admin'],
     action: function() {
       let params = this.queryParams;
-      if(true) {
-        console.log('test');
+      try {
+        let val = addOptIn(params);
         return {status: 'success', data: {message: 'Opt-In added'}};
-      } else return {
-        statusCode: 422,
-        body: {status: 'fail', message: 'Wrong parameters. Parameters: recipient, sender [, data_json]'}
-      };
+      } catch(error) {
+        return {statusCode: 500, body: {status: 'fail', message: error.message}};
+      }
     }
   }
 });

@@ -17,11 +17,6 @@
     }
   },
   "api": {
-    "recipients": {
-      "insert": {
-        "accessDenied": "Cannot add recipients without permissions"
-      }
-    },
     "opt-ins": {
       "add": {
         "accessDenied": "Cannot add opt-ins without permissions"

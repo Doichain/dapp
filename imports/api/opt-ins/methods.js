@@ -17,9 +17,9 @@ export const add = new ValidatedMethod({
     }
 
     const optIn = {
-      recipientMail,
-      senderMail,
-      customerId,
+      "recipient_mail": recipientMail,
+      "sender_mail": senderMail,
+      "customer_id": customerId,
       data
     }
 
