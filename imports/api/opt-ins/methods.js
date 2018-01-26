@@ -5,7 +5,7 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { Roles } from 'meteor/alanning:roles';
 import { _i18n as i18n } from 'meteor/universe:i18n';
 import { OptIns } from './opt-ins.js';
-import addOptIn from '../../modules/server/opt-ins_add.js';
+import addOptIn from '../../modules/server/opt-ins/add.js';
 
 export const add = new ValidatedMethod({
   name: 'opt-ins.add',
@@ -13,6 +13,7 @@ export const add = new ValidatedMethod({
   run({ recipientMail, senderMail, customerId, data }) {
     if(!this.userId || !Roles.userIsInRole(this.userId, ['admin'])) {
       const error = "api.opt-ins.add.accessDenied";
+      //TODO: Reactivate error
       //throw new Meteor.Error(error, i18n.__(error));
     }
 
