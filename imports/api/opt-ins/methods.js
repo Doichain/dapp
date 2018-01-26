@@ -13,8 +13,7 @@ export const add = new ValidatedMethod({
   run({ recipientMail, senderMail, customerId, data }) {
     if(!this.userId || !Roles.userIsInRole(this.userId, ['admin'])) {
       const error = "api.opt-ins.add.accessDenied";
-      //TODO: Reactivate error
-      //throw new Meteor.Error(error, i18n.__(error));
+      throw new Meteor.Error(error, i18n.__(error));
     }
 
     const optIn = {
