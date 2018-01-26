@@ -5,13 +5,11 @@ import Message from '../components/Message.js';
 
 class NotFoundPage extends BaseComponent {
   render() {
+    const title = i18n.__('pages.notFoundPage.pageNotFound');
     return (
       <div className="page not-found">
-        <nav>
-
-        </nav>
         <div className="content-scrollable">
-          <Message title={i18n.__('pages.notFoundPage.pageNotFound')} />
+          <Message title={title} />
         </div>
       </div>
     );

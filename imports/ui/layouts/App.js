@@ -14,12 +14,17 @@ export default class App extends React.Component {
       menuOpen: false,
       showConnectionIssue: false,
     };
+    this.toggleMenu = this.toggleMenu.bind(this);
   }
 
   componentDidMount() {
     setTimeout(() => {
       this.setState({ showConnectionIssue: true });
     }, CONNECTION_ISSUE_TIMEOUT);
+  }
+
+  toggleMenu(menuOpen = !Session.get('menuOpen')) {
+    Session.set({ menuOpen });
   }
 
   render() {
@@ -33,6 +38,9 @@ export default class App extends React.Component {
       location,
     } = this.props;
 
+    // eslint-disable-next-line react/jsx-no-bind
+    const closeMenu = this.toggleMenu.bind(this, false);
+
     // clone route components with keys so that they can
     // have transitions
     const clonedChildren = children && React.cloneElement(children, {
@@ -44,6 +52,7 @@ export default class App extends React.Component {
         {showConnectionIssue && !connected
           ? <ConnectionNotification />
           : null}
+        <div className="content-overlay" onClick={closeMenu} />
         <div id="content-container">
           <ReactCSSTransitionGroup
             transitionName="fade"

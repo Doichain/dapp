@@ -1,39 +1,39 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
-import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { Roles } from 'meteor/alanning:roles';
+import { _i18n as i18n } from 'meteor/universe:i18n';
+import { OptIns } from './opt-ins.js';
+import addOptIn from '../../modules/server/opt-ins_add.js';
 
-import { OptIns } from './recipients.js';
-
-export const insert = new ValidatedMethod({
-  name: 'opt-ins.insert',
-  validate: OptIns.simpleSchema().pick(['data']).validator({ clean: true, filter: false }),
-  run({ recipient, sender, data }) {
+export const add = new ValidatedMethod({
+  name: 'opt-ins.add',
+  validate: null,
+  run({ recipientMail, senderMail, customerId, data }) {
     if(!this.userId || !Roles.userIsInRole(this.userId, ['admin'])) {
-      throw new Meteor.Error('opt-ins.insert.accessDenied',
-        'Cannot add opt-ins without permissions');
+      const error = "api.opt-ins.add.accessDenied";
+      //throw new Meteor.Error(error, i18n.__(error));
     }
 
     const optIn = {
-      recipient,
-      sender,
-      data,
-      createdAt: new Date()
-    };
+      recipientMail,
+      senderMail,
+      customerId,
+      data
+    }
 
-    OptIns.insert(todo);
+    addOptIn(optIn)
   },
 });
 
-// Get list of all method names on OptIns
+// Get list of all method names on opt-ins
 const OPTINS_METHODS = _.pluck([
-  insert
+  add
 ], 'name');
 
 if (Meteor.isServer) {
-  // Only allow 5 recipient operations per connection per second
+  // Only allow 5 opt-in operations per connection per second
   DDPRateLimiter.addRule({
     name(name) {
       return _.contains(OPTINS_METHODS, name);

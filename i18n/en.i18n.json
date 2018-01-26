@@ -3,9 +3,15 @@
     "connectionNotification": {
       "tryingToConnect": "Trying to connect",
       "connectionIssue": "There seems to be a connection issue"
+    },
+    "mobileMenu": {
+      "showMenu": "Show Menu"
     }
   },
   "pages": {
+    "startPage": {
+      "title": "MailId"
+    },
     "notFoundPage": {
       "pageNotFound": "Page not found"
     }
@@ -14,6 +20,11 @@
     "recipients": {
       "insert": {
         "accessDenied": "Cannot add recipients without permissions"
+      }
+    },
+    "opt-ins": {
+      "add": {
+        "accessDenied": "Cannot add opt-ins without permissions"
       }
     }
   }
