@@ -1,0 +1,12 @@
+- Implement rest of the addOptIn REST function
+- Soi to blockchain
+- Delete namecoin file from imports/api/namecoin
+- Doi email
+- Doi blockchain update
+- GUI
+- Readme
+- Tests
+! Check gui licence stuff
+! Remove admin account creaton on first start
+? Token registration
+? addOptIn data_json valdidation
