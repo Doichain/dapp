@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Meteor } from 'meteor/meteor';
+import UserMenu from '../components/UserMenu.js';
+import LanguageToggle from '../components/LanguageToggle.js';
 import ConnectionNotification from '../components/ConnectionNotification.js';
 import Loading from '../components/Loading.js';
 
@@ -15,6 +17,7 @@ export default class App extends React.Component {
       showConnectionIssue: false,
     };
     this.toggleMenu = this.toggleMenu.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
@@ -25,6 +28,10 @@ export default class App extends React.Component {
 
   toggleMenu(menuOpen = !Session.get('menuOpen')) {
     Session.set({ menuOpen });
+  }
+
+  logout() {
+    Meteor.logout();
   }
 
   render() {
@@ -49,6 +56,10 @@ export default class App extends React.Component {
 
     return (
       <div id="container" className={menuOpen ? 'menu-open' : ''}>
+        <section id="menu">
+          <LanguageToggle />
+          <UserMenu user={user} logout={this.logout} />
+        </section>
         {showConnectionIssue && !connected
           ? <ConnectionNotification />
           : null}

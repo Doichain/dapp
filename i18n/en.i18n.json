@@ -17,6 +17,16 @@
     "startPage": {
       "title": "MailId"
     },
+    "authPageSignIn": {
+     "emailRequired": "Email required",
+     "passwordRequired": "Password required",
+     "signIn": "Sign In.",
+     "signInReason": "Signing in allows you to view private lists",
+     "yourEmail": "Your Email",
+     "password": "Password",
+     "signInButton": "Sign in",
+     "needAccount": "Need an account? Join Now."
+   },
     "notFoundPage": {
       "pageNotFound": "Page not found"
     }
