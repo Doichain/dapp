@@ -14,8 +14,8 @@ Api.addRoute('opt-in', {authRequired: true}, {
     action: function() {
       let params = this.queryParams;
       try {
-        let val = addOptIn(params);
-        return {status: 'success', data: {message: 'Opt-In added'}};
+        const val = addOptIn(params);
+        return {status: 'success', data: {message: 'Opt-In added. ID: '+val}};
       } catch(error) {
         return {statusCode: 500, body: {status: 'fail', message: error.message}};
       }

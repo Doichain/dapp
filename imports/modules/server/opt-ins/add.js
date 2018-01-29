@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import addRecipient from '../recipients/add.js';
+import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 
 const AddOptInSchema = new SimpleSchema({
   recipient_mail: {
@@ -29,7 +30,17 @@ const addOptIn = (optIn) => {
       customer_id: ourOptIn.customer_id
     }
     const recipientId = addRecipient(recipient);
-    //TODO: Go on
+    const sender = {
+      email: ourOptIn.sender_mail
+    }
+    const senderId = addRecipient(recipient);
+    const optIns = OptIns.find({recipient: recipientId, sender: senderId}).fetch();
+    if(optIns.length > 0) return optIns[0]._id;
+    return OptIns.insert({
+      recipient: recipientId,
+      sender: senderId,
+      data: ourOptIn.data
+    })
   } catch (exception) {
     throw new Meteor.Error('opt-ins.add.exception', exception);
   }
