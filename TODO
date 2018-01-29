@@ -4,7 +4,6 @@
 - GUI
 - Readme
 - Tests
-! Check gui licence stuff
 ! Remove admin account creaton on first start
 ? Token registration
 ? addOptIn data_json valdidation
