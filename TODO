@@ -1,4 +1,3 @@
-- Implement rest of the addOptIn REST function
 - Delete namecoin file from imports/api/namecoin
 - Doi email
 - Doi blockchain update // Not an update anymore but an insert (See 'Soi to blockchain')
