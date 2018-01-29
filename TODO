@@ -1,8 +1,7 @@
 - Implement rest of the addOptIn REST function
-- Soi to blockchain
 - Delete namecoin file from imports/api/namecoin
 - Doi email
-- Doi blockchain update
+- Doi blockchain update // Not an update anymore but an insert (See 'Soi to blockchain')
 - GUI
 - Readme
 - Tests
@@ -10,3 +9,5 @@
 ! Remove admin account creaton on first start
 ? Token registration
 ? addOptIn data_json valdidation
+
+- Soi to blockchain  // Not anymore because we need the doi confirmation IP for the e/hash generation (in consultation with tobias)
