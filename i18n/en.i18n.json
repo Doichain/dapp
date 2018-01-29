@@ -1,5 +1,10 @@
 {
   "components": {
+    "userMenu": {
+      "logout": "Logout",
+      "login": "Sign In",
+      "join": "Join"
+    },
     "connectionNotification": {
       "tryingToConnect": "Trying to connect",
       "connectionIssue": "There seems to be a connection issue"
