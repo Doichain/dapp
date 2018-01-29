@@ -7,7 +7,7 @@ import { _i18n as i18n } from 'meteor/universe:i18n';
 import { OptIns } from './opt-ins.js';
 import addOptIn from '../../modules/server/opt-ins/add.js';
 
-export const add = new ValidatedMethod({
+const add = new ValidatedMethod({
   name: 'opt-ins.add',
   validate: null,
   run({ recipientMail, senderMail, customerId, data }) {
