@@ -2,8 +2,8 @@ import React from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import i18n from 'meteor/universe:i18n';
 
-// route components
 import AppContainer from '../../ui/containers/AppContainer.js';
+import RecipientsPageContainer from '../../ui/containers/RecipientsPageContainer.js';
 import StartPage from '../../ui/pages/StartPage.js';
 import AuthPageSignIn from '../../ui/pages/AuthPageSignIn.js';
 import NotFoundPage from '../../ui/pages/NotFoundPage.js';
@@ -14,6 +14,7 @@ export const renderRoutes = () => (
   <Router history={ browserHistory }>
     <Route path="/" component={ AppContainer }>
       <IndexRoute component={ StartPage } />
+      <Route path="recipients" component={RecipientsPageContainer} />
       <Route path="signin" component={AuthPageSignIn} />
       <Route path="*" component={ NotFoundPage } />
     </Route>

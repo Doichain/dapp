@@ -48,19 +48,9 @@ export default class App extends React.Component {
 
     const pageMenuEntries = [
       {
-        id: "main",
-        path: "main",
-        name: "Main"
-      },
-      {
-        id: "test",
-        path: "test",
-        name: "Test"
-      },
-      {
-        id: "long",
-        path: "long",
-        name: "something loooooooooong"
+        id: "recipients",
+        path: "recipients",
+        name: "Recipients"
       }
     ]
 

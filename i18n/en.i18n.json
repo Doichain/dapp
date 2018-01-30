@@ -17,6 +17,11 @@
     "startPage": {
       "title": "MailId"
     },
+    "recipientsPage": {
+      "title": "Recipients",
+      "noRecipients": "No recipients here",
+      "loading": "Loading recipients..."
+    },
     "authPageSignIn": {
      "emailRequired": "Email required",
      "passwordRequired": "Password required",
