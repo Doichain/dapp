@@ -31,20 +31,16 @@ OptIns.deny({
 OptIns.schema = new SimpleSchema({
   _id: {
     type: String,
-    unique: true,
     regEx: SimpleSchema.RegEx.Id,
-  },
-  recipient_sender: {
-    type: String,
-    denyUpdate: true,
-    unique: true
   },
   recipient: {
     type: String,
+    index: true,
     denyUpdate: true,
   },
   sender: {
     type: String,
+    index: true,
     denyUpdate: true,
   },
   data: {

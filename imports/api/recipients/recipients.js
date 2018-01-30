@@ -30,12 +30,11 @@ Recipients.deny({
 Recipients.schema = new SimpleSchema({
   _id: {
     type: String,
-    unique: true,
     regEx: SimpleSchema.RegEx.Id,
   },
   email: {
     type: String,
-    unique: true,
+    index: true,
     denyUpdate: true,
   },
   customerId: {
