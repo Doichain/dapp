@@ -34,6 +34,7 @@ Senders.schema = new SimpleSchema({
   },
   email: {
     type: String,
+    unique: true,
     denyUpdate: true,
   },
   createdAt: {

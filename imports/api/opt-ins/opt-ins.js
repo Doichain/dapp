@@ -4,6 +4,7 @@ import SimpleSchema from 'simpl-schema';
 class OptInsCollection extends Mongo.Collection {
   insert(optIn, callback) {
     const ourOptIn = optIn;
+    ourOptIn.recipient_sender = ourOptIn.recipient+ourOptIn.sender;
     ourOptIn.createdAt = ourOptIn.createdAt || new Date();
     const result = super.insert(ourOptIn, callback);
     return result;
@@ -30,7 +31,13 @@ OptIns.deny({
 OptIns.schema = new SimpleSchema({
   _id: {
     type: String,
+    unique: true,
     regEx: SimpleSchema.RegEx.Id,
+  },
+  recipient_sender: {
+    type: String,
+    denyUpdate: true,
+    unique: true
   },
   recipient: {
     type: String,
