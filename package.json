@@ -23,5 +23,8 @@
     "react-router": "^3.0.2",
     "secp256k1": "^3.4.0",
     "simpl-schema": "^1.4.1"
+  },
+  "devDependencies": {
+    "react-router-role-authorization": "^1.1.4"
   }
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Meteor } from 'meteor/meteor';
 import UserMenu from '../components/UserMenu.js';
+import PageMenu from '../components/PageMenu.js';
 import LanguageToggle from '../components/LanguageToggle.js';
 import ConnectionNotification from '../components/ConnectionNotification.js';
 import Loading from '../components/Loading.js';
@@ -45,6 +46,24 @@ export default class App extends React.Component {
       location,
     } = this.props;
 
+    const pageMenuEntries = [
+      {
+        id: "main",
+        path: "main",
+        name: "Main"
+      },
+      {
+        id: "test",
+        path: "test",
+        name: "Test"
+      },
+      {
+        id: "long",
+        path: "long",
+        name: "something loooooooooong"
+      }
+    ]
+
     // eslint-disable-next-line react/jsx-no-bind
     const closeMenu = this.toggleMenu.bind(this, false);
 
@@ -59,6 +78,7 @@ export default class App extends React.Component {
         <section id="menu">
           <LanguageToggle />
           <UserMenu user={user} logout={this.logout} />
+          <PageMenu entries={pageMenuEntries} />
         </section>
         {showConnectionIssue && !connected
           ? <ConnectionNotification />
