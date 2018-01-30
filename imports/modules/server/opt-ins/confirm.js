@@ -23,7 +23,7 @@ const confirmOptIn = (request) => {
       optIns[0].confirmationToken !== decoded.token) throw "Invalid hash";
     OptIns.update({_id : decoded.id},{$set:{confirmedAt: new Date()}, $unset: {confirmationToken: ""}});
   } catch (exception) {
-    throw new Meteor.Error('opt-ins.add_doi-token.exception', exception);
+    throw new Meteor.Error('opt-ins.confirm.exception', exception);
   }
 };
 

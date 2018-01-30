@@ -17,7 +17,7 @@ const generateDoiToken = (optIn) => {
     OptIns.update({_id : ourOptIn.id},{$set:{confirmationToken: token}});
     return token;
   } catch (exception) {
-    throw new Meteor.Error('opt-ins.add_doi-token.exception', exception);
+    throw new Meteor.Error('opt-ins.generate_doi-token.exception', exception);
   }
 };
 
