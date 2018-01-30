@@ -13,6 +13,7 @@
     "classnames": "^2.2.5",
     "crypto": "^1.0.1",
     "crypto-js": "^3.1.9-1",
+    "hashids": "^1.1.4",
     "meteor-node-stubs": "^0.3.2",
     "namecoin": "^0.1.4",
     "prop-types": "^15.6.0",

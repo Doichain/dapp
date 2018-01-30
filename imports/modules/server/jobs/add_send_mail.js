@@ -3,15 +3,19 @@ import SimpleSchema from 'simpl-schema';
 import { MailJobs } from '../../../../server/api/mail_jobs.js';
 
 const AddSendMailJobSchema = new SimpleSchema({
-  address: {
+  from: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email
+  },
+  to: {
     type: String,
     regEx: SimpleSchema.RegEx.Email
   },
   subject: {
-    type: String
+    type: String,
   },
   message: {
-    type: String
+    type: String,
   }
 });
 

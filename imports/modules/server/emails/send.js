@@ -2,7 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 
 const SendMailSchema = new SimpleSchema({
-  address: {
+  from: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email
+  },
+  to: {
     type: String,
     regEx: SimpleSchema.RegEx.Email
   },
@@ -19,8 +23,8 @@ const sendMail = (mail) => {
     const ourMail = mail;
     SendMailSchema.validate(ourMail);
     Email.send({
-      from: "noreply@sendeffect.de",
-      to: mail.address,
+      from: mail.from,
+      to: mail.to,
       subject: mail.subject,
       text: mail.message,
       headers: {

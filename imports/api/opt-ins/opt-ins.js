@@ -54,7 +54,7 @@ OptIns.schema = new SimpleSchema({
     optional: true,
     denyUpdate: false,
   },
-  confirmationHash: {
+  confirmationToken: {
     type: String,
     optional: true,
     denyUpdate: false,
