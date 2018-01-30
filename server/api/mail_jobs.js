@@ -1,9 +1,14 @@
 export const MailJobs = JobCollection('emails');
+import sendMail from '../../imports/modules/server/emails/send.js';
 
 MailJobs.processJobs('send', function (job, cb) {
-  const email = job.data;
-  console.log(email);
-  //TODO: Implement sending
-  job.done();
+  try {
+    const email = job.data;
+    sendMail(email);
+    job.done();
+  } catch(exception) {
+    job.fail();
+    throw new Meteor.Error('jobs.mail.send.exception', exception);
+  }
   cb();
 });
