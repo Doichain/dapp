@@ -10,6 +10,9 @@
         },
         "recipients": {
           "name": "Recipients"
+        },
+        "opt-ins": {
+          "name": "Opt-Ins"
         }
       }
     },
@@ -33,6 +36,16 @@
       "customerId": "Customer Id",
       "publicKey": "Public Key",
       "createdAt": "Created At"
+    },
+    "optInsPage": {
+      "title": "Opt-Ins",
+      "noRecipients": "No opt-ins here",
+      "loading": "Loading opt-ins...",
+      "recipient": "Recipient",
+      "sender": "Sender",
+      "data": "Data",
+      "createdAt": "Created At",
+      "confirmedAt": "Confirmed At"
     },
     "authPageSignIn": {
      "emailRequired": "Email required",

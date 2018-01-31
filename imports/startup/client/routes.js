@@ -5,6 +5,7 @@ import PrivateRoute from 'react-router-private-route';
 
 import AppContainer from '../../ui/containers/AppContainer.js';
 import RecipientsPageContainer from '../../ui/containers/RecipientsPageContainer.js';
+import OptInsPageContainer from '../../ui/containers/OptInsPageContainer.js';
 import StartPage from '../../ui/pages/StartPage.js';
 import AuthPageSignIn from '../../ui/pages/AuthPageSignIn.js';
 import NotFoundPage from '../../ui/pages/NotFoundPage.js';
@@ -19,6 +20,7 @@ export const renderRoutes = () => (
       <IndexRoute component={ StartPage } />
       <Route path="signin" component={AuthPageSignIn} />
       <Route component={requireRole(RecipientsPageContainer, ['admin'])} path="recipients"/>
+      <Route component={requireRole(OptInsPageContainer, ['admin'])} path="opt-ins"/>
       <Route path="*" component={ NotFoundPage } />
     </Route>
   </Router>
