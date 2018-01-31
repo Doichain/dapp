@@ -13,9 +13,12 @@ export default class RecipientItem extends BaseComponent {
     const { recipient } = this.props;
 
     return (
-      <div className="recipient-item">
-        <span>{recipient.email}</span>
-      </div>
+      <tr className="recipient-item">
+        <td style={{width: "23%"}}>{recipient.email}</td>
+        <td style={{width: "12%"}}>{recipient.customerId}</td>
+        <td style={{width: "49%"}}>{recipient.publicKey}</td>
+        <td style={{width: "16%"}}>{recipient.createdAt.toISOString()}</td>
+      </tr>
     );
   }
 }

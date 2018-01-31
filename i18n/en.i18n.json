@@ -20,7 +20,11 @@
     "recipientsPage": {
       "title": "Recipients",
       "noRecipients": "No recipients here",
-      "loading": "Loading recipients..."
+      "loading": "Loading recipients...",
+      "email": "Email",
+      "customerId": "Customer Id",
+      "publicKey": "Public Key",
+      "createdAt": "Created At"
     },
     "authPageSignIn": {
      "emailRequired": "Email required",

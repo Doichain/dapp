@@ -21,18 +21,32 @@ export default class RecipientsPage extends BaseComponent {
         />
       );
     } else {
-      Recipients = recipients.map(recipient => (
-        <RecipientItem
-          recipient={recipient}
-          key={recipient._id}
-        />
-      ));
+      Recipients = (
+        <table>
+          <thead>
+            <tr className="recipients-header">
+              <th style={{width: "23%"}}>{i18n.__('pages.recipientsPage.email')}</th>
+              <th style={{width: "12%"}}>{i18n.__('pages.recipientsPage.customerId')}</th>
+              <th style={{width: "49%"}}>{i18n.__('pages.recipientsPage.publicKey')}</th>
+              <th style={{width: "16%"}}>{i18n.__('pages.recipientsPage.createdAt')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recipients.map(recipient => (
+              <RecipientItem
+                recipient={recipient}
+                key={recipient._id}
+              />
+            ))}
+          </tbody>
+        </table>
+      );
     }
 
     return (
       <div className="page recipients-show">
         <Header title={i18n.__('pages.recipientsPage.title')}/>
-        <div className="content-scrollable recipients-items">
+        <div className="recipients-items table-scrollable">
           {loading
             ? <Message title={i18n.__('pages.recipientsPage.loading')} />
             : Recipients}
