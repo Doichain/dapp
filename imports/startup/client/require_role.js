@@ -18,7 +18,7 @@ export default function requireRole(Component, roles) {
     }
 
     checkRole() {
-      const redirect = "/signin";
+      const redirect = "/";
       if(Meteor.user() !== undefined && !this.hasRole() && this.props.router.getCurrentLocation().pathname !== redirect) {
         this.props.router.push(redirect);
       }
