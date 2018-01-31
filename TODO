@@ -1,7 +1,12 @@
 - Delete namecoin file from imports/api/namecoin
-- Doi email
 - Doi blockchain update // Not an update anymore but an insert (See 'Soi to blockchain')
 - GUI
+  - Start page content
+  - Recipients page: Add id
+  - Add senders page
+  - Scrollable table:
+    - useless in mobile view
+    - header need overflow hidden css
 - Readme
 - Tests
 ! Remove admin account creaton on first start
