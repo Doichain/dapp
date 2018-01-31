@@ -3,7 +3,15 @@
     "userMenu": {
       "logout": "Logout",
       "login": "Sign In",
-      "join": "Join"
+      "join": "Join",
+      "entries": {
+        "home": {
+          "name": "Home"
+        },
+        "recipients": {
+          "name": "Recipients"
+        }
+      }
     },
     "connectionNotification": {
       "tryingToConnect": "Trying to connect",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, IndexLink } from 'react-router';
 import i18n from 'meteor/universe:i18n';
 import BaseComponent from './BaseComponent.js';
 
@@ -9,13 +9,34 @@ export default class PageMenu extends BaseComponent {
   }
 
   hasRole(entry) {
-    return entry.roles !== undefined && entry.roles.length > 0 && Roles.userIsInRole(this.props.user, entry.roles);
+    return entry.roles === undefined || entry.roles.length === 0 || Roles.userIsInRole(this.props.user, entry.roles);
   }
 
   render() {
-    const { entries } = this.props;
+    const home = {
+      id: "home",
+      path: "",
+      name: i18n.__('components.userMenu.entries.home.name')
+    }
+
+    const entries = [
+      {
+        id: "recipients",
+        path: "recipients",
+        name: i18n.__('components.userMenu.entries.recipients.name'),
+        roles: ["admin"]
+      }
+    ]
+
     return (
       <div className="page-menu">
+        <IndexLink
+          to={`/${home.path}`}
+          key={home.id}
+          title={home.name}
+          className="page-menu-entry"
+          activeClassName="active"
+        >{home.name}</IndexLink>
         {entries.map(entry => (
           this.hasRole(entry) ? <Link
             to={`/${entry.path}`}
@@ -31,10 +52,6 @@ export default class PageMenu extends BaseComponent {
     );
   }
 }
-
-PageMenu.propTypes = {
-  entries: React.PropTypes.array,
-};
 
 PageMenu.contextTypes = {
   router: React.PropTypes.object,

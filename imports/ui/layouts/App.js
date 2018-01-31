@@ -46,15 +46,6 @@ export default class App extends React.Component {
       location,
     } = this.props;
 
-    const pageMenuEntries = [
-      {
-        id: "recipients",
-        path: "recipients",
-        name: "Recipients",
-        roles: ["admin"]
-      }
-    ]
-
     // eslint-disable-next-line react/jsx-no-bind
     const closeMenu = this.toggleMenu.bind(this, false);
 
@@ -69,7 +60,7 @@ export default class App extends React.Component {
         <section id="menu">
           <LanguageToggle />
           <UserMenu user={user} logout={this.logout} />
-          <PageMenu user={user} entries={pageMenuEntries} />
+          <PageMenu user={user}/>
         </section>
         {showConnectionIssue && !connected
           ? <ConnectionNotification />
