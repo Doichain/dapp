@@ -1,0 +1,45 @@
+@import '{}/imports/ui/stylesheets/utils.less';
+
+.table-scrollable {
+  position: absolute;
+  height: ~"calc(100% - 5em)";
+  background: @color-empty;
+  top: 5em !important;
+
+  table {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+  }
+
+  table thead {
+    /* head takes the height it requires,
+    and it's not scaled when table is resized */
+    flex: 0 0 auto;
+    width: ~"calc(100% - 1.05em)";
+    display: table;
+    table-layout: fixed;
+  }
+
+  table tbody {
+    /* body takes all the remaining available space */
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: scroll;
+  }
+
+  table tbody tr {
+    width: 100%;
+  }
+
+  table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  table tbody tr td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
