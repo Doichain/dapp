@@ -8,12 +8,16 @@ export default class PageMenu extends BaseComponent {
     super(props);
   }
 
+  hasRole(entry) {
+    return entry.roles !== undefined && entry.roles.length > 0 && Roles.userIsInRole(this.props.user, entry.roles);
+  }
+
   render() {
     const { entries } = this.props;
     return (
       <div className="page-menu">
         {entries.map(entry => (
-          <Link
+          this.hasRole(entry) ? <Link
             to={`/${entry.path}`}
             key={entry.id}
             title={entry.name}
@@ -21,7 +25,7 @@ export default class PageMenu extends BaseComponent {
             activeClassName="active"
           >
             {entry.name}
-          </Link>
+          </Link> : null
         ))}
       </div>
     );

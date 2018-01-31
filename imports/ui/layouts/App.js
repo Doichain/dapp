@@ -50,7 +50,8 @@ export default class App extends React.Component {
       {
         id: "recipients",
         path: "recipients",
-        name: "Recipients"
+        name: "Recipients",
+        roles: ["admin"]
       }
     ]
 
@@ -60,7 +61,7 @@ export default class App extends React.Component {
     // clone route components with keys so that they can
     // have transitions
     const clonedChildren = children && React.cloneElement(children, {
-      key: location.pathname,
+      key: location.pathname
     });
 
     return (
@@ -68,7 +69,7 @@ export default class App extends React.Component {
         <section id="menu">
           <LanguageToggle />
           <UserMenu user={user} logout={this.logout} />
-          <PageMenu entries={pageMenuEntries} />
+          <PageMenu user={user} entries={pageMenuEntries} />
         </section>
         {showConnectionIssue && !connected
           ? <ConnectionNotification />
