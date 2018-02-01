@@ -10,6 +10,7 @@
 - Readme
 - Tests
 ! Remove admin account creaton on first start
+! Delete rest test route
 ? Token registration
 ? addOptIn data_json valdidation
 ? Check if rest api is thread-safe
