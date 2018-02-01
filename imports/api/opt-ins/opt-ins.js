@@ -57,6 +57,11 @@ OptIns.schema = new SimpleSchema({
     optional: true,
     denyUpdate: false,
   },
+  confirmedBy: {
+    type: SimpleSchema.RegEx.IP,
+    optional: true,
+    denyUpdate: false,
+  },
   confirmationToken: {
     type: String,
     optional: true,
@@ -74,5 +79,6 @@ OptIns.publicFields = {
   sender: 1,
   data: 1,
   createdAt: 1,
-  confirmedAt: 1
+  confirmedAt: 1,
+  confirmedBy: 1
 };

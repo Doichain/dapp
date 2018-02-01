@@ -6,7 +6,7 @@ import decodeDoiHash from '../emails/decode_doi-hash.js';
 
 const ConfirmOptInSchema = new SimpleSchema({
   ip: {
-    type: String
+    type: SimpleSchema.RegEx.IP
   },
   hash: {
     type: String
@@ -21,7 +21,7 @@ const confirmOptIn = (request) => {
     const optIns = OptIns.find({_id: decoded.id}).fetch();
     if(optIns.length === 0 ||
       optIns[0].confirmationToken !== decoded.token) throw "Invalid hash";
-    OptIns.update({_id : decoded.id},{$set:{confirmedAt: new Date()}, $unset: {confirmationToken: ""}});
+    OptIns.update({_id : decoded.id},{$set:{confirmedAt: new Date(), confirmedBy: ip}, $unset: {confirmationToken: ""}});
   } catch (exception) {
     throw new Meteor.Error('opt-ins.confirm.exception', exception);
   }
