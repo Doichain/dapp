@@ -12,7 +12,6 @@ const GenerateNameIdSchema = new SimpleSchema({
 const generateNameId = (optIn) => {
   try {
     const ourOptIn = optIn;
-    console.log(ourOptIn);
     GenerateNameIdSchema.validate(ourOptIn);
     const nameId = getKeyPair().privateKey;
     OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});
