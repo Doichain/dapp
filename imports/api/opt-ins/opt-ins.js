@@ -48,6 +48,11 @@ OptIns.schema = new SimpleSchema({
     optional: true,
     denyUpdate: false,
   },
+  nameId: {
+    type: String,
+    optional: true,
+    denyUpdate: false,
+  },
   createdAt: {
     type: Date,
     denyUpdate: true,
