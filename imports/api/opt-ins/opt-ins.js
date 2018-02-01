@@ -58,7 +58,8 @@ OptIns.schema = new SimpleSchema({
     denyUpdate: false,
   },
   confirmedBy: {
-    type: SimpleSchema.RegEx.IP,
+    type: String,
+    regEx: SimpleSchema.RegEx.IP,
     optional: true,
     denyUpdate: false,
   },
