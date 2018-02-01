@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { Recipients } from '../../../api/recipients/recipients.js';
-import getKeyPair from '../namecoin/get-key-pair.js';
+import getKeyPair from '../namecoin/get_key-pair.js';
 
 const AddRecipientSchema = new SimpleSchema({
   email: {
