@@ -38,6 +38,13 @@ Create SOI
     + ``customer_number`` - Recipient customer number
     + ``data_json`` - JSON string with recipient/SOI data
 
+## Explanation
+
+Some explanations for the mailid system
+
+### NameId
+
+The nameId is a 256-bit, ECDSA valid, number represanted as a 32 byte (64 characters) string (Same as every Bitcoin privateKey). See also: https://en.bitcoin.it/wiki/Private_key
 
 ## Useful meteor database calls
 * Add test SOI to db:
