@@ -30,7 +30,7 @@ const writeToBlockchain = (data) => {
       doiDate: confirmedAt
     })
   } catch (exception) {
-    throw new Meteor.Error('namecoin.write_to_blockchain.exception', exception);
+    throw new Meteor.Error('namecoin.writeToBlockchain.exception', exception);
   }
 };
 
