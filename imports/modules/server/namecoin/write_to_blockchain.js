@@ -2,9 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { Recipients } from '../../../api/recipients/recipients.js';
-import generateNameId from './namecoin/generate_name-id.js';
-import getSignature from './namecoin/get_signature.js';
-import getDataHash from './namecoin/get_data-hash.js';
+import generateNameId from './generate_name-id.js';
+import getSignature from './get_signature.js';
+import getDataHash from './get_data-hash.js';
 import addInsertBlockchainJob from '../jobs/add_insert_blockchain.js';
 
 const WriteToBlockchainSchema = new SimpleSchema({
