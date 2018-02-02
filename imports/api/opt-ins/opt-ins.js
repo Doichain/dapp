@@ -81,9 +81,11 @@ OptIns.attachSchema(OptIns.schema);
 // to the client. If we add secret properties to Opt-In objects, don't list
 // them here to keep them private to the server.
 OptIns.publicFields = {
+  _id: 1,
   recipient: 1,
   sender: 1,
   data: 1,
+  nameId: 1,
   createdAt: 1,
   confirmedAt: 1,
   confirmedBy: 1

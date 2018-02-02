@@ -32,6 +32,7 @@
       "title": "Recipients",
       "noRecipients": "No recipients here",
       "loading": "Loading recipients...",
+      "id": "ID",
       "email": "Email",
       "customerId": "Customer Id",
       "publicKey": "Public Key",
@@ -41,11 +42,14 @@
       "title": "Opt-Ins",
       "noOptIns": "No opt-ins here",
       "loading": "Loading opt-ins...",
+      "id": "ID",
       "recipient": "Recipient",
       "sender": "Sender",
       "data": "Data",
+      "nameId": "NameId",
       "createdAt": "Created At",
-      "confirmedAt": "Confirmed At"
+      "confirmedAt": "Confirmed At",
+      "confirmedBy": "Confirmed By"
     },
     "authPageSignIn": {
      "emailRequired": "Email required",

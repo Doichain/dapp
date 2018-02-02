@@ -63,6 +63,7 @@ Recipients.attachSchema(Recipients.schema);
 // to the client. If we add secret properties to Recipient objects, don't list
 // them here to keep them private to the server.
 Recipients.publicFields = {
+  _id: 1,
   email: 1,
   customerId: 1,
   publicKey: 1,

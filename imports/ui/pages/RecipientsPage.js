@@ -3,7 +3,7 @@ import i18n from 'meteor/universe:i18n';
 import BaseComponent from '../components/BaseComponent.js';
 import Header from '../components/Header.js';
 import Message from '../components/Message.js';
-import RecipientItem from '../components/RecipientItem.js';
+import Item from '../components/Item.js';
 
 export default class RecipientsPage extends BaseComponent {
   constructor(props) {
@@ -22,31 +22,45 @@ export default class RecipientsPage extends BaseComponent {
       );
     } else {
       Recipients = (
-        <table>
-          <thead>
-            <tr className="recipients-header">
-              <th style={{width: "23%"}}>{i18n.__('pages.recipientsPage.email')}</th>
-              <th style={{width: "12%"}}>{i18n.__('pages.recipientsPage.customerId')}</th>
-              <th style={{width: "49%"}}>{i18n.__('pages.recipientsPage.publicKey')}</th>
-              <th style={{width: "16%"}}>{i18n.__('pages.recipientsPage.createdAt')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {recipients.map(recipient => (
-              <RecipientItem
-                recipient={recipient}
-                key={recipient._id}
-              />
-            ))}
-          </tbody>
-        </table>
+        recipients.map(recipient => (
+          <Item
+            keys={[
+              {
+                key: "id",
+                name: i18n.__('pages.recipientsPage.id'),
+                value: recipient._id
+              },
+              {
+                key: "email",
+                name: i18n.__('pages.recipientsPage.email'),
+                value: recipient.email
+              },
+              {
+                key: "customerId",
+                name: i18n.__('pages.recipientsPage.customerId'),
+                value: recipient.customerId
+              },
+              {
+                key: "publicKey",
+                name: i18n.__('pages.recipientsPage.publicKey'),
+                value: recipient.publicKey
+              },
+              {
+                key: "createdAt",
+                name: i18n.__('pages.recipientsPage.createdAt'),
+                value: recipient.createdAt.toISOString()
+              }
+            ]}
+            key={recipient._id}
+          />
+        ))
       );
     }
 
     return (
       <div className="page recipients-show">
         <Header title={i18n.__('pages.recipientsPage.title')}/>
-        <div className="recipients-items table-scrollable">
+        <div className="recipients-items content-scrollable">
           {loading
             ? <Message title={i18n.__('pages.recipientsPage.loading')} />
             : Recipients}
