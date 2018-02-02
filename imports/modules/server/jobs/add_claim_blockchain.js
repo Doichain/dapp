@@ -2,8 +2,14 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { BlockchainJobs } from '../../../../server/api/blockchain_jobs.js';
 
-const AddInsertBlockchainJobSchema = new SimpleSchema({
+const AddClaimBlockchainJobSchema = new SimpleSchema({
   nameId: {
+    type: String
+  },
+  tx: {
+    type: String
+  },
+  rand: {
     type: String
   },
   signature: {
@@ -20,15 +26,15 @@ const AddInsertBlockchainJobSchema = new SimpleSchema({
   }
 });
 
-const addInsertBlockchainJob = (entry) => {
+const addClaimBlockchainJob = (entry) => {
   try {
     const ourEntry = entry;
-    AddInsertBlockchainJobSchema.validate(ourEntry);
-    const job = new Job(BlockchainJobs, 'insert', ourEntry);
+    AddClaimBlockchainJobSchema.validate(ourEntry);
+    const job = new Job(BlockchainJobs, 'claim', ourEntry);
     job.retry({wait: 60*1000 }).save();
   } catch (exception) {
-    throw new Meteor.Error('jobs.addInsertBlockchain.exception', exception);
+    throw new Meteor.Error('jobs.addClaimBlockchain.exception', exception);
   }
 };
 
-export default addInsertBlockchainJob;
+export default addClaimBlockchainJob;

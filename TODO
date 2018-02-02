@@ -1,5 +1,6 @@
 - Delete namecoin file from imports/api/namecoin
 - Doi blockchain update // Not an update anymore but an insert (See 'Soi to blockchain')
+- dataHash to blockchain
 - GUI
   - Start page content
   - Recipients page: Add id

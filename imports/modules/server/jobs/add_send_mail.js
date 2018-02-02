@@ -26,7 +26,7 @@ const addSendMailJob = (mail) => {
     const job = new Job(MailJobs, 'send', ourMail);
     job.retry({retries: 5, wait: 60*1000 }).save();
   } catch (exception) {
-    throw new Meteor.Error('jobs.add_send_mail.exception', exception);
+    throw new Meteor.Error('jobs.addSendMail.exception', exception);
   }
 };
 

@@ -41,35 +41,3 @@ Api.addRoute('opt-in/confirm/:hash', {authRequired: false}, {
     }
   }
 });
-
-/*
-import getSignature from "../../imports/modules/server/namecoin/get_signature.js"
-import verifySignature from "../../imports/modules/server/namecoin/verify_signature.js"
-import addInsertBlockchainJob from "../../imports/modules/server/jobs/add_insert_blockchain.js"
-Api.addRoute('test', {authRequired: false}, {
-  get: {
-    action: function() {
-      try {
-        const sig = getSignature({
-          email: "dustin.hoffmann@icloud.com",
-          privateKey: "5C995E7AD48AC5CD57D0DD3219AD1DE644A83CEA5E43E92AEC0A67D8FF239F60"
-        });
-        const validation = verifySignature({
-          email: "dustin.hoffmann@icloud.com",
-          publicKey: "0217415385243465E21C7BBEB1DEFF922171A841EDCF070CB1C772AFB6C7517A86",
-          signature: sig
-        });
-        const validation2 = verifySignature({
-          email: "dustin.hoffmann@icloud.coms",
-          publicKey: "0217415385243465E21C7BBEB1DEFF922171A841EDCF070CB1C772AFB6C7517A86",
-          signature: sig
-        });
-        console.log(sig, validation, validation2);
-        return {status: 'success', data: {message: 'Test successful'}};
-      } catch(error) {
-        return {statusCode: 500, body: {status: 'fail', message: error.message}};
-      }
-    }
-  }
-});
-*/
