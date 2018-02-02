@@ -41,7 +41,6 @@ const claim = (data) => {
       rand: ourData.rand,
       value: value
     })
-    console.log(firstUpdateData);
   } catch(exception) {
     throw new Meteor.Error('namecoin.claim.exception', exception);
   }
