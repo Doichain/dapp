@@ -39,7 +39,7 @@
     },
     "optInsPage": {
       "title": "Opt-Ins",
-      "noRecipients": "No opt-ins here",
+      "noOptIns": "No opt-ins here",
       "loading": "Loading opt-ins...",
       "recipient": "Recipient",
       "sender": "Sender",
