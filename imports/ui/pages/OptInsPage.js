@@ -17,7 +17,7 @@ export default class OptInsPage extends BaseComponent {
     if(!optIns || !optIns.length) {
       OptIns = (
         <Message
-          title={i18n.__('pages.OptInsPage.noOptIns')}
+          title={i18n.__('pages.optInsPage.noOptIns')}
         />
       );
     } else {
