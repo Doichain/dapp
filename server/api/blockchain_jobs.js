@@ -1,14 +1,15 @@
 export const BlockchainJobs = JobCollection('blockchain');
+import insert from '../../imports/modules/server/namecoin/insert.js';
 
-BlockchainJobs.processJobs('insert', function (job, cb) {
+BlockchainJobs.processJobs('insert', {workTimeout: 30*1000},function (job, cb) {
   try {
     const entry = job.data;
-    //TODO: Process Job
-    console.log(entry);
+    insert(entry);
     job.done();
   } catch(exception) {
     job.fail();
     throw new Meteor.Error('jobs.blockchain.insert.exception', exception);
+  } finally {
+    cb();
   }
-  cb();
 });

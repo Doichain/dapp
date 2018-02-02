@@ -9,6 +9,7 @@ MailJobs.processJobs('send', function (job, cb) {
   } catch(exception) {
     job.fail();
     throw new Meteor.Error('jobs.mail.send.exception', exception);
+  } finally {
+    cb();
   }
-  cb();
 });
