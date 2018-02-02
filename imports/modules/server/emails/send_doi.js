@@ -27,7 +27,7 @@ const sendDoiMail = (optIn) => {
       from: "noreply@sendeffect.de",
       to: recipients[0].email,
       subject: "Confirmation",
-      message: confirmationHash
+      message: "http://localhost:3000/api/v1/opt-in/confirm/"+confirmationHash
     });
   } catch (exception) {
     throw new Meteor.Error('emails.send_doi.exception', exception);
