@@ -9,7 +9,7 @@ class StartPage extends BaseComponent {
       <div className="page start">
         <Header title={i18n.__('pages.startPage.title')}/>
         <div className="content-scrollable">
-          test
+          First MailId live implementation 
         </div>
       </div>
     );
