@@ -27,7 +27,7 @@ const writeToBlockchain = (data) => {
       signature: signature,
       dataHash: dataHash,
       soiDate: optIn.createdAt,
-      doiDate: confirmedAt
+      doiDate: optIn.confirmedAt
     })
   } catch (exception) {
     throw new Meteor.Error('namecoin.writeToBlockchain.exception', exception);
