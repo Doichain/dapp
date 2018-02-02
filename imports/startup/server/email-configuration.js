@@ -4,17 +4,10 @@ import Hashids from 'hashids';
 export const HashIds = new Hashids('0xugmLe7Nyee6vk1iF88(6CmwpqoG4hQ*-T74tjYw^O2vOO(Xl-91wA8*nCg_lX$');
 
 Meteor.startup(() => {
-  smtp = {
-   username: 'dustin.hoffmann@adindex.de',
-   password: '*****',
-   server:   'smtp.gmail.com',
-   port: 587
- }
-
  process.env.MAIL_URL = 'smtp://' +
-   encodeURIComponent(smtp.username) +
-   ':' + encodeURIComponent(smtp.password) +
-   '@' + encodeURIComponent(smtp.server) +
+   encodeURIComponent(Meteor.settings.smtp.username) +
+   ':' + encodeURIComponent(Meteor.settings.smtp.password) +
+   '@' + encodeURIComponent(Meteor.settings.smtp.server) +
    ':' +
-   smtp.port;
+   Meteor.settings.smtp.port;
 });
