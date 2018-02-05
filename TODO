@@ -1,7 +1,6 @@
 - Delete namecoin file from imports/api/namecoin
 - dataHash to blockchain
 - GUI
-  - Start page content
   - Add senders page
 - Readme
 - Tests

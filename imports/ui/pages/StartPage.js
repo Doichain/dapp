@@ -9,7 +9,15 @@ class StartPage extends BaseComponent {
       <div className="page start">
         <Header title={i18n.__('pages.startPage.title')}/>
         <div className="content-scrollable">
-          First MailId live implementation 
+          <div className="start-page-wrapper">
+            <div className="info">
+              <span>{i18n.__('pages.startPage.infoText')}</span>
+              <a target="_blank" href="http://www.sendeffect.de">Sendeffect</a>
+            </div>
+            <div className="joinNow">
+              <span>{i18n.__('pages.startPage.joinNow')}</span>
+            </div>
+          </div>
         </div>
       </div>
     );
