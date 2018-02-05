@@ -53,6 +53,16 @@
       "confirmedAt": "Bestätigt am",
       "confirmedBy": "Bestätigt von"
     },
+    "authPageSignIn": {
+     "emailRequired": "Email benötigt",
+     "passwordRequired": "Passwort benötigt",
+     "signIn": "Einloggen.",
+     "signInReason": "Einloggen erlaubt dir opt-ins hinzuzufügen",
+     "yourEmail": "Deine Email",
+     "password": "Passwort",
+     "signInButton": "Einloggen",
+     "needAccount": "Keinen Account? Jetzt beitreten."
+    },
     "notFoundPage": {
       "pageNotFound": "Seite nicht gefunden"
     }
