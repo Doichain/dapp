@@ -1,0 +1,67 @@
+{
+  "components": {
+    "userMenu": {
+      "logout": "Ausloggen",
+      "login": "Einloggen",
+      "join": "Beitreten",
+      "entries": {
+        "home": {
+          "name": "Startseite"
+        },
+        "recipients": {
+          "name": "Empfänger"
+        },
+        "opt-ins": {
+          "name": "Opt-Ins"
+        }
+      }
+    },
+    "connectionNotification": {
+      "tryingToConnect": "Versuche zu verbinden",
+      "connectionIssue": "Es scheint ein Verbindungsproblem zu geben"
+    },
+    "mobileMenu": {
+      "showMenu": "Zeige Menü"
+    }
+  },
+  "pages": {
+    "startPage": {
+      "title": "MailId",
+      "infoText": "MailId - Eine Blockchain basierte Email Anti-Spam Lösung entwickelt von",
+      "joinNow": "Trete jetzt bei und mach Mailing ein bisschen sicherer!"
+    },
+    "recipientsPage": {
+      "title": "Empfänger",
+      "noRecipients": "Keine Empfänger hier",
+      "loading": "Lade Empfänger...",
+      "id": "ID",
+      "email": "Email",
+      "customerId": "Kunden ID",
+      "publicKey": "Public Key",
+      "createdAt": "Erstellt am"
+    },
+    "optInsPage": {
+      "title": "Opt-Ins",
+      "noOptIns": "Keine Opt-Ins hier",
+      "loading": "Lade Opt-Ins...",
+      "id": "ID",
+      "recipient": "Empfänger",
+      "sender": "Versender",
+      "data": "Daten",
+      "nameId": "NameId",
+      "createdAt": "Erstellt am",
+      "confirmedAt": "Bestätigt am",
+      "confirmedBy": "Bestätigt von"
+    },
+    "notFoundPage": {
+      "pageNotFound": "Seite nicht gefunden"
+    }
+  },
+  "api": {
+    "opt-ins": {
+      "add": {
+        "accessDenied": "Keine Berechtigung um Opt-Ins hinzuzufügen"
+      }
+    }
+  }
+}
