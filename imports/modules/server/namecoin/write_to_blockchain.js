@@ -19,8 +19,9 @@ const writeToBlockchain = (data) => {
     WriteToBlockchainSchema.validate(ourData);
     const optIn = OptIns.findOne({_id: data.id});
     const recipient = Recipients.findOne({_id: optIn.recipient});
+    const sender = Senders.findOne({_id: optIn.sender});
     const nameId = generateNameId({id: optIn._id});
-    const signature = getSignature({email: recipient.email, privateKey: recipient.privateKey});
+    const signature = getSignature({message: recipient.email+sender.email, privateKey: recipient.privateKey});
     const dataHash = getDataHash({data: optIn.data});
     addInsertBlockchainJob({
       nameId: nameId,
