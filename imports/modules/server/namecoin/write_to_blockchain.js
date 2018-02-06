@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
+import { Senders } from '../../../api/senders/senders.js';
 import { Recipients } from '../../../api/recipients/recipients.js';
 import generateNameId from './generate_name-id.js';
 import getSignature from './get_signature.js';
