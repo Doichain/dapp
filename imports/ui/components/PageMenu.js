@@ -21,6 +21,11 @@ export default class PageMenu extends BaseComponent {
 
     const entries = [
       {
+        id: "key-generator",
+        path: "key-generator",
+        name: i18n.__('components.userMenu.entries.key-generator.name')
+      },
+      {
         id: "recipients",
         path: "recipients",
         name: i18n.__('components.userMenu.entries.recipients.name'),

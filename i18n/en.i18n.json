@@ -8,6 +8,9 @@
         "home": {
           "name": "Home"
         },
+        "key-generator": {
+          "name": "Key Generator"
+        },
         "recipients": {
           "name": "Recipients"
         },
@@ -29,6 +32,9 @@
       "title": "MailId",
       "infoText": "This is MailId - A blockchain based email anti-spam solution technology developed by",
       "joinNow": "Join now and make mailing a bit safer!"
+    },
+    "keyGeneratorPage": {
+      "title": "Key Generator"
     },
     "recipientsPage": {
       "title": "Recipients",
