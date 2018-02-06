@@ -19,6 +19,11 @@
         }
       }
     },
+    "keyGenerator": {
+      "privateKey": "Private key",
+      "publicKey": "Public key",
+      "generateButton": "Generate"
+    },
     "connectionNotification": {
       "tryingToConnect": "Trying to connect",
       "connectionIssue": "There seems to be a connection issue"
