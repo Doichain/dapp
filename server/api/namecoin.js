@@ -2,21 +2,15 @@ import { Meteor } from 'meteor/meteor';
 import namecoin from 'namecoin';
 
 const NAMESPACE = 'e/';
-const NamecoinClient = new namecoin.Client({
-  host: Meteor.settings.namecoin.host,
-  port: Meteor.settings.namecoin.port,
-  user: Meteor.settings.namecoin.username,
-  pass: Meteor.settings.namecoin.password
-});
 
-export function nameShow(id) {
+export function nameShow(client, id) {
   const syncFunc = Meteor.wrapAsync(namecoin_nameShow);
-  return syncFunc(id);
+  return syncFunc(client, id);
 }
 
-function namecoin_nameShow(id, callback) {
+function namecoin_nameShow(client, id, callback) {
   const ourId = checkId(id);
-  NamecoinClient.cmd('name_show', ourId, function(err, data) {
+  client.cmd('name_show', ourId, function(err, data) {
     if(err !== undefined && err !== null && err.message.startsWith("name not found")) {
       err = undefined,
       data = undefined
@@ -25,40 +19,40 @@ function namecoin_nameShow(id, callback) {
   });
 }
 
-export function nameNew(id) {
+export function nameNew(client, id) {
   const syncFunc = Meteor.wrapAsync(namecoin_nameNew);
-  return syncFunc(id);
+  return syncFunc(client, id);
 }
 
-function namecoin_nameNew(id, callback) {
+function namecoin_nameNew(client, id, callback) {
   const ourId = checkId(id);
-  NamecoinClient.cmd('name_new', ourId, function(err, data) {
+  client.cmd('name_new', ourId, function(err, data) {
     callback(err, data);
   });
 }
 
-export function nameFirstUpdate(id, rand, tx, value) {
+export function nameFirstUpdate(client, id, rand, tx, value) {
   const syncFunc = Meteor.wrapAsync(namecoin_nameFirstUpdate);
-  return syncFunc(id, rand, tx, value);
+  return syncFunc(client, id, rand, tx, value);
 }
 
-function namecoin_nameFirstUpdate(id, rand, tx, value, callback) {
+function namecoin_nameFirstUpdate(client, id, rand, tx, value, callback) {
   const ourId = checkId(id);
   const ourRand = rand;
   const ourTx = tx;
   const ourValue = value;
-  NamecoinClient.cmd('name_firstupdate', ourId, ourRand, ourTx, ourValue, function(err, data) {
+  client.cmd('name_firstupdate', ourId, ourRand, ourTx, ourValue, function(err, data) {
     callback(err, data);
   });
 }
 
-export function getInfo() {
+export function getInfo(client) {
   const syncFunc = Meteor.wrapAsync(namecoin_getInfo);
-  return syncFunc();
+  return syncFunc(client);
 }
 
-function namecoin_getInfo(callback) {
-  NamecoinClient.cmd('getinfo', function(err, data) {
+function namecoin_getInfo(client, callback) {
+  client.cmd('getinfo', function(err, data) {
     callback(err, data);
   });
 }
