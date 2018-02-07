@@ -1,4 +1,5 @@
 import './type-configuration.js';
+import './dns-configuration.js';
 import './namecoin-configuration.js';
 import './fixtures.js';
 import './register-api.js';
