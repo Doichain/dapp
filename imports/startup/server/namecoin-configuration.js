@@ -12,12 +12,15 @@ export const SEND_CLIENT = sendClient;
 
 var confirmSettings = Meteor.settings.confirm;
 var confirmClient = undefined;
+var confirmAddress = undefined;
 if(isAppType(CONFIRM_APP)) {
   if(!confirmSettings || !confirmSettings.namecoin)
     throw new Meteor.Error("config.confirm.namecoin", "Confirm app namecoin settings not found")
   confirmClient = createClient(confirmSettings.namecoin);
+  confirmAddress = confirmSettings.namecoin.address;
 }
 export const CONFIRM_CLIENT = confirmClient;
+export const CONFIRM_ADDRESS = confirmAddress;
 
 var verifySettings = Meteor.settings.verify;
 var verifyClient = undefined;

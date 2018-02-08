@@ -3,6 +3,23 @@ import namecoin from 'namecoin';
 
 const NAMESPACE = 'e/';
 
+export function listSinceBlock(client, block) {
+  const syncFunc = Meteor.wrapAsync(namecoin_listSinceBlock);
+  var ourBlock = block;
+  if(ourBlock === undefined) ourBlock = null;
+  return syncFunc(client, ourBlock);
+}
+
+function namecoin_listSinceBlock(client, block, callback) {
+  var ourBlock = block;
+  if(ourBlock === null) client.cmd('listsinceblock', function(err, data) {
+    callback(err, data);
+  });
+  else client.cmd('listsinceblock', ourBlock, function(err, data) {
+    callback(err, data);
+  });
+}
+
 export function nameShow(client, id) {
   const syncFunc = Meteor.wrapAsync(namecoin_nameShow);
   return syncFunc(client, id);
