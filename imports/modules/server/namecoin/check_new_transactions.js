@@ -24,6 +24,7 @@ const checkNewTransactions = () => {
       tx.name.startsWith(TX_NAME_START));
     addressTxs.forEach(tx => addTx(tx));
     addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
+    console.log("Transactions updated");
   } catch(exception) {
     throw new Meteor.Error('namecoin.checkNewTransactions.exception', exception);
   }
