@@ -8,4 +8,3 @@
 ? Token registration
 ? addOptIn data_json valdidation
 ? Check if rest api is thread-safe
-- Soi to blockchain  // Not anymore because we need the doi confirmation IP for the e/hash generation (in consultation with tobias)
