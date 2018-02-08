@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { nameFirstUpdate } from '../../../../server/api/namecoin.js';
+import { SEND_CLIENT } from '../../../startup/server/namecoin-configuration.js';
 
 const FirstUpdateSchema = new SimpleSchema({
   nameId: {
@@ -14,13 +15,16 @@ const FirstUpdateSchema = new SimpleSchema({
   },
   value: {
     type: String
+  },
+  address: {
+    type: String
   }
 });
 
 const firstUpdate = (data) => {
   try {
     const ourData = data;
-    nameFirstUpdate(ourData.nameId, ourData.rand, ourData.tx, ourData.value);
+    nameFirstUpdate(SEND_CLIENT, ourData.nameId, ourData.rand, ourData.tx, ourData.value, ourData.address);
   } catch(exception) {
     throw new Meteor.Error('namecoin.firstUpdate.exception', exception);
   }

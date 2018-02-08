@@ -24,12 +24,14 @@ const writeToBlockchain = (data) => {
     const nameId = generateNameId({id: optIn._id});
     const signature = getSignature({message: recipient.email+sender.email, privateKey: recipient.privateKey});
     const dataHash = getDataHash({data: optIn.data});
+    var parts = recipient.email.split("@");
+    const domain = parts[parts.length-1];
     addInsertBlockchainJob({
       nameId: nameId,
       signature: signature,
       dataHash: dataHash,
-      soiDate: optIn.createdAt,
-      doiDate: optIn.confirmedAt
+      domain: domain,
+      soiDate: optIn.createdAt
     })
   } catch (exception) {
     throw new Meteor.Error('namecoin.writeToBlockchain.exception', exception);

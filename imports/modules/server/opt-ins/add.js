@@ -4,6 +4,7 @@ import addRecipient from '../recipients/add.js';
 import addSender from '../senders/add.js';
 import sendDoiMail from '../emails/send_doi.js';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
+import writeToBlockchain from '../namecoin/write_to_blockchain.js';
 
 const AddOptInSchema = new SimpleSchema({
   recipient_mail: {
@@ -43,7 +44,7 @@ const addOptIn = (optIn) => {
       sender: senderId,
       data: ourOptIn.data
     });
-    sendDoiMail({id: optInId});
+    writeToBlockchain({id: optInId})
     return optInId;
   } catch (exception) {
     throw new Meteor.Error('opt-ins.add.exception', exception);

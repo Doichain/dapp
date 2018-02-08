@@ -6,7 +6,8 @@ export function resolveTxt(key, domain) {
   try {
     return syncFunc(key, domain);
   } catch(error) {
-    if(error.message.startsWith("queryTxt ENODATA")) return undefined;
+    if(error.message.startsWith("queryTxt ENODATA") ||
+        error.message.startsWith("queryTxt ENOTFOUND")) return undefined;
     else throw error;
   }
 }

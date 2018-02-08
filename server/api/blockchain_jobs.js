@@ -1,6 +1,6 @@
 export const BlockchainJobs = JobCollection('blockchain');
 import insert from '../../imports/modules/server/namecoin/insert.js';
-import claim from '../../imports/modules/server/namecoin/claim.js';
+import claim from '../../imports/modules/server/namecoin/claim_and_transfer.js';
 
 BlockchainJobs.processJobs('insert', {workTimeout: 30*1000},function (job, cb) {
   try {

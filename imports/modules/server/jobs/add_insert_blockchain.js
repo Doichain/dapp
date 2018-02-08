@@ -12,10 +12,10 @@ const AddInsertBlockchainJobSchema = new SimpleSchema({
   dataHash: {
     type: String
   },
-  soiDate: {
-    type: Date
+  domain: {
+    type: String
   },
-  doiDate: {
+  soiDate: {
     type: Date
   }
 });

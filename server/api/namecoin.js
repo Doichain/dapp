@@ -31,17 +31,18 @@ function namecoin_nameNew(client, id, callback) {
   });
 }
 
-export function nameFirstUpdate(client, id, rand, tx, value) {
+export function nameFirstUpdate(client, id, rand, tx, value, to) {
   const syncFunc = Meteor.wrapAsync(namecoin_nameFirstUpdate);
-  return syncFunc(client, id, rand, tx, value);
+  return syncFunc(client, id, rand, tx, value, to);
 }
 
-function namecoin_nameFirstUpdate(client, id, rand, tx, value, callback) {
+function namecoin_nameFirstUpdate(client, id, rand, tx, value, to, callback) {
   const ourId = checkId(id);
   const ourRand = rand;
   const ourTx = tx;
   const ourValue = value;
-  client.cmd('name_firstupdate', ourId, ourRand, ourTx, ourValue, function(err, data) {
+  const ourTo = to;
+  client.cmd('name_firstupdate', ourId, ourRand, ourTx, ourValue, to, function(err, data) {
     callback(err, data);
   });
 }

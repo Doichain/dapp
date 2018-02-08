@@ -13,10 +13,10 @@ const InsertSchema = new SimpleSchema({
   dataHash: {
     type: String
   },
-  soiDate: {
-    type: Date
+  domain: {
+    type: String
   },
-  doiDate: {
+  soiDate: {
     type: Date
   }
 });
@@ -32,8 +32,8 @@ const insert = (data) => {
       rand: newNameData.rand,
       signature: ourData.signature,
       dataHash: ourData.dataHash,
-      soiDate: ourData.soiDate,
-      doiDate: ourData.doiDate
+      domain: ourData.domain,
+      soiDate: ourData.soiDate
     });
   } catch(exception) {
     throw new Meteor.Error('namecoin.insert.exception', exception);

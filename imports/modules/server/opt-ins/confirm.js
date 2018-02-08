@@ -3,7 +3,6 @@ import SimpleSchema from 'simpl-schema';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { Recipients } from '../../../api/recipients/recipients.js';
 import decodeDoiHash from '../emails/decode_doi-hash.js';
-import writeToBlockchain from '../namecoin/write_to_blockchain.js';
 
 const ConfirmOptInSchema = new SimpleSchema({
   ip: {
