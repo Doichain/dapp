@@ -17,18 +17,18 @@ const getWif = (data) => {
     GetWifSchema.validate(ourData);
     return _getWif(ourData.privateKey);
   } catch(exception) {
-    throw new Meteor.Error('namecoin.getAddress.exception', exception);
+    throw new Meteor.Error('namecoin.getWif.exception', exception);
   }
 };
 
 function _getWif(privateKey) {
   var key = privateKey;
-  const buf = Buffer.concat([Buffer.from([VERSION_BYTE]), new Buffer(key.toString(), 'hex'), Buffer.from([COMPRESS_BYTE])]);
+  const buf = Buffer.concat([Buffer.from([VERSION_BYTE]), new Buffer(key, 'hex'), Buffer.from([COMPRESS_BYTE])]);
   let wif = CryptoJS.lib.WordArray.create(buf);
-  key = CryptoJS.SHA256(byteArrayToWordArray(wif));
+  key = CryptoJS.SHA256(wif);
   key = CryptoJS.SHA256(key);
   let checksum = key.toString().substring(0, 8);
-  wif = new Buffer(wif.toString('hex')+checksum,'hex');
+  wif = new Buffer(wif.toString()+checksum,'hex');
   wif = Base58.encode(wif);
   return wif;
 }
