@@ -1,5 +1,5 @@
-import { Api } from './rest.js';
-import confirmOptIn from '../../../imports/modules/server/opt-ins/confirm.js'
+import { Api } from '../rest.js';
+import confirmOptIn from '../../../../imports/modules/server/opt-ins/confirm.js'
 
 Api.addRoute('opt-in/confirm/:hash', {authRequired: false}, {
   get: {

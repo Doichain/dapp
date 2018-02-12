@@ -4,6 +4,7 @@ import firstUpdate from './first_update.js';
 import getAddress from './get_address.js';
 import getOptInProvider from '../dns/get_opt-in-provider.js';
 import getOptInKey from '../dns/get_opt-in-key.js';
+import encryptMessage from './encrypt_message.js';
 
 const ClaimSchema = new SimpleSchema({
   nameId: {
@@ -36,9 +37,11 @@ const claim = (data) => {
     const provider = getOptInProvider({domain: ourData.domain});
     const publicKey = getOptInKey({domain: provider});
     const address = getAddress({publicKey: publicKey});
+    const from = encryptMessage({publicKey: publicKey, message: Meteor.absoluteUrl()});
     const value = JSON.stringify({
       signature: ourData.signature,
-      soiTimestamp: ourData.soiDate.toISOString()
+      soiTimestamp: ourData.soiDate.toISOString(),
+      from: from
     })
     const firstUpdateData = firstUpdate({
       nameId: ourData.nameId,

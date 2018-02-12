@@ -1,5 +1,5 @@
-import { Api } from './rest.js';
-import addOptIn from '../../../imports/modules/server/opt-ins/add.js'
+import { Api } from '../rest.js';
+import addOptIn from '../../../../imports/modules/server/opt-ins/add.js';
 
 Api.addRoute('opt-in', {authRequired: true}, {
   post: {
