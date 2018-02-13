@@ -3,6 +3,10 @@ import namecoin from 'namecoin';
 
 const NAMESPACE = 'e/';
 
+export function getPrivateKey(client, address) {
+  return "892B8AF44E535D646E7B01767579F5C4FBB9B9A09229AB4A15A8D14AB06977CA";
+}
+
 export function listSinceBlock(client, block) {
   const syncFunc = Meteor.wrapAsync(namecoin_listSinceBlock);
   var ourBlock = block;

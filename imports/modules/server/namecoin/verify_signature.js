@@ -12,9 +12,8 @@ const NETWORK = bitcore.Networks.add({
 });
 
 const VerifySignatureSchema = new SimpleSchema({
-  email: {
-    type: String,
-    regEx: SimpleSchema.RegEx.Email
+  data: {
+    type: String
   },
   publicKey: {
     type: String
@@ -29,8 +28,10 @@ const verifySignature = (data) => {
     const ourData = data;
     VerifySignatureSchema.validate(ourData);
     const address = bitcore.Address.fromPublicKey(new bitcore.PublicKey(ourData.publicKey), NETWORK);
-    const valdidation = Message(ourData.email).verify(address, ourData.signature);
-    return valdidation;
+    try {
+      return Message(ourData.data).verify(address, ourData.signature);
+    } catch(error) {}
+    return false;
   } catch(exception) {
     throw new Meteor.Error('namecoin.verifySignature.exception', exception);
   }

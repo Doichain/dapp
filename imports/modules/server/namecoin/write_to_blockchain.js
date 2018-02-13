@@ -24,7 +24,7 @@ const writeToBlockchain = (data) => {
     const nameId = generateNameId({id: optIn._id});
     const signature = getSignature({message: recipient.email+sender.email, privateKey: recipient.privateKey});
     const dataHash = getDataHash({data: optIn.data});
-    var parts = recipient.email.split("@");
+    const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
     addInsertBlockchainJob({
       nameId: nameId,
