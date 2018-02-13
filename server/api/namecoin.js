@@ -4,6 +4,7 @@ import namecoin from 'namecoin';
 const NAMESPACE = 'e/';
 
 export function getPrivateKey(client, address) {
+  //TODO: Implement real privateKey rpc fetching
   return "892B8AF44E535D646E7B01767579F5C4FBB9B9A09229AB4A15A8D14AB06977CA";
 }
 
