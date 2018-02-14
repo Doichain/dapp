@@ -11,6 +11,7 @@ import parseTemplate from '../emails/parse_template.js';
 import generateDoiToken from '../opt-ins/generate_doi-token.js';
 import generateDoiHash from '../emails/generate_doi-hash.js';
 import addOptIn from '../opt-ins/add.js';
+import addSendMailJob from '../jobs/add_send_mail.js';
 
 const FetchDoiMailDataSchema = new SimpleSchema({
   name: {
@@ -49,12 +50,16 @@ const fetchDoiMailData = (data) => {
     if(optIn.confirmationToken !== undefined) return;
     const token = generateDoiToken({id: optIn._id});
     const confirmationHash = generateDoiHash({id: optIn._id, token: token});
-    const confirmationLink = Meteor.absoluteUrl()+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE+"/"+confirmationHash;
+    const confirmationUrl = Meteor.absoluteUrl()+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE+"/"+confirmationHash;
     const template = parseTemplate({template: responseData.content, data: {
-      confirmation_link: confirmationLink
-    }})
-    console.log(confirmationLink);
-    //TODO: Send doi mail
+      confirmation_url: confirmationUrl
+    }});
+    addSendMailJob({
+      from: responseData.from,
+      to: responseData.recipient,
+      subject: responseData.subject,
+      message: template
+    });
   } catch (exception) {
     throw new Meteor.Error('dapps.fetchDoiMailData.exception', exception);
   }
