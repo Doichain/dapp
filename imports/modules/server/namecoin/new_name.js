@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { nameShow, nameNew, getInfo } from '../../../../server/api/namecoin.js';
+import { nameShow, nameNew } from '../../../../server/api/namecoin.js';
 import { SEND_CLIENT } from '../../../startup/server/namecoin-configuration.js';
 
 const NewNameSchema = new SimpleSchema({
