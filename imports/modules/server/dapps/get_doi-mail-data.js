@@ -33,12 +33,16 @@ const getDoiMailData = (data) => {
       throw "Access denied";
     }
     //TODO: Implement customization
-    const content = "Blablabla ${confirmation_link}";
+    const from = "Segelboote@Newsletter.de";
+    const subject = "Newsletter bestätigung";
+    const content = "Newsletter bestätigen: ${confirmation_url}";
     const redirect = "http://localhost:3000";
     return {
       recipient: recipient.email,
       content: content,
-      redirect: redirect
+      redirect: redirect,
+      subject: subject,
+      from: from
     }
   } catch (exception) {
     throw new Meteor.Error('dapps.getDoiMailData.exception', exception);
