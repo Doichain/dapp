@@ -1,7 +1,7 @@
-import { Api } from '../rest.js';
+import { Api, DOI_CONFIRMATION_ROUTE } from '../rest.js';
 import confirmOptIn from '../../../../imports/modules/server/opt-ins/confirm.js'
 
-Api.addRoute('opt-in/confirm/:hash', {authRequired: false}, {
+Api.addRoute(DOI_CONFIRMATION_ROUTE+'/:hash', {authRequired: false}, {
   get: {
     action: function() {
       const hash = this.urlParams.hash;

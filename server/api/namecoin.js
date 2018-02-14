@@ -3,7 +3,20 @@ import namecoin from 'namecoin';
 
 const NAMESPACE = 'e/';
 
-export function getPrivateKey(client, address) {
+export function nameUpdate(client, id, value) {
+  const syncFunc = Meteor.wrapAsync(namecoin_nameUpdate);
+  return syncFunc(client, id, value);
+}
+
+function namecoin_nameUpdate(client, id, value, callback) {
+  const ourId = checkId(id);
+  const ourValue = value;
+  client.cmd('name_update', ourId, ourValue, function(err, data) {
+    callback(err, data);
+  });
+}
+
+export function getWif(client, address) {
   const syncFunc = Meteor.wrapAsync(namecoin_dumpprivkey);
   return syncFunc(client, address);
 }

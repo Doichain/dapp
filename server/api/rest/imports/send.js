@@ -1,5 +1,5 @@
 import { Api, DOI_FETCH_ROUTE } from '../rest.js';
-import addOptIn from '../../../../imports/modules/server/opt-ins/add.js';
+import addOptIn from '../../../../imports/modules/server/opt-ins/add_and_write_to_blockchain.js';
 import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mail-data.js';
 
 Api.addRoute('opt-in', {authRequired: true}, {
@@ -25,9 +25,9 @@ Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
       const params = this.queryParams;
       try {
         const data = getDoiMailData(params);
-        return {status: 'success', data: {data}};
+        return {status: 'success', ...data};
       } catch(error) {
-        return {statusCode: 500, body: {status: 'fail', message: error.message}};
+        return {status: 'fail', error: error.message};
       }
     }
   }

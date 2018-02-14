@@ -3,7 +3,7 @@ import { listSinceBlock, nameShow } from '../../../../server/api/namecoin.js';
 import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoin-configuration.js';
 import { Meta } from '../../../api/meta/meta.js';
 import addOrUpdateMeta from '../meta/addOrUpdate.js';
-import addNamecoinEntry from './add_entry.js'
+import addNamecoinEntry from './add_entry_and_fetch_data.js'
 
 const TX_NAME_START = "update: e/";
 const LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";

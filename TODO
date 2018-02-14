@@ -3,6 +3,7 @@
   - Add senders page
 - Readme
 - Tests
+! Prevent multi doi sending after meteor reset 
 ! Remove admin account creaton on first start
 ! Delete rest test route
 ? Token registration

@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { Recipients } from '../../../api/recipients/recipients.js';
-import { SIGNATURE_MESSAGE } from './fetch_doi-mail-data.js';
 import getOptInProvider from '../dns/get_opt-in-provider.js';
 import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../namecoin/verify_signature.js';
@@ -30,7 +29,7 @@ const getDoiMailData = (data) => {
     const provider = getOptInProvider({domain: domain});
     const publicKey = getOptInKey({domain: provider});
     //TODO: Only allow access one time
-    if(!verifySignature({publicKey: publicKey, data: SIGNATURE_MESSAGE, signature: ourData.signature})) {
+    if(!verifySignature({publicKey: publicKey, data: ourData.name, signature: ourData.signature})) {
       throw "Access denied";
     }
     //TODO: Implement customization

@@ -42,7 +42,7 @@ BlockchainJobs.processJobs('checkNewTransactions', {workTimeout: 5*60*1000},func
     }
   } catch(exception) {
     job.fail();
-    throw new Meteor.Error('jobs.blockchain.claim.exception', exception);
+    throw new Meteor.Error('jobs.blockchain.checkNewTransactions.exception', exception);
   } finally {
     cb();
   }

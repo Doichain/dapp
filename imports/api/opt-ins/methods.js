@@ -5,7 +5,7 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { Roles } from 'meteor/alanning:roles';
 import { _i18n as i18n } from 'meteor/universe:i18n';
 import { OptIns } from './opt-ins.js';
-import addOptIn from '../../modules/server/opt-ins/add.js';
+import addOptIn from '../../modules/server/opt-ins/add_and_write_to_blockchain.js';
 
 const add = new ValidatedMethod({
   name: 'opt-ins.add',
