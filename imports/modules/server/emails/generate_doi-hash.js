@@ -10,6 +10,9 @@ const GenerateDoiHashSchema = new SimpleSchema({
   },
   token: {
     type: String
+  },
+  redirect: {
+    type: String
   }
 });
 
@@ -19,7 +22,8 @@ const generateDoiHash = (optIn) => {
     GenerateDoiHashSchema.validate(ourOptIn);
     const json = JSON.stringify({
       id: ourOptIn.id,
-      token: ourOptIn.token
+      token: ourOptIn.token,
+      redirect: ourOptIn.redirect
     });
     const hex = Buffer(json).toString('hex');
     const hash = HashIds.encodeHex(hex);

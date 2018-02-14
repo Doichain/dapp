@@ -4,7 +4,7 @@ import { randomBytes } from 'crypto';
 import { HashIds } from '../../../startup/server/email-configuration.js';
 
 const DecodeDoiHashSchema = new SimpleSchema({
-    hash: {
+  hash: {
     type: String
   }
 });

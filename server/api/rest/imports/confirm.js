@@ -10,8 +10,12 @@ Api.addRoute(DOI_CONFIRMATION_ROUTE+'/:hash', {authRequired: false}, {
           this.request.connection.remoteAddress ||
           this.request.socket.remoteAddress ||
           (this.request.connection.socket ? this.request.connection.socket.remoteAddress: null);
-        confirmOptIn({ip: ip, hash: hash})
-        return {status: 'success', data: {message: 'Confirmation successful'}};
+        const redirect = confirmOptIn({ip: ip, hash: hash})
+        return {
+          statusCode: 303,
+          headers: {'Content-Type': 'text/plain', 'Location': redirect},
+          body: 'Location: '+redirect
+        };
       } catch(error) {
         return {statusCode: 500, body: {status: 'fail', message: error.message}};
       }

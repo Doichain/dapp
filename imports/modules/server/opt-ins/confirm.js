@@ -39,6 +39,7 @@ const confirmOptIn = (request) => {
     value.doiSignature = doiSignature;
     const jsonValue = JSON.stringify(value);
     nameUpdate(CONFIRM_CLIENT, optIn.nameId, jsonValue);
+    return decoded.redirect;
   } catch (exception) {
     throw new Meteor.Error('opt-ins.confirm.exception', exception);
   }

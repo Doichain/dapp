@@ -49,7 +49,7 @@ const fetchDoiMailData = (data) => {
     const optIn = OptIns.findOne({_id: optInId});
     if(optIn.confirmationToken !== undefined) return;
     const token = generateDoiToken({id: optIn._id});
-    const confirmationHash = generateDoiHash({id: optIn._id, token: token});
+    const confirmationHash = generateDoiHash({id: optIn._id, token: token, redirect: responseData.redirect});
     const confirmationUrl = Meteor.absoluteUrl()+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE+"/"+confirmationHash;
     const template = parseTemplate({template: responseData.content, data: {
       confirmation_url: confirmationUrl
