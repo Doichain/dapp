@@ -24,6 +24,7 @@ const FirstUpdateSchema = new SimpleSchema({
 const firstUpdate = (data) => {
   try {
     const ourData = data;
+    FirstUpdateSchema.validate(ourData);
     nameFirstUpdate(SEND_CLIENT, ourData.nameId, ourData.rand, ourData.tx, ourData.value, ourData.address);
   } catch(exception) {
     throw new Meteor.Error('namecoin.firstUpdate.exception', exception);
