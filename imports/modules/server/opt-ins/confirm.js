@@ -5,9 +5,10 @@ import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { Recipients } from '../../../api/recipients/recipients.js';
 import { NamecoinEntries } from '../../../api/namecoin/entries.js';
 import decodeDoiHash from '../emails/decode_doi-hash.js';
-import { nameUpdate, getWif } from '../../../../server/api/namecoin.js';
+import { getWif } from '../../../../server/api/namecoin.js';
 import getPrivateKeyFromWif from '../namecoin/get_private-key_from_wif.js';
 import getSignature from '../namecoin/get_signature.js';
+import addUpdateBlockchainJob from '../jobs/add_update_blockchain.js';
 
 const ConfirmOptInSchema = new SimpleSchema({
   ip: {
@@ -38,7 +39,10 @@ const confirmOptIn = (request) => {
     value.doiTimestamp = confirmedAt.toISOString();
     value.doiSignature = doiSignature;
     const jsonValue = JSON.stringify(value);
-    nameUpdate(CONFIRM_CLIENT, optIn.nameId, jsonValue);
+    addUpdateBlockchainJob({
+      nameId: optIn.nameId,
+      value: jsonValue
+    })
     return decoded.redirect;
   } catch (exception) {
     throw new Meteor.Error('opt-ins.confirm.exception', exception);
