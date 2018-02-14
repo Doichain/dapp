@@ -1,11 +1,11 @@
-- dataHash to blockchain
 - GUI
-  - Add senders page
 - Readme
 - Tests
-! Prevent multi doi sending after meteor reset 
+- Multiple dApps improvements (One deamon)
+- think about rest route authorizations
+! Prevent multi doi sending after meteor reset
 ! Remove admin account creaton on first start
 ! Delete rest test route
-? Token registration
+? dataHash to blockchain
+? registation
 ? addOptIn data_json valdidation
-? Check if rest api is thread-safe
