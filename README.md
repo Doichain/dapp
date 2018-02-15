@@ -1,12 +1,11 @@
 ## REST API
-
-List of REST API Calls for the version 1
+List of REST API calls for the version 1.
+All call urls in version 1 start with ``/api/v1/``
 
 ### Authentification
-
 You need a valide token for some of the REST calls. Get the token with:
 
-* Url: ``/api/v1/login``
+* Url: ``login``
 * Parameter:
     + ``username`` - Authentification Username
     + ``password`` - Authentification Password
@@ -27,28 +26,50 @@ X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k
 X-User-Id: 8BxFMSZAc7Ez2iiR6
 ```
 
-### Calls
+### Calls (Send - dApp)
+##### Create Opt-In
+* Auth required: yes
+* Role required: ``admin``
+* Url: ``opt-in``
+* Method: ``POST``
+* Query-Parameter:
+    + ``recipient_mail`` - Email of the recipient
+    + ``sender_mail`` - Email of the sender
+    + ``customer_id`` - Recipient customer number (Currently unused)
+    + ``data`` - (OPTIONAL) JSON string with recipient/Opt-In data (Currently unused)
 
-Create SOI
-* Auth Required: yes
-* Url: ``/api/v1/soi``
+##### Get Double Opt-In Mail Data
+* Auth required: false
+* Url: ``doi-mail``
+* Method: ``GET``
+* Query-Parameter:
+    + ``name_id`` - Blockchain entry name id
+    + ``signature`` - Signature created with:
+        + ``message`` - Blockchain entry name id
+        + ``private key`` - Confirm dApp private key
+
+### Calls (Confirm - dApp)
+##### Confirm Opt-In
+* Auth required: No
+* Url: ``opt-in/confirm/:HASH``
+* Method: ``GET``
 * Parameter:
-    + ``recipient`` - Email recipient
-    + ``sender`` - Email sender
-    + ``customer_number`` - Recipient customer number
-    + ``data_json`` - JSON string with recipient/SOI data
+    + ``HASH`` - The internally generatet hash. It contains following information:
+        + ``opt-in id`` - The database id of the opt-in
+        + ``confirmation token`` - A random generated token for the confirmation validation
+        + ``redirect url`` - Url where the customer should be redirected to
 
-## Explanation
+### Calls (Verify - dApp)
+##### Verify Opt-In
+* Auth required: Yes
+* Role required: ``admin``
+* Url: ``opt-in/verify``
+* Method: ``GET``
+* Parameter:
+    + ``recipient_mail`` - Email of the recipient
+    + ``sender_mail`` - Email of the sender
+    + ``name_id`` - Blockchain entry name id
+    + ``recipient_public_key`` - Public key of the recipient
 
-Some explanations for the mailid system
-
-### NameId
-
-The nameId is a 256-bit, ECDSA valid, number represanted as a 32 byte (64 characters) string (Same as every Bitcoin privateKey). See also: https://en.bitcoin.it/wiki/Private_key
-
-## Useful meteor database calls
-* Add test SOI to db:
-``db.sois.insert({recipient: "recipient@sendeffect.de", sender: "sender@sendeffect.de", customer_number: "123456789", data_json: "{name: 'name', surname: 'surname'}", soi_timestamp: new Date()})``
-
-* Logout all users:
-``db.users.update({}, {$set: {"services.resume.loginTokens": []}}, {multi: true})``
+## Blockchain entry name id
+The name id is a 256-bit, ECDSA valid, number represanted as a 32 byte (64 characters) string (Same as every Bitcoin privateKey). See also: https://en.bitcoin.it/wiki/Private_key
