@@ -1,3 +1,55 @@
+## Settings
+The settings are stored in the root folder with the name ``settings.json``
+
+##### App types
+Viable dApp types are ``send``, ``confirm`` and ``verify``
+
+##### Namecoin settings
+Required settings for each dApp namecoin daemon. It contains ``host``, ``port``, ``username`` and ``password``. For the Confirm dApp the wallet address is required to (``address``)
+
+##### SMTP settings
+The SMTP settings of the Confirm dApp for sending double Opt-In mails. Required fields are ``username``, ``password``, ``server`` and ``port``
+
+Example configuration with all three dApps activated:
+```
+{
+  "app": {
+    "types": ["send", "confirm", "verify"]
+  },
+  "send": {
+    "namecoin": {
+      "host": "192.168.99.100",
+      "port": 18332,
+      "username": "admin",
+      "password": "****"
+    }
+  },
+  "confirm": {
+    "smtp": {
+      "username": "admin",
+      "password": "****",
+      "server":   "smtp.provider.com",
+      "port": 587
+    },
+    "namecoin": {
+      "host": "192.168.99.100",
+      "port": 19332,
+      "username": "admin",
+      "password": "****",
+      "address": "n2vjfuvn2P81cBhRgRQrcsosg2YZusCjFd"
+    }
+  },
+  "verify": {
+    "namecoin": {
+      "host": "192.168.99.100",
+      "port": 18332,
+      "username": "admin",
+      "password": "****"
+    }
+  }
+}
+```
+
 ## REST API
 List of REST API calls for the version 1.
 All call urls in version 1 start with ``/api/v1/``
