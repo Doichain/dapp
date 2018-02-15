@@ -26,7 +26,6 @@ const sendMail = (mail) => {
   try {
     const ourMail = mail;
     SendMailSchema.validate(ourMail);
-    //TODO: Return path
     Email.send({
       from: mail.from,
       to: mail.to,
