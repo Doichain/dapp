@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import addRecipient from '../recipients/add.js';
 import addSender from '../senders/add.js';
-import sendDoiMail from '../emails/send_doi.js';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import writeToBlockchain from '../namecoin/write_to_blockchain.js';
 

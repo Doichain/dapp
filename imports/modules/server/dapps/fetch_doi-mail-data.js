@@ -58,7 +58,8 @@ const fetchDoiMailData = (data) => {
       from: responseData.from,
       to: responseData.recipient,
       subject: responseData.subject,
-      message: template
+      message: template,
+      returnPath: responseData.returnPath
     });
   } catch (exception) {
     throw new Meteor.Error('dapps.fetchDoiMailData.exception', exception);

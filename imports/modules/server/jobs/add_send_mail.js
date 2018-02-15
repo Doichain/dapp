@@ -16,6 +16,10 @@ const AddSendMailJobSchema = new SimpleSchema({
   },
   message: {
     type: String,
+  },
+  returnPath: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email
   }
 });
 

@@ -15,6 +15,10 @@ const SendMailSchema = new SimpleSchema({
   },
   message: {
     type: String,
+  },
+  returnPath: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email
   }
 });
 
@@ -29,7 +33,7 @@ const sendMail = (mail) => {
       subject: mail.subject,
       text: mail.message,
       headers: {
-        'Return-Path': "return@email.com",
+        'Return-Path': mail.returnPath,
       }
     });
   } catch (exception) {
