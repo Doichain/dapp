@@ -1,8 +1,9 @@
 import { Api } from '../rest.js';
 import verifyOptIn from '../../../../imports/modules/server/opt-ins/verify.js';
 
-Api.addRoute('opt-in/verify', {authRequired: false}, {
+Api.addRoute('opt-in/verify', {authRequired: true}, {
   get: {
+    roleRequired: ['admin'],
     action: function() {
       const params = this.queryParams;
       try {

@@ -4,7 +4,6 @@ import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mai
 
 Api.addRoute('opt-in', {authRequired: true}, {
   post: {
-    authRequired: true,
     roleRequired: ['admin'],
     action: function() {
       const params = this.queryParams;

@@ -2,7 +2,6 @@
 - Readme
 - Tests
 - Multiple dApps improvements (One deamon)
-- think about rest route authorizations
 ! confirm token too large -> Redirect url to db instead of hash
 ! Prevent multi doi sending after meteor reset
 ! Remove admin account creation on first start
