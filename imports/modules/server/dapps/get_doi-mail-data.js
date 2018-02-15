@@ -7,7 +7,7 @@ import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../namecoin/verify_signature.js';
 
 const GetDoiMailDataSchema = new SimpleSchema({
-  name: {
+  name_id: {
     type: String
   },
   signature: {
@@ -20,7 +20,7 @@ const getDoiMailData = (data) => {
   try {
     const ourData = data;
     GetDoiMailDataSchema.validate(ourData);
-    const optIn = OptIns.findOne({nameId: ourData.name});
+    const optIn = OptIns.findOne({nameId: ourData.name_id});
     if(optIn === undefined) throw "Opt-In not found";
     const recipient = Recipients.findOne({_id: optIn.recipient});
     if(recipient === undefined) throw "Recipient not found";
@@ -34,7 +34,7 @@ const getDoiMailData = (data) => {
     // 2. Provider receive the data
     // 3. Provider sends confirmation "I got the data"
     // 4. Send dApp lock the data for this opt in
-    if(!verifySignature({publicKey: publicKey, data: ourData.name, signature: ourData.signature})) {
+    if(!verifySignature({publicKey: publicKey, data: ourData.name_id, signature: ourData.signature})) {
       throw "Access denied";
     }
     //TODO: Implement customization
