@@ -1,8 +1,8 @@
 ## Table of Contents
 - [Settings](#settings)
-    - [App types](#app-types)
-    - [Namecoin settings](#namecoin-settings)
-    - [SMTP settings](#smtp-settings)
+    * [App types](#app-types)
+    * [Namecoin settings](#namecoin-settings)
+    * [SMTP settings](#smtp-settings)
 - [REST API](#rest-api)
 - [Authentification](#authentification)
     * [Calls (Send - dApp)](#calls--send---dapp-)
