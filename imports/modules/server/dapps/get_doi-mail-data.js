@@ -29,6 +29,11 @@ const getDoiMailData = (data) => {
     const provider = getOptInProvider({domain: domain});
     const publicKey = getOptInKey({domain: provider});
     //TODO: Only allow access one time
+    // Possible solution:
+    // 1. Provider (confirm dApp) request the data
+    // 2. Provider receive the data
+    // 3. Provider sends confirmation "I got the data"
+    // 4. Send dApp lock the data for this opt in
     if(!verifySignature({publicKey: publicKey, data: ourData.name, signature: ourData.signature})) {
       throw "Access denied";
     }
