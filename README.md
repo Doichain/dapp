@@ -4,7 +4,7 @@
     * [Namecoin settings](#namecoin-settings)
     * [SMTP settings](#smtp-settings)
 - [REST API](#rest-api)
-- [Authentification](#authentification)
+    * [Authentification](#authentification)
     * [Calls (Send - dApp)](#calls--send---dapp-)
         - [Create Opt-In](#create-opt-in)
         - [Get Double Opt-In Mail Data](#get-double-opt-in-mail-data)
