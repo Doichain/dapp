@@ -18,6 +18,7 @@ if(isAppType(SEND_APP)) {
   doiMailSubject = sendSettings.mailData.subject;
   doiMailRedirect = sendSettings.mailData.redirect;
   doiMailReturnPath = sendSettings.mailData.returnPath;
+  //TODO: Add type setting for html (file, url etc)
   var html = sendSettings.mailData.html;
   try {
     doiMailHtml = fs.readFileSync("assets/app/"+html, {encoding: "utf8"});
