@@ -1,9 +1,9 @@
 ## Table of Contents
 - [Settings](#settings)
     * [App types](#app-types)
-    * [Namecoin settings](#namecoin-settings)
+    * [Namecoin](#namecoin)
     * [Mail data](#mail-data)
-    * [SMTP settings](#smtp-settings)
+    * [SMTP](#smtp)
 - [REST API](#rest-api)
     * [Authentification](#authentification)
     * [Calls (Send - dApp)](#calls--send---dapp-)
@@ -21,13 +21,13 @@ The settings are stored in the root folder with the name ``settings.json``
 ##### App types
 Viable dApp types are ``send``, ``confirm`` and ``verify``
 
-##### Namecoin settings
+##### Namecoin
 Required settings for each dApp namecoin daemon. It contains ``host``, ``port``, ``username`` and ``password``. For the Confirm dApp the wallet address is required to (``address``)
 
 ##### Mail data
 The settings for the doi mail. Only required for the Send dApp. It requires the fields ``from``, ``subject``, ``redirect``, ``returnPath`` and ``html``. The ``html`` is a path to the mail html file relative to ``[DAPP_ROOT]/private``.
 
-##### SMTP settings
+##### SMTP
 The SMTP settings of the Confirm dApp for sending double Opt-In mails. Required fields are ``username``, ``password``, ``server`` and ``port``
 
 Example configuration with all three dApps activated:
