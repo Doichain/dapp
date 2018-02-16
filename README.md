@@ -2,12 +2,13 @@
 - [Settings](#settings)
     * [App types](#app-types)
     * [Namecoin settings](#namecoin-settings)
+    * [Mail data](#mail-data)
     * [SMTP settings](#smtp-settings)
 - [REST API](#rest-api)
     * [Authentification](#authentification)
     * [Calls (Send - dApp)](#calls--send---dapp-)
         - [Create Opt-In](#create-opt-in)
-        - [Get Double Opt-In Mail Data](#get-double-opt-in-mail-data)
+        - [Get Double Opt-In mail data](#get-double-opt-in-mail-data)
     * [Calls (Confirm - dApp)](#calls--confirm---dapp-)
         - [Confirm Opt-In](#confirm-opt-in)
     * [Calls (Verify - dApp)](#calls--verify---dapp-)
@@ -22,6 +23,9 @@ Viable dApp types are ``send``, ``confirm`` and ``verify``
 
 ##### Namecoin settings
 Required settings for each dApp namecoin daemon. It contains ``host``, ``port``, ``username`` and ``password``. For the Confirm dApp the wallet address is required to (``address``)
+
+##### Mail data
+The settings for the doi mail. Only required for the Send dApp. It requires the fields ``from``, ``subject``, ``redirect``, ``returnPath`` and ``html``. The ``html`` is a path to the mail html file relative to ``[DAPP_ROOT]/private``.
 
 ##### SMTP settings
 The SMTP settings of the Confirm dApp for sending double Opt-In mails. Required fields are ``username``, ``password``, ``server`` and ``port``
@@ -38,6 +42,13 @@ Example configuration with all three dApps activated:
       "port": 18332,
       "username": "admin",
       "password": "****"
+    },
+    "mailData": {
+      "from": "fancy@newsletter.com",
+      "subject": "Fancy Newsletter Confirmation",
+      "redirect": "http://fancynewsletterconfirmationpage.com",
+      "returnPath": "noreply@newsletter.com",
+      "html": "mail/confirmation-mail.html"
     }
   },
   "confirm": {
@@ -106,7 +117,7 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
     + ``customer_id`` - Recipient customer number (Currently unused)
     + ``data`` - (OPTIONAL) JSON string with recipient/Opt-In data (Currently unused)
 
-##### Get Double Opt-In Mail Data
+##### Get Double Opt-In mail data
 * Auth required: false
 * Url: ``doi-mail``
 * Method: ``GET``
