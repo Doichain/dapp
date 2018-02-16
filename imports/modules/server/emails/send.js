@@ -26,11 +26,12 @@ const sendMail = (mail) => {
   try {
     const ourMail = mail;
     SendMailSchema.validate(ourMail);
+    //TODO: Text fallback
     Email.send({
       from: mail.from,
       to: mail.to,
       subject: mail.subject,
-      text: mail.message,
+      html: mail.message,
       headers: {
         'Return-Path': mail.returnPath,
       }

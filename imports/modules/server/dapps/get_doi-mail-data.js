@@ -5,6 +5,7 @@ import { Recipients } from '../../../api/recipients/recipients.js';
 import getOptInProvider from '../dns/get_opt-in-provider.js';
 import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../namecoin/verify_signature.js';
+import { DOI_MAIL_FROM, DOI_MAIL_SUBJECT, DOI_MAIL_REDIRECT, DOI_MAIL_RETURN_PATH, DOI_MAIL_HTML } from '../../../startup/server/email-configuration.js';
 
 const GetDoiMailDataSchema = new SimpleSchema({
   name_id: {
@@ -37,12 +38,11 @@ const getDoiMailData = (data) => {
     if(!verifySignature({publicKey: publicKey, data: ourData.name_id, signature: ourData.signature})) {
       throw "Access denied";
     }
-    //TODO: Implement customization
-    const from = "segelboote@newsletter.de";
-    const subject = "Newsletter bestätigung";
-    const content = "Newsletter bestätigen: ${confirmation_url}";
-    const redirect = "http://localhost:3000";
-    const returnPath = "noreply@newsletter.de";
+    const from = DOI_MAIL_FROM;
+    const subject = DOI_MAIL_SUBJECT;
+    const content = DOI_MAIL_HTML;
+    const redirect = DOI_MAIL_REDIRECT;
+    const returnPath = DOI_MAIL_RETURN_PATH;
     return {
       recipient: recipient.email,
       content: content,
