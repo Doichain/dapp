@@ -32,7 +32,7 @@ const fetchDoiMailData = (data) => {
     const privateKey = getPrivateKeyFromWif({wif: wif});
     if(privateKey === undefined) throw "Private key not found";
     const signature = getSignature({privateKey: privateKey, message: ourData.name});
-    const query = "name="+encodeURIComponent(ourData.name)+"&signature="+encodeURIComponent(signature);
+    const query = "name_id="+encodeURIComponent(ourData.name)+"&signature="+encodeURIComponent(signature);
     const response = getHttp(url, query);
     if(response === undefined || response.data === undefined) throw "Bad response";
     const responseData = response.data;
