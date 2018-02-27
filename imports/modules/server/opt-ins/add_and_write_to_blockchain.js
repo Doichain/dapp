@@ -38,16 +38,15 @@ const addOptIn = (optIn) => {
     const senderId = addSender(sender);
     const optIns = OptIns.find({recipient: recipientId, sender: senderId}).fetch();
     if(optIns.length > 0) return optIns[0]._id;
-    var data_json = ourOptIn.data;
     if(ourOptIn.data !== undefined) {
       try {
-        data_json = JSON.parse(ourOptIn.data);
+        JSON.parse(ourOptIn.data);
       } catch(error) { throw "Invalid data json"; }
     }
     const optInId = OptIns.insert({
       recipient: recipientId,
       sender: senderId,
-      data: data_json
+      data: ourOptIn.data
     });
     writeToBlockchain({id: optInId})
     return optInId;
