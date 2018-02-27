@@ -1,5 +1,6 @@
 ## Table of Contents
 - [Settings](#settings)
+    * [DNS](#dns)
     * [App types](#app-types)
     * [Namecoin](#namecoin)
     * [Mail data](#mail-data)
@@ -17,6 +18,10 @@
 
 ## Settings
 The settings are stored in the root folder with the name ``settings.json``
+
+##### DNS
+If you setup a Confirm dApp you have to set the txt key ``opt-in-key`` with your dApps public key.
+For a Verfiy dApp the txt key ``opt-in-provider`` with the __trusted__ Confirm dApp domain has to be set.
 
 ##### App types
 Viable dApp types are ``send``, ``confirm`` and ``verify``
