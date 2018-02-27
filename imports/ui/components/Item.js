@@ -10,12 +10,13 @@ export default class Item extends BaseComponent {
 
   render() {
     const { keys } = this.props;
+    console.log(keys);
 
     const renderedKeys = keys.map(key => (
       <div className="key-wrapper" key={key.key}>
         <div className="key">
           <span className="name">{key.name}</span>
-          <span className="value">{key.value}</span>
+          <span className="value">{key.json?this.renderJson(key.value):key.value}</span>
         </div>
       </div>
     ))
@@ -25,6 +26,14 @@ export default class Item extends BaseComponent {
         {renderedKeys}
       </div>
     );
+  }
+
+  renderJson(jkey) {
+    if(jkey === undefined) return null;
+    const json = JSON.parse(jkey);
+    return (
+      <pre>{JSON.stringify(json, undefined, 4)}</pre>
+    )
   }
 }
 

@@ -43,7 +43,8 @@ export default class OptInsPage extends BaseComponent {
               {
                 key: "data",
                 name: i18n.__('pages.optInsPage.data'),
-                value: optIn.data
+                value: optIn.data,
+                json: true
               },
               {
                 key: "nameId",
