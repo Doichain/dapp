@@ -41,3 +41,7 @@ RUN meteor npm install --save bcrypt
 WORKDIR $APP_HOME
 CMD meteor run
 #--settings settings.json
+
+EXPOSE 3000
+
+CMD ["meteor"]
