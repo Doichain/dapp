@@ -29,8 +29,19 @@ Viable dApp types are ``send``, ``confirm`` and ``verify``
 ##### Namecoin
 Required settings for each dApp namecoin daemon. It contains ``host``, ``port``, ``username`` and ``password``. For the Confirm dApp the wallet address is required to (``address``)
 
-##### Mail data
-The settings for the doi mail. Only required for the Send dApp. It requires the fields ``from``, ``subject``, ``redirect``, ``returnPath`` and ``html``. The ``html`` is a path to the mail html file relative to ``[DAPP_ROOT]/private``.
+##### Doi Mail Fetch Url
+The Url for fetching the doi mail data. Only required for the Send dApp. The Url will be called with a ``get`` request. The dApp expects following answer:
+```
+{
+  "data": {
+    from: "fancy@newsletter.com",
+    subject: "Fancy Newsletter Confirmation",
+    redirect: "http://fancynewsletterconfirmationpage.com",
+    returnPath: "noreply@newsletter.com",
+    content: "<html><body><a href=\"${confirmation_url}\">Confirmation link</a></body></html>"
+  }
+}
+```
 
 ##### SMTP
 The SMTP settings of the Confirm dApp for sending double Opt-In mails. Required fields are ``username``, ``password``, ``server`` and ``port``
@@ -48,13 +59,7 @@ Example configuration with all three dApps activated:
       "username": "admin",
       "password": "****"
     },
-    "mailData": {
-      "from": "fancy@newsletter.com",
-      "subject": "Fancy Newsletter Confirmation",
-      "redirect": "http://fancynewsletterconfirmationpage.com",
-      "returnPath": "noreply@newsletter.com",
-      "html": "mail/confirmation-mail.html"
-    }
+    "doiMailFetchUrl": "localhost:3000/api/v1/debug/mail"
   },
   "confirm": {
     "smtp": {

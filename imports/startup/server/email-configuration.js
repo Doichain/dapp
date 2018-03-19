@@ -6,31 +6,13 @@ import Hashids from 'hashids';
 export const HashIds = new Hashids('0xugmLe7Nyee6vk1iF88(6CmwpqoG4hQ*-T74tjYw^O2vOO(Xl-91wA8*nCg_lX$');
 
 var sendSettings = Meteor.settings.send;
-var doiMailFrom = undefined;
-var doiMailSubject = undefined;
-var doiMailRedirect = undefined;
-var doiMailReturnPath = undefined;
-var doiMailHtml = undefined;
+var doiMailFetchUrl = undefined;
 if(isAppType(SEND_APP)) {
-  if(!sendSettings || !sendSettings.mailData)
+  if(!sendSettings || !sendSettings.doiMailFetchUrl)
     throw new Meteor.Error("config.send.email", "Settings not found");
-  doiMailFrom = sendSettings.mailData.from;
-  doiMailSubject = sendSettings.mailData.subject;
-  doiMailRedirect = sendSettings.mailData.redirect;
-  doiMailReturnPath = sendSettings.mailData.returnPath;
-  //TODO: Add type setting for html (file, url etc)
-  var html = sendSettings.mailData.html;
-  try {
-    doiMailHtml = fs.readFileSync("assets/app/"+html, {encoding: "utf8"});
-  } catch(error) {
-    throw new Meteor.Error("config.send.email", "Couldn't read html");
-  }
+  doiMailFetchUrl = sendSettings.doiMailFetchUrl;
 }
-export const DOI_MAIL_FROM = doiMailFrom;
-export const DOI_MAIL_SUBJECT = doiMailSubject;
-export const DOI_MAIL_REDIRECT = doiMailRedirect;
-export const DOI_MAIL_RETURN_PATH = doiMailReturnPath;
-export const DOI_MAIL_HTML = doiMailHtml;
+export const DOI_MAIL_FETCH_URL = doiMailFetchUrl;
 
 if(isAppType(CONFIRM_APP)) {
   var confirmSettings = Meteor.settings.confirm;

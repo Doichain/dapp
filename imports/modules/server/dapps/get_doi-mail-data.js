@@ -5,7 +5,8 @@ import { Recipients } from '../../../api/recipients/recipients.js';
 import getOptInProvider from '../dns/get_opt-in-provider.js';
 import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../namecoin/verify_signature.js';
-import { DOI_MAIL_FROM, DOI_MAIL_SUBJECT, DOI_MAIL_REDIRECT, DOI_MAIL_RETURN_PATH, DOI_MAIL_HTML } from '../../../startup/server/email-configuration.js';
+import { getHttp } from '../../../../server/api/http.js';
+import { DOI_MAIL_FETCH_URL } from '../../../startup/server/email-configuration.js';
 
 const GetDoiMailDataSchema = new SimpleSchema({
   name_id: {
@@ -29,6 +30,14 @@ const getDoiMailData = (data) => {
     const domain = parts[parts.length-1];
     const provider = getOptInProvider({domain: domain});
     const publicKey = getOptInKey({domain: provider});
+    //TODO: Query for language + Fallback template
+    let doiMailData;
+    try {
+      doiMailData = getHttp(DOI_MAIL_FETCH_URL, "").data;
+    } catch(error) {
+      throw "Error while fetching mail content: "+error;
+    }
+
     //TODO: Only allow access one time
     // Possible solution:
     // 1. Provider (confirm dApp) request the data
@@ -38,11 +47,11 @@ const getDoiMailData = (data) => {
     if(!verifySignature({publicKey: publicKey, data: ourData.name_id, signature: ourData.signature})) {
       throw "Access denied";
     }
-    const from = DOI_MAIL_FROM;
-    const subject = DOI_MAIL_SUBJECT;
-    const content = DOI_MAIL_HTML;
-    const redirect = DOI_MAIL_REDIRECT;
-    const returnPath = DOI_MAIL_RETURN_PATH;
+    const from = doiMailData.from;
+    const subject = doiMailData.subject;
+    const redirect = doiMailData.redirect;
+    const returnPath = doiMailData.returnPath;
+    const content = doiMailData.content;
     return {
       recipient: recipient.email,
       content: content,
