@@ -8,6 +8,9 @@
         "home": {
           "name": "Home"
         },
+        "settings": {
+          "name": "Settings"
+        },
         "key-generator": {
           "name": "Key Generator"
         },
@@ -33,6 +36,9 @@
     }
   },
   "pages": {
+    "settingsPage": {
+      "title": "Settings"
+    },
     "startPage": {
       "title": "MailId",
       "infoText": "This is Doichain - A blockchain based email anti-spam solution technology developed by",

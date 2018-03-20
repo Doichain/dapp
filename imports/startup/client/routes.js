@@ -4,6 +4,7 @@ import i18n from 'meteor/universe:i18n';
 import PrivateRoute from 'react-router-private-route';
 
 import AppContainer from '../../ui/containers/AppContainer.js';
+import SettingsPageContainer from '../../ui/containers/SettingsPageContainer.js';
 import RecipientsPageContainer from '../../ui/containers/RecipientsPageContainer.js';
 import OptInsPageContainer from '../../ui/containers/OptInsPageContainer.js';
 import StartPage from '../../ui/pages/StartPage.js';
@@ -21,6 +22,7 @@ export const renderRoutes = () => (
       <IndexRoute component={ StartPage } />
       <Route path="key-generator" component={KeyGeneratorPage} />
       <Route path="signin" component={AuthPageSignIn} />
+      <Route component={requireRole(SettingsPageContainer, ['admin'])} path="settings"/>
       <Route component={requireRole(RecipientsPageContainer, ['admin'])} path="recipients"/>
       <Route component={requireRole(OptInsPageContainer, ['admin'])} path="opt-ins"/>
       <Route path="*" component={ NotFoundPage } />
