@@ -12,7 +12,7 @@ class StartPage extends BaseComponent {
           <div className="start-page-wrapper">
             <div className="info">
               <span>{i18n.__('pages.startPage.infoText')}</span>
-              <a target="_blank" href="http://www.sendeffect.de">Sendeffect</a>
+              <a target="_blank" href="http://www.doichain.org">Doichain.org</a>
             </div>
             <div className="joinNow">
               <span>{i18n.__('pages.startPage.joinNow')}</span>
