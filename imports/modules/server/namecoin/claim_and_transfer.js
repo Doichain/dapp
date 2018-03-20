@@ -39,6 +39,7 @@ const claim = (data) => {
     const address = getAddress({publicKey: publicKey});
     const from = encryptMessage({publicKey: publicKey, message: Meteor.absoluteUrl()});
     const value = JSON.stringify({
+      dataHash: ourData.dataHash,
       signature: ourData.signature,
       soiTimestamp: ourData.soiDate.toISOString(),
       from: from
