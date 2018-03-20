@@ -10,7 +10,7 @@ import addOptIn from '../../modules/server/opt-ins/add_and_write_to_blockchain.j
 const add = new ValidatedMethod({
   name: 'opt-ins.add',
   validate: null,
-  run({ recipientMail, senderMail, customerId, data }) {
+  run({ recipientMail, senderMail, data }) {
     if(!this.userId || !Roles.userIsInRole(this.userId, ['admin'])) {
       const error = "api.opt-ins.add.accessDenied";
       throw new Meteor.Error(error, i18n.__(error));
@@ -19,7 +19,6 @@ const add = new ValidatedMethod({
     const optIn = {
       "recipient_mail": recipientMail,
       "sender_mail": senderMail,
-      "customer_id": customerId,
       data
     }
 

@@ -7,9 +7,6 @@ const AddRecipientSchema = new SimpleSchema({
   email: {
     type: String,
     regEx: SimpleSchema.RegEx.Email
-  },
-  customer_id: {
-    type: String
   }
 });
 
@@ -22,7 +19,6 @@ const addRecipient = (recipient) => {
     const keyPair = getKeyPair();
     return Recipients.insert({
       email: ourRecipient.email,
-      customerId: ourRecipient.customer_id,
       privateKey: keyPair.privateKey,
       publicKey: keyPair.publicKey
     })

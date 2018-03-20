@@ -14,9 +14,6 @@ const AddOptInSchema = new SimpleSchema({
     type: String,
     regEx: SimpleSchema.RegEx.Email
   },
-  customer_id: {
-    type: String
-  },
   data: {
     type: String,
     optional: true
@@ -28,8 +25,7 @@ const addOptIn = (optIn) => {
     const ourOptIn = optIn;
     AddOptInSchema.validate(ourOptIn);
     const recipient = {
-      email: ourOptIn.recipient_mail,
-      customer_id: ourOptIn.customer_id
+      email: ourOptIn.recipient_mail
     }
     const recipientId = addRecipient(recipient);
     const sender = {

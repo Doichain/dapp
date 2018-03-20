@@ -36,11 +36,6 @@ export default class RecipientsPage extends BaseComponent {
                 value: recipient.email
               },
               {
-                key: "customerId",
-                name: i18n.__('pages.recipientsPage.customerId'),
-                value: recipient.customerId
-              },
-              {
                 key: "publicKey",
                 name: i18n.__('pages.recipientsPage.publicKey'),
                 value: recipient.publicKey

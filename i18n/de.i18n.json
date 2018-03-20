@@ -47,7 +47,6 @@
       "loading": "Lade Empfänger...",
       "id": "ID",
       "email": "Email",
-      "customerId": "Kunden ID",
       "publicKey": "Public Key",
       "createdAt": "Erstellt am"
     },

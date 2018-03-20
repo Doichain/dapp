@@ -124,8 +124,7 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 * Query-Parameter:
     + ``recipient_mail`` - Email of the recipient
     + ``sender_mail`` - Email of the sender
-    + ``customer_id`` - Recipient customer number (Currently unused)
-    + ``data`` - (OPTIONAL) JSON string with recipient/Opt-In data (Currently unused)
+    + ``data`` - (OPTIONAL) JSON string with recipient/Opt-In data
 
 ##### Get Double Opt-In mail data
 * Auth required: false

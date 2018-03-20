@@ -37,10 +37,6 @@ Recipients.schema = new SimpleSchema({
     index: true,
     denyUpdate: true,
   },
-  customerId: {
-    type: String,
-    denyUpdate: false,
-  },
   privateKey: {
     type: String,
     unique: true,
@@ -65,7 +61,6 @@ Recipients.attachSchema(Recipients.schema);
 Recipients.publicFields = {
   _id: 1,
   email: 1,
-  customerId: 1,
   publicKey: 1,
   createdAt: 1
 };
