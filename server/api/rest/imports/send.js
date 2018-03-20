@@ -7,7 +7,11 @@ Api.addRoute('opt-in', {authRequired: true}, {
   post: {
     roleRequired: ['admin'],
     action: function() {
-      const params = this.queryParams;
+      const qParams = this.queryParams;
+      const bParams = this.bodyParams;
+      let params = {}
+      if(qParams !== undefined) params = {...qParams}
+      if(bParams !== undefined) params = {...params, ...bParams}
       try {
         const val = addOptIn(params);
         return {status: 'success', data: {message: 'Opt-In added. ID: '+val}};
@@ -20,7 +24,11 @@ Api.addRoute('opt-in', {authRequired: true}, {
   put: {
     authRequired: false,
     action: function() {
-      const params = this.queryParams;
+      const qParams = this.queryParams;
+      const bParams = this.bodyParams;
+      let params = {}
+      if(qParams !== undefined) params = {...qParams}
+      if(bParams !== undefined) params = {...params, ...bParams}
       try {
         const val = updateOptInStatus(params);
         return {status: 'success', data: {message: 'Opt-In status updated'}};
