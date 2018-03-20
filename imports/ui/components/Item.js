@@ -10,8 +10,6 @@ export default class Item extends BaseComponent {
 
   render() {
     const { keys } = this.props;
-    console.log(keys);
-
     const renderedKeys = keys.map(key => (
       <div className="key-wrapper" key={key.key}>
         <div className="key">
