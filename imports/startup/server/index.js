@@ -1,3 +1,4 @@
+import './dapp-configuration.js';
 import './type-configuration.js';
 import './dns-configuration.js';
 import './namecoin-configuration.js';

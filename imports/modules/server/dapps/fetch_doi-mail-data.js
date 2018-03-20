@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { DOI_FETCH_ROUTE, DOI_CONFIRMATION_ROUTE, API_PATH, VERSION } from '../../../../server/api/rest/rest.js';
+import { getUrl } from '../../../startup/server/dapp-configuration.js';
 import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoin-configuration.js';
 import { getHttp } from '../../../../server/api/http.js';
 import { getWif } from '../../../../server/api/namecoin.js';
@@ -50,7 +51,7 @@ const fetchDoiMailData = (data) => {
     if(optIn.confirmationToken !== undefined) return;
     const token = generateDoiToken({id: optIn._id});
     const confirmationHash = generateDoiHash({id: optIn._id, token: token, redirect: responseData.redirect});
-    const confirmationUrl = Meteor.absoluteUrl()+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE+"/"+encodeURIComponent(confirmationHash);
+    const confirmationUrl = getUrl()+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE+"/"+encodeURIComponent(confirmationHash);
     const template = parseTemplate({template: responseData.content, data: {
       confirmation_url: confirmationUrl
     }});
