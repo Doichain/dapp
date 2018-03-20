@@ -3,7 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import { resolveTxt } from '../../../../server/api/dns.js';
 import { FALLBACK_PROVIDER } from '../../../startup/server/dns-configuration.js';
 
-const PROVIDER_KEY = "opt-in-provider";
+const PROVIDER_KEY = "doichain-opt-in-provider";
 const GetOptInProviderSchema = new SimpleSchema({
   domain: {
     type: String
