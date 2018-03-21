@@ -11,7 +11,7 @@ const AddOrUpdateSettingSchema = new SimpleSchema({
   }
 });
 
-const addOrUpdateSettings = (data) => {
+const addOrUpdateSetting = (data) => {
   try {
     const ourData = data;
     AddOrUpdateSettingsSchema.validate(ourData);
