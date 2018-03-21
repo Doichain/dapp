@@ -15,9 +15,7 @@ const getOptInKey = (data) => {
   try {
     const ourData = data;
     GetOptInKeySchema.validate(ourData);
-    const keys = resolveTxt(OPT_IN_KEY, ourData.domain);
-    if(keys === undefined || keys.length === 0) return useFallback(ourData.domain);
-    const key = keys[0][0];
+    const key = resolveTxt(OPT_IN_KEY, ourData.domain);
     if(key === undefined) return useFallback(ourData.domain);
     return key;
   } catch (exception) {
