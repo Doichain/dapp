@@ -37,7 +37,13 @@
   },
   "pages": {
     "settingsPage": {
-      "title": "Einstellungen"
+      "title": "Einstellungen",
+      "categorys": {
+        "general": {
+          "name": "Allgemein",
+          "debug": "Wartungsmodus"
+        }
+      }
     },
     "startPage": {
       "title": "Doichain",
@@ -87,6 +93,14 @@
     "opt-ins": {
       "add": {
         "accessDenied": "Keine Berechtigung um Opt-Ins hinzuzufügen"
+      }
+    },
+    "settings": {
+      "show": {
+        "accessDenied": "Keine Berechtigung um Einstellungen anzuzeigen"
+      },
+      "set": {
+        "accessDenied": "Keine Berechtigung um Einstellungen zu ändern"
       }
     }
   }

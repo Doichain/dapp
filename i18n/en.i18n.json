@@ -37,7 +37,13 @@
   },
   "pages": {
     "settingsPage": {
-      "title": "Settings"
+      "title": "Settings",
+      "categorys": {
+        "general": {
+          "name": "General",
+          "debug": "Debug mode"
+        }
+      }
     },
     "startPage": {
       "title": "Doichain",
@@ -87,6 +93,14 @@
     "opt-ins": {
       "add": {
         "accessDenied": "Cannot add opt-ins without permissions"
+      }
+    },
+    "settings": {
+      "show": {
+        "accessDenied": "Cannot show settings without permissions"
+      },
+      "set": {
+        "accessDenied": "Cannot change settings without permissions"
       }
     }
   }

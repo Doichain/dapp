@@ -3,10 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import SettingsPage from '../pages/SettingsPage.js';
 
 const SettingsPageContainer = withTracker(() => {
-  const loading = true; 
-  return {
-    loading
-  };
+  return {};
 })(SettingsPage);
 
 export default SettingsPageContainer;
