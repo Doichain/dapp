@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
-class MetaCollection extends Mongo.Collection {
+class SettingsCollection extends Mongo.Collection {
   insert(data, callback) {
     const ourData = data;
     const result = super.insert(ourData, callback);
@@ -17,16 +17,16 @@ class MetaCollection extends Mongo.Collection {
   }
 }
 
-export const Meta = new MetaCollection('meta');
+export const Settings = new SettingsCollection('settings');
 
 // Deny all client-side updates since we will be using methods to manage this collection
-Meta.deny({
+Settings.deny({
   insert() { return true; },
   update() { return true; },
   remove() { return true; },
 });
 
-Meta.schema = new SimpleSchema({
+Settings.schema = new SimpleSchema({
   _id: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
@@ -41,10 +41,10 @@ Meta.schema = new SimpleSchema({
   }
 });
 
-Meta.attachSchema(Meta.schema);
+Settings.attachSchema(Settings.schema);
 
-// This represents the keys from Meta objects that should be published
-// to the client. If we add secret properties to Meta objects, don't list
+// This represents the keys from Settings objects that should be published
+// to the client. If we add secret properties to Settings objects, don't list
 // them here to keep them private to the server.
-Meta.publicFields = {
+Settings.publicFields = {
 };
