@@ -1,6 +1,5 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { isDebug } from '../../startup/server/dapp-configuration.js';
-import toggleDebug from '../../modules/server/settings/toggle_debug.js';
 
 const _toggleDebug = new ValidatedMethod({
   name: 'settings.toggleDebug',
@@ -11,13 +10,11 @@ const _toggleDebug = new ValidatedMethod({
       throw new Meteor.Error(error, i18n.__(error));
     }
     const debug = isDebug();
-    toggleDebug({debug: debug});
   },
 });
 
 // Get list of all method names on settings
 const OPTINS_METHODS = _.pluck([
-  isDebugEnabled,
   _toggleDebug
 ], 'name');
 

@@ -14,7 +14,7 @@ const AddOrUpdateSettingSchema = new SimpleSchema({
 const addOrUpdateSetting = (data) => {
   try {
     const ourData = data;
-    AddOrUpdateSettingsSchema.validate(ourData);
+    AddOrUpdateSettingSchema.validate(ourData);
     const setting = Settings.findOne({key: ourData.key});
     if(setting !== undefined) Settings.update({_id : setting._id}, {$set: {
       value: ourData.value
