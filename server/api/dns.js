@@ -4,7 +4,14 @@ import dns from 'dns';
 export function resolveTxt(key, domain) {
   const syncFunc = Meteor.wrapAsync(dns_resolveTxt);
   try {
-    return syncFunc(key, domain);
+    const records = syncFunc(key, domain);
+    if(records === undefined) return undefined;
+    records.forEach(record => {
+      if(record[0].startsWith(key)) {
+        const val = record[0].substring(key.length+1);
+        return val.trim();
+      }
+    })
   } catch(error) {
     if(error.message.startsWith("queryTxt ENODATA") ||
         error.message.startsWith("queryTxt ENOTFOUND")) return undefined;
@@ -13,7 +20,7 @@ export function resolveTxt(key, domain) {
 }
 
 function dns_resolveTxt(key, domain, callback) {
-  dns.resolveTxt(key+"."+domain, (err, records) => {
+  dns.resolveTxt(domain, (err, records) => {
     callback(err, records);
   });
 }

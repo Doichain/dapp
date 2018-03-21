@@ -15,9 +15,7 @@ const getOptInProvider = (data) => {
   try {
     const ourData = data;
     GetOptInProviderSchema.validate(ourData);
-    const providers = resolveTxt(PROVIDER_KEY, ourData.domain);
-    if(providers === undefined || providers.length === 0) return useFallback();
-    const provider = providers[0][0];
+    const provider = resolveTxt(PROVIDER_KEY, ourData.domain);
     if(provider === undefined) return useFallback();
     return provider;
   } catch (exception) {
