@@ -6,12 +6,15 @@ export function resolveTxt(key, domain) {
   try {
     const records = syncFunc(key, domain);
     if(records === undefined) return undefined;
+    let value = undefined;
     records.forEach(record => {
       if(record[0].startsWith(key)) {
         const val = record[0].substring(key.length+1);
-        return val.trim();
+        value = val.trim();
+        return;
       }
     })
+    return value;
   } catch(error) {
     if(error.message.startsWith("queryTxt ENODATA") ||
         error.message.startsWith("queryTxt ENOTFOUND")) return undefined;
