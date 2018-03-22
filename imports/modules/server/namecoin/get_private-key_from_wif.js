@@ -20,7 +20,7 @@ const getPrivateKeyFromWif = (data) => {
 
 function _getPrivateKeyFromWif(wif) {
   var privateKey = Base58.decode(wif).toString('hex');
-  var privateKey = privateKey.substring(2, privateKey.length - 10);
+  var privateKey = privateKey.substring(2, privateKey.length - 8);
   return privateKey;
 }
 

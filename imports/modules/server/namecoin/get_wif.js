@@ -3,8 +3,8 @@ import SimpleSchema from 'simpl-schema';
 import CryptoJS from 'crypto-js';
 import Base58 from 'bs58';
 
-const VERSION_BYTE = 0xef;
-const COMPRESS_BYTE = 0x01;
+const VERSION_BYTE = 0xb4;
+const VERSION_BYTE_REGTEST = 0xef;
 const GetWifSchema = new SimpleSchema({
   privateKey: {
     type: String
@@ -23,7 +23,7 @@ const getWif = (data) => {
 
 function _getWif(privateKey) {
   var key = privateKey;
-  const buf = Buffer.concat([Buffer.from([VERSION_BYTE]), new Buffer(key, 'hex'), Buffer.from([COMPRESS_BYTE])]);
+  const buf = Buffer.concat([Buffer.from([VERSION_BYTE]), new Buffer(key, 'hex')]);
   let wif = CryptoJS.lib.WordArray.create(buf);
   key = CryptoJS.SHA256(wif);
   key = CryptoJS.SHA256(key);

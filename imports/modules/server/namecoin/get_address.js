@@ -3,7 +3,8 @@ import SimpleSchema from 'simpl-schema';
 import CryptoJS from 'crypto-js';
 import Base58 from 'bs58';
 
-const VERSION_BYTE = 0x52;
+const VERSION_BYTE = 0x34;
+const VERSION_BYTE_REGTEST = 0x6f;
 const GetAddressSchema = new SimpleSchema({
   publicKey: {
     type: String
