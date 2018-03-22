@@ -75,7 +75,12 @@ function namecoin_nameNew(client, id, callback) {
 
 export function nameFirstUpdate(client, id, rand, tx, value, to) {
   const syncFunc = Meteor.wrapAsync(namecoin_nameFirstUpdate);
-  return syncFunc(client, id, rand, tx, value, to);
+  try {
+    return syncFunc(client, id, rand, tx, value, to);
+  } catch(error) {
+    if(error.message.startsWith('invalid address')) throw "Invalid address ("+to+")";
+    throw error;
+  }
 }
 
 function namecoin_nameFirstUpdate(client, id, rand, tx, value, to, callback) {
