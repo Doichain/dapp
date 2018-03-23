@@ -34,12 +34,12 @@ OptIns.schema = new SimpleSchema({
     regEx: SimpleSchema.RegEx.Id,
   },
   recipient: {
-    type: String
+    type: String,
     optional: true,
     denyUpdate: true,
   },
   sender: {
-    type: String
+    type: String,
     optional: true,
     denyUpdate: true,
   },
