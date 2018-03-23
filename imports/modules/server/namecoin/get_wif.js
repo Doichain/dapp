@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import CryptoJS from 'crypto-js';
 import Base58 from 'bs58';
+import { isRegtest } from '../../../startup/server/dapp-configuration.js';
 
 const VERSION_BYTE = 0xb4;
 const VERSION_BYTE_REGTEST = 0xef;
@@ -23,7 +24,9 @@ const getWif = (data) => {
 
 function _getWif(privateKey) {
   var key = privateKey;
-  const buf = Buffer.concat([Buffer.from([VERSION_BYTE]), new Buffer(key, 'hex')]);
+  let versionByte = VERSION_BYTE;
+  if(isRegtest()) versionByte = VERSION_BYTE_REGTEST
+  const buf = Buffer.concat([Buffer.from([versionByte]), new Buffer(key, 'hex')]);
   let wif = CryptoJS.lib.WordArray.create(buf);
   key = CryptoJS.SHA256(wif);
   key = CryptoJS.SHA256(key);

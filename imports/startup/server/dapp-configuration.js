@@ -7,6 +7,13 @@ export function isDebug() {
   return false;
 }
 
+export function isRegtest() {
+  if(Meteor.settings !== undefined &&
+     Meteor.settings.app !== undefined &&
+     Meteor.settings.app.regtest !== undefined) return Meteor.settings.app.regtest
+  return false;
+}
+
 export function getUrl() {
   if(Meteor.settings !== undefined &&
      Meteor.settings.app !== undefined &&
