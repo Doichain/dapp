@@ -16,11 +16,7 @@ const decryptMessage = (data) => {
   try {
     const ourData = data;
     DecryptMessageSchema.validate(ourData);
-    let uncompressedKey = ourData.privateKey;
-    if(uncompressedKey.length === 66 && uncompressedKey.endsWith("01")) {
-      uncompressedKey = uncompressedKey.substring(0, uncompressedKey.length - 2);
-    }
-    const privateKey = Buffer.from(uncompressedKey, 'hex');
+    const privateKey = Buffer.from(privateKey, 'hex');
     const ecdh = crypto.createECDH('secp256k1');
     ecdh.setPrivateKey(privateKey);
     const message = Buffer.from(ourData.message, 'hex');
