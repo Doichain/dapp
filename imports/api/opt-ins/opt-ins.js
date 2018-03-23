@@ -34,13 +34,13 @@ OptIns.schema = new SimpleSchema({
     regEx: SimpleSchema.RegEx.Id,
   },
   recipient: {
-    type: String,
-    index: true,
+    type: String
+    optional: true,
     denyUpdate: true,
   },
   sender: {
-    type: String,
-    index: true,
+    type: String
+    optional: true,
     denyUpdate: true,
   },
   data: {
