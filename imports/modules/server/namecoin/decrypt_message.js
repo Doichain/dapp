@@ -16,7 +16,7 @@ const decryptMessage = (data) => {
   try {
     const ourData = data;
     DecryptMessageSchema.validate(ourData);
-    const privateKey = Buffer.from(privateKey, 'hex');
+    const privateKey = Buffer.from(ourData.privateKey, 'hex');
     const ecdh = crypto.createECDH('secp256k1');
     ecdh.setPrivateKey(privateKey);
     const message = Buffer.from(ourData.message, 'hex');
