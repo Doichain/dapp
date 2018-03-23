@@ -16,7 +16,7 @@ const addUpdateBlockchainJob = (entry) => {
     const ourEntry = entry;
     AddUpdateBlockchainJobSchema.validate(ourEntry);
     const job = new Job(BlockchainJobs, 'update', ourEntry);
-    job.retry({retries: 10, wait: 60*1000 }).save();
+    job.retry({retries: 100, wait: 3*60*1000 }).save();
   } catch (exception) {
     throw new Meteor.Error('jobs.addUpdateBlockchain.exception', exception);
   }
