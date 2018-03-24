@@ -37,6 +37,7 @@ const fetchDoiMailData = (data) => {
     const response = getHttp(url, query);
     if(response === undefined || response.data === undefined) throw "Bad response";
     const responseData = response.data;
+    console.log('response data from Send-dApp:'+responseData);
     if(responseData.status !== "success") {
       if(responseData.error === undefined) throw "Bad response";
       if(responseData.error.includes("Opt-In not found")) {
