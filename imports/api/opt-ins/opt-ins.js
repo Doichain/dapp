@@ -35,12 +35,12 @@ OptIns.schema = new SimpleSchema({
   },
   recipient: {
     type: String,
-    index: true,
+    optional: true,
     denyUpdate: true,
   },
   sender: {
     type: String,
-    index: true,
+    optional: true,
     denyUpdate: true,
   },
   data: {

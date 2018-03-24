@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { DOI_FETCH_ROUTE, DOI_CONFIRMATION_ROUTE, API_PATH, VERSION } from '../../../../server/api/rest/rest.js';
-import { getUrl } from '../../../startup/server/dapp-configuration.js';
+import { getUrl, isDebug } from '../../../startup/server/dapp-configuration.js';
 import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoin-configuration.js';
 import { getHttp } from '../../../../server/api/http.js';
 import { getWif } from '../../../../server/api/namecoin.js';
@@ -46,6 +46,9 @@ const fetchDoiMailData = (data) => {
         return;
       }
       throw responseData.error;
+    }
+    if(isDebug()) {
+      console.log("DOI Mail data fetched:\n"+responseData);
     }
     const optInId = addOptIn({name: ourData.name});
     const optIn = OptIns.findOne({_id: optInId});

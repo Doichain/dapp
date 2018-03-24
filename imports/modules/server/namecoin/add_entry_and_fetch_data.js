@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import { isDebug } from '../../../startup/server/dapp-configuration.js';
 import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoin-configuration.js';
 import { getWif } from '../../../../server/api/namecoin.js';
 import { NamecoinEntries } from '../../../api/namecoin/entries.js';
@@ -51,6 +52,13 @@ const addNamecoinEntry = (entry) => {
       name: ourEntry.name,
       domain: domain
     })
+    if(isDebug()) {
+      console.log("New entry added: \n"+
+                  "NameId="+ourEntry.name+"\n"+
+                  "Address="+ourEntry.address+"\n"+
+                  "TxId="+ourEntry.txId+"\n"+
+                  "Value="+ourEntry.value);
+    }
     return id;
   } catch (exception) {
     throw new Meteor.Error('namecoin.addEntryAndFetchData.exception', exception);

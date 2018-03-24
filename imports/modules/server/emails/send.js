@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import { isDebug } from '../../../startup/server/dapp-configuration.js';
 
 const SendMailSchema = new SimpleSchema({
   from: {
@@ -36,6 +37,11 @@ const sendMail = (mail) => {
         'Return-Path': mail.returnPath,
       }
     });
+    if(isDebug()) {
+      console.log("Email send with data: \n"+
+                  "ToEmail="+mail.to+"\n"+
+                  "Message="+mail.message);
+    }
   } catch (exception) {
     throw new Meteor.Error('emails.send.exception', exception);
   }
