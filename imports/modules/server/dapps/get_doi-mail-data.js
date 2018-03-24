@@ -7,6 +7,7 @@ import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../namecoin/verify_signature.js';
 import { getHttp } from '../../../../server/api/http.js';
 import { DOI_MAIL_FETCH_URL } from '../../../startup/server/email-configuration.js';
+import {isDebug} from "../../../startup/server/dapp-configuration";
 
 const GetDoiMailDataSchema = new SimpleSchema({
   name_id: {
@@ -24,16 +25,26 @@ const getDoiMailData = (data) => {
     GetDoiMailDataSchema.validate(ourData);
     const optIn = OptIns.findOne({nameId: ourData.name_id});
     if(optIn === undefined) throw "Opt-In not found";
+    if(isDebug()) { console.log("Opt-In found");}
+
     const recipient = Recipients.findOne({_id: optIn.recipient});
     if(recipient === undefined) throw "Recipient not found";
+    if(isDebug()) { console.log("Recipient found");}
+
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
     const provider = getOptInProvider({domain: domain});
     const publicKey = getOptInKey({domain: provider});
+
+    if(isDebug()) { console.log("parts:\n"+parts+" domain:"+domain+" provider:"+provider+" publicKey:"+publicKey);}
+
     //TODO: Query for language + Fallback template
     let doiMailData;
     try {
       doiMailData = getHttp(DOI_MAIL_FETCH_URL, "").data;
+
+      if(isDebug()) { console.log("doiMailData:"+doiMailData); }
+
     } catch(error) {
       throw "Error while fetching mail content: "+error;
     }

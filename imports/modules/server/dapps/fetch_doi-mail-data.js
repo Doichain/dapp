@@ -34,11 +34,13 @@ const fetchDoiMailData = (data) => {
     if(privateKey === undefined) throw "Private key not found";
     const signature = getSignature({privateKey: privateKey, message: ourData.name});
     const query = "name_id="+encodeURIComponent(ourData.name)+"&signature="+encodeURIComponent(signature);
-    console.log('calling for doi-email-template:'+url+''+query);
+
+    if(isDebug()) {console.log('calling for doi-email-template:'+url+''+query);}
     const response = getHttp(url, query);
     if(response === undefined || response.data === undefined) throw "Bad response";
     const responseData = response.data;
-    console.log('response data from Send-dApp:'+JSON.stringify(response));
+
+    if(isDebug()) { console.log('response data from Send-dApp:'+JSON.stringify(response));}
     if(responseData.status !== "success") {
       if(responseData.error === undefined) throw "Bad response";
       if(responseData.error.includes("Opt-In not found")) {
@@ -48,9 +50,8 @@ const fetchDoiMailData = (data) => {
       }
       throw responseData.error;
     }
-    if(isDebug()) {
-      console.log("DOI Mail data fetched:\n"+JSON.stringify(responseData));
-    }
+
+    if(isDebug()) { console.log("DOI Mail data fetched:\n"+JSON.stringify(responseData));}
     const optInId = addOptIn({name: ourData.name});
     const optIn = OptIns.findOne({_id: optInId});
     if(isDebug()) {
