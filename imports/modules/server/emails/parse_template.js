@@ -16,7 +16,8 @@ const ParseTemplateSchema = new SimpleSchema({
 const parseTemplate = (data) => {
   try {
     const ourData = data;
-      if(isDebug()) { console.log("parseTemplate:\n"+ourData);}
+    if(isDebug()) { console.log("parseTemplate:\n"+ JSON.stringify(ourData));}
+
     ParseTemplateSchema.validate(ourData);
     if(isDebug()) { console.log("ParseTemplateSchema validated");}
 
