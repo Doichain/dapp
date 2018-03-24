@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import {isDebug} from "../../../startup/server/dapp-configuration";
 
 const PLACEHOLDER_REGEX = /\${([\w]*)}/g
 const ParseTemplateSchema = new SimpleSchema({
@@ -15,9 +16,13 @@ const ParseTemplateSchema = new SimpleSchema({
 const parseTemplate = (data) => {
   try {
     const ourData = data;
+      if(isDebug()) { console.log("parseTemplate:\n"+ourData);}
     ParseTemplateSchema.validate(ourData);
+    if(isDebug()) { console.log("ParseTemplateSchema validated");}
+
     var matches;
     var template = ourData.template;
+      if(isDebug()) { console.log("doing some regex with template:\n"+template);}
     do {
       _match = PLACEHOLDER_REGEX.exec(template);
       if(_match) template = _replacePlaceholder(template, _match, ourData.data[_match[1]]);

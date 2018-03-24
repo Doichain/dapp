@@ -36,7 +36,7 @@ const getDoiMailData = (data) => {
     const provider = getOptInProvider({domain: domain});
     const publicKey = getOptInKey({domain: provider});
 
-    if(isDebug()) { console.log("parts:\n"+parts+" domain:"+domain+" provider:"+provider+" publicKey:"+publicKey);}
+    if(isDebug()) { console.log("parts:\n"+parts+"\n domain:\n"+domain+"\nprovider:\n"+provider+"\npublicKey:\n"+publicKey);}
 
     //TODO: Query for language + Fallback template
     let doiMailData;
