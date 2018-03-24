@@ -45,7 +45,7 @@ Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
       const params = this.queryParams;
       try {
         const data = getDoiMailData(params);
-        return {status: 'success', ...data};
+        return {status: 'success', data};
       } catch(error) {
         return {status: 'fail', error: error.message};
       }

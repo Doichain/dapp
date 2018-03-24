@@ -35,7 +35,7 @@ const fetchDoiMailData = (data) => {
     const signature = getSignature({privateKey: privateKey, message: ourData.name});
     const query = "name_id="+encodeURIComponent(ourData.name)+"&signature="+encodeURIComponent(signature);
 
-    if(isDebug()) {console.log('calling for doi-email-template:'+url+''+query);}
+    if(isDebug()) {console.log('calling for doi-email-template:'+url+' query:'+query);}
     const response = getHttp(url, query);
     if(response === undefined || response.data === undefined) throw "Bad response";
     const responseData = response.data;
