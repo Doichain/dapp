@@ -58,10 +58,9 @@ const fetchDoiMailData = (data) => {
     }
     if(optIn.confirmationToken === undefined) return;
     const token = generateDoiToken({id: optIn._id});
-    //TODO why we need here responseData.redirect inside the DoiHash responseData doesn't have an attribute redirect so it crashes here!
-    //TODO removing it for testing reasons
-    //const confirmationHash = generateDoiHash({id: optIn._id, token: token, redirect: responseData.redirect});
-      const confirmationHash = generateDoiHash({id: optIn._id, token: token});
+
+    const confirmationHash = generateDoiHash({id: optIn._id, token: token, redirect: responseData.redirect});
+
     const confirmationUrl = getUrl()+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE+"/"+encodeURIComponent(confirmationHash);
     const template = parseTemplate({template: responseData.content, data: {
       confirmation_url: confirmationUrl
