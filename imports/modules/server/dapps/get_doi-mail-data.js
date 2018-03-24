@@ -43,7 +43,7 @@ const getDoiMailData = (data) => {
     try {
       doiMailData = getHttp(DOI_MAIL_FETCH_URL, "").data;
 
-      if(isDebug()) { console.log("doiMailData:"+doiMailData); }
+      if(isDebug()) { console.log("doiMailData:"+JSON.stringify(doiMailData)+ "from url:"+DOI_MAIL_FETCH_URL); }
 
     } catch(error) {
       throw "Error while fetching mail content: "+error;
@@ -63,6 +63,7 @@ const getDoiMailData = (data) => {
     const redirect = doiMailData.redirect;
     const returnPath = doiMailData.returnPath;
     const content = doiMailData.content;
+
     return {
       recipient: recipient.email,
       content: content,
