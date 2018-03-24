@@ -56,10 +56,12 @@ const fetchDoiMailData = (data) => {
     if(isDebug()) {
       console.log("opt-in found:"+JSON.stringify(optIn));
     }
-    if(optIn.confirmationToken === undefined) return;
+    if(optIn.confirmationToken !== undefined) return;
+    if(isDebug()) { console.log("generating confirmationToken"); }
     const token = generateDoiToken({id: optIn._id});
     const confirmationHash = generateDoiHash({id: optIn._id, token: token, redirect: responseData.redirect});
     const confirmationUrl = getUrl()+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE+"/"+encodeURIComponent(confirmationHash);
+    if(isDebug()) { console.log("confirmationUrl:"+confirmationUrl); }
     const template = parseTemplate({template: responseData.content, data: {
       confirmation_url: confirmationUrl
     }});
