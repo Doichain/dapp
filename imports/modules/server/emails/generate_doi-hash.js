@@ -20,11 +20,20 @@ const generateDoiHash = (optIn) => {
   try {
     const ourOptIn = optIn;
     GenerateDoiHashSchema.validate(ourOptIn);
+
+  /*TODO why we need here responseData.redirect inside the DoiHash responseData doesn't have an attribute redirect so it crashes here!
+    TODO removing it for testing reasons
     const json = JSON.stringify({
       id: ourOptIn.id,
       token: ourOptIn.token,
       redirect: ourOptIn.redirect
     });
+    */
+      const json = JSON.stringify({
+          id: ourOptIn.id,
+          token: ourOptIn.token
+      });
+
     const hex = Buffer(json).toString('hex');
     const hash = HashIds.encodeHex(hex);
     return hash;
