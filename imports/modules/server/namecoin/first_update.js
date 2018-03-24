@@ -25,15 +25,16 @@ const FirstUpdateSchema = new SimpleSchema({
 const firstUpdate = (data) => {
   try {
     const ourData = data;
-    FirstUpdateSchema.validate(ourData);
-    nameFirstUpdate(SEND_CLIENT, ourData.nameId, ourData.rand, ourData.tx, ourData.value, ourData.address);
     if(isDebug()) {
       console.log("First update done with data: \n"+
                   "NameId="+ourData.nameId+"\n"+
-                  "ToAddress="+address+"\n"+
-                  "Value="+value);
+                  "ToAddress="+ourData.address+"\n"+
+                  "Value="+ourData.value);
     }
+    FirstUpdateSchema.validate(ourData);
+    nameFirstUpdate(SEND_CLIENT, ourData.nameId, ourData.rand, ourData.tx, ourData.value, ourData.address);
   } catch(exception) {
+   if(exception.toString().indexOf("this name is already active")==-1) //for some reason a name was already in the database and now an exception from nameocoin is thrown
     throw new Meteor.Error('namecoin.firstUpdate.exception', exception);
   }
 };
