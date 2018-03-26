@@ -61,14 +61,14 @@ const fetchDoiMailData = (data) => {
     if(isDebug()) { console.log("generating confirmationToken"); }
     const token = generateDoiToken({id: optIn._id});
 
-    const confirmationHash = generateDoiHash({id: optIn._id, token: token, redirect: responseData.redirect});
+    const confirmationHash = generateDoiHash({id: optIn._id, token: token, redirect: responseData.data.redirect});
 
     const confirmationUrl = getUrl()+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE+"/"+encodeURIComponent(confirmationHash);
     if(isDebug()) { console.log("confirmationUrl:"+confirmationUrl); }
-    const responseDataObject = JSON.parse(responseData);
-    if(isDebug()) { console.log("using this template:"+responseDataObject.content.data.content); }
 
-    const template = parseTemplate({template: responseData.content.data.content, data: {
+
+    if(isDebug()) { console.log("we are using this template:"+responseData.data.content); }
+    const template = parseTemplate({template: responseData.data.content, data: {
       confirmation_url: confirmationUrl
     }});
     if(isDebug()) {
