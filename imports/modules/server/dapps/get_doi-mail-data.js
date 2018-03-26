@@ -59,29 +59,29 @@ const getDoiMailData = (data) => {
     try {
       doiMailData = getHttp(DOI_MAIL_FETCH_URL, "").data;
 
-      if(isDebug()) { console.log("doiMailData:"+JSON.stringify(doiMailData)+ "from url:"+DOI_MAIL_FETCH_URL); }
+      if(isDebug()) { console.log("doiMailData:"+JSON.stringify(doiMailData.data)+ "from url:"+DOI_MAIL_FETCH_URL); }
 
       //const from = doiMailData.from;
       // const subject = doiMailData.subject;
       // const redirect = doiMailData.redirect;
       // const returnPath = doiMailData.returnPath;
       //const content = doiMailData.content;
-
+      /*
       try{
           JSON.parse(doiMailData);
           console.log('json of DOI_MAIL_FETCH_URL valid');
       }
       catch (error){
           throw "JSON of DOI_MAIL_FETCH_URL invalid "+error;
-      }
+      }*/
 
       let returnData = {
           "recipient": recipient.email,
-          "contentg": doiMailData.content,
-          "redirect": doiMailData.redirect,
-          "subject": doiMailData.subject,
-          "from": doiMailData.from,
-          "returnPath": doiMailData.returnPath
+          "content": doiMailData.data.content,
+          "redirect": doiMailData.data.redirect,
+          "subject": doiMailData.data.subject,
+          "from": doiMailData.data.from,
+          "returnPath": doiMailData.data.returnPath
       }
 
       if(isDebug()) { console.log('returnData:'+JSON.stringify(returnData));}
