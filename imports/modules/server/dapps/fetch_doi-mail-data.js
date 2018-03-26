@@ -65,7 +65,8 @@ const fetchDoiMailData = (data) => {
 
     const confirmationUrl = getUrl()+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE+"/"+encodeURIComponent(confirmationHash);
     if(isDebug()) { console.log("confirmationUrl:"+confirmationUrl); }
-    if(isDebug()) { console.log("using this template:"+responseData.content.data.content); }
+    const responseDataObject = JSON.parse(responseData);
+    if(isDebug()) { console.log("using this template:"+responseDataObject.content.data.content); }
 
     const template = parseTemplate({template: responseData.content.data.content, data: {
       confirmation_url: confirmationUrl
