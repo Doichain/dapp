@@ -72,7 +72,7 @@ const getDoiMailData = (data) => {
           console.log('json of DOI_MAIL_FETCH_URL valid');
       }
       catch (error){
-          throw "JSON of DOI_MAIL_FETCH_URL invalid"+error;
+          throw "JSON of DOI_MAIL_FETCH_URL invalid "+error;
       }
 
       let returnData = {

@@ -10,7 +10,16 @@ Api.addRoute('debug/mail', {authRequired: false}, {
         "returnPath": "noreply@newsletter.com",
         "content": "<html><body><a href='${confirmation_url}'>Confirmation link</a></body></html>"
       }
-      return {status: 'success', data: data};
+
+        try{
+            JSON.parse(data);
+            console.log('json of debug/mail valid');
+        }
+        catch (error){
+            throw "JSON of debug/mail invalid "+error;
+        }
+
+      return {"status": "success", "data": data};
     }
   }
 });
