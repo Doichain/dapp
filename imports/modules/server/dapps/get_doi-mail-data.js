@@ -58,12 +58,15 @@ const getDoiMailData = (data) => {
     if(!verifySignature({publicKey: publicKey, data: ourData.name_id, signature: ourData.signature})) {
       throw "Access denied";
     }
+
+    if(isDebug()) { console.log("signature verified"); }
+
     const from = doiMailData.from;
     const subject = doiMailData.subject;
     const redirect = doiMailData.redirect;
     const returnPath = doiMailData.returnPath;
     const content = doiMailData.content;
-
+    if(isDebug()) { console.log('from:'+from+" subject:"+subject+" redirect:"+redirect+" returnPath:"+returnPath+" content:"+content); }
     return {
       recipient: recipient.email,
       content: content,
