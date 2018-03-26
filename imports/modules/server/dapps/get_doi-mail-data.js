@@ -63,19 +63,21 @@ const getDoiMailData = (data) => {
 
     if(isDebug()) { console.log("signature verified"); }
 
-    const from = doiMailData.from;
-    const subject = doiMailData.subject;
-    const redirect = doiMailData.redirect;
-    const returnPath = doiMailData.returnPath;
-    const content = doiMailData.content;
-    if(isDebug()) { console.log('from:'+from+" subject:"+subject+" redirect:"+redirect+" returnPath:"+returnPath+" content:"+content); }
+    //const from = doiMailData.from;
+    //const subject = doiMailData.subject;
+    //const redirect = doiMailData.redirect;
+    //const returnPath = doiMailData.returnPath;
+    //const content = doiMailData.content;
+
+    if(isDebug()) { console.log('from:'+doiMailData.from+" subject:"+doiMailData.subject+
+        " redirect:"+doiMailData.redirect+" returnPath:"+doiMailData.returnPath+" content:"+doiMailData.content); }
     return {
       recipient: recipient.email,
-      content: content,
-      redirect: redirect,
-      subject: subject,
-      from: from,
-      returnPath: returnPath
+      content: doiMailData.content,
+      redirect: doiMailData.redirect,
+      subject: doiMailData.subject,
+      from: doiMailData.from,
+      returnPath: doiMailData.returnPath
     }
   } catch (exception) {
     throw new Meteor.Error('dapps.getDoiMailData.exception', exception);
