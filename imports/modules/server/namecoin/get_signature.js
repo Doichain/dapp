@@ -12,6 +12,7 @@ const GetSignatureSchema = new SimpleSchema({
   }
 });
 
+/*
 const getSignature = (data) => {
   try {
     const ourData = data;
@@ -21,6 +22,17 @@ const getSignature = (data) => {
   } catch(exception) {
     throw new Meteor.Error('namecoin.getSignature.exception', exception);
   }
+}; */
+
+const getSignature = (data) => {
+    try {
+        const ourData = data;
+        GetSignatureSchema.validate(ourData);
+
+        return signature;
+    } catch(exception) {
+        throw new Meteor.Error('namecoin.getSignature.exception', exception);
+    }
 };
 
 export default getSignature;

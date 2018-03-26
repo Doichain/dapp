@@ -28,6 +28,20 @@ function namecoin_dumpprivkey(client, address, callback) {
   });
 }
 
+export function signMessage(client, address, message) {
+    const syncFunc = Meteor.wrapAsync(namecoin_signMessage);
+    return syncFunc(client, address, message);
+}
+
+function namecoin_signMessage(client, address, message, callback) {
+    const ourAddress = address;
+    const ourMessage = message;
+    client.cmd('signmessage', ourAddress, ourMessage, function(err, data) {
+        callback(err, data);
+    });
+}
+
+
 export function listSinceBlock(client, block) {
   const syncFunc = Meteor.wrapAsync(namecoin_listSinceBlock);
   var ourBlock = block;
