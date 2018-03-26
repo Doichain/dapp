@@ -38,16 +38,6 @@ const getDoiMailData = (data) => {
 
     if(isDebug()) { console.log("parts:\n"+parts+"\n domain:\n"+domain+"\nprovider:\n"+provider+"\npublicKey:\n"+publicKey);}
 
-    //TODO: Query for language + Fallback template
-    let doiMailData;
-    try {
-      doiMailData = getHttp(DOI_MAIL_FETCH_URL, "").data;
-
-      if(isDebug()) { console.log("doiMailData:"+JSON.stringify(doiMailData)+ "from url:"+DOI_MAIL_FETCH_URL); }
-
-    } catch(error) {
-      throw "Error while fetching mail content: "+error;
-    }
 
     if(isDebug()) { console.log("verifying signature..."); }
     //TODO: Only allow access one time
@@ -57,30 +47,42 @@ const getDoiMailData = (data) => {
     // 3. Provider sends confirmation "I got the data"
     // 4. Send dApp lock the data for this opt in
     if(!verifySignature({publicKey: publicKey, data: ourData.name_id, signature: ourData.signature})) {
-      if(isDebug()) { console.log("signature incorrect"); }
-      throw "Access denied";
+        if(isDebug()) { console.log("signature incorrect"); }
+        throw "Access denied";
     }
 
     if(isDebug()) { console.log("signature verified"); }
 
-    //const from = doiMailData.from;
-    //const subject = doiMailData.subject;
-    //const redirect = doiMailData.redirect;
-    //const returnPath = doiMailData.returnPath;
-    //const content = doiMailData.content;
 
-    let returnData = {
-        recipient: recipient.email,
-        content: doiMailData.content,
-        redirect: doiMailData.redirect,
-        subject: doiMailData.subject,
-        from: doiMailData.from,
-        returnPath: doiMailData.returnPath
+    //TODO: Query for language + Fallback template
+    let doiMailData;
+    try {
+      doiMailData = getHttp(DOI_MAIL_FETCH_URL, "").data;
+
+      if(isDebug()) { console.log("doiMailData:"+JSON.stringify(doiMailData)+ "from url:"+DOI_MAIL_FETCH_URL); }
+        //const from = doiMailData.from;
+        //const subject = doiMailData.subject;
+        //const redirect = doiMailData.redirect;
+        //const returnPath = doiMailData.returnPath;
+        //const content = doiMailData.content;
+
+        let returnData = {
+            recipient: recipient.email,
+            content: doiMailData.content,
+            redirect: doiMailData.redirect,
+            subject: doiMailData.subject,
+            from: doiMailData.from,
+            returnPath: doiMailData.returnPath
+        }
+
+        if(isDebug()) { console.log('returnData:'+JSON.stringify(returnData));}
+
+        return returnData
+
+    } catch(error) {
+      throw "Error while fetching mail content: "+error;
     }
 
-    if(isDebug()) { console.log('returnData:'+JSON.stringify(returnData));}
-
-    return returnData
   } catch (exception) {
     throw new Meteor.Error('dapps.getDoiMailData.exception', exception);
   }
