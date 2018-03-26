@@ -78,7 +78,7 @@ const getDoiMailData = (data) => {
         returnPath: doiMailData.returnPath
     }
 
-    if(isDebug()) { console.log('returnData:'+returnData);}
+    if(isDebug()) { console.log('returnData:'+JSON.stringify(returnData));}
 
     return returnData
   } catch (exception) {
