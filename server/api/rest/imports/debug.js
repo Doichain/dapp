@@ -10,7 +10,7 @@ Api.addRoute('debug/mail', {authRequired: false}, {
         returnPath: "noreply@newsletter.com",
         content: "<html><body><a href='${confirmation_url}'>Confirmation link</a></body></html>"
       }
-      return {status: 'success', data: {...data}};
+      return {status: 'success', data: data};
     }
   }
 });

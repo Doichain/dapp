@@ -71,7 +71,7 @@ const getDoiMailData = (data) => {
             console.log('json of doiMailData valid');
         }
         catch (error){
-            console.log('json of doiMailData not valid');
+            throw "Error while fetching mail content: "+error;
         }
 
         let returnData = {
