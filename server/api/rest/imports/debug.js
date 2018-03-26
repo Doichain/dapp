@@ -6,13 +6,10 @@ Api.addRoute('debug/mail', {authRequired: false}, {
       const data = {
         "from": "nico@nicokrause.com",
         "subject": "Fancy Newsletter Confirmation",
-        "redirect": "http://fancynewsletterconfirmationpage.com",
-        "returnPath": "noreply@newsletter.com",
+        "redirect": "http://doichain.org",
+        "returnPath": "noreply@doichain.org",
         "content": "<html><body><a href='${confirmation_url}'>Confirmation link</a></body></html>"
       }
-
-     // if(typeof data !='object') {throw "JSON of debug/mail invalid "}
-
 
       return {"status": "success", "data": data};
     }
