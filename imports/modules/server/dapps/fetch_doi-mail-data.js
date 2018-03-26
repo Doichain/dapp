@@ -75,11 +75,11 @@ const fetchDoiMailData = (data) => {
       console.log("adding email to sendMailJob");
     }
     addSendMailJob({
-      from: responseData.from,
-      to: responseData.recipient,
-      subject: responseData.subject,
+      from: responseData.data.from,
+      to: responseData.data.recipient,
+      subject: responseData.data.subject,
       message: template,
-      returnPath: responseData.returnPath
+      returnPath: responseData.data.returnPath
     });
   } catch (exception) {
     throw new Meteor.Error('dapps.fetchDoiMailData.exception', exception);
