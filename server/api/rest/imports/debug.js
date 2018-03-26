@@ -4,7 +4,7 @@ Api.addRoute('debug/mail', {authRequired: false}, {
   get: {
     action: function() {
       const data = {
-        "from": "fancy@newsletter.com",
+        "from": "nico@nicokrause.com",
         "subject": "Fancy Newsletter Confirmation",
         "redirect": "http://fancynewsletterconfirmationpage.com",
         "returnPath": "noreply@newsletter.com",
