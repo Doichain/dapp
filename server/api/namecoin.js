@@ -36,7 +36,7 @@ export function signMessage(client, address, message) {
 function namecoin_signMessage(client, address, message, callback) {
     const ourAddress = address;
     const ourMessage = message;
-    cons param = [ourAddress,ourMessage]
+    const param = [ourAddress,ourMessage];
     client.cmd('signmessage', param, function(err, data) {
         callback(err, data);
     });
