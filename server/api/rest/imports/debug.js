@@ -11,7 +11,7 @@ Api.addRoute('debug/mail', {authRequired: false}, {
         "content": "<html><body><a href='${confirmation_url}'>Confirmation link</a></body></html>"
       }
 
-      if(typeof response !='object') {throw "JSON of debug/mail invalid "+error;}
+     // if(typeof data !='object') {throw "JSON of debug/mail invalid "}
 
 
       return {"status": "success", "data": data};
