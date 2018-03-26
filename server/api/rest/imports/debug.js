@@ -7,7 +7,7 @@ Api.addRoute('debug/mail', {authRequired: false}, {
         "from": "fancy@newsletter.com",
         "subject": "Fancy Newsletter Confirmation",
         "redirect": "http://fancynewsletterconfirmationpage.com",
-        "returnPath”: "noreply@newsletter.com",
+        "returnPath": "noreply@newsletter.com",
         "content": "<html><body><a href='${confirmation_url}'>Confirmation link</a></body></html>"
       }
       return {status: 'success', data: data};
