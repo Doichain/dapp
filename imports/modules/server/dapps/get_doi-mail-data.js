@@ -66,6 +66,14 @@ const getDoiMailData = (data) => {
         //const returnPath = doiMailData.returnPath;
         //const content = doiMailData.content;
 
+        try{
+            JSON.parse(doiMailData);
+            console.log('json of doiMailData valid');
+        }
+        catch (error){
+            console.log('json of doiMailData not valid');
+        }
+
         let returnData = {
             recipient: recipient.email,
             content: doiMailData.content,
