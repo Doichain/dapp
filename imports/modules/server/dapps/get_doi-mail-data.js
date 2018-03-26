@@ -69,16 +69,18 @@ const getDoiMailData = (data) => {
     //const returnPath = doiMailData.returnPath;
     //const content = doiMailData.content;
 
-    if(isDebug()) { console.log('from:'+doiMailData.from+" subject:"+doiMailData.subject+
-        " redirect:"+doiMailData.redirect+" returnPath:"+doiMailData.returnPath+" content:"+doiMailData.content); }
-    return {
-      recipient: recipient.email,
-      content: doiMailData.content,
-      redirect: doiMailData.redirect,
-      subject: doiMailData.subject,
-      from: doiMailData.from,
-      returnPath: doiMailData.returnPath
+    let returnData = {
+        recipient: recipient.email,
+        content: doiMailData.content,
+        redirect: doiMailData.redirect,
+        subject: doiMailData.subject,
+        from: doiMailData.from,
+        returnPath: doiMailData.returnPath
     }
+
+    if(isDebug()) { console.log('returnData:'+returnData);}
+
+    return returnData
   } catch (exception) {
     throw new Meteor.Error('dapps.getDoiMailData.exception', exception);
   }
