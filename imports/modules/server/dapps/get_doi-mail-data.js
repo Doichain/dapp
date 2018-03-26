@@ -49,6 +49,7 @@ const getDoiMailData = (data) => {
       throw "Error while fetching mail content: "+error;
     }
 
+    if(isDebug()) { console.log("verifying signature..."); }
     //TODO: Only allow access one time
     // Possible solution:
     // 1. Provider (confirm dApp) request the data
