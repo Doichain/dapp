@@ -5,7 +5,7 @@ import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { Recipients } from '../../../api/recipients/recipients.js';
 import { NamecoinEntries } from '../../../api/namecoin/entries.js';
 import decodeDoiHash from '../emails/decode_doi-hash.js';
-import { getWif } from '../../../../server/api/namecoin.js';
+import { signMessage } from '../../../../server/api/namecoin.js';
 import getPrivateKeyFromWif from '../namecoin/get_private-key_from_wif.js';
 import getSignature from '../namecoin/get_signature.js';
 import addUpdateBlockchainJob from '../jobs/add_update_blockchain.js';
@@ -54,7 +54,7 @@ const confirmOptIn = (request) => {
     const privateKey = getPrivateKeyFromWif({wif: wif});*/
 
     if(isDebug()) {console.log('getSignature (only of value!)'+JSON.stringify(value));} //TODO who else needs to read this?
-    const doiSignature = signMessage({address: CONFIRM_ADDRESS, message: value.signature});
+    const doiSignature = signMessage(signMessage, CONFIRM_ADDRESS, value.signature);
     if(isDebug()) {console.log('got doiSignature:'+JSON.stringify(doiSignature));}
 
     delete value.from;
