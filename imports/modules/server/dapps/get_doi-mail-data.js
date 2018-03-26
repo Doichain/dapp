@@ -60,32 +60,33 @@ const getDoiMailData = (data) => {
       doiMailData = getHttp(DOI_MAIL_FETCH_URL, "").data;
 
       if(isDebug()) { console.log("doiMailData:"+JSON.stringify(doiMailData)+ "from url:"+DOI_MAIL_FETCH_URL); }
-        //const from = doiMailData.from;
-        //const subject = doiMailData.subject;
-        //const redirect = doiMailData.redirect;
-        //const returnPath = doiMailData.returnPath;
-        //const content = doiMailData.content;
 
-        try{
-            JSON.parse(doiMailData);
-            console.log('json of doiMailData valid');
-        }
-        catch (error){
-            throw "Error while fetching mail content: "+error;
-        }
+      //const from = doiMailData.from;
+      // const subject = doiMailData.subject;
+      // const redirect = doiMailData.redirect;
+      // const returnPath = doiMailData.returnPath;
+      //const content = doiMailData.content;
 
-        let returnData = {
-            recipient: recipient.email,
-            content: doiMailData.content,
-            redirect: doiMailData.redirect,
-            subject: doiMailData.subject,
-            from: doiMailData.from,
-            returnPath: doiMailData.returnPath
-        }
+      try{
+          JSON.parse(doiMailData);
+          console.log('json of DOI_MAIL_FETCH_URL valid');
+      }
+      catch (error){
+          throw "JSON of DOI_MAIL_FETCH_URL invalid"+error;
+      }
 
-        if(isDebug()) { console.log('returnData:'+JSON.stringify(returnData));}
+      let returnData = {
+          "recipient": recipient.email,
+          "contentg": doiMailData.content,
+          "redirect": doiMailData.redirect,
+          "subject": doiMailData.subject,
+          "from": doiMailData.from,
+          "returnPath": doiMailData.returnPath
+      }
 
-        return returnData
+      if(isDebug()) { console.log('returnData:'+JSON.stringify(returnData));}
+
+      return returnData
 
     } catch(error) {
       throw "Error while fetching mail content: "+error;
