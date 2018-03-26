@@ -37,6 +37,7 @@ const confirmOptIn = (request) => {
     if(isDebug()) {console.log('found DoiChainEntry:'+JSON.stringify(entry));}
 
     const value = JSON.parse(entry.value);
+    if(isDebug()) {console.log('getWif for:'+CONFIRM_ADDRESS);}
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
 
     /**
@@ -45,14 +46,16 @@ const confirmOptIn = (request) => {
      * does this have to be the privKey of the owner (writer) of the DOI? Is access always possible?
      * (e.g. fallback, email provider, email address owner)
      */
+    if(isDebug()) {console.log('getPrivateKeyFromWif');}
     const privateKey = getPrivateKeyFromWif({wif: wif});
+
+    if(isDebug()) {console.log('getSignature'+message);} //TODO who needs to read this signature else? nobody?
     const doiSignature = getSignature({privateKey: privateKey, message: value.signature});
     delete value.from;
     value.doiTimestamp = confirmedAt.toISOString();
     value.doiSignature = doiSignature;
     const jsonValue = JSON.stringify(value);
-
-    if(isDebug()) {console.log('updating Doichain nameId:'+doichain);}
+    if(isDebug()) {console.log('updating Doichain nameId:'+optIn.nameId+' with value:'+value);}
 
     addUpdateBlockchainJob({
       nameId: optIn.nameId,
