@@ -57,6 +57,7 @@ const getDoiMailData = (data) => {
     // 3. Provider sends confirmation "I got the data"
     // 4. Send dApp lock the data for this opt in
     if(!verifySignature({publicKey: publicKey, data: ourData.name_id, signature: ourData.signature})) {
+      if(isDebug()) { console.log("signature incorrect"); }
       throw "Access denied";
     }
 
