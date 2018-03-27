@@ -11,9 +11,7 @@ const GetSignatureSchema = new SimpleSchema({
     type: String
   }
 });
-/*
-//TODO replace the create this signature of this message
-//with the way it works normaly without bitcore sign
+
 const getSignature = (data) => {
   try {
     const ourData = data;
@@ -25,5 +23,4 @@ const getSignature = (data) => {
   }
 };
 
-
-export default getSignature; */
+export default getSignature;

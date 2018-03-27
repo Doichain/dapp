@@ -4,11 +4,9 @@ import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { Senders } from '../../../api/senders/senders.js';
 import { Recipients } from '../../../api/recipients/recipients.js';
 import generateNameId from './generate_name-id.js';
-import { signMessage } from '../../../../server/api/namecoin.js';
+import getSignature from './get_signature.js';
 import getDataHash from './get_data-hash.js';
 import addInsertBlockchainJob from '../jobs/add_insert_blockchain.js';
-import {CONFIRM_ADDRESS, CONFIRM_CLIENT} from "../../../startup/server/namecoin-configuration";
-import {isDebug} from "../../../startup/server/dapp-configuration";
 
 const WriteToBlockchainSchema = new SimpleSchema({
   id: {
@@ -24,9 +22,7 @@ const writeToBlockchain = (data) => {
     const recipient = Recipients.findOne({_id: optIn.recipient});
     const sender = Senders.findOne({_id: optIn.sender});
     const nameId = generateNameId({id: optIn._id});
-    if(isDebug()) {console.log('signMessage for:'+recipient.email+sender.email);}
-    const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, recipient.email+sender.email);
-    if(isDebug()) {console.log('getDataHash');}
+    const signature = getSignature({message: recipient.email+sender.email, privateKey: recipient.privateKey});
     const dataHash = getDataHash({data: optIn.data});
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
