@@ -8,6 +8,7 @@ import { signMessage } from '../../../../server/api/namecoin.js';
 import getDataHash from './get_data-hash.js';
 import addInsertBlockchainJob from '../jobs/add_insert_blockchain.js';
 import {CONFIRM_ADDRESS, CONFIRM_CLIENT} from "../../../startup/server/namecoin-configuration";
+import {isDebug} from "../../../startup/server/dapp-configuration";
 
 const WriteToBlockchainSchema = new SimpleSchema({
   id: {
