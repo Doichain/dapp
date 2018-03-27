@@ -25,7 +25,7 @@ const writeToBlockchain = (data) => {
     const nameId = generateNameId({id: optIn._id});
     if(isDebug()) {console.log('signMessage for:'+recipient.email+sender.email);}
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, recipient.email+sender.email);
-    if(isDebug()) {console.log('getDataHash");}
+    if(isDebug()) {console.log('getDataHash');}
     const dataHash = getDataHash({data: optIn.data});
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
