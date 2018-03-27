@@ -11,7 +11,6 @@ import generateDoiToken from '../opt-ins/generate_doi-token.js';
 import generateDoiHash from '../emails/generate_doi-hash.js';
 import addOptIn from '../opt-ins/add.js';
 import addSendMailJob from '../jobs/add_send_mail.js';
-import {signMessage} from "../../../../server/api/namecoin";
 
 const FetchDoiMailDataSchema = new SimpleSchema({
   name: {
