@@ -6,8 +6,6 @@ import { Recipients } from '../../../api/recipients/recipients.js';
 import { NamecoinEntries } from '../../../api/namecoin/entries.js';
 import decodeDoiHash from '../emails/decode_doi-hash.js';
 import { signMessage } from '../../../../server/api/namecoin.js';
-import getPrivateKeyFromWif from '../namecoin/get_private-key_from_wif.js';
-import getSignature from '../namecoin/get_signature.js';
 import addUpdateBlockchainJob from '../jobs/add_update_blockchain.js';
 import {isDebug} from "../../../startup/server/dapp-configuration";
 

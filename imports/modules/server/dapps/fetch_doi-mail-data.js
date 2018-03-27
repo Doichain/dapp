@@ -4,15 +4,14 @@ import { DOI_FETCH_ROUTE, DOI_CONFIRMATION_ROUTE, API_PATH, VERSION } from '../.
 import { getUrl, isDebug } from '../../../startup/server/dapp-configuration.js';
 import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoin-configuration.js';
 import { getHttp } from '../../../../server/api/http.js';
-import { getWif } from '../../../../server/api/namecoin.js';
+import { signMessage } from '../../../../server/api/namecoin.js';
 import { OptIns } from '../../../../imports/api/opt-ins/opt-ins.js';
-import getPrivateKeyFromWif from '../namecoin/get_private-key_from_wif.js';
-import getSignature from '../namecoin/get_signature.js';
 import parseTemplate from '../emails/parse_template.js';
 import generateDoiToken from '../opt-ins/generate_doi-token.js';
 import generateDoiHash from '../emails/generate_doi-hash.js';
 import addOptIn from '../opt-ins/add.js';
 import addSendMailJob from '../jobs/add_send_mail.js';
+import {signMessage} from "../../../../server/api/namecoin";
 
 const FetchDoiMailDataSchema = new SimpleSchema({
   name: {
@@ -29,10 +28,7 @@ const fetchDoiMailData = (data) => {
     const ourData = data;
     FetchDoiMailDataSchema.validate(ourData);
     const url = ourData.domain+API_PATH+VERSION+"/"+DOI_FETCH_ROUTE;
-    const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
-    const privateKey = getPrivateKeyFromWif({wif: wif});
-    if(privateKey === undefined) throw "Private key not found";
-    const signature = getSignature({privateKey: privateKey, message: ourData.name});
+    const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);
     const query = "name_id="+encodeURIComponent(ourData.name)+"&signature="+encodeURIComponent(signature);
 
     if(isDebug()) {console.log('calling for doi-email-template:'+url+' query:'+query);}

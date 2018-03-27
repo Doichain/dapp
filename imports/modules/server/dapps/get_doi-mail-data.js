@@ -36,9 +36,7 @@ const getDoiMailData = (data) => {
     const provider = getOptInProvider({domain: domain});
     const publicKey = getOptInKey({domain: provider});
 
-    if(isDebug()) { console.log("parts:\n"+parts+"\n domain:\n"+domain+"\nprovider:\n"+provider+"\npublicKey:\n"+publicKey);}
-
-
+    if(isDebug()) { console.log("parts:"+parts+"\n domain:"+domain+"\nprovider:"+provider+"\npublicKey:"+publicKey);}
     if(isDebug()) { console.log("verifying signature..."); }
     //TODO: Only allow access one time
     // Possible solution:
@@ -53,27 +51,12 @@ const getDoiMailData = (data) => {
 
     if(isDebug()) { console.log("signature verified"); }
 
-
     //TODO: Query for language + Fallback template
     let doiMailData;
     try {
       doiMailData = getHttp(DOI_MAIL_FETCH_URL, "").data;
 
       if(isDebug()) { console.log("doiMailData:"+JSON.stringify(doiMailData.data)+ "from url:"+DOI_MAIL_FETCH_URL); }
-
-      //const from = doiMailData.from;
-      // const subject = doiMailData.subject;
-      // const redirect = doiMailData.redirect;
-      // const returnPath = doiMailData.returnPath;
-      //const content = doiMailData.content;
-      /*
-      try{
-          JSON.parse(doiMailData);
-          console.log('json of DOI_MAIL_FETCH_URL valid');
-      }
-      catch (error){
-          throw "JSON of DOI_MAIL_FETCH_URL invalid "+error;
-      }*/
 
       let returnData = {
           "recipient": recipient.email,

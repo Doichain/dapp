@@ -41,7 +41,6 @@ function namecoin_signMessage(client, address, message, callback) {
     });
 }
 
-
 export function listSinceBlock(client, block) {
   const syncFunc = Meteor.wrapAsync(namecoin_listSinceBlock);
   var ourBlock = block;

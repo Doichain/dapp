@@ -11,7 +11,7 @@ const GetSignatureSchema = new SimpleSchema({
     type: String
   }
 });
-
+/*
 //TODO replace the create this signature of this message
 //with the way it works normaly without bitcore sign
 const getSignature = (data) => {
@@ -24,16 +24,6 @@ const getSignature = (data) => {
     throw new Meteor.Error('namecoin.getSignature.exception', exception);
   }
 };
-/*
-const getSignature = (data) => {
-    try {
-        const ourData = data;
-        GetSignatureSchema.validate(ourData);
 
-        return signature;
-    } catch(exception) {
-        throw new Meteor.Error('namecoin.getSignature.exception', exception);
-    }
-};*/
 
-export default getSignature;
+export default getSignature; */
