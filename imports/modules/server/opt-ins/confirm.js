@@ -43,14 +43,6 @@ const confirmOptIn = (request) => {
      */
 
     const value = JSON.parse(entry.value);
-
-
-   /* if(isDebug()) {console.log('getWif for:'+CONFIRM_ADDRESS);}
-    const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
-
-    if(isDebug()) {console.log('getPrivateKeyFromWif'+wif);}
-    const privateKey = getPrivateKeyFromWif({wif: wif});*/
-
     if(isDebug()) {console.log('getSignature (only of value!)'+JSON.stringify(value));} //TODO who else needs to read this?
     const doiSignature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);
     if(isDebug()) {console.log('got doiSignature:'+JSON.stringify(doiSignature));}
