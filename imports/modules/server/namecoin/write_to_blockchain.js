@@ -4,9 +4,10 @@ import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { Senders } from '../../../api/senders/senders.js';
 import { Recipients } from '../../../api/recipients/recipients.js';
 import generateNameId from './generate_name-id.js';
-import getSignature from './get_signature.js';
+import { signMessage } from '../../../../server/api/namecoin.js';
 import getDataHash from './get_data-hash.js';
 import addInsertBlockchainJob from '../jobs/add_insert_blockchain.js';
+import {CONFIRM_ADDRESS, CONFIRM_CLIENT} from "../../../startup/server/namecoin-configuration";
 
 const WriteToBlockchainSchema = new SimpleSchema({
   id: {
@@ -22,7 +23,7 @@ const writeToBlockchain = (data) => {
     const recipient = Recipients.findOne({_id: optIn.recipient});
     const sender = Senders.findOne({_id: optIn.sender});
     const nameId = generateNameId({id: optIn._id});
-    const signature = getSignature({message: recipient.email+sender.email, privateKey: recipient.privateKey});
+    const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, recipient.email+sender.email);
     const dataHash = getDataHash({data: optIn.data});
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
