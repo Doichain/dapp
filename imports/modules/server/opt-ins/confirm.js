@@ -42,7 +42,7 @@ const confirmOptIn = (request) => {
     value.doiTimestamp = confirmedAt.toISOString();
     value.doiSignature = doiSignature;
     const jsonValue = JSON.stringify(value);
-    if(isDebug()) {console.log('updating Doichain nameId:'+optIn.nameId+' with value:'+value);}
+    if(isDebug()) {console.log('updating Doichain nameId:'+optIn.nameId+' with value:'+JSON.stringify(value);}
 
     addUpdateBlockchainJob({
       nameId: optIn.nameId,
