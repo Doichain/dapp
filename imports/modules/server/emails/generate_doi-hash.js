@@ -4,9 +4,6 @@ import { randomBytes } from 'crypto';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { HashIds } from '../../../startup/server/email-configuration.js';
 
-//TODO why we need here responseData.redirect inside the DoiHash responseData doesn't have an attribute redirect so it crashes here!
-//TODO removing it for testing reasons
-
 const GenerateDoiHashSchema = new SimpleSchema({
   id: {
     type: String
@@ -15,8 +12,7 @@ const GenerateDoiHashSchema = new SimpleSchema({
     type: String
   },
   redirect: {
-    type: String,
-    optional: true,
+    type: String
   }
 });
 

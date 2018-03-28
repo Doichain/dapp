@@ -33,15 +33,6 @@ const confirmOptIn = (request) => {
     const entry = NamecoinEntries.findOne({name: optIn.nameId});
     if(entry === undefined) throw "Doichain entry not found";
     if(isDebug()) {console.log('found DoiChainEntry:'+JSON.stringify(entry));}
-
-    /**
-     * TODO
-     * what is happening in case the DOI is finally owned by the email address user?
-     * does this have to be the privKey of the owner (writer) of the DOI? Is access always possible?
-     * (e.g. fallback, email provider, email address owner)
-     * does this signature need to proof anybody else?
-     */
-
     const value = JSON.parse(entry.value);
     if(isDebug()) {console.log('getSignature (only of value!)'+JSON.stringify(value));} //TODO who else needs to read this?
     const doiSignature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);

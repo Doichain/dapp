@@ -31,7 +31,7 @@ const addClaimBlockchainJob = (entry) => {
     const ourEntry = entry;
     AddClaimBlockchainJobSchema.validate(ourEntry);
     const job = new Job(BlockchainJobs, 'claim', ourEntry);
-    job.retry({retries: 100, wait: 3*60*1000 }).save();
+    job.retry({retries: 360, wait: 1*10*1000 }).save(); //check every 10secs for 1h
   } catch (exception) {
     throw new Meteor.Error('jobs.addClaimBlockchain.exception', exception);
   }
