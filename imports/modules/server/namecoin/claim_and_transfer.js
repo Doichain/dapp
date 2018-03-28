@@ -45,12 +45,13 @@ const claim = (data) => {
       soiTimestamp: ourData.soiDate.toISOString(),
       from: from
     });*/
-      const value = JSON.stringify({
-          dataHash: ourData.dataHash,
-          signature: ourData.signature,
-          soiTimestamp: ourData.soiDate.toISOString(),
 
-      })
+    const value = JSON.stringify({
+        signature: ourData.signature,
+        dataHash: ourData.dataHash,
+        from: from
+    })
+
     const firstUpdateData = firstUpdate({
       nameId: ourData.nameId,
       tx: ourData.tx,
