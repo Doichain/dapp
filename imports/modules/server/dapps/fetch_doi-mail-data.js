@@ -27,7 +27,7 @@ const fetchDoiMailData = (data) => {
     const ourData = data;
     FetchDoiMailDataSchema.validate(ourData);
     const url = ourData.domain+API_PATH+VERSION+"/"+DOI_FETCH_ROUTE;
-    const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);
+    const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.name);
     const query = "name_id="+encodeURIComponent(ourData.name)+"&signature="+encodeURIComponent(signature);
 
     if(isDebug()) {console.log('calling for doi-email-template:'+url+' query:'+query);}
