@@ -39,12 +39,18 @@ const claim = (data) => {
     const publicKey = getOptInKey({domain: provider});
     const address = getAddress({publicKey: publicKey});
     const from = encryptMessage({publicKey: publicKey, message: getUrl()});
-    const value = JSON.stringify({
+  /*  const value = JSON.stringify({
       dataHash: ourData.dataHash,
       signature: ourData.signature,
       soiTimestamp: ourData.soiDate.toISOString(),
       from: from
-    })
+    });*/
+      const value = JSON.stringify({
+          dataHash: ourData.dataHash,
+          signature: ourData.signature,
+          soiTimestamp: ourData.soiDate.toISOString(),
+
+      })
     const firstUpdateData = firstUpdate({
       nameId: ourData.nameId,
       tx: ourData.tx,
