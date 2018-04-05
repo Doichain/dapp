@@ -31,6 +31,7 @@ BlockchainJobs.processJobs('update', {workTimeout: 30*1000},function (job, cb) {
   }
 });
 
+//TODO if we get informed via REST for new transactions, we do not need to check for it in a job - remove this and move rewrite checkNewTransactions()
 BlockchainJobs.processJobs('claim', {workTimeout: 30*1000},function (job, cb) {
   try {
     const entry = job.data;
@@ -44,6 +45,7 @@ BlockchainJobs.processJobs('claim', {workTimeout: 30*1000},function (job, cb) {
   }
 });
 
+//TODO if we get informed via REST for new transactions, we do not need to check for it in a job - remove this and move rewrite checkNewTransactions()
 BlockchainJobs.processJobs('checkNewTransactions', {workTimeout: 5*60*1000},function (job, cb) {
   try {
     if(!isAppType(CONFIRM_APP)) {

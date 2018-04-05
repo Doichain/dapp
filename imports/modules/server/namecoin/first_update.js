@@ -34,7 +34,7 @@ const firstUpdate = (data) => {
     FirstUpdateSchema.validate(ourData);
     nameFirstUpdate(SEND_CLIENT, ourData.nameId, ourData.rand, ourData.tx, ourData.value, ourData.address);
   } catch(exception) {
-   if(exception.toString().indexOf("this name is already active")==-1) //for some reason a name was already in the database and now an exception from nameocoin is thrown
+   if(exception.toString().indexOf("this name is already active")==-1) //for some reason a name was already in the database and an exception from nameocoin was thrown - skip here
     throw new Meteor.Error('namecoin.firstUpdate.exception', exception);
   }
 };
