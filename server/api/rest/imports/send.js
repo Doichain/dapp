@@ -2,12 +2,13 @@ import { Api, DOI_FETCH_ROUTE } from '../rest.js';
 import addOptIn from '../../../../imports/modules/server/opt-ins/add_and_write_to_blockchain.js';
 import updateOptInStatus from '../../../../imports/modules/server/opt-ins/update_status.js';
 import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mail-data.js';
-import claim from '../../imports/modules/server/namecoin/claim_and_transfer.js';
+import claim from '../../../../imports/modules/server/namecoin/claim_and_transfer.js';
 import {isDebug} from "../../../../imports/startup/server/dapp-configuration";
 import {BlockchainJobs} from "../../blockchain_jobs";
 
-Api.addRoute('opt-in', {authRequired: true}, {
+Api.addRoute('opt-in', {
   post: {
+    authRequired: true,
     roleRequired: ['admin'],
     action: function() {
       const qParams = this.queryParams;
@@ -42,23 +43,33 @@ Api.addRoute('opt-in', {authRequired: true}, {
   }
 });
 
-Api.addRoute('walletnotify', {authRequired: false}, {
+Api.addRoute('walletnotify', {
     get: {
+        authRequired: false,
         action: function() {
-            const params = this.queryParams;
-            const tx = params.txt;
+
+           // const params = this.queryParams;
+          //  const tx = params.txt;
             try {
+                BlockchainJobs.find({ type: 'claim', status: 'ready' })
+                    .observe({
+                        added: function () {
+                            claimJob.trigger();
 
-                if(isDebug()) { console.log("rest api: /"+walletnotify+" called with tx:"+tx);}
+                        }
+                    });
+              //  if(isDebug()) { console.log("rest api: /"+walletnotify+" called with tx:"+tx);}
 
-                const job = new Job(BlockchainJobs, 'claim');
-                job.retry({retries: 1, wait: 1*10*1000 });
-                if(isDebug()) { console.log('retrying...  claim because of');}
+               // const job = new Job(BlockchainJobs, 'claim');
+                //job.restartJobs('claim', new function () {
+                 //   if(isDebug()) { console.log('retrying...  claim because of');}
+                //);
 
-                return {status: 'success', data};
+                return {status: 'success',  data:'all good'};
             } catch(error) {
                 return {status: 'fail', error: error.message};
             }
+
         }
     }
 });

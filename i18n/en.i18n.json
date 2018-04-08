@@ -2,8 +2,8 @@
   "components": {
     "userMenu": {
       "logout": "Logout",
-      "login": "Sign In",
-      "join": "Join",
+      "login": "Login",
+      "join": "Sign-up",
       "entries": {
         "home": {
           "name": "Home"
