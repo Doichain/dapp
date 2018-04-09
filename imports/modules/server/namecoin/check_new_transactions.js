@@ -4,6 +4,7 @@ import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoi
 import { Meta } from '../../../api/meta/meta.js';
 import addOrUpdateMeta from '../meta/addOrUpdate.js';
 import addNamecoinEntry from './add_entry_and_fetch_data.js'
+import {isDebug} from "../../../startup/server/dapp-configuration";
 
 const TX_NAME_START = "update: e/";
 const LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";
@@ -24,7 +25,7 @@ const checkNewTransactions = () => { //TODO remove confirmations>=1 to enable in
       tx.name.startsWith(TX_NAME_START));
     addressTxs.forEach(tx => addTx(tx));
     addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
-    console.log("Transactions updated");
+    if(isDebug()) { console.log("Incoming Doi-Transactions checked and updated"); }
   } catch(exception) {
     throw new Meteor.Error('namecoin.checkNewTransactions.exception', exception);
   }

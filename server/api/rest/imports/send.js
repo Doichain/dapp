@@ -51,25 +51,33 @@ Api.addRoute('walletnotify', {
            // const params = this.queryParams;
           //  const tx = params.txt;
             try {
+                    const queue  = BlockchainJobs.processJobs('claim',{pollInterval: 1000000000},
+                        function (job, cb) {
+                            try {
+                                const entry = job.data;
+                                claim(entry);
+                                job.done();
+                                if(isDebug()) { console.log('BlockchainJobs: claim - done!');}
+                            } catch(exception) {
+                                job.fail();
+                                throw new Meteor.Error('jobs.blockchain.claim.exception', exception);
+                            } finally {
+                                cb();
+                            }
+                });
+
                 BlockchainJobs.find({ type: 'claim', status: 'ready' })
                     .observe({
                         added: function () {
-                            claimJob.trigger();
-
+                            if(isDebug()) { console.log('triggered blockchainjobs claim via walletnotify');}
+                            queue.trigger();
                         }
                     });
-              //  if(isDebug()) { console.log("rest api: /"+walletnotify+" called with tx:"+tx);}
-
-               // const job = new Job(BlockchainJobs, 'claim');
-                //job.restartJobs('claim', new function () {
-                 //   if(isDebug()) { console.log('retrying...  claim because of');}
-                //);
 
                 return {status: 'success',  data:'all good'};
             } catch(error) {
                 return {status: 'fail', error: error.message};
             }
-
         }
     }
 });
