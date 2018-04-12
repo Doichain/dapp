@@ -1,31 +1,34 @@
 import { Meteor } from 'meteor/meteor';
-import { listSinceBlock, nameShow } from '../../../../server/api/namecoin.js';
-import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoin-configuration.js';
-import { Meta } from '../../../api/meta/meta.js';
-import addOrUpdateMeta from '../meta/addOrUpdate.js';
+import { getTransaction, nameShow } from '../../../../server/api/namecoin.js';
+import { CONFIRM_CLIENT } from '../../../startup/server/namecoin-configuration.js';
 import addNamecoinEntry from './add_entry_and_fetch_data.js'
 import {isDebug} from "../../../startup/server/dapp-configuration";
 
-const TX_NAME_START = "update: e/";
-const LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";
+const TX_NAME_START = "doi: e/";
 
-const checkNewTransactions = () => { //TODO remove confirmations>=1 to enable instand send out of emails
+
+const checkNewTransaction = (txid) => {
   try {
-    var lastCheckedBlock = Meta.findOne({key: LAST_CHECKED_BLOCK_KEY});
-    if(lastCheckedBlock !== undefined) lastCheckedBlock = lastCheckedBlock.value;
-    const ret = listSinceBlock(CONFIRM_CLIENT, lastCheckedBlock);
-    if(ret === undefined || ret.transactions === undefined) return;
-    const txs = ret.transactions;
-    lastCheckedBlock = ret.lastblock;
-    const addressTxs = txs.filter(tx =>
-      tx.address === CONFIRM_ADDRESS &&
-      tx.category === 'receive' &&
-      // tx.confirmations >= 1 &&  TODO remove this comment in as soon as walletnotify works
-      tx.name !== undefined &&
-      tx.name.startsWith(TX_NAME_START));
-    addressTxs.forEach(tx => addTx(tx));
-    addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
+
+      if(isDebug()) { console.log("txid"+txid+' was triggered by walletnotify getting its data from blockchain'); }
+
+      const ret = getTransaction(CONFIRM_CLIENT, txid);
+      const txs = ret.details;
+      if(!ret || !txs || !txs.length===0){
+        console.log("txid"+txid+'does not contain transaction details or transaction not found.');
+          return;
+      }
+      if(isDebug()) { console.log("get transaction details:"+JSON.stringify(txs)); }
+
+      const addressTxs = txs.filter(tx =>
+          tx.category === 'receive' &&
+          tx.name !== undefined &&
+          tx.name.startsWith(TX_NAME_START));
+
+      addressTxs.forEach(tx => addTx(tx));
+
     if(isDebug()) { console.log("Incoming Doi-Transactions checked and updated"); }
+
   } catch(exception) {
     throw new Meteor.Error('namecoin.checkNewTransactions.exception', exception);
   }
@@ -44,4 +47,4 @@ function addTx(tx) {
   });
 }
 
-export default checkNewTransactions;
+export default checkNewTransaction;

@@ -2,9 +2,8 @@ import { Api, DOI_FETCH_ROUTE } from '../rest.js';
 import addOptIn from '../../../../imports/modules/server/opt-ins/add_and_write_to_blockchain.js';
 import updateOptInStatus from '../../../../imports/modules/server/opt-ins/update_status.js';
 import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mail-data.js';
-import claim from '../../../../imports/modules/server/namecoin/claim_and_transfer.js';
 import {isDebug} from "../../../../imports/startup/server/dapp-configuration";
-import {BlockchainJobs} from "../../blockchain_jobs";
+
 
 Api.addRoute('opt-in', {
   post: {
@@ -41,45 +40,6 @@ Api.addRoute('opt-in', {
       }
     }
   }
-});
-
-Api.addRoute('walletnotify', {
-    get: {
-        authRequired: false,
-        action: function() {
-
-           // const params = this.queryParams;
-          //  const tx = params.txt;
-            try {
-                    const queue  = BlockchainJobs.processJobs('claim',{pollInterval: 1000000000},
-                        function (job, cb) {
-                            try {
-                                const entry = job.data;
-                                claim(entry);
-                                job.done();
-                                if(isDebug()) { console.log('BlockchainJobs: claim - done!');}
-                            } catch(exception) {
-                                job.fail();
-                                throw new Meteor.Error('jobs.blockchain.claim.exception', exception);
-                            } finally {
-                                cb();
-                            }
-                });
-
-                BlockchainJobs.find({ type: 'claim', status: 'ready' })
-                    .observe({
-                        added: function () {
-                            if(isDebug()) { console.log('triggered blockchainjobs claim via walletnotify');}
-                            queue.trigger();
-                        }
-                    });
-
-                return {status: 'success',  data:'all good'};
-            } catch(error) {
-                return {status: 'fail', error: error.message};
-            }
-        }
-    }
 });
 
 Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
