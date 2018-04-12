@@ -35,11 +35,11 @@ const insert = (data) => {
     const publicKey = getOptInKey({domain: provider});
     const destAddress =  getAddress({publicKey: publicKey});
     const from = encryptMessage({publicKey: publicKey, message: getUrl()});
-    const nameValue = JSON.stringify({
+    const nameValue = {
         signature: ourData.signature,
         dataHash: ourData.dataHash,
         from: from
-    })
+    };
     const nameDoiTx = nameDoi(SEND_CLIENT, ourData.nameId, nameValue, destAddress);
     if(isDebug()) { console.log('tx of name_doi: '+nameDoiTx);}
 

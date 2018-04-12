@@ -15,7 +15,6 @@ const checkNewTransaction = (txid) => {
       const ret = getRawTransaction(CONFIRM_CLIENT, txid);
       if(isDebug()) { console.log('gettransaction was called via rpc'); }
 
-      console.log(JSON.stringify(ret));
       const txs = ret.vout;
       if(!ret || !txs || !txs.length===0){
         console.log("txid"+txid+'does not contain transaction details or transaction not found.');

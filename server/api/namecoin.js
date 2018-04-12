@@ -80,7 +80,6 @@ export function getRawTransaction(client, txid) {
 function namecoin_getrawtransaction(client, txid, callback) {
     console.log('namecoin_getrawtransaction: '+txid)
     client.cmd('getrawtransaction', txid, 1, function(err, data) {
-
         if(err) console.log(err);
         callback(err, data);
     });
