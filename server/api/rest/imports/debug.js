@@ -4,7 +4,7 @@ Api.addRoute('debug/mail', {authRequired: false}, {
   get: {
     action: function() {
       const data = {
-        "from": "nico@nicokrause.com",
+        "from": "doichain@le-space.de",
         "subject": "Fancy Newsletter Confirmation",
         "redirect": "http://doichain.org",
         "returnPath": "noreply@doichain.org",
