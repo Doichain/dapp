@@ -43,8 +43,7 @@ const addNamecoinEntry = (entry) => {
     }
 
     if(isDebug()) { console.log("found entry: "+JSON.stringify(ety)); }
-
-    const value = ourEntry.value;
+    const value = JSON.parse(ourEntry.value);
     if(isDebug()) { console.log("from: "+value.from); }
 
     if(value.from === undefined) throw "Wrong blockchain entry";
