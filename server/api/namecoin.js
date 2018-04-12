@@ -24,6 +24,7 @@ export function getWif(client, address) {
 function namecoin_dumpprivkey(client, address, callback) {
   const ourAddress = address;
   client.cmd('dumpprivkey', ourAddress, function(err, data) {
+    if(err) console.log(err);
     callback(err, data);
   });
 }
@@ -71,13 +72,16 @@ function namecoin_nameDoi(client, name, value, address, callback) {
     });
 }
 
-export function getTransaction(client, txid,) {
-    const syncFunc = Meteor.wrapAsync(namecoin_gettransaction);
+export function getRawTransaction(client, txid) {
+    const syncFunc = Meteor.wrapAsync(namecoin_getrawtransaction);
     return syncFunc(client, txid);
 }
 
-function namecoin_gettransaction(client, txid) {
-    client.cmd('gettransaction', txid, function(err, data) {
+function namecoin_getrawtransaction(client, txid, callback) {
+    console.log('namecoin_getrawtransaction: '+txid)
+    client.cmd('getrawtransaction', txid, 1, function(err, data) {
+
+        if(err) console.log(err);
         callback(err, data);
     });
 }
