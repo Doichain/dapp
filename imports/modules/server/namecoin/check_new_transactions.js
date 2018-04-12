@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { getRawTransaction, nameShow } from '../../../../server/api/namecoin.js';
-import { CONFIRM_CLIENT } from '../../../startup/server/namecoin-configuration.js';
+import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoin-configuration.js';
 import addNamecoinEntry from './add_entry_and_fetch_data.js'
 import {isDebug} from "../../../startup/server/dapp-configuration";
 
@@ -21,10 +21,11 @@ const checkNewTransaction = (txid) => {
           return;
       }
       if(isDebug()) { console.log("get transaction details:"+JSON.stringify(txs)); }
-
+      //TODO only select transactions which belong to this wallet!
       const addressTxs = txs.filter(tx =>
           tx.scriptPubKey.nameOp !== undefined
           && tx.scriptPubKey.nameOp.op === "name_doi"
+          && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
           && tx.scriptPubKey.nameOp.name !== undefined
           && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
       );
