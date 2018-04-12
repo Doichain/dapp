@@ -46,14 +46,6 @@ NamecoinEntries.schema = new SimpleSchema({
   txId: {
     type: String,
     denyUpdate: false
-  },
-  expiresIn: {
-    type: Number,
-    denyUpdate: false
-  },
-  expired: {
-    type: Boolean,
-    denyUpdate: false
   }
 });
 
@@ -67,7 +59,5 @@ NamecoinEntries.publicFields = {
   name: 1,
   value: 1,
   address: 1,
-  txId: 1,
-  expiresIn: 1,
-  expired: 1
+  txId: 1
 };
