@@ -37,14 +37,14 @@ const addNamecoinEntry = (entry) => {
     AddNamecoinEntrySchema.validate(ourEntry);
     const ety = NamecoinEntries.findOne({name: ourEntry.name})
 
-   if(ety !== undefined){ //TODO why is that needed? disabling it for now - (sorry)
+   if(ety !== undefined){
         if(isDebug()) { console.log("NamecoinEntry already saved under _id "+ety._id); }
         return ety._id;
     }
 
     if(isDebug()) { console.log("found entry: "+JSON.stringify(ety)); }
     const value = JSON.parse(ourEntry.value);
-    if(isDebug()) { console.log("from: "+value.from); }
+    if(isDebug()) { console.log("from: "+JSON.stringify(value)); }
 
     if(value.from === undefined) throw "Wrong blockchain entry";
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS); //TODO is it possible to decrypt a message without private key?
@@ -59,11 +59,14 @@ const addNamecoinEntry = (entry) => {
       value: ourEntry.value,
       address: ourEntry.address,
       txId: ourEntry.txId,
-    })
+    });
+
+    if(isDebug()) { console.log("NamecoinEntries added: "+id); }
     addFetchDoiMailDataJob({
       name: ourEntry.name,
       domain: domain
-    })
+    });
+
     if(isDebug()) {
       console.log("New entry added: \n"+
                   "NameId="+ourEntry.name+"\n"+
