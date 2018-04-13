@@ -5,6 +5,7 @@ import { nameShow } from '../../../../server/api/namecoin.js';
 import getOptInProvider from '../dns/get_opt-in-provider.js';
 import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../namecoin/verify_signature.js';
+import {isDebug} from "../../../startup/server/dapp-configuration";
 
 const VerifyOptInSchema = new SimpleSchema({
   recipient_mail: {
@@ -30,6 +31,8 @@ const verifyOptIn = (data) => {
     const entry = nameShow(VERIFY_CLIENT, ourData.name_id);
     if(entry === undefined) return false;
     const entryData = JSON.parse(entry.value);
+    if(isDebug()) {console.log('entryData:'+JSON.stringify(entryData));}
+
     const firstCheck = verifySignature({
       data: ourData.recipient_mail+ourData.sender_mail,
       signature: entryData.signature,
