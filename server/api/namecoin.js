@@ -68,9 +68,15 @@ function namecoin_nameDoi(client, name, value, address, callback) {
     const ourName = checkId(name);
     const ourValue = value;
     const destAddress = address;
-    client.cmd('name_doi', ourName, ourValue, destAddress, function(err, data) {
-        callback(err, data);
-    });
+    if(!address) {
+        client.cmd('name_doi', ourName, ourValue, function (err, data) {
+            callback(err, data);
+        });
+    }else{
+        client.cmd('name_doi', ourName, ourValue, destAddress, function(err, data) {
+            callback(err, data);
+        });
+    };
 }
 
 export function getRawTransaction(client, txid) {
