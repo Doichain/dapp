@@ -17,7 +17,7 @@ Api.addRoute(DOI_CONFIRMATION_ROUTE+'/:hash', {authRequired: false}, {
 
           if(isDebug()) {console.log('confirm called for hash:'+hash);}
 
-        const redirect = confirmOptIn({ip: ip, hash: hash})
+        const redirect = confirmOptIn({host: ip, hash: hash})
         return {
           statusCode: 303,
           headers: {'Content-Type': 'text/plain', 'Location': redirect},

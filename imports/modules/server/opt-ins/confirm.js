@@ -10,9 +10,8 @@ import addUpdateBlockchainJob from '../jobs/add_update_blockchain.js';
 import {isDebug} from "../../../startup/server/dapp-configuration";
 
 const ConfirmOptInSchema = new SimpleSchema({
-  ip: {
-    type: String,
-    regEx: SimpleSchema.RegEx.IP
+  host: {
+    type: String
   },
   hash: {
     type: String
