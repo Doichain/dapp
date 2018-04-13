@@ -12,6 +12,7 @@ function namecoin_nameUpdate(client, id, value, callback) {
   const ourId = checkId(id);
   const ourValue = value;
   client.cmd('name_update', ourId, ourValue, function(err, data) {
+    if(err) console.log(err);
     callback(err, data);
   });
 }
