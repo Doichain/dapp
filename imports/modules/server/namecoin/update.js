@@ -16,7 +16,7 @@ const update = (data) => {
   try {
     const ourData = data;
     UpdateSchema.validate(ourData);
-    nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value);
+    nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null);
   } catch(exception) {
     throw new Meteor.Error('namecoin.update.exception', exception);
   }

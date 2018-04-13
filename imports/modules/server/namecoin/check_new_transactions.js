@@ -21,7 +21,7 @@ const checkNewTransaction = (txid) => {
           return;
       }
       if(isDebug()) { console.log("get transaction details:"+JSON.stringify(txs)); }
-      //TODO only select transactions which belong to this wallet!
+
       const addressTxs = txs.filter(tx =>
           tx.scriptPubKey.nameOp !== undefined
           && tx.scriptPubKey.nameOp.op === "name_doi"
