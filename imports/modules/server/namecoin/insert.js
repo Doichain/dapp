@@ -1,7 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import newName from './new_name.js';
-import addClaimBlockchainJob from '../jobs/add_claim_blockchain.js';
+import { SEND_CLIENT } from '../../../startup/server/namecoin-configuration.js';
+import { nameDoi } from '../../../../server/api/namecoin.js';
+import getAddress from "./get_address";
+import getOptInProvider from "../dns/get_opt-in-provider";
+import encryptMessage from "./encrypt_message";
+import {getUrl, isDebug} from "../../../startup/server/dapp-configuration";
+import getOptInKey from "../dns/get_opt-in-key";
+
 
 const InsertSchema = new SimpleSchema({
   nameId: {
@@ -25,16 +31,19 @@ const insert = (data) => {
   try {
     const ourData = data;
     InsertSchema.validate(ourData);
-    const newNameData = newName({nameId: ourData.nameId});
-    addClaimBlockchainJob({
-      nameId: ourData.nameId,
-      tx: newNameData.tx,
-      rand: newNameData.rand,
-      signature: ourData.signature,
-      dataHash: ourData.dataHash,
-      domain: ourData.domain,
-      soiDate: ourData.soiDate
-    });
+    const provider = getOptInProvider({domain: ourData.domain});
+    const publicKey = getOptInKey({domain: provider});
+    const destAddress =  getAddress({publicKey: publicKey});
+    const from = encryptMessage({publicKey: publicKey, message: getUrl()});
+    const nameValue = JSON.stringify({
+        signature: ourData.signature,
+        dataHash: ourData.dataHash,
+        from: from
+    })
+    const nameDoiTx = nameDoi(SEND_CLIENT, ourData.nameId, nameValue, destAddress);
+    if(isDebug()) { console.log('tx of name_doi: '+nameDoiTx);}
+
+
   } catch(exception) {
     throw new Meteor.Error('namecoin.insert.exception', exception);
   }

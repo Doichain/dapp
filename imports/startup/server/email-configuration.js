@@ -25,5 +25,7 @@ if(isAppType(CONFIRM_APP)) {
      '@' + encodeURIComponent(confirmSettings.smtp.server) +
      ':' +
      confirmSettings.smtp.port;
+
+     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; //enable this only in settings.json
   });
 }

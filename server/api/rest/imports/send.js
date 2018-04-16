@@ -4,8 +4,10 @@ import updateOptInStatus from '../../../../imports/modules/server/opt-ins/update
 import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mail-data.js';
 import {isDebug} from "../../../../imports/startup/server/dapp-configuration";
 
-Api.addRoute('opt-in', {authRequired: true}, {
+
+Api.addRoute('opt-in', {
   post: {
+    authRequired: true,
     roleRequired: ['admin'],
     action: function() {
       const qParams = this.queryParams;

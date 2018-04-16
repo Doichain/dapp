@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { nameUpdate } from '../../../../server/api/namecoin.js';
+import { nameDoi } from '../../../../server/api/namecoin.js';
 import { CONFIRM_CLIENT } from '../../../startup/server/namecoin-configuration.js';
 
 const UpdateSchema = new SimpleSchema({
@@ -16,7 +16,7 @@ const update = (data) => {
   try {
     const ourData = data;
     UpdateSchema.validate(ourData);
-    nameUpdate(CONFIRM_CLIENT, ourData.nameId, ourData.value);
+    nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null);
   } catch(exception) {
     throw new Meteor.Error('namecoin.update.exception', exception);
   }

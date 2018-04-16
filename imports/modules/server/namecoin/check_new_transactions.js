@@ -1,46 +1,55 @@
 import { Meteor } from 'meteor/meteor';
-import { listSinceBlock, nameShow } from '../../../../server/api/namecoin.js';
+import { getRawTransaction, nameShow } from '../../../../server/api/namecoin.js';
 import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoin-configuration.js';
-import { Meta } from '../../../api/meta/meta.js';
-import addOrUpdateMeta from '../meta/addOrUpdate.js';
 import addNamecoinEntry from './add_entry_and_fetch_data.js'
+import {isDebug} from "../../../startup/server/dapp-configuration";
 
-const TX_NAME_START = "update: e/";
-const LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";
+const TX_NAME_START = "e/";
 
-const checkNewTransactions = () => {
+
+const checkNewTransaction = (txid) => {
   try {
-    var lastCheckedBlock = Meta.findOne({key: LAST_CHECKED_BLOCK_KEY});
-    if(lastCheckedBlock !== undefined) lastCheckedBlock = lastCheckedBlock.value;
-    const ret = listSinceBlock(CONFIRM_CLIENT, lastCheckedBlock);
-    if(ret === undefined || ret.transactions === undefined) return;
-    const txs = ret.transactions;
-    lastCheckedBlock = ret.lastblock;
-    const addressTxs = txs.filter(tx =>
-      tx.address === CONFIRM_ADDRESS &&
-      tx.category === 'receive' &&
-      tx.confirmations >= 1 &&
-      tx.name !== undefined &&
-      tx.name.startsWith(TX_NAME_START));
-    addressTxs.forEach(tx => addTx(tx));
-    addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
-    console.log("Transactions updated");
+
+      if(isDebug()) { console.log("txid: "+txid+' was triggered by walletnotify getting its data from blockchain'); }
+
+      const ret = getRawTransaction(CONFIRM_CLIENT, txid);
+      if(isDebug()) { console.log('gettransaction was called via rpc'); }
+
+      const txs = ret.vout;
+      if(!ret || !txs || !txs.length===0){
+        console.log("txid"+txid+'does not contain transaction details or transaction not found.');
+          return;
+      }
+      if(isDebug()) { console.log("get transaction details:"+JSON.stringify(txs)); }
+
+      const addressTxs = txs.filter(tx =>
+          tx.scriptPubKey.nameOp !== undefined
+          && tx.scriptPubKey.nameOp.op === "name_doi"
+          && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
+          && tx.scriptPubKey.nameOp.name !== undefined
+          && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
+      );
+
+      addressTxs.forEach(tx => addTx(tx,txid));
+
   } catch(exception) {
     throw new Meteor.Error('namecoin.checkNewTransactions.exception', exception);
   }
 };
 
-function addTx(tx) {
-  var txName = tx.name.substring(TX_NAME_START.length);
-  const ety = nameShow(CONFIRM_CLIENT, txName);
+function addTx(tx,txid) {
+
+  if(isDebug()) { console.log("addTx:"+JSON.stringify(tx)); }
+  const txName = tx.scriptPubKey.nameOp.name.substring(TX_NAME_START.length);
+  const txValue = tx.scriptPubKey.nameOp.value;
+  const txAddress = tx.scriptPubKey.addresses[0]; //a soi entry can only be send to one address so far.
+
   addNamecoinEntry({
     name: txName,
-    value: ety.value,
-    address: ety.address,
-    txId: ety.txid,
-    expiresIn: ety.expires_in,
-    expired: ety.expired
+    value: txValue,
+    address: txAddress,
+    txId: txid
   });
 }
 
-export default checkNewTransactions;
+export default checkNewTransaction;

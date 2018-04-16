@@ -20,38 +20,53 @@ const AddNamecoinEntrySchema = new SimpleSchema({
   },
   txId: {
     type: String
-  },
-  expiresIn: {
-    type: Number
-  },
-  expired: {
-    type: Boolean
   }
 });
 
+/**
+ * Inserts
+ *
+ * @param entry
+ * @returns {*}
+ */
 const addNamecoinEntry = (entry) => {
   try {
+
+    if(isDebug()) { console.log("add NamecoinEntry..."+JSON.stringify(entry)); }
     const ourEntry = entry;
     AddNamecoinEntrySchema.validate(ourEntry);
     const ety = NamecoinEntries.findOne({name: ourEntry.name})
-    if(ety !== undefined) return ety._id;
+
+   if(ety !== undefined){
+        if(isDebug()) { console.log("NamecoinEntry already saved under _id "+ety._id); }
+        return ety._id;
+    }
+
+    if(isDebug()) { console.log("found entry: "+JSON.stringify(ety)); }
     const value = JSON.parse(ourEntry.value);
+    if(isDebug()) { console.log("from: "+JSON.stringify(value)); }
+
     if(value.from === undefined) throw "Wrong blockchain entry";
-    const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
+    const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS); //TODO is it possible to decrypt a message without private key?
     const privateKey = getPrivateKeyFromWif({wif: wif});
+
+    if(isDebug()) { console.log("got private key"); }
     const domain = decryptMessage({privateKey: privateKey, message: value.from});
+    if(isDebug()) { console.log("decrypted message from domain: "+domain); }
+
     const id = NamecoinEntries.insert({
       name: ourEntry.name,
       value: ourEntry.value,
       address: ourEntry.address,
       txId: ourEntry.txId,
-      expiresIn: ourEntry.expiresIn,
-      expired: ourEntry.expired
-    })
+    });
+
+    if(isDebug()) { console.log("NamecoinEntries added: "+id); }
     addFetchDoiMailDataJob({
       name: ourEntry.name,
       domain: domain
-    })
+    });
+
     if(isDebug()) {
       console.log("New entry added: \n"+
                   "NameId="+ourEntry.name+"\n"+
