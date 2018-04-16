@@ -31,7 +31,7 @@ const verifyOptIn = (data) => {
     const entry = nameShow(VERIFY_CLIENT, ourData.name_id);
     if(entry === undefined) return false;
     const entryData = JSON.parse(entry.value);
-    if(isDebug()) {console.log('entryData:'+JSON.stringify(entryData));}
+    if(isDebug()) {console.log('opt-ins.verify: entryData:'+JSON.stringify(entryData));}
 
     const firstCheck = verifySignature({
       data: ourData.recipient_mail+ourData.sender_mail,
