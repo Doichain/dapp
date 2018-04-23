@@ -19,6 +19,17 @@
         - [Verify Opt-In](#verify-opt-in)
 - [Blockchain entry name id](#blockchain-entry-name-id)
 
+## UML
+
+##### activity
+
+![Alt activity diagram](doc/uml/activity.svg)
+
+##### sequence
+
+![Alt secquence diagram](doc/uml/sequence.svg)
+
+
 ## Settings
 The settings are stored in the root folder with the name ``settings.json``
 
@@ -117,12 +128,7 @@ You can authorize yourself now with the request headers:
 X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k
 X-User-Id: 8BxFMSZAc7Ez2iiR6
 ```
-## UML
 
-##### activity
-
-![Alt text](test.svg)
-<img src="./test.svg">
 
 ### Calls (Send - dApp)
 ##### Create Opt-In
