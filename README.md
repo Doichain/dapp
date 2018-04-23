@@ -1,4 +1,7 @@
 ## Table of Contents
+- [UML](#uml)
+    * [Activity diagram](#activity)
+    * [Sequence diagram](#sequence)
 - [Settings](#settings)
     * [DNS](#dns)
     * [App types](#app-types)
@@ -162,7 +165,9 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 ## Blockchain entry name id
 The name id is a 256-bit, ECDSA valid, number represanted as a 32 byte (64 characters) string (Same as every Bitcoin privateKey). See also: https://en.bitcoin.it/wiki/Private_key
 
+## UML
 
+##### activity
 
 ![Alt text](test.svg)
 <img src="./test.svg">
