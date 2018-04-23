@@ -117,6 +117,12 @@ You can authorize yourself now with the request headers:
 X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k
 X-User-Id: 8BxFMSZAc7Ez2iiR6
 ```
+## UML
+
+##### activity
+
+![Alt text](test.svg)
+<img src="./test.svg">
 
 ### Calls (Send - dApp)
 ##### Create Opt-In
@@ -165,9 +171,3 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 ## Blockchain entry name id
 The name id is a 256-bit, ECDSA valid, number represanted as a 32 byte (64 characters) string (Same as every Bitcoin privateKey). See also: https://en.bitcoin.it/wiki/Private_key
 
-## UML
-
-##### activity
-
-![Alt text](test.svg)
-<img src="./test.svg">
