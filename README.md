@@ -55,7 +55,7 @@ Example configuration with all three dApps activated:
   "send": {
     "namecoin": {
       "host": "192.168.99.100",
-      "port": 18332,
+      "port": 8339,
       "username": "admin",
       "password": "****"
     },
@@ -70,7 +70,7 @@ Example configuration with all three dApps activated:
     },
     "namecoin": {
       "host": "192.168.99.100",
-      "port": 19332,
+      "port": 8339,
       "username": "admin",
       "password": "****",
       "address": "n2vjfuvn2P81cBhRgRQrcsosg2YZusCjFd"
@@ -79,7 +79,7 @@ Example configuration with all three dApps activated:
   "verify": {
     "namecoin": {
       "host": "192.168.99.100",
-      "port": 18332,
+      "port": 8339,
       "username": "admin",
       "password": "****"
     }
@@ -161,3 +161,8 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 
 ## Blockchain entry name id
 The name id is a 256-bit, ECDSA valid, number represanted as a 32 byte (64 characters) string (Same as every Bitcoin privateKey). See also: https://en.bitcoin.it/wiki/Private_key
+
+
+
+![Alt text](test.svg)
+<img src="./test.svg">

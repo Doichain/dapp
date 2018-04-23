@@ -33,8 +33,8 @@ const confirmOptIn = (request) => {
     if(entry === undefined) throw "Doichain entry not found";
     if(isDebug()) {console.log('found DoiChainEntry:'+JSON.stringify(entry));}
     const value = JSON.parse(entry.value);
-    if(isDebug()) {console.log('getSignature (only of value!)'+JSON.stringify(value));} //TODO who else needs to read this?
-    const doiSignature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);
+    if(isDebug()) {console.log('getSignature (only of value!)'+JSON.stringify(value));}
+    const doiSignature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);  //TODO signature over a signature?!?!?
     if(isDebug()) {console.log('got doiSignature:'+JSON.stringify(doiSignature));}
 
     delete value.from;
