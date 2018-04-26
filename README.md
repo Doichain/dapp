@@ -1,7 +1,7 @@
 ## Table of Contents
 - [UML](#uml)
-    * [Activity diagram](#activity)
-    * [Sequence diagram](#sequence)
+    * [Activity diagram](#activity-diagram)
+    * [Sequence diagram](#sequence-diagram)
 - [Settings](#settings)
     * [DNS](#dns)
     * [App types](#app-types)
@@ -21,11 +21,11 @@
 
 ## UML
 
-##### activity
+##### activity-diagram
 
 ![Alt activity diagram](doc/uml/activity.svg)
 
-##### sequence
+##### sequence-diagram
 
 ![Alt secquence diagram](doc/uml/sequence.svg)
 
