@@ -1,1 +1,1 @@
-export const FALLBACK_PROVIDER = "sendeffect.de";
+export const FALLBACK_PROVIDER = "doichain.org";
