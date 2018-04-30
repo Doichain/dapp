@@ -9,7 +9,7 @@ export function getHttp(url, query) {
 function _get(url, query, callback) {
   const ourUrl = url;
   const ourQuery = query;
-  HTTP.get(url, {query: ourQuery}, function(err, ret) {
+  HTTP.get(ourUrl, {query: ourQuery}, function(err, ret) {
     callback(err, ret);
   });
 }

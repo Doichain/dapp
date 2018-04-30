@@ -4,6 +4,7 @@ import addRecipient from '../recipients/add.js';
 import addSender from '../senders/add.js';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import writeToBlockchain from '../namecoin/write_to_blockchain.js';
+import {logSend} from "../../../startup/server/log-configuration";
 
 const AddOptInSchema = new SimpleSchema({
   recipient_mail: {
@@ -31,7 +32,7 @@ const addOptIn = (optIn) => {
     const sender = {
       email: ourOptIn.sender_mail
     }
-    const senderId = addSender(sender); //TODO an already saved OptIn will never be found over a new generated
+    const senderId = addSender(sender);
     const optIns = OptIns.find({recipient: recipientId, sender: senderId}).fetch();
     if(optIns.length > 0) return optIns[0]._id;
     if(ourOptIn.data !== undefined) {
@@ -44,7 +45,9 @@ const addOptIn = (optIn) => {
       sender: senderId,
       data: ourOptIn.data
     });
-    writeToBlockchain({id: optInId})
+    logSend("optIn added to local db with optInId",optInId);
+
+    writeToBlockchain({id: optInId});
     return optInId;
   } catch (exception) {
     throw new Meteor.Error('opt-ins.addAndWriteToBlockchain.exception', exception);

@@ -7,6 +7,7 @@ import getOptInProvider from "../dns/get_opt-in-provider";
 import encryptMessage from "./encrypt_message";
 import {getUrl, isDebug} from "../../../startup/server/dapp-configuration";
 import getOptInKey from "../dns/get_opt-in-key";
+import {logBlockchain, logSend} from "../../../startup/server/log-configuration";
 
 
 const InsertSchema = new SimpleSchema({
@@ -34,15 +35,19 @@ const insert = (data) => {
     const provider = getOptInProvider({domain: ourData.domain});
     const publicKey = getOptInKey({domain: provider});
     const destAddress =  getAddress({publicKey: publicKey});
+    logSend('got provider, publicKey and destAddress ', provider,publicKey,destAddress);
+
     const from = encryptMessage({publicKey: publicKey, message: getUrl()});
+    logSend('encrypted url for use ad from in doichain value:',getUrl(),from);
+
     const nameValue = JSON.stringify({
         signature: ourData.signature,
         dataHash: ourData.dataHash,
         from: from
-    })
+    });
+    logBlockchain('adding data to blockchain via name_doi (nameId,value,destAddress):', ourData.nameId,nameValue,destAddress);
     const nameDoiTx = nameDoi(SEND_CLIENT, ourData.nameId, nameValue, destAddress);
-    if(isDebug()) { console.log('tx of name_doi: '+nameDoiTx);}
-
+    logBlockchain('name_doi added blockchain. txid:', nameDoiTx);
 
   } catch(exception) {
     throw new Meteor.Error('namecoin.insert.exception', exception);

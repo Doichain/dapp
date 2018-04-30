@@ -14,6 +14,13 @@ export function isRegtest() {
   return false;
 }
 
+export function isTestnet() {
+    if(Meteor.settings !== undefined &&
+        Meteor.settings.app !== undefined &&
+        Meteor.settings.app.testnet !== undefined) return Meteor.settings.app.testnet
+    return false;
+}
+
 export function getUrl() {
   if(Meteor.settings !== undefined &&
      Meteor.settings.app !== undefined &&
