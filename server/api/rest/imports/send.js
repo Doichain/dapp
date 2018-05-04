@@ -2,7 +2,7 @@ import { Api, DOI_FETCH_ROUTE } from '../rest.js';
 import addOptIn from '../../../../imports/modules/server/opt-ins/add_and_write_to_blockchain.js';
 import updateOptInStatus from '../../../../imports/modules/server/opt-ins/update_status.js';
 import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mail-data.js';
-import {isDebug} from "../../../../imports/startup/server/dapp-configuration";
+import {logSend} from "../../../../imports/startup/server/log-configuration";
 
 
 Api.addRoute('opt-in', {
@@ -17,6 +17,7 @@ Api.addRoute('opt-in', {
       if(bParams !== undefined) params = {...params, ...bParams}
       try {
         const val = addOptIn(params);
+        logSend('opt-In added ID:',val);
         return {status: 'success', data: {message: 'Opt-In added. ID: '+val}};
       } catch(error) {
         return {statusCode: 500, body: {status: 'fail', message: error.message}};
@@ -34,6 +35,7 @@ Api.addRoute('opt-in', {
       if(bParams !== undefined) params = {...params, ...bParams}
       try {
         const val = updateOptInStatus(params);
+        logSend('opt-In status updated',val);
         return {status: 'success', data: {message: 'Opt-In status updated'}};
       } catch(error) {
         return {statusCode: 500, body: {status: 'fail', message: error.message}};
@@ -47,9 +49,9 @@ Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
     action: function() {
       const params = this.queryParams;
       try {
-          if(isDebug()) { console.log("rest api: "+DOI_FETCH_ROUTE+" called.");}
+          logSend('rest api - DOI_FETCH_ROUTE called',DOI_FETCH_ROUTE);
           const data = getDoiMailData(params);
-          if(isDebug()) { console.log("got doi mail data "+JSON.stringify(data));}
+          logSend('got doi mail data',data);
         return {status: 'success', data};
       } catch(error) {
         return {status: 'fail', error: error.message};

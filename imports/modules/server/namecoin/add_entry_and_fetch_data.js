@@ -7,6 +7,7 @@ import { NamecoinEntries } from '../../../api/namecoin/entries.js';
 import addFetchDoiMailDataJob from '../jobs/add_fetch-doi-mail-data.js';
 import getPrivateKeyFromWif from './get_private-key_from_wif.js';
 import decryptMessage from './decrypt_message.js';
+import {logConfirm, logSend} from "../../../startup/server/log-configuration";
 
 const AddNamecoinEntrySchema = new SimpleSchema({
   name: {
@@ -31,28 +32,26 @@ const AddNamecoinEntrySchema = new SimpleSchema({
  */
 const addNamecoinEntry = (entry) => {
   try {
-
-    if(isDebug()) { console.log("add NamecoinEntry..."+JSON.stringify(entry)); }
+    logSend('add DoichainEntry...',entry);
     const ourEntry = entry;
     AddNamecoinEntrySchema.validate(ourEntry);
-    const ety = NamecoinEntries.findOne({name: ourEntry.name})
 
+    const ety = NamecoinEntries.findOne({name: ourEntry.name})
+    logSend('found entry: ',ety);
    if(ety !== undefined){
-        if(isDebug()) { console.log("NamecoinEntry already saved under _id "+ety._id); }
+        logSend('NamecoinEntry already saved under _id "+ety._id); }
         return ety._id;
     }
 
-    if(isDebug()) { console.log("found entry: "+JSON.stringify(ety)); }
     const value = JSON.parse(ourEntry.value);
-    if(isDebug()) { console.log("from: "+JSON.stringify(value)); }
 
     if(value.from === undefined) throw "Wrong blockchain entry";
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS); //TODO is it possible to decrypt a message without private key?
     const privateKey = getPrivateKeyFromWif({wif: wif});
+    logSend('got private key (will not show it here)');
 
-    if(isDebug()) { console.log("got private key"); }
     const domain = decryptMessage({privateKey: privateKey, message: value.from});
-    if(isDebug()) { console.log("decrypted message from domain: "+domain); }
+    logSend('decrypted message from domain: ',domain);
 
     const id = NamecoinEntries.insert({
       name: ourEntry.name,
@@ -61,19 +60,19 @@ const addNamecoinEntry = (entry) => {
       txId: ourEntry.txId,
     });
 
-    if(isDebug()) { console.log("NamecoinEntries added: "+id); }
+    logSend('NamecoinEntries added:', id);
+
     addFetchDoiMailDataJob({
       name: ourEntry.name,
       domain: domain
     });
 
-    if(isDebug()) {
-      console.log("New entry added: \n"+
-                  "NameId="+ourEntry.name+"\n"+
-                  "Address="+ourEntry.address+"\n"+
-                  "TxId="+ourEntry.txId+"\n"+
-                  "Value="+ourEntry.value);
-    }
+    logSend('New entry added: \n'+
+                  'NameId='+ourEntry.name+"\n"+
+                  'Address='+ourEntry.address+"\n"+
+                  'TxId='+ourEntry.txId+"\n"+
+                  'Value='+ourEntry.value);
+
     return id;
   } catch (exception) {
     throw new Meteor.Error('namecoin.addEntryAndFetchData.exception', exception);

@@ -45,8 +45,10 @@ const insert = (data) => {
         dataHash: ourData.dataHash,
         from: from
     });
+
     logBlockchain('adding data to blockchain via name_doi (nameId,value,destAddress):', ourData.nameId,nameValue,destAddress);
     const nameDoiTx = nameDoi(SEND_CLIENT, ourData.nameId, nameValue, destAddress);
+
     logBlockchain('name_doi added blockchain. txid:', nameDoiTx);
 
   } catch(exception) {

@@ -7,7 +7,7 @@ import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../namecoin/verify_signature.js';
 import { getHttp } from '../../../../server/api/http.js';
 import { DOI_MAIL_FETCH_URL } from '../../../startup/server/email-configuration.js';
-import {isDebug} from "../../../startup/server/dapp-configuration";
+import {logSend} from "../../../startup/server/log-configuration";
 
 const GetDoiMailDataSchema = new SimpleSchema({
   name_id: {
@@ -25,38 +25,36 @@ const getDoiMailData = (data) => {
     GetDoiMailDataSchema.validate(ourData);
     const optIn = OptIns.findOne({nameId: ourData.name_id});
     if(optIn === undefined) throw "Opt-In not found";
-    if(isDebug()) { console.log("Opt-In found");}
+    logSend('Opt-In found',optIn);
 
     const recipient = Recipients.findOne({_id: optIn.recipient});
     if(recipient === undefined) throw "Recipient not found";
-    if(isDebug()) { console.log("Recipient found");}
+    logSend('Recipient found', recipient);
 
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
     const provider = getOptInProvider({domain: domain});
     const publicKey = getOptInKey({domain: provider});
 
-    if(isDebug()) { console.log("parts:"+parts+"\n domain:"+domain+"\nprovider:"+provider+"\npublicKey:"+publicKey);}
-    if(isDebug()) { console.log("verifying signature..."); }
+    logSend('queried data: (parts, domain, provider, publicKey)', parts,domain,provider,publicKey);
+
     //TODO: Only allow access one time
     // Possible solution:
     // 1. Provider (confirm dApp) request the data
     // 2. Provider receive the data
     // 3. Provider sends confirmation "I got the data"
     // 4. Send dApp lock the data for this opt in
+    logSend('verifying signature...');
     if(!verifySignature({publicKey: publicKey, data: ourData.name_id, signature: ourData.signature})) {
-        if(isDebug()) { console.log("signature incorrect"); }
-        throw "Access denied";
+        throw "signature incorrect - access denied";
     }
 
-    if(isDebug()) { console.log("signature verified"); }
+    logSend('signature verified');
 
-    //TODO: Query for language + Fallback template
+    //TODO: Query for language
     let doiMailData;
     try {
       doiMailData = getHttp(DOI_MAIL_FETCH_URL, "").data;
-
-      if(isDebug()) { console.log("doiMailData:"+JSON.stringify(doiMailData.data)+ "from url:"+DOI_MAIL_FETCH_URL); }
 
       let returnData = {
           "recipient": recipient.email,
@@ -66,8 +64,7 @@ const getDoiMailData = (data) => {
           "from": doiMailData.data.from,
           "returnPath": doiMailData.data.returnPath
       }
-
-      if(isDebug()) { console.log('returnData:'+JSON.stringify(returnData));}
+      logSend('doiMailData and url:',DOI_MAIL_FETCH_URL,returnData);
 
       return returnData
 

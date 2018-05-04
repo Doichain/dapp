@@ -5,7 +5,7 @@ import Base58 from 'bs58';
 import { isRegtest } from '../../../startup/server/dapp-configuration.js';
 
 const VERSION_BYTE = 0xb4;
-const VERSION_BYTE_REGTEST = 0xef;
+const VERSION_BYTE_REGTEST = 0xef; //TODO IS THIS STILL the correct version byte?! I was thinking having it changed in core?
 const GetWifSchema = new SimpleSchema({
   privateKey: {
     type: String

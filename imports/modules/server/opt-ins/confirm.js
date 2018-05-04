@@ -8,6 +8,7 @@ import decodeDoiHash from '../emails/decode_doi-hash.js';
 import { signMessage } from '../../../../server/api/namecoin.js';
 import addUpdateBlockchainJob from '../jobs/add_update_blockchain.js';
 import {isDebug} from "../../../startup/server/dapp-configuration";
+import {logConfirm} from "../../../startup/server/log-configuration";
 
 const ConfirmOptInSchema = new SimpleSchema({
   host: {
@@ -31,17 +32,19 @@ const confirmOptIn = (request) => {
     //TODO rename to DoichainEntries!
     const entry = NamecoinEntries.findOne({name: optIn.nameId});
     if(entry === undefined) throw "Doichain entry not found";
-    if(isDebug()) {console.log('found DoiChainEntry:'+JSON.stringify(entry));}
+    logConfirm('found DoiChainEntry:',entry);
+
     const value = JSON.parse(entry.value);
-    if(isDebug()) {console.log('getSignature (only of value!)'+JSON.stringify(value));}
+    logConfirm('getSignature (only of value!)', value);
+
     const doiSignature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);  //TODO signature over a signature?!?!?
-    if(isDebug()) {console.log('got doiSignature:'+JSON.stringify(doiSignature));}
+    logConfirm('got doiSignature:',doiSignature);
 
     delete value.from;
     value.doiTimestamp = confirmedAt.toISOString();
     value.doiSignature = doiSignature;
     const jsonValue = JSON.stringify(value);
-    if(isDebug()) {console.log('updating Doichain nameId:'+optIn.nameId+' with value:'+JSON.stringify(value));}
+    logConfirm('updating Doichain nameId:'+optIn.nameId+' with value:',jsonValue);}
 
     addUpdateBlockchainJob({
       nameId: optIn.nameId,
@@ -50,7 +53,8 @@ const confirmOptIn = (request) => {
 
     return decoded.redirect;
 
-    if(isDebug()) {console.log('redirecting user to::'+decoded.redirect);}
+    logConfirm('redirecting user to:',decoded.redirect);
+
   } catch (exception) {
     throw new Meteor.Error('opt-ins.confirm.exception', exception);
   }
