@@ -39,7 +39,7 @@ const addNamecoinEntry = (entry) => {
     const ety = NamecoinEntries.findOne({name: ourEntry.name})
     logSend('found entry: ',ety);
    if(ety !== undefined){
-        logSend('NamecoinEntry already saved under _id "+ety._id); }
+        logSend('NamecoinEntry already saved under _id '+ety._id); 
         return ety._id;
     }
 
