@@ -38,7 +38,6 @@ const sendMail = (mail) => {
       }
     });
     logConfirm('sent email with data:',mail);
-    }
   } catch (exception) {
     throw new Meteor.Error('emails.send.exception', exception);
   }
