@@ -37,41 +37,8 @@ Api.addRoute('walletnotify', {
             const params = this.queryParams;
             const txid = params.tx;
 
-
             try {
                 checkNewTransaction(txid);
-                /*
-                TODO put checkNewTransaction into a job - in case something fails it can
-                const queue  = BlockchainJobs.processJobs('checkNewTransaction',{pollInterval: 1000000000},
-                    function (job, cb) {
-                        try {
-                            console.log('test4');
-                            if(!isAppType(CONFIRM_APP)) {
-                                job.pause();
-                                job.cancel();
-                                job.remove();
-                            } else {
-
-                                job.done();
-                            }
-
-                        } catch(exception) {
-                            job.fail();
-                            throw new Meteor.Error('obs.blockchain.checkNewTransaction.exception', exception);
-                        } finally {
-                            cb();
-                        }
-                    });
-
-                    BlockchainJobs.find({ type: 'checkNewTransaction', status: 'ready' })
-                    .observe({
-                        added: function () {
-                            console.log('test3');
-                            if(isDebug()) { console.log('triggered checkNewTransaction claim via walletnotify for tx:'+txid);}
-                            queue.trigger();
-                        }
-                    });
-                    console.log('test2');*/
                 return {status: 'success',  data:'txid:'+txid+' is about to get read from blockchain now.'};
             } catch(error) {
                 return {status: 'fail', error: error.message};

@@ -46,6 +46,18 @@ function namecoin_nameShow(client, id, callback) {
   });
 }
 
+export function feeDoi(client, address) {
+    const syncFunc = Meteor.wrapAsync(namecoin_feeDoi);
+    return syncFunc(client, address);
+}
+
+function namecoin_feeDoi(client, address, callback) {
+    const destAddress = address;
+    client.cmd('sendtoaddress', 0.01, destAddress, function(err, data) {
+        callback(err, data);
+    });
+}
+
 export function nameDoi(client, name, value, address) {
     const syncFunc = Meteor.wrapAsync(namecoin_nameDoi);
     return syncFunc(client, name, value, address);

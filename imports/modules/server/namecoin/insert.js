@@ -46,9 +46,12 @@ const insert = (data) => {
         from: from
     });
 
+    logBlockchain('sending a fee to bob so he can pay the doi storage (destAddress):', destAddress);
+    const feeDoiTx = feeDoi(SEND_CLIENT, destAddress);
+    logBlockchain('fee send txid to destaddress', feeDoiTx, destAddress);
+
     logBlockchain('adding data to blockchain via name_doi (nameId,value,destAddress):', ourData.nameId,nameValue,destAddress);
     const nameDoiTx = nameDoi(SEND_CLIENT, ourData.nameId, nameValue, destAddress);
-
     logBlockchain('name_doi added blockchain. txid:', nameDoiTx);
 
   } catch(exception) {
