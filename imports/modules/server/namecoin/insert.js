@@ -1,16 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { SEND_CLIENT } from '../../../startup/server/namecoin-configuration.js';
-import { nameDoi } from '../../../../server/api/namecoin.js';
 import getAddress from "./get_address";
 import getOptInProvider from "../dns/get_opt-in-provider";
 import encryptMessage from "./encrypt_message";
 import {getUrl, isDebug} from "../../../startup/server/dapp-configuration";
 import getOptInKey from "../dns/get_opt-in-key";
 import {logBlockchain, logSend} from "../../../startup/server/log-configuration";
+import {feeDoi,nameDoi} from "../../../../server/api/namecoin";
 
 
-const InsertSchema = new SimpleSchema({
+const InsertSchema = new SqimpleSchema({
   nameId: {
     type: String
   },
