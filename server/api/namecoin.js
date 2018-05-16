@@ -53,7 +53,7 @@ export function feeDoi(client, address) {
 
 function namecoin_feeDoi(client, address, callback) {
     const destAddress = address;
-    client.cmd('sendtoaddress', 0.01, destAddress, function(err, data) {
+    client.cmd('sendtoaddress', destAddress, '0.01', function(err, data) {
         callback(err, data);
     });
 }
