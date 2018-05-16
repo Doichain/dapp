@@ -10,7 +10,7 @@ import {logBlockchain, logSend} from "../../../startup/server/log-configuration"
 import {feeDoi,nameDoi} from "../../../../server/api/namecoin";
 
 
-const InsertSchema = new SqimpleSchema({
+const InsertSchema = new SimpleSchema({
   nameId: {
     type: String
   },
