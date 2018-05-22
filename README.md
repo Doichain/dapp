@@ -34,8 +34,8 @@
 The settings are stored in the root folder with the name ``settings.json``
 
 ##### DNS
-If you setup a Confirm dApp you have to set the txt key ``opt-in-key`` with your dApps public key.
-For a Verfiy dApp the txt key ``opt-in-provider`` with the __trusted__ Confirm dApp domain has to be set.
+If you setup a dApp in confirm mode you have to set the txt key ``opt-in-key`` with your dApps public key in the DNS Server of the email domain.
+For a dApp with enabled verify mode, the DNS txt key ``opt-in-provider`` with the __trusted__ dApp in confirm mode  domain has to be set.
 
 ##### App types
 Viable dApp types are ``send``, ``confirm`` and ``verify``
