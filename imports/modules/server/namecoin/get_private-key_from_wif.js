@@ -14,7 +14,7 @@ const getPrivateKeyFromWif = (data) => {
     GetPrivateKeyFromWifSchema.validate(ourData);
     return _getPrivateKeyFromWif(ourData.wif);
   } catch(exception) {
-    throw new Meteor.Error('namecoin.getPrivateKeyFromWif.exception', exception);
+    throw new Meteor.Error('doichain.getPrivateKeyFromWif.exception', exception);
   }
 };
 

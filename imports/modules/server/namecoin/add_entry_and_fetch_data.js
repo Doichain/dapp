@@ -1,15 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { isDebug } from '../../../startup/server/dapp-configuration.js';
-import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoin-configuration.js';
-import { getWif } from '../../../../server/api/namecoin.js';
-import { NamecoinEntries } from '../../../api/namecoin/entries.js';
+import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/doichain-configuration.js';
+import { getWif } from '../../../../server/api/doichain.js';
+import { DoichainEntries } from '../../../api/doichain/entries.js';
 import addFetchDoiMailDataJob from '../jobs/add_fetch-doi-mail-data.js';
 import getPrivateKeyFromWif from './get_private-key_from_wif.js';
 import decryptMessage from './decrypt_message.js';
 import {logConfirm, logSend} from "../../../startup/server/log-configuration";
 
-const AddNamecoinEntrySchema = new SimpleSchema({
+const AddDoichainEntrySchema = new SimpleSchema({
   name: {
     type: String
   },
@@ -30,16 +30,16 @@ const AddNamecoinEntrySchema = new SimpleSchema({
  * @param entry
  * @returns {*}
  */
-const addNamecoinEntry = (entry) => {
+const addDoichainEntry = (entry) => {
   try {
     logSend('add DoichainEntry...',entry);
     const ourEntry = entry;
-    AddNamecoinEntrySchema.validate(ourEntry);
+    AddDoichainEntrySchema.validate(ourEntry);
 
-    const ety = NamecoinEntries.findOne({name: ourEntry.name})
+    const ety = DoichainEntries.findOne({name: ourEntry.name})
     logSend('found entry: ',ety);
    if(ety !== undefined){
-        logSend('NamecoinEntry already saved under _id '+ety._id); 
+        logSend('DoichainEntry already saved under _id '+ety._id); 
         return ety._id;
     }
 
@@ -53,14 +53,14 @@ const addNamecoinEntry = (entry) => {
     const domain = decryptMessage({privateKey: privateKey, message: value.from});
     logSend('decrypted message from domain: ',domain);
 
-    const id = NamecoinEntries.insert({
+    const id = DoichainEntries.insert({
       name: ourEntry.name,
       value: ourEntry.value,
       address: ourEntry.address,
       txId: ourEntry.txId,
     });
 
-    logSend('NamecoinEntries added:', id);
+    logSend('DoichainEntries added:', id);
 
     addFetchDoiMailDataJob({
       name: ourEntry.name,
@@ -75,8 +75,8 @@ const addNamecoinEntry = (entry) => {
 
     return id;
   } catch (exception) {
-    throw new Meteor.Error('namecoin.addEntryAndFetchData.exception', exception);
+    throw new Meteor.Error('doichain.addEntryAndFetchData.exception', exception);
   }
 };
 
-export default addNamecoinEntry;
+export default addDoichainEntry;

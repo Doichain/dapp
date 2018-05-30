@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import { getRawTransaction, nameShow } from '../../../../server/api/namecoin.js';
-import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoin-configuration.js';
-import addNamecoinEntry from './add_entry_and_fetch_data.js'
+import { getRawTransaction, nameShow } from '../../../../server/api/doichain.js';
+import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/doichain-configuration.js';
+import addDoichainEntry from './add_entry_and_fetch_data.js'
 import {isDebug} from "../../../startup/server/dapp-configuration";
 
 const TX_NAME_START = "e/";
@@ -33,7 +33,7 @@ const checkNewTransaction = (txid) => {
       addressTxs.forEach(tx => addTx(tx,txid));
 
   } catch(exception) {
-    throw new Meteor.Error('namecoin.checkNewTransactions.exception', exception);
+    throw new Meteor.Error('doichain.checkNewTransactions.exception', exception);
   }
 };
 
@@ -44,7 +44,7 @@ function addTx(tx,txid) {
   const txValue = tx.scriptPubKey.nameOp.value;
   const txAddress = tx.scriptPubKey.addresses[0]; //a soi entry can only be send to one address so far.
 
-  addNamecoinEntry({
+  addDoichainEntry({
     name: txName,
     value: txValue,
     address: txAddress,

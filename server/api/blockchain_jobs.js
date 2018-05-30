@@ -1,6 +1,6 @@
 export const BlockchainJobs = JobCollection('blockchain');
-import insert from '../../imports/modules/server/namecoin/insert.js';
-import update from '../../imports/modules/server/namecoin/update.js';
+import insert from '../../imports/modules/server/doichain/insert.js';
+import update from '../../imports/modules/server/doichain/update.js';
 
 BlockchainJobs.processJobs('insert', {workTimeout: 30*1000},function (job, cb) {
   try {

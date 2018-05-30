@@ -34,8 +34,8 @@
   },
   "pages": {
     "startPage": {
-      "title": "MailId",
-      "infoText": "Doichain - Eine Blockchain basierte Email Anti-Spam Lösung entwickelt von",
+      "title": "doichain",
+      "infoText": "Doichain - Eine Blockchain basierte Email Anti-Spam Lösung",
       "joinNow": "Trete jetzt bei und mach Mailing ein bisschen sicherer!"
     },
     "keyGeneratorPage": {

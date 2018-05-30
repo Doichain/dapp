@@ -14,7 +14,7 @@ const getDataHash = (data) => {
     const hash = CryptoJS.SHA256(ourData).toString();
     return hash;
   } catch(exception) {
-    throw new Meteor.Error('namecoin.getDataHash.exception', exception);
+    throw new Meteor.Error('doichain.getDataHash.exception', exception);
   }
 };
 

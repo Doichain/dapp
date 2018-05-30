@@ -2,7 +2,7 @@ import { Api, DOI_CONFIRMATION_ROUTE } from '../rest.js';
 import confirmOptIn from '../../../../imports/modules/server/opt-ins/confirm.js'
 import {isDebug} from "../../../../imports/startup/server/dapp-configuration";
 import {BlockchainJobs} from "../../blockchain_jobs";
-import checkNewTransaction from "../../../../imports/modules/server/namecoin/check_new_transactions";
+import checkNewTransaction from "../../../../imports/modules/server/doichain/check_new_transactions";
 import {CONFIRM_APP, isAppType} from "../../../../imports/startup/server/type-configuration";
 
 Api.addRoute(DOI_CONFIRMATION_ROUTE+'/:hash', {authRequired: false}, {

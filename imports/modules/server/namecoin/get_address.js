@@ -18,7 +18,7 @@ const getAddress = (data) => {
     GetAddressSchema.validate(ourData);
     return _getAddress(ourData.publicKey);
   } catch(exception) {
-    throw new Meteor.Error('namecoin.getAddress.exception', exception);
+    throw new Meteor.Error('doichain.getAddress.exception', exception);
   }
 };
 

@@ -3,8 +3,8 @@ import SimpleSchema from 'simpl-schema';
 import bitcore from 'bitcore-lib';
 import Message from 'bitcore-message';
 const NETWORK = bitcore.Networks.add({
-  name: 'namecoin',
-  alias: 'namecoin',
+  name: 'doichain',
+  alias: 'doichain',
   pubkeyhash: 0x34,
   privatekey: 0xB4,
   scripthash: 13,
@@ -33,7 +33,7 @@ const verifySignature = (data) => {
     } catch(error) {}
     return false;
   } catch(exception) {
-    throw new Meteor.Error('namecoin.verifySignature.exception', exception);
+    throw new Meteor.Error('doichain.verifySignature.exception', exception);
   }
 };
 

@@ -22,7 +22,7 @@ const decryptMessage = (data) => {
     const message = Buffer.from(ourData.message, 'hex');
     return ecies.decrypt(ecdh, message).toString('utf8');
   } catch(exception) {
-    throw new Meteor.Error('namecoin.decryptMessage.exception', exception);
+    throw new Meteor.Error('doichain.decryptMessage.exception', exception);
   }
 };
 

@@ -19,7 +19,7 @@ const getSignature = (data) => {
     const signature = Message(ourData.message).sign(new bitcore.PrivateKey(ourData.privateKey));
     return signature;
   } catch(exception) {
-    throw new Meteor.Error('namecoin.getSignature.exception', exception);
+    throw new Meteor.Error('doichain.getSignature.exception', exception);
   }
 };
 

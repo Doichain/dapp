@@ -19,7 +19,7 @@ const encryptMessage = (data) => {
     const message = Buffer.from(ourData.message);
     return ecies.encrypt(publicKey, message).toString('hex');
   } catch(exception) {
-    throw new Meteor.Error('namecoin.encryptMessage.exception', exception);
+    throw new Meteor.Error('doichain.encryptMessage.exception', exception);
   }
 };
 

@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
-class NamecoinEntriesCollection extends Mongo.Collection {
+class DoichainEntriesCollection extends Mongo.Collection {
   insert(entry, callback) {
     const result = super.insert(entry, callback);
     return result;
@@ -16,16 +16,16 @@ class NamecoinEntriesCollection extends Mongo.Collection {
   }
 }
 
-export const NamecoinEntries = new NamecoinEntriesCollection('namecoin-entries');
+export const DoichainEntries = new DoichainEntriesCollection('doichain-entries');
 
 // Deny all client-side updates since we will be using methods to manage this collection
-NamecoinEntries.deny({
+DoichainEntries.deny({
   insert() { return true; },
   update() { return true; },
   remove() { return true; },
 });
 
-NamecoinEntries.schema = new SimpleSchema({
+DoichainEntries.schema = new SimpleSchema({
   _id: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
@@ -49,12 +49,12 @@ NamecoinEntries.schema = new SimpleSchema({
   }
 });
 
-NamecoinEntries.attachSchema(NamecoinEntries.schema);
+DoichainEntries.attachSchema(DoichainEntries.schema);
 
 // This represents the keys from Entry objects that should be published
 // to the client. If we add secret properties to Entry objects, don't list
 // them here to keep them private to the server.
-NamecoinEntries.publicFields = {
+DoichainEntries.publicFields = {
   _id: 1,
   name: 1,
   value: 1,

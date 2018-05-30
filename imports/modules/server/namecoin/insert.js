@@ -1,13 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { SEND_CLIENT } from '../../../startup/server/namecoin-configuration.js';
+import { SEND_CLIENT } from '../../../startup/server/doichain-configuration.js';
 import getAddress from "./get_address";
 import getOptInProvider from "../dns/get_opt-in-provider";
 import encryptMessage from "./encrypt_message";
 import {getUrl, isDebug} from "../../../startup/server/dapp-configuration";
 import getOptInKey from "../dns/get_opt-in-key";
 import {logBlockchain, logSend} from "../../../startup/server/log-configuration";
-import {feeDoi,nameDoi} from "../../../../server/api/namecoin";
+import {feeDoi,nameDoi} from "../../../../server/api/doichain";
 
 
 const InsertSchema = new SimpleSchema({
@@ -55,7 +55,7 @@ const insert = (data) => {
     logBlockchain('name_doi added blockchain. txid:', nameDoiTx);
 
   } catch(exception) {
-    throw new Meteor.Error('namecoin.insert.exception', exception);
+    throw new Meteor.Error('doichain.insert.exception', exception);
   }
 };
 

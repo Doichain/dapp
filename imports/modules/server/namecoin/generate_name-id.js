@@ -17,7 +17,7 @@ const generateNameId = (optIn) => {
     OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});
     return nameId;
   } catch(exception) {
-    throw new Meteor.Error('namecoin.generateNameId.exception', exception);
+    throw new Meteor.Error('doichain.generateNameId.exception', exception);
   }
 };
 
