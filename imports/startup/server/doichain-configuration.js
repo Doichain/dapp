@@ -1,4 +1,4 @@
-import doichain from 'doichain';
+import namecoin from 'namecoin';
 import { SEND_APP, CONFIRM_APP, VERIFY_APP, isAppType } from './type-configuration.js';
 
 var sendSettings = Meteor.settings.send;
@@ -32,7 +32,7 @@ if(isAppType(VERIFY_APP)) {
 export const VERIFY_CLIENT = verifyClient;
 
 function createClient(settings) {
-  return new doichain.Client({
+  return new namecoin.Client({
     host: settings.host,
     port: settings.port,
     user: settings.username,

@@ -7,7 +7,7 @@ aldeed:schema-deny@2.0.1
 aldeed:schema-index@3.0.0
 allow-deny@1.1.0
 autoupdate@1.4.0
-babel-compiler@7.0.7
+babel-compiler@7.0.6
 babel-runtime@1.2.0
 base64@1.0.10
 binary-heap@1.0.10
