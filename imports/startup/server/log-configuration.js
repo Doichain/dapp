@@ -22,7 +22,7 @@ export function logVerify(message, param) {
 }
 
 export function logBlockchain(message, param) {
-    if(isDebug()){console.time().tag(blockchainModeTagColor).log(message param);}
+    if(isDebug()){console.time().tag(blockchainModeTagColor).log(message, param);}
 }
 
 export function logError(message) {
