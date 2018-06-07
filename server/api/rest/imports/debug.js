@@ -6,7 +6,7 @@ Api.addRoute('debug/mail', {authRequired: false}, {
       const data = {
         "from": "noreply@doichain.org",
         "subject": "Doichain.org Newsletter Bestätigung",
-        "redirect": "http://www.doichain.org/danke-fuer-ihre-anmeldung/",
+        "redirect": "http://www.doichain.org/anmeldung-abgeschlossen/",
         "returnPath": "noreply@doichain.org",
         "content":"<!-- content --> <div style='padding: 0px;'><table cellpadding='0' " +
         "cellspacing='0' border='0' width='100%'><tr><td valign='top' " +
