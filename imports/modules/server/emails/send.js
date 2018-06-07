@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import {logConfirm} from "../../../startup/server/log-configuration";
-
+import { DOI_MAIL_DEFAULT_EMAIL_FROM } from '../../../startup/server/email-configuration.js';
 const SendMailSchema = new SimpleSchema({
   from: {
     type: String,
@@ -29,7 +29,7 @@ const sendMail = (mail) => {
     SendMailSchema.validate(ourMail);
     //TODO: Text fallback
     Email.send({
-      from: mail.from,
+      from: DOI_MAIL_DEFAULT_EMAIL_FROM,
       to: mail.to,
       subject: mail.subject,
       html: mail.message,

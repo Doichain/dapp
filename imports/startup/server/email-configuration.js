@@ -7,6 +7,7 @@ export const HashIds = new Hashids('0xugmLe7Nyee6vk1iF88(6CmwpqoG4hQ*-T74tjYw^O2
 
 var sendSettings = Meteor.settings.send;
 var doiMailFetchUrl = undefined;
+
 if(isAppType(SEND_APP)) {
   if(!sendSettings || !sendSettings.doiMailFetchUrl)
     throw new Meteor.Error("config.send.email", "Settings not found");
@@ -16,8 +17,18 @@ export const DOI_MAIL_FETCH_URL = doiMailFetchUrl;
 
 if(isAppType(CONFIRM_APP)) {
   var confirmSettings = Meteor.settings.confirm;
+
   if(!confirmSettings || !confirmSettings.smtp)
-    throw new Meteor.Error("config.confirm.email.smtp", "Confirm app email smtp settings not found")
+        throw new Meteor.Error("config.confirm.smtp", "Confirm app email smtp settings not found")
+
+  if(!confirmSettings.smtp.defaultFrom)
+        throw new Meteor.Error("config.confirm.defaultFrom", "Confirm app email defaultFrom not found")
+
+  var defaultFrom  =  confirmSettings.defaultFrom;
+
+  export const DOI_MAIL_DEFAULT_EMAIL_FROM = defaultFrom;
+
+
   Meteor.startup(() => {
    process.env.MAIL_URL = 'smtp://' +
      encodeURIComponent(confirmSettings.smtp.username) +
