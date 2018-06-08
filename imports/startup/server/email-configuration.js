@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import fs from 'fs';
+import {logConfirm} from "../../../startup/server/log-configuration";
 import { SEND_APP, CONFIRM_APP, isAppType } from './type-configuration.js';
 import Hashids from 'hashids';
 
@@ -26,6 +27,8 @@ if(isAppType(CONFIRM_APP)) {
         throw new Meteor.Error("config.confirm.defaultFrom", "Confirm app email defaultFrom not found")
 
   defaultFrom  =  confirmSettings.defaultFrom;
+
+  logConfirm('sending with defaultFrom:',defaultFrom);
 
   Meteor.startup(() => {
    process.env.MAIL_URL = 'smtp://' +
