@@ -22,7 +22,7 @@ if(isAppType(CONFIRM_APP)) {
         throw new Meteor.Error("config.confirm.smtp", "Confirm app email smtp settings not found")
 
   if(!confirmSettings.smtp.defaultFrom)
-        throw new Meteor.Error("config.confirm.defaultFrom", "Confirm app email defaultFrom not found")
+        throw new Meteor.Error("config.confirm.smtp.defaultFrom", "Confirm app email defaultFrom not found")
 
   var defaultFrom  =  confirmSettings.defaultFrom;
 
