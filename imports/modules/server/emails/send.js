@@ -29,6 +29,7 @@ const sendMail = (mail) => {
     mail.from = DOI_MAIL_DEFAULT_EMAIL_FROM;
 
     const ourMail = mail;
+    logConfirm('sending email with data:',mail);
     SendMailSchema.validate(ourMail);
     //TODO: Text fallback
     Email.send({
@@ -40,7 +41,7 @@ const sendMail = (mail) => {
         'Return-Path': mail.returnPath,
       }
     });
-    logConfirm('sent email with data:',mail);
+
   } catch (exception) {
     throw new Meteor.Error('emails.send.exception', exception);
   }
