@@ -25,11 +25,14 @@ const SendMailSchema = new SimpleSchema({
 
 const sendMail = (mail) => {
   try {
+
+    mail.from = DOI_MAIL_DEFAULT_EMAIL_FROM;
+
     const ourMail = mail;
     SendMailSchema.validate(ourMail);
     //TODO: Text fallback
     Email.send({
-      from: DOI_MAIL_DEFAULT_EMAIL_FROM,
+      from: mail.from,
       to: mail.to,
       subject: mail.subject,
       html: mail.message,
