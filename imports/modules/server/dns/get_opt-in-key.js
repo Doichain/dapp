@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import { resolveTxt } from '../../../../server/api/dns.js';
 import { FALLBACK_PROVIDER } from '../../../startup/server/dns-configuration.js';
 import {isRegtest, isTestnet} from "../../../startup/server/dapp-configuration";
+import {logSend} from "../../../startup/server/log-configuration";
 
 const OPT_IN_KEY = "doichain-opt-in-key";
 const OPT_IN_KEY_TESTNET = "doichain-testnet-opt-in-key";
@@ -20,7 +21,11 @@ const getOptInKey = (data) => {
     GetOptInKeySchema.validate(ourData);
 
     let ourOPT_IN_KEY=OPT_IN_KEY;
-    if(isRegtest() || isTestnet()) ourOPT_IN_KEY = OPT_IN_KEY_TESTNET;
+
+    if(isRegtest() || isTestnet()){
+        ourOPT_IN_KEY = OPT_IN_KEY_TESTNET;
+        logSend('Using RegTest:'+isRegtest()+" : "+isTestnet()+" ourOPT_IN_KEY"+ourOPT_IN_KEY);
+    }
 
     const key = resolveTxt(ourOPT_IN_KEY, ourData.domain);
     if(key === undefined) return useFallback(ourData.domain);

@@ -21,7 +21,10 @@ const getOptInProvider = (data) => {
     GetOptInProviderSchema.validate(ourData);
 
     let ourPROVIDER_KEY=PROVIDER_KEY;
-    if(isRegtest() || isTestnet()) ourPROVIDER_KEY = PROVIDER_KEY_TESTNET;
+    if(isRegtest() || isTestnet()){
+        ourPROVIDER_KEY = PROVIDER_KEY_TESTNET;
+        logSend('Using RegTest:'+isRegtest()+" : "+isTestnet()+" PROVIDER_KEY"+ourPROVIDER_KEY);
+    }
 
     const provider = resolveTxt(ourPROVIDER_KEY, ourData.domain);
     if(provider === undefined) return useFallback();
