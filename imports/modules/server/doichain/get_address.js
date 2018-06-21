@@ -29,7 +29,7 @@ function _getAddress(publicKey) {
   key = CryptoJS.RIPEMD160(key);
   let versionByte = VERSION_BYTE;
   if(isRegtest() || isTestnet()) versionByte = VERSION_BYTE_REGTEST;
-  let address = Buffer.concat([Buffer.from([VERSION_BYTE]), Buffer.from(key.toString(), 'hex')]);
+  let address = Buffer.concat([Buffer.from([versionByte]), Buffer.from(key.toString(), 'hex')]);
   key = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(address));
   key = CryptoJS.SHA256(key);
   let checksum = key.toString().substring(0, 8);
