@@ -2,7 +2,7 @@ import { Api, DOI_FETCH_ROUTE } from '../rest.js';
 import addOptIn from '../../../../imports/modules/server/opt-ins/add_and_write_to_blockchain.js';
 import updateOptInStatus from '../../../../imports/modules/server/opt-ins/update_status.js';
 import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mail-data.js';
-import {logSend} from "../../../../imports/startup/server/log-configuration";
+import {logError, logSend} from "../../../../imports/startup/server/log-configuration";
 
 
 Api.addRoute('opt-in', {
@@ -54,6 +54,7 @@ Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
           logSend('got doi mail data',data);
         return {status: 'success', data};
       } catch(error) {
+        logError('error while getting DoiMailData',error);
         return {status: 'fail', error: error.message};
       }
     }
