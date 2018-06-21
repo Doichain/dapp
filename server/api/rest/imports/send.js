@@ -49,7 +49,7 @@ Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
     action: function() {
       const params = this.queryParams;
       try {
-          logSend('rest api - DOI_FETCH_ROUTE called',DOI_FETCH_ROUTE);
+          logSend('rest api - DOI_FETCH_ROUTE called',JSON.stringify(params));
           const data = getDoiMailData(params);
           logSend('got doi mail data',data);
         return {status: 'success', data};

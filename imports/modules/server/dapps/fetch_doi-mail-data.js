@@ -30,7 +30,7 @@ const fetchDoiMailData = (data) => {
     const url = ourData.domain+API_PATH+VERSION+"/"+DOI_FETCH_ROUTE;
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.name);
     const query = "name_id="+encodeURIComponent(ourData.name)+"&signature="+encodeURIComponent(signature);
-    logConfirm('calling for doi-email-template:'+url+' query:'+query);
+    logConfirm('calling for doi-email-template:'+url+' query:', query);
 
     const response = getHttp(url, query);
     if(response === undefined || response.data === undefined) throw "Bad response";
