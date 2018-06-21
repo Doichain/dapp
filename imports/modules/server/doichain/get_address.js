@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import CryptoJS from 'crypto-js';
 import Base58 from 'bs58';
 import { isRegtest } from '../../../startup/server/dapp-configuration.js';
+import {isTestnet} from "../../../startup/server/dapp-configuration";
 
 const VERSION_BYTE = 0x34;
 const VERSION_BYTE_REGTEST = 0x6f;
@@ -27,7 +28,7 @@ function _getAddress(publicKey) {
   let key = CryptoJS.SHA256(pubKey);
   key = CryptoJS.RIPEMD160(key);
   let versionByte = VERSION_BYTE;
-  if(isRegtest()) versionByte = VERSION_BYTE_REGTEST;
+  if(isRegtest() || isTestnet()) versionByte = VERSION_BYTE_REGTEST;
   let address = Buffer.concat([Buffer.from([VERSION_BYTE]), Buffer.from(key.toString(), 'hex')]);
   key = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(address));
   key = CryptoJS.SHA256(key);

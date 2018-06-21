@@ -29,7 +29,7 @@ const getOptInProvider = (data) => {
     const provider = resolveTxt(ourPROVIDER_KEY, ourData.domain);
     if(provider === undefined) return useFallback();
 
-    logSend('opt-in-provider from dns - server of mail recipient: (TXT):'+provider);
+    logSend('opt-in-provider from dns - server of mail recipient: (TXT):',provider);
     return provider;
   } catch (exception) {
     throw new Meteor.Error('dns.getOptInProvider.exception', exception);

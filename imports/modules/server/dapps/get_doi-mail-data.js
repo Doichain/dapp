@@ -36,7 +36,7 @@ const getDoiMailData = (data) => {
     const provider = getOptInProvider({domain: domain});
     const publicKey = getOptInKey({domain: provider});
 
-    logSend('queried data: (parts, domain, provider, publicKey)', parts,domain,provider,publicKey);
+    logSend('queried data: (parts, domain, provider, publicKey)', '('+parts+','+domain+','+provider+','+publicKey+')');
 
     //TODO: Only allow access one time
     // Possible solution:
