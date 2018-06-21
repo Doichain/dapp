@@ -24,10 +24,11 @@ const getOptInKey = (data) => {
 
     if(isRegtest() || isTestnet()){
         ourOPT_IN_KEY = OPT_IN_KEY_TESTNET;
-        logSend('Using RegTest:'+isRegtest()+" : "+isTestnet()+" ourOPT_IN_KEY"+ourOPT_IN_KEY);
+        logSend('Using RegTest:'+isRegtest()+" Testnet: "+isTestnet()+" ourOPT_IN_KEY",ourOPT_IN_KEY);
     }
-
     const key = resolveTxt(ourOPT_IN_KEY, ourData.domain);
+    logSend('DNS TXT configured public key of recipient email domain and confirmation dapp',key);
+
     if(key === undefined) return useFallback(ourData.domain);
     return key;
   } catch (exception) {
