@@ -30,6 +30,10 @@ Api.addRoute(DOI_CONFIRMATION_NOTIFY_ROUTE, {
     action: function() {
       const qParams = this.queryParams;
       const bParams = this.bodyParams;
+
+      logSend('qParams:'+qParams);
+      logSend('bParams:'+bParams);
+
       let params = {}
       if(qParams !== undefined) params = {...qParams}
       if(bParams !== undefined) params = {...params, ...bParams}
