@@ -44,7 +44,7 @@ const update = (data) => {
 
     logConfirm('creating signature with ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.nameId);
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.nameId);
-
+    logConfirm('signature created:',signature);
     const updateData = {
         nameId: ourData.nameId,
         signature: signature
