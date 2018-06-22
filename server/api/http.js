@@ -21,7 +21,10 @@ function _get(url, query, callback) {
 
 function _put(url, updateData, callback) {
     const ourUrl = url;
-    const ourData = updateData;
+    const ourData = {
+        data: updateData
+    }
+
     HTTP.put(ourUrl, ourData, function(err, ret) {
       callback(err, ret);
     });
