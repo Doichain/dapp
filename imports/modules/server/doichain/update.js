@@ -29,6 +29,8 @@ const update = (data) => {
     // the DOI get's confirmed by the user before this first block confirmation
 
     const url = ourData.domain+API_PATH+VERSION+"/"+DOI_FETCH_ROUTE;
+    logConfirm('creating signature with CLIENT:'+CONFIRM_CLIENT+' ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.name);
+
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.name);
 
     const updateData = {

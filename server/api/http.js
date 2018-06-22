@@ -6,9 +6,9 @@ export function getHttpGET(url, query) {
   return syncFunc(url, query);
 }
 
-export function getHttpPUT(url, query) {
+export function getHttpPUT(url, data) {
     const syncFunc = Meteor.wrapAsync(_put);
-    return syncFunc(url, query);
+    return syncFunc(url, data);
 }
 
 function _get(url, query, callback) {

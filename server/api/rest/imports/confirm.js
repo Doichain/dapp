@@ -1,7 +1,7 @@
 import { Api, DOI_CONFIRMATION_ROUTE } from '../rest.js';
 import confirmOptIn from '../../../../imports/modules/server/opt-ins/confirm.js'
-import {isDebug} from "../../../../imports/startup/server/dapp-configuration";
 import checkNewTransaction from "../../../../imports/modules/server/doichain/check_new_transactions";
+import {logConfirm, logSend} from "../../../../imports/startup/server/log-configuration";
 
 Api.addRoute(DOI_CONFIRMATION_ROUTE+'/:hash', {authRequired: false}, {
   get: {
@@ -13,9 +13,9 @@ Api.addRoute(DOI_CONFIRMATION_ROUTE+'/:hash', {authRequired: false}, {
           this.request.socket.remoteAddress ||
           (this.request.connection.socket ? this.request.connection.socket.remoteAddress: null);
 
-          if(isDebug()) {console.log('confirm called for hash:'+hash);}
+          logConfirm('confirm called for hash:',hash);
+          const redirect = confirmOptIn({host: ip, hash: hash});
 
-        const redirect = confirmOptIn({host: ip, hash: hash})
         return {
           statusCode: 303,
           headers: {'Content-Type': 'text/plain', 'Location': redirect},
