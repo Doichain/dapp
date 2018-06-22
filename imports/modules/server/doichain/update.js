@@ -16,10 +16,13 @@ const UpdateSchema = new SimpleSchema({
   },
   value: {
     type: String
+  },
+  fromHostUrl : {
+      type: String
   }
 });
 
-const update = (data, fromHostEncryptedValue) => {
+const update = (data) => {
   try {
     const ourData = data;
     UpdateSchema.validate(ourData);
@@ -33,10 +36,10 @@ const update = (data, fromHostEncryptedValue) => {
 
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
     const privateKey = getPrivateKeyFromWif({wif: wif});
-    logSend('got private key (will not show it here) in order to decrypt Send-dApp host url from value:',fromHostEncryptedValue);
-    const fromHostUrl = decryptMessage({privateKey: privateKey, message: fromHostEncryptedValue});
+    logSend('got private key (will not show it here) in order to decrypt Send-dApp host url from value:',ourData.fromHostUrl);
+    const ourfromHostUrl = decryptMessage({privateKey: privateKey, message: ourData.fromHostUrl});
 
-    const url = fromHostUrl+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE;
+    const url = ourfromHostUrl+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE;
     logConfirm('creating signature with ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.nameId);
 
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.nameId);
