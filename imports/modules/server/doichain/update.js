@@ -45,7 +45,7 @@ const update = (data) => {
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.nameId);
 
     const updateData = {
-        name_id: ourData.name,
+        name_id: ourData.nameId,
         signature: signature
     }
 
