@@ -21,8 +21,12 @@ const update = (data) => {
   try {
     const ourData = data;
     UpdateSchema.validate(ourData);
-    const txid = nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null);
-    logConfirm('update transaction txid:',txid);
+
+    //TODO
+    // Inform senddApp about DOI-confirmation
+    // (this actually is coming too early (!) and should be called after the name_doi command)
+    // but  for now we have to do it like this since name_doi throws an error in case
+    // the DOI get's confirmed by the user before this first block confirmation
 
     const url = ourData.domain+API_PATH+VERSION+"/"+DOI_FETCH_ROUTE;
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.name);
@@ -34,6 +38,12 @@ const update = (data) => {
 
     const response = getHttpPUT(url, updateData);
     logConfirm('informed send dApp about confirmed doi on url:'+url+' with updateData'+JSON.stringify(updateData)+" response:",response);
+
+
+    //TODO this throws an exception from DOICHAIN node when DOI is not yet confirmed:
+    //(Error: there is already a registration for this doi name [doichain.update.exception])
+    const txid = nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null);
+    logConfirm('update transaction txid:',txid);
 
   } catch(exception) {
     throw new Meteor.Error('doichain.update.exception', exception);
