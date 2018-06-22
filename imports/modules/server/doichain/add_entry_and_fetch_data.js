@@ -46,7 +46,7 @@ const addDoichainEntry = (entry) => {
     const value = JSON.parse(ourEntry.value);
 
     if(value.from === undefined) throw "Wrong blockchain entry";
-    const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS); //TODO is it possible to decrypt a message without private key?
+    const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
     const privateKey = getPrivateKeyFromWif({wif: wif});
     logSend('got private key (will not show it here)');
 
