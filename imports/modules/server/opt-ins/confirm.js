@@ -7,7 +7,6 @@ import { DoichainEntries } from '../../../api/doichain/entries.js';
 import decodeDoiHash from '../emails/decode_doi-hash.js';
 import { signMessage } from '../../../../server/api/doichain.js';
 import addUpdateBlockchainJob from '../jobs/add_update_blockchain.js';
-import {isDebug} from "../../../startup/server/dapp-configuration";
 import {logConfirm} from "../../../startup/server/log-configuration";
 
 const ConfirmOptInSchema = new SimpleSchema({
@@ -29,7 +28,6 @@ const confirmOptIn = (request) => {
     const confirmedAt = new Date();
     OptIns.update({_id : optIn._id},{$set:{confirmedAt: confirmedAt, confirmedBy: ourRequest.ip}, $unset: {confirmationToken: ""}});
 
-    //TODO rename to DoichainEntries!
     const entry = DoichainEntries.findOne({name: optIn.nameId});
     if(entry === undefined) throw "Doichain entry not found";
     logConfirm('found DoiChainEntry:',entry);
@@ -37,7 +35,7 @@ const confirmOptIn = (request) => {
     const value = JSON.parse(entry.value);
     logConfirm('getSignature (only of value!)', value);
 
-    const doiSignature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);  //TODO signature over a signature?!?!?
+    const doiSignature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);
     logConfirm('got doiSignature:',doiSignature);
 
     delete value.from;

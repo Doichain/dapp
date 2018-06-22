@@ -4,6 +4,7 @@ import updateOptInStatus from '../../../../imports/modules/server/opt-ins/update
 import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mail-data.js';
 import {logError, logSend} from "../../../../imports/startup/server/log-configuration";
 
+//doku of meteor-restivus https://github.com/kahmali/meteor-restivus
 
 Api.addRoute('opt-in', {
   post: {
@@ -24,7 +25,7 @@ Api.addRoute('opt-in', {
       }
     }
   },
-  //TODO: Test and write usage
+
   put: {
     authRequired: false,
     action: function() {

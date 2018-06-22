@@ -1,9 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http'
 
-export function getHttp(url, query) {
+export function getHttpGET(url, query) {
   const syncFunc = Meteor.wrapAsync(_get);
   return syncFunc(url, query);
+}
+
+export function getHttpPUT(url, query) {
+    const syncFunc = Meteor.wrapAsync(_put);
+    return syncFunc(url, query);
 }
 
 function _get(url, query, callback) {
@@ -12,4 +17,12 @@ function _get(url, query, callback) {
   HTTP.get(ourUrl, {query: ourQuery}, function(err, ret) {
     callback(err, ret);
   });
+}
+
+function _put(url, updateData, callback) {
+    const ourUrl = url;
+    const ourData = updateData;
+    HTTP.put(ourUrl, ourData, function(err, ret) {
+      callback(err, ret);
+    });
 }

@@ -13,15 +13,11 @@ const checkNewTransaction = (txid) => {
       if(isDebug()) { console.log("txid: "+txid+' was triggered by walletnotify getting its data from blockchain'); }
 
       const ret = getRawTransaction(CONFIRM_CLIENT, txid);
-      if(isDebug()) { console.log('gettransaction was called via rpc'); }
-
       const txs = ret.vout;
       if(!ret || !txs || !txs.length===0){
         console.log("txid"+txid+'does not contain transaction details or transaction not found.');
           return;
       }
-      if(isDebug()) { console.log("get transaction details:"+JSON.stringify(txs)); }
-
       const addressTxs = txs.filter(tx =>
           tx.scriptPubKey.nameOp !== undefined
           && tx.scriptPubKey.nameOp.op === "name_doi"
@@ -29,7 +25,7 @@ const checkNewTransaction = (txid) => {
           && tx.scriptPubKey.nameOp.name !== undefined
           && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
       );
-
+     // if(isDebug()) { console.log("get transaction details:"+JSON.stringify(txs)); }
       addressTxs.forEach(tx => addTx(tx,txid));
 
   } catch(exception) {

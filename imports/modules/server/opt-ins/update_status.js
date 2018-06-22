@@ -5,6 +5,7 @@ import { Recipients } from '../../../api/recipients/recipients.js';
 import getOptInProvider from '../dns/get_opt-in-provider.js';
 import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../doichain/verify_signature.js';
+import {logSend} from "../../../startup/server/log-configuration";
 
 const UpdateOptInStatusSchema = new SimpleSchema({
   name_id: {
@@ -22,16 +23,24 @@ const updateOptInStatus = (data) => {
     UpdateOptInStatusSchema.validate(ourData);
     const optIn = OptIns.findOne({nameId: ourData.name_id});
     if(optIn === undefined) throw "Opt-In not found";
+    logSend('confirm dApp confirms optIn:',ourData.name_id);
+
     const recipient = Recipients.findOne({_id: optIn.recipient});
     if(recipient === undefined) throw "Recipient not found";
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
     const provider = getOptInProvider({domain: domain});
     const publicKey = getOptInKey({domain: provider});
+
+    logSend('provider is',provider);
+    logSend('publicKey is',publicKey);
+
     if(!verifySignature({publicKey: publicKey, data: ourData.name_id, signature: ourData.signature})) {
       throw "Access denied";
     }
-    OptIns.update({_id : optIn._id},{$set:{confirmedAt: new Date()}});
+    logSend('signature valid for publicKey', publicKey);
+
+      OptIns.update({_id : optIn._id},{$set:{confirmedAt: new Date()}});
   } catch (exception) {
     throw new Meteor.Error('dapps.updateOptInStatus.exception', exception);
   }
