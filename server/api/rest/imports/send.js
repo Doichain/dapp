@@ -1,4 +1,4 @@
-import { Api, DOI_FETCH_ROUTE } from '../rest.js';
+import { Api, DOI_FETCH_ROUTE, DOI_CONFIRMATION_NOTIFY_ROUTE } from '../rest.js';
 import addOptIn from '../../../../imports/modules/server/opt-ins/add_and_write_to_blockchain.js';
 import updateOptInStatus from '../../../../imports/modules/server/opt-ins/update_status.js';
 import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mail-data.js';
@@ -6,7 +6,7 @@ import {logError, logSend} from "../../../../imports/startup/server/log-configur
 
 //doku of meteor-restivus https://github.com/kahmali/meteor-restivus
 
-Api.addRoute('opt-in', {
+Api.addRoute(DOI_CONFIRMATION_NOTIFY_ROUTE, {
   post: {
     authRequired: true,
     roleRequired: ['admin'],
@@ -25,7 +25,6 @@ Api.addRoute('opt-in', {
       }
     }
   },
-
   put: {
     authRequired: false,
     action: function() {

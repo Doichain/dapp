@@ -3,7 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import { nameDoi } from '../../../../server/api/doichain.js';
 import { CONFIRM_CLIENT } from '../../../startup/server/doichain-configuration.js';
 import {getWif, signMessage} from "../../../../server/api/doichain";
-import {API_PATH, DOI_CONFIRMATION_ROUTE, VERSION} from "../../../../server/api/rest/rest";
+import {API_PATH, DOI_CONFIRMATION_NOTIFY_ROUTE, VERSION} from "../../../../server/api/rest/rest";
 import {CONFIRM_ADDRESS} from "../../../startup/server/doichain-configuration";
 import {getHttpPUT} from "../../../../server/api/http";
 import {logConfirm, logSend} from "../../../startup/server/log-configuration";
@@ -39,7 +39,7 @@ const update = (data) => {
     logSend('got private key (will not show it here) in order to decrypt Send-dApp host url from value:',ourData.fromHostUrl);
     const ourfromHostUrl = decryptMessage({privateKey: privateKey, message: ourData.fromHostUrl});
 
-    const url = ourfromHostUrl+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE;
+    const url = ourfromHostUrl+API_PATH+VERSION+"/"+DOI_CONFIRMATION_NOTIFY_ROUTE;
     logConfirm('creating signature with ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.nameId);
 
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.nameId);
