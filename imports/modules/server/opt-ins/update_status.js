@@ -8,7 +8,7 @@ import verifySignature from '../doichain/verify_signature.js';
 import {logSend} from "../../../startup/server/log-configuration";
 
 const UpdateOptInStatusSchema = new SimpleSchema({
-  name_id: {
+  nameId: {
     type: String
   },
   signature: {
@@ -21,9 +21,9 @@ const updateOptInStatus = (data) => {
   try {
     const ourData = data;
     UpdateOptInStatusSchema.validate(ourData);
-    const optIn = OptIns.findOne({nameId: ourData.name_id});
+    const optIn = OptIns.findOne({nameId: ourData.nameId});
     if(optIn === undefined) throw "Opt-In not found";
-    logSend('confirm dApp confirms optIn:',ourData.name_id);
+    logSend('confirm dApp confirms optIn:',ourData.nameId);
 
     const recipient = Recipients.findOne({_id: optIn.recipient});
     if(recipient === undefined) throw "Recipient not found";
@@ -35,7 +35,7 @@ const updateOptInStatus = (data) => {
     logSend('provider is',provider);
     logSend('publicKey is',publicKey);
 
-    if(!verifySignature({publicKey: publicKey, data: ourData.name_id, signature: ourData.signature})) {
+    if(!verifySignature({publicKey: publicKey, data: ourData.nameId, signature: ourData.signature})) {
       throw "Access denied";
     }
     logSend('signature valid for publicKey', publicKey);

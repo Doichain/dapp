@@ -36,16 +36,17 @@ const update = (data) => {
 
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
     const privateKey = getPrivateKeyFromWif({wif: wif});
-    logSend('got private key (will not show it here) in order to decrypt Send-dApp host url from value:',ourData.fromHostUrl);
+    logConfirm('got private key (will not show it here) in order to decrypt Send-dApp host url from value:',ourData.fromHostUrl);
     const ourfromHostUrl = decryptMessage({privateKey: privateKey, message: ourData.fromHostUrl});
-
+    logConfirm('decrypted fromHostUrl',ourfromHostUrl)
     const url = ourfromHostUrl+API_PATH+VERSION+"/"+DOI_CONFIRMATION_NOTIFY_ROUTE;
-    logConfirm('creating signature with ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.nameId);
 
+
+    logConfirm('creating signature with ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.nameId);
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.nameId);
 
     const updateData = {
-        name_id: ourData.nameId,
+        nameId: ourData.nameId,
         signature: signature
     }
 
@@ -55,7 +56,7 @@ const update = (data) => {
 
     //TODO this throws an exception from DOICHAIN node when DOI is not yet confirmed:
     //(Error: there is already a registration for this doi name [doichain.update.exception])
-    const txid = nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null);
+    const txid = nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null); //TODO maybe send this DOI to peter (the user which wants to receive a doi)
     logConfirm('update transaction txid:',txid);
 
   } catch(exception) {
