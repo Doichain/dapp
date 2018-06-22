@@ -25,6 +25,6 @@ export function logBlockchain(message, param) {
     if(isDebug()){console.time().tag(blockchainModeTagColor).log(message, param);}
 }
 
-export function logError(message) {
+export function logError(message, param) {
     if(isDebug()){console.time().tag(blockchainModeTagColor).error(message, param);}
 }
