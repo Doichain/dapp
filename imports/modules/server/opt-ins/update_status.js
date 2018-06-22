@@ -20,6 +20,7 @@ const UpdateOptInStatusSchema = new SimpleSchema({
 const updateOptInStatus = (data) => {
   try {
     const ourData = data;
+    logSend('confirm dApp confirms optIn:',JSON.stringify(data));
     UpdateOptInStatusSchema.validate(ourData);
     const optIn = OptIns.findOne({nameId: ourData.nameId});
     if(optIn === undefined) throw "Opt-In not found";
@@ -42,7 +43,7 @@ const updateOptInStatus = (data) => {
 
       OptIns.update({_id : optIn._id},{$set:{confirmedAt: new Date()}});
   } catch (exception) {
-    throw new Meteor.Error('dapps.updateOptInStatus.exception', exception);
+    throw new Meteor.Error('dapps.send.updateOptInStatus.exception', exception);
   }
 };
 
