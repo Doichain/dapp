@@ -3,9 +3,9 @@ import SimpleSchema from 'simpl-schema';
 import { nameDoi } from '../../../../server/api/doichain.js';
 import { CONFIRM_CLIENT } from '../../../startup/server/doichain-configuration.js';
 import {signMessage} from "../../../../server/api/doichain";
-import {API_PATH, DOI_FETCH_ROUTE, VERSION} from "../../../../server/api/rest/rest";
+import {API_PATH, DOI_CONFIRMATION_ROUTE, VERSION} from "../../../../server/api/rest/rest";
 import {CONFIRM_ADDRESS} from "../../../startup/server/doichain-configuration";
-import {getHttpGET, getHttpPUT} from "../../../../server/api/http";
+import {getHttpPUT} from "../../../../server/api/http";
 import {logConfirm} from "../../../startup/server/log-configuration";
 
 const UpdateSchema = new SimpleSchema({
@@ -28,10 +28,10 @@ const update = (data) => {
     // but  for now we have to do it like this since name_doi throws an error in case
     // the DOI get's confirmed by the user before this first block confirmation
 
-    const url = ourData.domain+API_PATH+VERSION+"/"+DOI_FETCH_ROUTE;
-    logConfirm('creating signature with CLIENT:'+CONFIRM_CLIENT+' ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.name);
+    const url = ourData.domain+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE;
+    logConfirm('creating signature with CLIENT:'+CONFIRM_CLIENT+' ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.nameId);
 
-    const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.name);
+    const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.nameId);
 
     const updateData = {
         name_id: ourData.name,
