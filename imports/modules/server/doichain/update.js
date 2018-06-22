@@ -19,7 +19,7 @@ const UpdateSchema = new SimpleSchema({
   }
 });
 
-const update = (data) => {
+const update = (data, fromHostEncryptedValue) => {
   try {
     const ourData = data;
     UpdateSchema.validate(ourData);
@@ -30,15 +30,13 @@ const update = (data) => {
     // but  for now we have to do it like this since name_doi throws an error in case
     // the DOI get's confirmed by the user before this first block confirmation
 
-    const value = JSON.parse(ourData.value);
-    if(value.from === undefined) throw "Wrong blockchain entry";
 
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
     const privateKey = getPrivateKeyFromWif({wif: wif});
-    logSend('got private key (will not show it here) in order to decrypt Send-dApp host url from value:',value.from);
-    const domain = decryptMessage({privateKey: privateKey, message: value.from});
+    logSend('got private key (will not show it here) in order to decrypt Send-dApp host url from value:',fromHostEncryptedValue);
+    const fromHostUrl = decryptMessage({privateKey: privateKey, message: fromHostEncryptedValue});
 
-    const url = domain+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE;
+    const url = fromHostUrl+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE;
     logConfirm('creating signature with ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.nameId);
 
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.nameId);

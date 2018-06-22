@@ -37,6 +37,7 @@ const confirmOptIn = (request) => {
 
     const doiSignature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);
     logConfirm('got doiSignature:',doiSignature);
+    const oldFrom = value.from;
 
     delete value.from;
     value.doiTimestamp = confirmedAt.toISOString();
@@ -47,7 +48,7 @@ const confirmOptIn = (request) => {
     addUpdateBlockchainJob({
       nameId: optIn.nameId,
       value: jsonValue
-    });
+    }, oldFrom);
 
     return decoded.redirect;
 
