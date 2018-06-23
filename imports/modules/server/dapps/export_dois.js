@@ -28,18 +28,14 @@ const exportDois = (data) => {
 
     //if(ourData.status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
 
-    let optIns = null; //CircularJSON.stringify(OptIns.aggregate(pipeline, {cursor: {}}));
-    db.collection("opt-ins").aggregate(
-          pipeline,
-          Meteor.bindEnvironment(
-              function(err, result){
-                  if(err) throw err;
-                  console.log(result)
-                  optIns = result;
-              }
-          )
-    );
-
+    let optIns = db.collection("opt-ins").aggregate(pipeline);
+     /* Meteor.bindEnvironment(
+          function(err, result){
+              if(err) throw err;
+              console.log(result)
+              optIns = result;
+          }
+      )*/
     logSend('Opt-Ins found',optIns);
 
 
