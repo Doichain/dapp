@@ -74,7 +74,7 @@ Api.addRoute(DOI_EXPORT_ROUTE, {
         action: function() {
             const params = this.queryParams;
             try {
-                logSend('rest api - DOI_FETCH_ROUTE called',JSON.stringify(params));
+                logSend('rest api - DOI_EXPORT_ROUTE called',JSON.stringify(params));
                 const data = exportDois(params);
                 logSend('got dois from database',JSON.stringify(data));
                 return {status: 'success', data};
