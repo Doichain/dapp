@@ -14,7 +14,7 @@ const ExportDoisDataSchema = new SimpleSchema({
     type: String
   },
   status: {
-    type: Number
+    type: String
   }
 });
 
