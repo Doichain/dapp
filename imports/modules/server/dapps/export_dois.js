@@ -31,7 +31,7 @@ const exportDois = (data) => {
 
     //if(ourData.status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
 
-    const optIns = OptIns.aggregate(pipeline, {cursor: {}}).fetch();
+    const optIns = OptIns.aggregate(pipeline, {cursor: {}});
 
 
     if(optIns === undefined) throw "Opt-In not found";
