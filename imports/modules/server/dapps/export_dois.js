@@ -1,11 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import CircularJSON from 'circular-json';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
-import { Recipients } from '../../../api/recipients/recipients.js';
-import getOptInProvider from '../dns/get_opt-in-provider.js';
-import getOptInKey from '../dns/get_opt-in-key.js';
-import verifySignature from '../doichain/verify_signature.js';
-import { getHttpGET } from '../../../../server/api/http.js';
 import { DOI_MAIL_FETCH_URL } from '../../../startup/server/email-configuration.js';
 import {logSend} from "../../../startup/server/log-configuration";
 
@@ -31,8 +27,7 @@ const exportDois = (data) => {
 
     //if(ourData.status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
 
-    const optIns = OptIns.aggregate(pipeline, {cursor: {}});
-
+    const optIns = CircularJSON.stringify(OptIns.aggregate(pipeline, {cursor: {}}));
 
     if(optIns === undefined) throw "Opt-In not found";
     logSend('Opt-Ins found',optIns);
