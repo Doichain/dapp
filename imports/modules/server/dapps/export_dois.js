@@ -43,7 +43,7 @@ const exportDois = (data) => {
               optIns = result;
           }
       ));
-    logSend('Opt-Ins found',optIns);
+    //logSend('Opt-Ins found',optIns);
 
 
     let exportDoiData;
