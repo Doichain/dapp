@@ -34,6 +34,7 @@ const exportDois = (data) => {
           Meteor.bindEnvironment(
               function(err, result){
                   if(err) throw err;
+                  console.log(result)
                   optIns = result;
               }
           )
@@ -44,17 +45,9 @@ const exportDois = (data) => {
 
     let exportDoiData;
     try {
-        exportDoiData = optIns;
 
-      /*let returnData = {
-          "recipient": recipient.email,
-          "content": doiMailData.data.content,
-          "redirect": doiMailData.data.redirect,
-          "subject": doiMailData.data.subject,
-          "from": doiMailData.data.from,
-          "returnPath": doiMailData.data.returnPath
-      } */
-      logSend('doiMailData and url:',DOI_MAIL_FETCH_URL,JSON.stringify(exportDoiData));
+        exportDoiData = optIns;
+      logSend('exportDoi url:',DOI_MAIL_FETCH_URL,JSON.stringify(exportDoiData));
 
       return exportDoiData
 
@@ -63,7 +56,7 @@ const exportDois = (data) => {
     }
 
   } catch (exception) {
-    throw new Meteor.Error('dapps.getDoiMailData.exception', exception);
+    throw new Meteor.Error('dapps.exportDoi.exception', exception);
   }
 };
 
