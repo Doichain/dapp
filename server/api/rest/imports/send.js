@@ -79,7 +79,7 @@ Api.addRoute(DOI_EXPORT_ROUTE, {
                 logSend('got dois from database',JSON.stringify(data));
                 return {status: 'success', data};
             } catch(error) {
-                logError('error while getting DoiMailData',error);
+                logError('error while exporting confirmed dois',error);
                 return {status: 'fail', error: error.message};
             }
         }
