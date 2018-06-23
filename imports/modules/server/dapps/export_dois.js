@@ -10,9 +10,6 @@ import { DOI_MAIL_FETCH_URL } from '../../../startup/server/email-configuration.
 import {logSend} from "../../../startup/server/log-configuration";
 
 const ExportDoisDataSchema = new SimpleSchema({
-  type: {
-    type: String
-  },
   status: {
     type: String
   }
@@ -23,7 +20,11 @@ const exportDois = (data) => {
   try {
     const ourData = data;
     ExportDoisDataSchema.validate(ourData);
-    const optIns = OptIns.find({}).fetch();
+    let query = {};
+
+    if(status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
+
+    const optIns = OptIns.find(query).fetch();
 
     if(optIns === undefined) throw "Opt-In not found";
     logSend('Opt-Ins found',optIns);
@@ -41,7 +42,7 @@ const exportDois = (data) => {
           "from": doiMailData.data.from,
           "returnPath": doiMailData.data.returnPath
       } */
-      logSend('doiMailData and url:',DOI_MAIL_FETCH_URL,returnData);
+      logSend('doiMailData and url:',DOI_MAIL_FETCH_URL,JSON.stringify(exportDoiData));
 
       return exportDoiData
 
