@@ -3,6 +3,8 @@ import addOptIn from '../../../../imports/modules/server/opt-ins/add_and_write_t
 import updateOptInStatus from '../../../../imports/modules/server/opt-ins/update_status.js';
 import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mail-data.js';
 import {logError, logSend} from "../../../../imports/startup/server/log-configuration";
+import {DOI_EXPORT_ROUTE} from "../rest";
+import exportDois from "../../../../imports/modules/server/dapps/export_dois";
 
 //doku of meteor-restivus https://github.com/kahmali/meteor-restivus
 
@@ -63,4 +65,23 @@ Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
       }
     }
   }
+});
+
+Api.addRoute(DOI_EXPORT_ROUTE, {
+    get: {
+        authRequired: true,
+        roleRequired: ['admin'],
+        action: function() {
+            const params = this.queryParams;
+            try {
+                logSend('rest api - DOI_FETCH_ROUTE called',JSON.stringify(params));
+                const data = exportDois(params);
+                logSend('got dois from database',JSON.stringify(data));
+                return {status: 'success', data};
+            } catch(error) {
+                logError('error while getting DoiMailData',error);
+                return {status: 'fail', error: error.message};
+            }
+        }
+    }
 });

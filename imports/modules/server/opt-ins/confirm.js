@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/doichain-configuration.js';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
-import { Recipients } from '../../../api/recipients/recipients.js';
 import { DoichainEntries } from '../../../api/doichain/entries.js';
 import decodeDoiHash from '../emails/decode_doi-hash.js';
 import { signMessage } from '../../../../server/api/doichain.js';

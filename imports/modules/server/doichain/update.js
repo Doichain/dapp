@@ -6,7 +6,7 @@ import {getWif, signMessage} from "../../../../server/api/doichain";
 import {API_PATH, DOI_CONFIRMATION_NOTIFY_ROUTE, VERSION} from "../../../../server/api/rest/rest";
 import {CONFIRM_ADDRESS} from "../../../startup/server/doichain-configuration";
 import {getHttpPUT} from "../../../../server/api/http";
-import {logConfirm, logSend} from "../../../startup/server/log-configuration";
+import {logConfirm} from "../../../startup/server/log-configuration";
 import getPrivateKeyFromWif from "./get_private-key_from_wif";
 import decryptMessage from "./decrypt_message";
 
