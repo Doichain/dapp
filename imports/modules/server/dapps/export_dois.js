@@ -23,7 +23,7 @@ const exportDois = (data) => {
   try {
     const ourData = data;
     ExportDoisDataSchema.validate(ourData);
-    const optIns = OptIns.findAll({});
+    const optIns = OptIns.find({});
 
     if(optIns === undefined) throw "Opt-In not found";
     logSend('Opt-Ins found',optIns);
