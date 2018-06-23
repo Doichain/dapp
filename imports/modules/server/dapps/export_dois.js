@@ -33,7 +33,7 @@ const exportDois = (data) => {
 
     //if(ourData.status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
 
-    let optIns =  OptIns.aggregate(pipeline, {explain: true});
+    let optIns =  OptIns.aggregate(pipeline);
     console.log("Explain Report:", JSON.stringify(optIns));
    /* db.collection("opt-ins").aggregate(pipeline,
      Meteor.bindEnvironment(
