@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import CircularJSON from 'circular-json';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { DOI_MAIL_FETCH_URL } from '../../../startup/server/email-configuration.js';
 import {logSend} from "../../../startup/server/log-configuration";
@@ -18,6 +17,8 @@ const exportDois = (data) => {
     const ourData = data;
     ExportDoisDataSchema.validate(ourData);
 
+    var db = MongoInternals.defaultRemoteCollectionDriver().mongo.db;
+    //https://dev4devs.com/2015/06/05/meteor-js-how-to-use-aggregate-function/
     let pipeline = [{ $match: {"confirmedAt":{ $exists: true, $ne: null }} },
         { $lookup: { from: "recipients", localField: "recipient", foreignField: "_id", as: "RecipientEmail" } },
         { $lookup: { from: "senders", localField: "sender", foreignField: "_id", as: "SenderEmail" } },
@@ -27,9 +28,17 @@ const exportDois = (data) => {
 
     //if(ourData.status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
 
-    const optIns = CircularJSON.stringify(OptIns.aggregate(pipeline, {cursor: {}}));
+    let optIns = null; //CircularJSON.stringify(OptIns.aggregate(pipeline, {cursor: {}}));
+    db.collection("opt-ins").aggregate(
+          pipeline,
+          Meteor.bindEnvironment(
+              function(err, result){
+                  if(err) throw err;
+                  optIns = result;
+              }
+          )
+    );
 
-    if(optIns === undefined) throw "Opt-In not found";
     logSend('Opt-Ins found',optIns);
 
 
