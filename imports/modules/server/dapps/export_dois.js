@@ -22,7 +22,7 @@ const exportDois = (data) => {
     ExportDoisDataSchema.validate(ourData);
     let query = {};
 
-    if(status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
+    if(ourData.status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
 
     const optIns = OptIns.find(query).fetch();
 
