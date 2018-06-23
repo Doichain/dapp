@@ -15,16 +15,17 @@ const ExportDoisDataSchema = new SimpleSchema({
   }
 });
 
+//TODO add sender and recipient email address to export
 
 const exportDois = (data) => {
   try {
     const ourData = data;
     ExportDoisDataSchema.validate(ourData);
-    let query = {};
+    let pipeline = [{ $match: {"confirmedAt":{ $exists: true, $ne: null }} }, { $lookup: { from: "recipients", localField: "recipient", foreignField: "_id", as: "RecipientEmail" } },{ $lookup: { from: "senders", localField: "sender", foreignField: "_id", as: "SenderEmail" } },{ $unwind: "$SenderEmail"}, { $unwind: "$RecipientEmail"},{ $project: {"nameId":1, "SenderEmail.email":1,"RecipientEmail.email":1}}];
 
-    if(ourData.status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
+    //if(ourData.status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
 
-    const optIns = OptIns.find(query).fetch();
+    const optIns = OptIns.aggregate(pipeline).fetch();
 
     if(optIns === undefined) throw "Opt-In not found";
     logSend('Opt-Ins found',optIns);
