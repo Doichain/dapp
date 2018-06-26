@@ -1,7 +1,6 @@
 ## Table of Contents
-- [UML](#uml)
-    * [Activity diagram](#activity-diagram)
-    * [Sequence diagram](#sequence-diagram)
+- [Docker Installation](#docker-installation)
+- [Manual Installation](#manual-installation)
 - [Settings](#settings)
     * [DNS](#dns)
     * [App types](#app-types)
@@ -17,18 +16,23 @@
         - [Confirm Opt-In](#confirm-opt-in)
     * [Calls (Verify - dApp)](#calls--verify---dapp-)
         - [Verify Opt-In](#verify-opt-in)
+- [UML](#uml)
+    * [Activity diagram](#activity-diagram)
+    * [Sequence diagram](#sequence-diagram)
 - [Blockchain entry name id](#blockchain-entry-name-id)
 
-## UML
-
-##### activity-diagram
-
-![Alt activity diagram](doc/uml/activity.svg)
-
-##### sequence-diagram
-
-![Alt secquence diagram](doc/uml/sequence.svg)
-
+## Docker Installation
+1. Install Docker https://docs.docker.com/
+2. Follow instructions on https://github.com/Doichain/docker
+## Manual Installation
+1. Install Doichain node
+2. Install Meteor from https://www.meteor.com/ with ``curl https://install.meteor.com/ | sh``on linux (see website for other operating systems)
+3. Clone this repository into a doichain-dapp directory like ```git clone https://github.com/Doichain/dapp.git doichain-dapp```
+4. Execute a ``cd doichain-dapp; meteor npm install``
+5. Configure ``settings.json``
+6. If you want to enable the confirmation node, configure your [DNS](#dns) TXT field with either:
+    - an ``opt-in-provider=your-email-domain.com`` field when you want to trust a third party Doichain node with
+    - or ``opt-in-key=your-doichain-public-key`` field of you doichain node
 
 ## Settings
 The settings are stored in the root folder with the name ``settings.json``
@@ -176,4 +180,12 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 
 ## Blockchain entry name id
 The name id is a 256-bit, ECDSA valid, number represanted as a 32 byte (64 characters) string (Same as every Bitcoin privateKey). See also: https://en.bitcoin.it/wiki/Private_key
+## UML
 
+##### activity-diagram
+
+![Alt activity diagram](doc/uml/activity.svg)
+
+##### sequence-diagram
+
+![Alt secquence diagram](doc/uml/sequence.svg)
