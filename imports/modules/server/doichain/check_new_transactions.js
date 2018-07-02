@@ -38,7 +38,7 @@ function addTx(tx,txid) {
   if(isDebug()) { console.log("addTx:"+JSON.stringify(tx)); }
   const txName = tx.scriptPubKey.nameOp.name.substring(TX_NAME_START.length);
   const txValue = tx.scriptPubKey.nameOp.value;
-  const txAddress = tx.scriptPubKey.addresses[0]; //a soi entry can only be send to one address so far.
+  const txAddress = tx.scriptPubKey.addresses[0]; //a soi entry can only be sent to one address so far.
 
   addDoichainEntry({
     name: txName,

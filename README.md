@@ -25,7 +25,10 @@
 1. Install Docker https://docs.docker.com/
 2. Follow instructions on https://github.com/Doichain/docker
 ## Manual Installation
-1. Install Doichain node
+1. Install Doichain node by following classical instructions for
+    - Unix https://github.com/Doichain/core/blob/master/doc/build-unix.md
+    - Mac OS-X https://github.com/Doichain/core/blob/master/doc/build-osx.md
+    - Windows https://github.com/Doichain/core/blob/master/doc/build-windows.md
 2. Install Meteor from https://www.meteor.com/ with ``curl https://install.meteor.com/ | sh``on linux (see website for other operating systems)
 3. Clone this repository into a doichain-dapp directory like ```git clone https://github.com/Doichain/dapp.git doichain-dapp```
 4. Execute a ``cd doichain-dapp; meteor npm install``
@@ -33,6 +36,7 @@
 6. If you want to enable the confirmation node, configure your [DNS](#dns) TXT field with either:
     - an ``opt-in-provider=your-email-domain.com`` field when you want to trust a third party Doichain node with
     - or ``opt-in-key=your-doichain-public-key`` field of you doichain node
+
 
 ## Settings
 The settings are stored in the root folder with the name ``settings.json``
@@ -83,8 +87,9 @@ Example configuration with all three dApps activated:
     "smtp": {
       "username": "admin",
       "password": "****",
-      "server":   "smtp.provider.com",
+      "server":   "smtp.your-email.com",
       "port": 587
+      "defaultFrom": "doichain@your-email.com"
     },
     "namecoin": {
       "host": "192.168.99.100",

@@ -1,4 +1,4 @@
-import { Api, DOI_CONFIRMATION_ROUTE } from '../rest.js';
+import { Api, DOI_WALLETNOTIFY_ROUTE, DOI_CONFIRMATION_ROUTE } from '../rest.js';
 import confirmOptIn from '../../../../imports/modules/server/opt-ins/confirm.js'
 import checkNewTransaction from "../../../../imports/modules/server/doichain/check_new_transactions";
 import {logConfirm, logSend} from "../../../../imports/startup/server/log-configuration";
@@ -28,7 +28,7 @@ Api.addRoute(DOI_CONFIRMATION_ROUTE+'/:hash', {authRequired: false}, {
   }
 });
 
-Api.addRoute('walletnotify', {
+Api.addRoute(DOI_WALLETNOTIFY_ROUTE, {
     get: {
         authRequired: false,
         action: function() {
