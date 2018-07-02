@@ -35,3 +35,5 @@ aldeed:collection2@3.0.0
 aldeed:schema-index
 http@1.4.1
 underscore
+mongo-livedata
+sakulstra:aggregate

@@ -1,5 +1,5 @@
 {
-  "name": "mailid",
+  "name": "doichain",
   "private": true,
   "scripts": {
     "start": "meteor run"

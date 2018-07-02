@@ -15,7 +15,7 @@ export default class KeyGenerator extends BaseComponent {
 
   generate(e) {
     e.stopPropagation();
-    Meteor.call("namecoin.getKeyPair", (error, value) => {
+    Meteor.call("doichain.getKeyPair", (error, value) => {
       const keyPair = value;
       if(!error) {
         this.setState({

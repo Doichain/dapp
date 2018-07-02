@@ -1,11 +1,14 @@
-import { Api, DOI_FETCH_ROUTE } from '../rest.js';
+import { Api, DOI_FETCH_ROUTE, DOI_CONFIRMATION_NOTIFY_ROUTE } from '../rest.js';
 import addOptIn from '../../../../imports/modules/server/opt-ins/add_and_write_to_blockchain.js';
 import updateOptInStatus from '../../../../imports/modules/server/opt-ins/update_status.js';
 import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mail-data.js';
-import {logSend} from "../../../../imports/startup/server/log-configuration";
+import {logError, logSend} from "../../../../imports/startup/server/log-configuration";
+import {DOI_EXPORT_ROUTE} from "../rest";
+import exportDois from "../../../../imports/modules/server/dapps/export_dois";
 
+//doku of meteor-restivus https://github.com/kahmali/meteor-restivus
 
-Api.addRoute('opt-in', {
+Api.addRoute(DOI_CONFIRMATION_NOTIFY_ROUTE, {
   post: {
     authRequired: true,
     roleRequired: ['admin'],
@@ -24,12 +27,15 @@ Api.addRoute('opt-in', {
       }
     }
   },
-  //TODO: Test and write usage
   put: {
     authRequired: false,
     action: function() {
       const qParams = this.queryParams;
       const bParams = this.bodyParams;
+
+      logSend('qParams:',qParams);
+      logSend('bParams:',bParams);
+
       let params = {}
       if(qParams !== undefined) params = {...qParams}
       if(bParams !== undefined) params = {...params, ...bParams}
@@ -49,13 +55,33 @@ Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
     action: function() {
       const params = this.queryParams;
       try {
-          logSend('rest api - DOI_FETCH_ROUTE called',DOI_FETCH_ROUTE);
+          logSend('rest api - DOI_FETCH_ROUTE called',JSON.stringify(params));
           const data = getDoiMailData(params);
           logSend('got doi mail data',data);
         return {status: 'success', data};
       } catch(error) {
+        logError('error while getting DoiMailData',error);
         return {status: 'fail', error: error.message};
       }
     }
   }
+});
+
+Api.addRoute(DOI_EXPORT_ROUTE, {
+    get: {
+        authRequired: true,
+        roleRequired: ['admin'],
+        action: function() {
+            const params = this.queryParams;
+            try {
+                logSend('rest api - DOI_EXPORT_ROUTE called',JSON.stringify(params));
+                const data = exportDois(params);
+                logSend('got dois from database',JSON.stringify(data));
+                return {status: 'success', data};
+            } catch(error) {
+                logError('error while exporting confirmed dois',error);
+                return {status: 'fail', error: error.message};
+            }
+        }
+    }
 });

@@ -4,8 +4,8 @@ import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { Recipients } from '../../../api/recipients/recipients.js';
 import getOptInProvider from '../dns/get_opt-in-provider.js';
 import getOptInKey from '../dns/get_opt-in-key.js';
-import verifySignature from '../namecoin/verify_signature.js';
-import { getHttp } from '../../../../server/api/http.js';
+import verifySignature from '../doichain/verify_signature.js';
+import { getHttpGET } from '../../../../server/api/http.js';
 import { DOI_MAIL_FETCH_URL } from '../../../startup/server/email-configuration.js';
 import {logSend} from "../../../startup/server/log-configuration";
 
@@ -36,7 +36,7 @@ const getDoiMailData = (data) => {
     const provider = getOptInProvider({domain: domain});
     const publicKey = getOptInKey({domain: provider});
 
-    logSend('queried data: (parts, domain, provider, publicKey)', parts,domain,provider,publicKey);
+    logSend('queried data: (parts, domain, provider, publicKey)', '('+parts+','+domain+','+provider+','+publicKey+')');
 
     //TODO: Only allow access one time
     // Possible solution:
@@ -54,7 +54,7 @@ const getDoiMailData = (data) => {
     //TODO: Query for language
     let doiMailData;
     try {
-      doiMailData = getHttp(DOI_MAIL_FETCH_URL, "").data;
+      doiMailData = getHttpGET(DOI_MAIL_FETCH_URL, "").data;
 
       let returnData = {
           "recipient": recipient.email,

@@ -18,7 +18,7 @@ const getWif = (data) => {
     GetWifSchema.validate(ourData);
     return _getWif(ourData.privateKey);
   } catch(exception) {
-    throw new Meteor.Error('namecoin.getWif.exception', exception);
+    throw new Meteor.Error('doichain.getWif.exception', exception);
   }
 };
 

@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import CryptoJS from 'crypto-js';
 import Base58 from 'bs58';
 import { isRegtest } from '../../../startup/server/dapp-configuration.js';
+import {isTestnet} from "../../../startup/server/dapp-configuration";
 
 const VERSION_BYTE = 0x34;
 const VERSION_BYTE_REGTEST = 0x6f;
@@ -18,7 +19,7 @@ const getAddress = (data) => {
     GetAddressSchema.validate(ourData);
     return _getAddress(ourData.publicKey);
   } catch(exception) {
-    throw new Meteor.Error('namecoin.getAddress.exception', exception);
+    throw new Meteor.Error('doichain.getAddress.exception', exception);
   }
 };
 
@@ -27,8 +28,8 @@ function _getAddress(publicKey) {
   let key = CryptoJS.SHA256(pubKey);
   key = CryptoJS.RIPEMD160(key);
   let versionByte = VERSION_BYTE;
-  if(isRegtest()) versionByte = VERSION_BYTE_REGTEST;
-  let address = Buffer.concat([Buffer.from([VERSION_BYTE]), Buffer.from(key.toString(), 'hex')]);
+  if(isRegtest() || isTestnet()) versionByte = VERSION_BYTE_REGTEST;
+  let address = Buffer.concat([Buffer.from([versionByte]), Buffer.from(key.toString(), 'hex')]);
   key = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(address));
   key = CryptoJS.SHA256(key);
   let checksum = key.toString().substring(0, 8);

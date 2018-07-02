@@ -44,7 +44,7 @@ const writeToBlockchain = (data) => {
       soiDate: optIn.createdAt
     })
   } catch (exception) {
-    throw new Meteor.Error('namecoin.writeToBlockchain.exception', exception);
+    throw new Meteor.Error('doichain.writeToBlockchain.exception', exception);
   }
 };
 

@@ -3,7 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import addRecipient from '../recipients/add.js';
 import addSender from '../senders/add.js';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
-import writeToBlockchain from '../namecoin/write_to_blockchain.js';
+import writeToBlockchain from '../doichain/write_to_blockchain.js';
 import {logSend} from "../../../startup/server/log-configuration";
 
 const AddOptInSchema = new SimpleSchema({

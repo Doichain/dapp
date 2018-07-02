@@ -5,11 +5,11 @@ const NAMESPACE = 'e/';
 
 
 export function getWif(client, address) {
-  const syncFunc = Meteor.wrapAsync(namecoin_dumpprivkey);
+  const syncFunc = Meteor.wrapAsync(doichain_dumpprivkey);
   return syncFunc(client, address);
 }
 
-function namecoin_dumpprivkey(client, address, callback) {
+function doichain_dumpprivkey(client, address, callback) {
   const ourAddress = address;
   client.cmd('dumpprivkey', ourAddress, function(err, data) {
     if(err) console.log(err);
@@ -18,11 +18,11 @@ function namecoin_dumpprivkey(client, address, callback) {
 }
 
 export function signMessage(client, address, message) {
-    const syncFunc = Meteor.wrapAsync(namecoin_signMessage);
+    const syncFunc = Meteor.wrapAsync(doichain_signMessage);
     return syncFunc(client, address, message);
 }
 
-function namecoin_signMessage(client, address, message, callback) {
+function doichain_signMessage(client, address, message, callback) {
     const ourAddress = address;
     const ourMessage = message;
     client.cmd('signmessage', ourAddress, ourMessage, function(err, data) {
@@ -31,11 +31,11 @@ function namecoin_signMessage(client, address, message, callback) {
 }
 
 export function nameShow(client, id) {
-  const syncFunc = Meteor.wrapAsync(namecoin_nameShow);
+  const syncFunc = Meteor.wrapAsync(doichain_nameShow);
   return syncFunc(client, id);
 }
 
-function namecoin_nameShow(client, id, callback) {
+function doichain_nameShow(client, id, callback) {
   const ourId = checkId(id);
   client.cmd('name_show', ourId, function(err, data) {
     if(err !== undefined && err !== null && err.message.startsWith("name not found")) {
@@ -47,11 +47,11 @@ function namecoin_nameShow(client, id, callback) {
 }
 
 export function feeDoi(client, address) {
-    const syncFunc = Meteor.wrapAsync(namecoin_feeDoi);
+    const syncFunc = Meteor.wrapAsync(doichain_feeDoi);
     return syncFunc(client, address);
 }
 
-function namecoin_feeDoi(client, address, callback) {
+function doichain_feeDoi(client, address, callback) {
     const destAddress = address;
     client.cmd('sendtoaddress', destAddress, '0.01', function(err, data) {
         callback(err, data);
@@ -59,11 +59,11 @@ function namecoin_feeDoi(client, address, callback) {
 }
 
 export function nameDoi(client, name, value, address) {
-    const syncFunc = Meteor.wrapAsync(namecoin_nameDoi);
+    const syncFunc = Meteor.wrapAsync(doichain_nameDoi);
     return syncFunc(client, name, value, address);
 }
 
-function namecoin_nameDoi(client, name, value, address, callback) {
+function doichain_nameDoi(client, name, value, address, callback) {
     const ourName = checkId(name);
     const ourValue = value;
     const destAddress = address;
@@ -79,12 +79,12 @@ function namecoin_nameDoi(client, name, value, address, callback) {
 }
 
 export function getRawTransaction(client, txid) {
-    const syncFunc = Meteor.wrapAsync(namecoin_getrawtransaction);
+    const syncFunc = Meteor.wrapAsync(doichain_getrawtransaction);
     return syncFunc(client, txid);
 }
 
-function namecoin_getrawtransaction(client, txid, callback) {
-    console.log('namecoin_getrawtransaction: '+txid)
+function doichain_getrawtransaction(client, txid, callback) {
+    console.log('doichain_getrawtransaction: '+txid)
     client.cmd('getrawtransaction', txid, 1, function(err, data) {
         if(err) console.log(err);
         callback(err, data);

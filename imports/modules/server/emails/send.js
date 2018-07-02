@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import {logConfirm} from "../../../startup/server/log-configuration";
+import { DOI_MAIL_DEFAULT_EMAIL_FROM } from '../../../startup/server/email-configuration.js';
 
 const SendMailSchema = new SimpleSchema({
   from: {
@@ -25,7 +26,11 @@ const SendMailSchema = new SimpleSchema({
 
 const sendMail = (mail) => {
   try {
+
+    mail.from = DOI_MAIL_DEFAULT_EMAIL_FROM;
+
     const ourMail = mail;
+    logConfirm('sending email with data:',mail);
     SendMailSchema.validate(ourMail);
     //TODO: Text fallback
     Email.send({
@@ -37,7 +42,7 @@ const sendMail = (mail) => {
         'Return-Path': mail.returnPath,
       }
     });
-    logConfirm('sent email with data:',mail);
+
   } catch (exception) {
     throw new Meteor.Error('emails.send.exception', exception);
   }

@@ -2,9 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { DOI_FETCH_ROUTE, DOI_CONFIRMATION_ROUTE, API_PATH, VERSION } from '../../../../server/api/rest/rest.js';
 import { getUrl } from '../../../startup/server/dapp-configuration.js';
-import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/namecoin-configuration.js';
-import { getHttp } from '../../../../server/api/http.js';
-import { signMessage } from '../../../../server/api/namecoin.js';
+import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/doichain-configuration.js';
+import { getHttpGET } from '../../../../server/api/http.js';
+import { signMessage } from '../../../../server/api/doichain.js';
 import { OptIns } from '../../../../imports/api/opt-ins/opt-ins.js';
 import parseTemplate from '../emails/parse_template.js';
 import generateDoiToken from '../opt-ins/generate_doi-token.js';
@@ -30,9 +30,9 @@ const fetchDoiMailData = (data) => {
     const url = ourData.domain+API_PATH+VERSION+"/"+DOI_FETCH_ROUTE;
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.name);
     const query = "name_id="+encodeURIComponent(ourData.name)+"&signature="+encodeURIComponent(signature);
-    logConfirm('calling for doi-email-template:'+url+' query:'+query);
+    logConfirm('calling for doi-email-template:'+url+' query:', query);
 
-    const response = getHttp(url, query);
+    const response = getHttpGET(url, query);
     if(response === undefined || response.data === undefined) throw "Bad response";
     const responseData = response.data;
     logConfirm('response data from Send-dApp:',response);

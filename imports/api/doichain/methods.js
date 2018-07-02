@@ -1,15 +1,15 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import getKeyPairM from '../../modules/server/namecoin/get_key-pair.js';
+import getKeyPairM from '../../modules/server/doichain/get_key-pair.js';
 
 const getKeyPair = new ValidatedMethod({
-  name: 'namecoin.getKeyPair',
+  name: 'doichain.getKeyPair',
   validate: null,
   run() {
     return getKeyPairM();
   },
 });
 
-// Get list of all method names on namecoin
+// Get list of all method names on doichain
 const OPTINS_METHODS = _.pluck([
   getKeyPair
 ], 'name');

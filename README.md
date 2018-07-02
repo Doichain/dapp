@@ -1,7 +1,6 @@
 ## Table of Contents
-- [UML](#uml)
-    * [Activity diagram](#activity-diagram)
-    * [Sequence diagram](#sequence-diagram)
+- [Docker Installation](#docker-installation)
+- [Manual Installation](#manual-installation)
 - [Settings](#settings)
     * [DNS](#dns)
     * [App types](#app-types)
@@ -17,25 +16,34 @@
         - [Confirm Opt-In](#confirm-opt-in)
     * [Calls (Verify - dApp)](#calls--verify---dapp-)
         - [Verify Opt-In](#verify-opt-in)
+- [UML](#uml)
+    * [Activity diagram](#activity-diagram)
+    * [Sequence diagram](#sequence-diagram)
 - [Blockchain entry name id](#blockchain-entry-name-id)
 
-## UML
-
-##### activity-diagram
-
-![Alt activity diagram](doc/uml/activity.svg)
-
-##### sequence-diagram
-
-![Alt secquence diagram](doc/uml/sequence.svg)
+## Docker Installation
+1. Install Docker https://docs.docker.com/
+2. Follow instructions on https://github.com/Doichain/docker
+## Manual Installation
+1. Install Doichain node by following classical instructions for
+    - Unix https://github.com/Doichain/core/blob/master/doc/build-unix.md
+    - Mac OS-X https://github.com/Doichain/core/blob/master/doc/build-osx.md
+    - Windows https://github.com/Doichain/core/blob/master/doc/build-windows.md
+2. Install Meteor from https://www.meteor.com/ with ``curl https://install.meteor.com/ | sh``on linux (see website for other operating systems)
+3. Clone this repository into a doichain-dapp directory like ```git clone https://github.com/Doichain/dapp.git doichain-dapp```
+4. Execute a ``cd doichain-dapp; meteor npm install``
+5. Configure ``settings.json``
+6. If you want to enable the confirmation node, configure your [DNS](#dns) TXT field with either:
+    - an ``opt-in-provider=your-email-domain.com`` field when you want to trust a third party Doichain node with
+    - or ``opt-in-key=your-doichain-public-key`` field of you doichain node
 
 
 ## Settings
 The settings are stored in the root folder with the name ``settings.json``
 
 ##### DNS
-If you setup a Confirm dApp you have to set the txt key ``opt-in-key`` with your dApps public key.
-For a Verfiy dApp the txt key ``opt-in-provider`` with the __trusted__ Confirm dApp domain has to be set.
+If you setup a dApp in confirm mode you have to set the txt key ``opt-in-key`` with your dApps public key in the DNS Server of the email domain.
+For a dApp with enabled verify mode, the DNS txt key ``opt-in-provider`` with the __trusted__ dApp in confirm mode  domain has to be set.
 
 ##### App types
 Viable dApp types are ``send``, ``confirm`` and ``verify``
@@ -79,8 +87,9 @@ Example configuration with all three dApps activated:
     "smtp": {
       "username": "admin",
       "password": "****",
-      "server":   "smtp.provider.com",
+      "server":   "smtp.your-email.com",
       "port": 587
+      "defaultFrom": "doichain@your-email.com"
     },
     "namecoin": {
       "host": "192.168.99.100",
@@ -176,4 +185,12 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 
 ## Blockchain entry name id
 The name id is a 256-bit, ECDSA valid, number represanted as a 32 byte (64 characters) string (Same as every Bitcoin privateKey). See also: https://en.bitcoin.it/wiki/Private_key
+## UML
 
+##### activity-diagram
+
+![Alt activity diagram](doc/uml/activity.svg)
+
+##### sequence-diagram
+
+![Alt secquence diagram](doc/uml/sequence.svg)

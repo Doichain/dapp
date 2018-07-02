@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { VERIFY_CLIENT } from '../../../startup/server/namecoin-configuration.js';
-import { nameShow } from '../../../../server/api/namecoin.js';
+import { VERIFY_CLIENT } from '../../../startup/server/doichain-configuration.js';
+import { nameShow } from '../../../../server/api/doichain.js';
 import getOptInProvider from '../dns/get_opt-in-provider.js';
 import getOptInKey from '../dns/get_opt-in-key.js';
-import verifySignature from '../namecoin/verify_signature.js';
+import verifySignature from '../doichain/verify_signature.js';
 import {isDebug} from "../../../startup/server/dapp-configuration";
 
 const VerifyOptInSchema = new SimpleSchema({
