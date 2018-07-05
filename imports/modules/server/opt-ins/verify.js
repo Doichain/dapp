@@ -38,6 +38,7 @@ const verifyOptIn = (data) => {
       signature: entryData.signature,
       publicKey: ourData.recipient_public_key
     })
+
     if(!firstCheck) return false;
     const parts = ourData.recipient_mail.split("@");
     const domain = parts[parts.length-1];
@@ -48,6 +49,7 @@ const verifyOptIn = (data) => {
       signature: entryData.doiSignature,
       publicKey: publicKey
     })
+
     if(!secondCheck) return false;
     return true;
   } catch (exception) {
