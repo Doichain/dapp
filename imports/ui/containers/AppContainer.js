@@ -4,7 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import App from '../layouts/App.js';
 
-export default withTracker(() => {
+export default withTracker(({ services }) => {
   return {
     user: Meteor.user(),
     loading: false,

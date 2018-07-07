@@ -19,7 +19,6 @@ shell-server@0.3.1            # Server-side component of the `meteor shell` comm
 
 planettraining:material-design-icons-font
 nimble:restivus
-accounts-password@1.5.1
 alanning:roles
 ddp-rate-limiter@1.0.7
 universe:i18n
@@ -37,3 +36,7 @@ http@1.4.1
 underscore
 mongo-livedata
 sakulstra:aggregate
+std:accounts-ui
+rwatts:uuid
+accounts-password
+zetoff:accounts-material-ui

@@ -35,8 +35,8 @@
   "pages": {
     "startPage": {
       "title": "doichain",
-      "infoText": "Doichain - Eine Blockchain basierte Email Anti-Spam Lösung",
-      "joinNow": "Trete jetzt bei und mach Mailing ein bisschen sicherer!"
+      "infoText": "Doichain - die Blockchain basierte Anti-Email-Spam Lösung",
+      "joinNow": "Jetzt anmelden!"
     },
     "keyGeneratorPage": {
       "title": "Key Generator"

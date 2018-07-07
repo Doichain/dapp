@@ -1,4 +1,4 @@
-import React from 'react';
+  import React from 'react';
 import i18n from 'meteor/universe:i18n';
 import BaseComponent from '../components/BaseComponent.js';
 import Header from '../components/Header.js';

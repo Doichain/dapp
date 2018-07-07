@@ -1,18 +1,26 @@
 import React from 'react';
+import { render } from 'react-dom';
 import { Router, Route, IndexRoute, Redirect, browserHistory } from 'react-router';
 import i18n from 'meteor/universe:i18n';
-import PrivateRoute from 'react-router-private-route';
-
 import AppContainer from '../../ui/containers/AppContainer.js';
-import RecipientsPageContainer from '../../ui/containers/RecipientsPageContainer.js';
-import OptInsPageContainer from '../../ui/containers/OptInsPageContainer.js';
 import StartPage from '../../ui/pages/StartPage.js';
 import KeyGeneratorPage from '../../ui/pages/KeyGeneratorPage.js';
-import AuthPageSignIn from '../../ui/pages/AuthPageSignIn.js';
 import NotFoundPage from '../../ui/pages/NotFoundPage.js';
-
+import RecipientsPageContainer from '../../ui/containers/RecipientsPageContainer.js';
+import OptInsPageContainer from '../../ui/containers/OptInsPageContainer.js';
 import requireRole from './require_role.js';
 
+
+import { Accounts, STATES } from 'meteor/std:accounts-ui';
+
+Accounts.ui.config({
+    passwordSignupFields: 'EMAIL_ONLY',
+    loginPath: '/signin',
+    signUpPath: '/signup',
+    resetPasswordPath: '/reset-password',
+    profilePath: '/profile',
+    minimumPasswordLength: 8
+});
 i18n.setLocale('en');
 
 export const renderRoutes = () => (
@@ -20,7 +28,8 @@ export const renderRoutes = () => (
     <Route path="/" component={ AppContainer }>
       <IndexRoute component={ StartPage } />
       <Route path="key-generator" component={KeyGeneratorPage} />
-      <Route path="signin" component={AuthPageSignIn} />
+      <Route path="/signin" component={() => <Accounts.ui.LoginForm />} />
+      <Route path="/signup" component={() => <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />} />
       <Route component={requireRole(RecipientsPageContainer, ['admin'])} path="recipients"/>
       <Route component={requireRole(OptInsPageContainer, ['admin'])} path="opt-ins"/>
       <Route path="*" component={ NotFoundPage } />

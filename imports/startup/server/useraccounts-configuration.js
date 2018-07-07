@@ -1,5 +1,9 @@
 import { Accounts } from 'meteor/accounts-base';
-
 Accounts.config({
-  forbidClientAccountCreation: true
+    sendVerificationEmail: true,
+    forbidClientAccountCreation: false
 });
+
+
+
+Accounts.emailTemplates.from='doichain@le-space.de';

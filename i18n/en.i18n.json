@@ -36,7 +36,7 @@
     "startPage": {
       "title": "doichain",
       "infoText": "This is Doichain - A blockchain based email anti-spam",
-      "joinNow": "Join now and make mailing a bit safer!"
+      "joinNow": "Join now!"
     },
     "keyGeneratorPage": {
       "title": "Key Generator"
