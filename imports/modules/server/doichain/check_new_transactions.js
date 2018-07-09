@@ -31,8 +31,9 @@ const checkNewTransaction = (txid) => {
                   return;
               }
           const addressTxs = txs.filter(tx =>
+              tx.scriptPubKey !== undefined
               tx.scriptPubKey.nameOp !== undefined
-	      && tx.scriptPubKey.nameOp.op === "name_doi"
+	          && tx.scriptPubKey.nameOp.op === "name_doi"
               && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
               && tx.scriptPubKey.nameOp.name !== undefined
               && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
@@ -57,7 +58,7 @@ const checkNewTransaction = (txid) => {
           }
           const addressTxs = txs.filter(tx =>
               tx.scriptPubKey.nameOp !== undefined
-	      && tx.scriptPubKey.nameOp.op === "name_doi"
+              && tx.scriptPubKey.nameOp.op === "name_doi"
               && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
               && tx.scriptPubKey.nameOp.name !== undefined
               && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
