@@ -42,7 +42,7 @@ const checkNewTransaction = (txid) => {
 
       }else{
 
-          logConfirm("lastCheckedBlock",txid+' was triggered by walletnotify getting its data from blockchain for doichain address',CONFIRM_ADDRESS);
+          logConfirm("checking"+txid+" was triggered by walletnotify getting its data from blockchain for doichain address",CONFIRM_ADDRESS);
 
           const ret = getRawTransaction(CONFIRM_CLIENT, txid);
           const txs = ret.vout;
