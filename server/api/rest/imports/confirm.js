@@ -37,7 +37,7 @@ Api.addRoute(DOI_WALLETNOTIFY_ROUTE, {
 
             try {
                 checkNewTransaction(txid);
-                return {status: 'success',  data:'txid:'+txid+' is about to get read from blockchain now.'};
+                return {status: 'success',  data:'txid:'+txid+' was read from blockchain'};
             } catch(error) {
                 return {status: 'fail', error: error.message};
             }
