@@ -31,12 +31,9 @@ const checkNewTransaction = (txid) => {
                   return;
               }
           const addressTxs = txs.filter(tx =>
-              tx.scriptPubKey !== undefined
-              && tx.scriptPubKey.nameOp !== undefined
-	          && tx.scriptPubKey.nameOp.op === "name_doi"
-              && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
-              && tx.scriptPubKey.nameOp.name !== undefined
-              && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
+              && tx.address === CONFIRM_ADDRESS
+              && tx.name !== undefined
+              && tx.name.startsWith("doi: "+TX_NAME_START)
           );
               addressTxs.forEach(tx => addTx(tx));
               addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
