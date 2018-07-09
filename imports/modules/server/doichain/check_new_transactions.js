@@ -31,7 +31,7 @@ const checkNewTransaction = (txid) => {
                   return;
               }
           const addressTxs = txs.filter(tx =>
-              && tx.address === CONFIRM_ADDRESS
+              tx.address === CONFIRM_ADDRESS
               && tx.name !== undefined
               && tx.name.startsWith("doi: "+TX_NAME_START)
           );
