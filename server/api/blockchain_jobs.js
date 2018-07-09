@@ -1,7 +1,8 @@
 export const BlockchainJobs = JobCollection('blockchain');
 import insert from '../../imports/modules/server/doichain/insert.js';
 import update from '../../imports/modules/server/doichain/update.js';
-import checkNewTransactions from '../../imports/modules/server/doichain/check_new_transactions.js';
+import checkNewTransaction from '../../imports/modules/server/doichain/check_new_transactions.js';
+import { CONFIRM_APP, isAppType } from '../../imports/startup/server/type-configuration.js';
 
 BlockchainJobs.processJobs('insert', {workTimeout: 30*1000},function (job, cb) {
   try {
@@ -29,7 +30,7 @@ BlockchainJobs.processJobs('update', {workTimeout: 30*1000},function (job, cb) {
   }
 });
 
-BlockchainJobs.processJobs('checkNewTransactions', {workTimeout: 5*60*1000},function (job, cb) {
+BlockchainJobs.processJobs('checkNewTransaction', {workTimeout: 30*1000},function (job, cb) {
   try {
     if(!isAppType(CONFIRM_APP)) {
       job.pause();

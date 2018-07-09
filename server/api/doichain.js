@@ -78,6 +78,23 @@ function doichain_nameDoi(client, name, value, address, callback) {
     };
 }
 
+export function listSinceBlock(client, block) {
+    const syncFunc = Meteor.wrapAsync(doichain_listSinceBlock);
+    var ourBlock = block;
+    if(ourBlock === undefined) ourBlock = null;
+    return syncFunc(client, ourBlock);
+}
+
+function doichain_listSinceBlock(client, block, callback) {
+    var ourBlock = block;
+    if(ourBlock === null) client.cmd('listsinceblock', function(err, data) {
+        callback(err, data);
+    });
+    else client.cmd('listsinceblock', ourBlock, function(err, data) {
+        callback(err, data);
+    });
+}
+
 export function getRawTransaction(client, txid) {
     const syncFunc = Meteor.wrapAsync(doichain_getrawtransaction);
     return syncFunc(client, txid);

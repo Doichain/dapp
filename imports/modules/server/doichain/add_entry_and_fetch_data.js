@@ -38,7 +38,7 @@ const addDoichainEntry = (entry) => {
 
     const ety = DoichainEntries.findOne({name: ourEntry.name})
     logSend('found entry: ',ety);
-   if(ety !== undefined){
+    if(ety !== undefined){
         logSend('DoichainEntry already saved under _id '+ety._id); 
         return ety._id;
     }
