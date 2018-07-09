@@ -30,9 +30,13 @@ const checkNewTransaction = (txid) => {
                   addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
                   return;
               }
-              const addressTxs = txs.filter(tx => tx.address === CONFIRM_ADDRESS &&
-                  tx.category === 'receive' &&
-                  tx.name !== undefined && tx.name.startsWith(TX_NAME_START));
+          const addressTxs = txs.filter(tx =>
+              tx.scriptPubKey.nameOp !== undefined
+	      && tx.scriptPubKey.nameOp.op === "name_doi"
+              && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
+              && tx.scriptPubKey.nameOp.name !== undefined
+              && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
+          );
               addressTxs.forEach(tx => addTx(tx));
               addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
               logConfirm("Transactions updated","");
@@ -53,15 +57,15 @@ const checkNewTransaction = (txid) => {
           }
           const addressTxs = txs.filter(tx =>
               tx.scriptPubKey.nameOp !== undefined
-              && tx.category === 'receive'
+	      && tx.scriptPubKey.nameOp.op === "name_doi"
               && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
               && tx.scriptPubKey.nameOp.name !== undefined
               && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
           );
 
+          logConfirm("last blockhash:", addressTxs);
           addressTxs.forEach(tx => addTx(tx,txid));
-          logConfirm("last blockhash:", addressTxs[addressTxs.length-1].blockhash);
-          addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: addressTxs[addressTxs.length-1].blockhash});
+          //addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: addressTxs[addressTxs.length-1].blockhash});
 
       }
 
