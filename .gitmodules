@@ -1,0 +1,6 @@
+[submodule "packages/accounts-ui"]
+	path = packages/accounts-ui
+	url = git@github.com:Doichain/accounts-ui.git
+[submodule "packages/accounts-material-ui"]
+	path = packages/accounts-material-ui
+	url = git@github.com:Doichain/accounts-material.git

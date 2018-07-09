@@ -25,7 +25,7 @@ const checkNewTransactions = () => {
         throw new Meteor.Error('namecoin.checkNewTransactions.exception', exception);
     }
 };
-export default checkNewTransactions;
+export checkNewTransactions;
 
 const checkNewTransaction = (txid) => {
   try {
