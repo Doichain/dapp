@@ -32,7 +32,7 @@ const checkNewTransaction = (txid) => {
               }
           const addressTxs = txs.filter(tx =>
               tx.scriptPubKey !== undefined
-              tx.scriptPubKey.nameOp !== undefined
+              && tx.scriptPubKey.nameOp !== undefined
 	          && tx.scriptPubKey.nameOp.op === "name_doi"
               && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
               && tx.scriptPubKey.nameOp.name !== undefined
