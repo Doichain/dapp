@@ -21,6 +21,12 @@ const AddDoichainEntrySchema = new SimpleSchema({
   },
   txId: {
     type: String
+  },
+  expiresIn: {
+      type: Number
+  },
+  expired: {
+      type: Boolean
   }
 });
 
@@ -58,6 +64,8 @@ const addDoichainEntry = (entry) => {
       value: ourEntry.value,
       address: ourEntry.address,
       txId: ourEntry.txId,
+      expiresIn: ourEntry.expiresIn,
+      expired: ourEntry.expired
     });
 
     logSend('DoichainEntries added:', id);
