@@ -7,7 +7,7 @@ import { Meta } from '../../../api/meta/meta.js';
 import addOrUpdateMeta from '../meta/addOrUpdate.js';
 import {logConfirm} from "../../../startup/server/log-configuration";
 
-const TX_NAME_START = "doi: e/";
+const TX_NAME_START = "e/";
 const LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";
 
 const checkNewTransaction = (txid) => {
@@ -34,7 +34,7 @@ const checkNewTransaction = (txid) => {
               const addressTxs = txs.filter(tx =>
                   tx.address === CONFIRM_ADDRESS
                   && tx.name !== undefined
-                  && tx.name.startsWith(TX_NAME_START)
+                  && tx.name.startsWith("doi: "+TX_NAME_START)  //here 'doi: e/xxxx' is already written in the block
               );
               addressTxs.forEach(tx => {
                   var txName = tx.name.substring("doi: TX_NAME_START".length);
@@ -68,7 +68,7 @@ const checkNewTransaction = (txid) => {
               && tx.scriptPubKey.nameOp.op === "name_doi"
               && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
               && tx.scriptPubKey.nameOp.name !== undefined
-              && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
+              && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START) //here 'doi: e/xxxx' is NOT inside (compare filter above with doi:)
           );
 
           logConfirm("last blockhash:", addressTxs);
