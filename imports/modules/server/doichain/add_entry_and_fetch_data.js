@@ -21,12 +21,6 @@ const AddDoichainEntrySchema = new SimpleSchema({
   },
   txId: {
     type: String
-  },
-  expiresIn: {
-      type: Number
-  },
-  expired: {
-      type: Boolean
   }
 });
 

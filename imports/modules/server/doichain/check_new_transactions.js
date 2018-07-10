@@ -7,14 +7,14 @@ import { Meta } from '../../../api/meta/meta.js';
 import addOrUpdateMeta from '../meta/addOrUpdate.js';
 import {logConfirm} from "../../../startup/server/log-configuration";
 
-const TX_NAME_START = "doi: e/";
+const TX_NAME_START = "e/";
 const LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";
 
 const checkNewTransaction = (txid) => {
   try {
 
       if(!txid){
-          logConfirm("checkNewTransaction triggered when starting node - checking all transactions since last check for doichain address",CONFIRM_ADDRESS);
+          logConfirm("checkNewTransaction triggered when starting node - checking all confirmed blocks since last check for doichain address",CONFIRM_ADDRESS);
 
           try {
               var lastCheckedBlock = Meta.findOne({key: LAST_CHECKED_BLOCK_KEY});
@@ -36,7 +36,12 @@ const checkNewTransaction = (txid) => {
                   && tx.name !== undefined
                   && tx.name.startsWith(TX_NAME_START)
               );
-              addressTxs.forEach(tx => addTx(tx));
+              addressTxs.forEach(tx => {
+                  var txName = tx.name.substring("doi: TX_NAME_START".length);
+                  logConfirm("excuting name_show in order to get value of nameId:", txName);
+                  const ety = nameShow(CONFIRM_CLIENT, txName);
+                  addTx(txName, ety.value,tx.address,tx.txid);
+              });
               addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
               logConfirm("Transactions updated","");
           } catch(exception) {
@@ -69,12 +74,12 @@ const checkNewTransaction = (txid) => {
           logConfirm("last blockhash:", addressTxs);
 
           addressTxs.forEach(tx => {
-              addTx(tx)
-              addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: addressTxs[addressTxs.length-1].blockhash});
+              addTx(tx.scriptPubKey.nameOp.name, tx.scriptPubKey.nameOp.value,tx.scriptPubKey.addresses[0],txid);
+              //TODO hier gibts noch keinen Block!  Soll das der ChronJob übernehmen? Und dann merken, dass die Transaktion schon gespeichert wurde?
+
+              // addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: addressTxs[addressTxs.length-1].blockhash});
+
           });
-
-
-
       }
 
 
@@ -86,19 +91,12 @@ const checkNewTransaction = (txid) => {
 };
 
 
-function addTx(tx) {
-
-    var txName = tx.name.substring(TX_NAME_START.length);
-    logConfirm("name_show from doichain:", txName);
-    const ety = nameShow(CONFIRM_CLIENT, txName);
-    logConfirm("found name_id:", ety);
+function addTx(name, value, address, txid) {
     addDoichainEntry({
-        name: txName,
-        value: ety.value,
-        address: ety.address,
-        txId: ety.txid,
-        expiresIn: ety.expires_in,
-        expired: ety.expired
+        name: name,
+        value: value,
+        address: address,
+        txId: txid
     });
 }
 
