@@ -34,6 +34,7 @@ const checkNewTransaction = (txid) => {
               const addressTxs = txs.filter(tx =>
                   tx.address === CONFIRM_ADDRESS
                   && tx.name !== undefined
+                  && tx.confirmations>1  //since name_show cannot be read without confirmations
                   && tx.name.startsWith("doi: "+TX_NAME_START)  //here 'doi: e/xxxx' is already written in the block
               );
               addressTxs.forEach(tx => {
