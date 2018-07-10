@@ -37,7 +37,7 @@ const checkNewTransaction = (txid) => {
                   && tx.name.startsWith("doi: "+TX_NAME_START)  //here 'doi: e/xxxx' is already written in the block
               );
               addressTxs.forEach(tx => {
-                  var txName = tx.name.substring("doi: TX_NAME_START".length);
+                  var txName = tx.name.substring("doi: "+TX_NAME_START.length);
                   logConfirm("excuting name_show in order to get value of nameId:", txName);
                   const ety = nameShow(CONFIRM_CLIENT, txName);
                   addTx(txName, ety.value,tx.address,tx.txid);
