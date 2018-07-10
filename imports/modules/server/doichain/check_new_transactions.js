@@ -89,7 +89,9 @@ const checkNewTransaction = (txid) => {
 function addTx(tx) {
 
     var txName = tx.name.substring(TX_NAME_START.length);
+    logConfirm("name_show from doichain:", txName);
     const ety = nameShow(CONFIRM_CLIENT, txName);
+    logConfirm("found name_id:", ety);
     addDoichainEntry({
         name: txName,
         value: ety.value,
