@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { listSinceBlock, getRawTransaction} from '../../../../server/api/doichain.js';
+import { listSinceBlock, nameShow, getRawTransaction} from '../../../../server/api/doichain.js';
 import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/doichain-configuration.js';
 import addDoichainEntry from './add_entry_and_fetch_data.js'
 import {isDebug} from "../../../startup/server/dapp-configuration";
@@ -7,11 +7,12 @@ import { Meta } from '../../../api/meta/meta.js';
 import addOrUpdateMeta from '../meta/addOrUpdate.js';
 import {logConfirm} from "../../../startup/server/log-configuration";
 
-const TX_NAME_START = "e/";
+const TX_NAME_START = "doi: e/";
 const LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";
 
 const checkNewTransaction = (txid) => {
   try {
+
       if(!txid){
           logConfirm("checkNewTransaction triggered when starting node - checking all transactions since last check for doichain address",CONFIRM_ADDRESS);
 
@@ -30,11 +31,11 @@ const checkNewTransaction = (txid) => {
                   addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
                   return;
               }
-          const addressTxs = txs.filter(tx =>
-              tx.address === CONFIRM_ADDRESS
-              && tx.name !== undefined
-              && tx.name.startsWith("doi: "+TX_NAME_START)
-          );
+              const addressTxs = txs.filter(tx =>
+                  tx.address === CONFIRM_ADDRESS
+                  && tx.name !== undefined
+                  && tx.name.startsWith(TX_NAME_START)
+              );
               addressTxs.forEach(tx => addTx(tx));
               addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
               logConfirm("Transactions updated","");
@@ -54,6 +55,7 @@ const checkNewTransaction = (txid) => {
               return;
           }
           const addressTxs = txs.filter(tx =>
+              tx.scriptPubKey !== undefined
               tx.scriptPubKey.nameOp !== undefined
               && tx.scriptPubKey.nameOp.op === "name_doi"
               && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
@@ -62,8 +64,13 @@ const checkNewTransaction = (txid) => {
           );
 
           logConfirm("last blockhash:", addressTxs);
-          addressTxs.forEach(tx => addTx(tx,txid));
-          //addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: addressTxs[addressTxs.length-1].blockhash});
+
+          addressTxs.forEach(tx => {
+              addTx(tx)
+              addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: addressTxs[addressTxs.length-1].blockhash});
+          });
+
+
 
       }
 
@@ -76,21 +83,20 @@ const checkNewTransaction = (txid) => {
 };
 
 
-function addTx(tx,txid) {
+function addTx(tx) {
 
-  logConfirm("addTx:",JSON.stringify(tx));
-  if(!tx.scriptPubKey || !tx.scriptPubKey.nameOp || !tx.scriptPubKey.nameOp.op) return;
+    var txName = tx.name.substring(TX_NAME_START.length);
+    const ety = nameShow(CONFIRM_CLIENT, txName);
+    addDoichainEntry({
+        name: txName,
+        value: ety.value,
+        address: ety.address,
+        txId: ety.txid,
+        expiresIn: ety.expires_in,
+        expired: ety.expired
+    });
+  }
 
-  const txName = tx.scriptPubKey.nameOp.name.substring(TX_NAME_START.length);
-  const txValue = tx.scriptPubKey.nameOp.value;
-  const txAddress = tx.scriptPubKey.addresses[0]; //a soi entry can only be sent to one address so far.
-
-  addDoichainEntry({
-    name: txName,
-    value: txValue,
-    address: txAddress,
-    txId: txid
-  });
 }
 
 export default checkNewTransaction;
