@@ -54,6 +54,9 @@ const checkNewTransaction = (txid) => {
               logConfirm("txid "+txid+' does not contain transaction details or transaction not found.');
               return;
           }
+
+          logConfirm('raw transaction:',txs);
+
           const addressTxs = txs.filter(tx =>
               tx.scriptPubKey !== undefined
               && tx.scriptPubKey.nameOp !== undefined
