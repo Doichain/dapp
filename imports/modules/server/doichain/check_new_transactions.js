@@ -95,8 +95,6 @@ function addTx(tx) {
         expiresIn: ety.expires_in,
         expired: ety.expired
     });
-  }
-
 }
 
 export default checkNewTransaction;
