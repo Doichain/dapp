@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 
-const NAMESPACE = 'doi: e/';
+const NAMESPACE = 'e/';
 
 
 export function getWif(client, address) {
