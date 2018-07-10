@@ -4,7 +4,7 @@ import { SEND_CLIENT } from '../../../startup/server/doichain-configuration.js';
 import getAddress from "./get_address";
 import getOptInProvider from "../dns/get_opt-in-provider";
 import encryptMessage from "./encrypt_message";
-import {getUrl, isDebug} from "../../../startup/server/dapp-configuration";
+import {getUrl} from "../../../startup/server/dapp-configuration";
 import getOptInKey from "../dns/get_opt-in-key";
 import {logBlockchain, logSend} from "../../../startup/server/log-configuration";
 import {feeDoi,nameDoi} from "../../../../server/api/doichain";

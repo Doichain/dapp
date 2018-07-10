@@ -38,14 +38,14 @@ const AddDoichainEntrySchema = new SimpleSchema({
  */
 const addDoichainEntry = (entry) => {
   try {
-    logSend('add DoichainEntry...',entry);
+    logSend('adding DoichainEntry...',entry);
     const ourEntry = entry;
     AddDoichainEntrySchema.validate(ourEntry);
 
     const ety = DoichainEntries.findOne({name: ourEntry.name})
-    logSend('found entry: ',ety);
+    logSend('nameId already saved:',ourEntry.name);
     if(ety !== undefined){
-        logSend('DoichainEntry already saved under _id '+ety._id); 
+        logSend('returning locally saved entry with _id:'+ety._id);
         return ety._id;
     }
 
