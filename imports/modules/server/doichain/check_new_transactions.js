@@ -7,7 +7,7 @@ import { Meta } from '../../../api/meta/meta.js';
 import addOrUpdateMeta from '../meta/addOrUpdate.js';
 import {logConfirm} from "../../../startup/server/log-configuration";
 
-const TX_NAME_START = "e/";
+const TX_NAME_START = "doi: e/";
 const LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";
 
 const checkNewTransaction = (txid) => {
