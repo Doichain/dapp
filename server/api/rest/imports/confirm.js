@@ -13,7 +13,7 @@ Api.addRoute(DOI_CONFIRMATION_ROUTE+'/:hash', {authRequired: false}, {
           this.request.socket.remoteAddress ||
           (this.request.connection.socket ? this.request.connection.socket.remoteAddress: null);
 
-          logConfirm('confirm called for hash:',hash);
+          logConfirm('REST opt-in/confirm :',{hash:hash, ip:ip});
           const redirect = confirmOptIn({host: ip, hash: hash});
 
         return {
