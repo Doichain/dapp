@@ -10,7 +10,7 @@ import {logConfirm} from "../../../startup/server/log-configuration";
 const TX_NAME_START = "e/";
 const LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";
 
-const checkNewTransaction = (txid) => {
+const checkNewTransaction = (txid, job) => {
   try {
 
       if(!txid){
@@ -33,8 +33,7 @@ const checkNewTransaction = (txid) => {
               }
               const addressTxs = txs.filter(tx =>
                   tx.address === CONFIRM_ADDRESS
-                  && tx.name !== undefined
-                  && tx.confirmations>1  //since name_show cannot be read without confirmations
+                  && tx.name !== undefined //since name_show cannot be read without confirmations
                   && tx.name.startsWith("doi: "+TX_NAME_START)  //here 'doi: e/xxxx' is already written in the block
               );
               addressTxs.forEach(tx => {
@@ -49,6 +48,7 @@ const checkNewTransaction = (txid) => {
               });
               addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
               logConfirm("Transactions updated","");
+              job.done();
           } catch(exception) {
               throw new Meteor.Error('namecoin.checkNewTransactions.exception', exception);
           }
