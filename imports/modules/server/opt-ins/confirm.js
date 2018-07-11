@@ -25,7 +25,7 @@ const confirmOptIn = (request) => {
     const optIn = OptIns.findOne({_id: decoded.id});
     if(optIn === undefined || optIn.confirmationToken !== decoded.token) throw "Invalid hash";
     const confirmedAt = new Date();
-    OptIns.update({_id : optIn._id},{$set:{confirmedAt: confirmedAt, confirmedBy: ourRequest.ip}, $unset: {confirmationToken: ""}});
+    OptIns.update({_id : optIn._id},{$set:{confirmedAt: confirmedAt, confirmedBy: ourRequest.host}, $unset: {confirmationToken: ""}});
 
     const entry = DoichainEntries.findOne({name: optIn.nameId});
     if(entry === undefined) throw "Doichain entry not found";
