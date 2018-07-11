@@ -93,8 +93,10 @@ const checkNewTransaction = (txid) => {
 
 
 function addTx(name, value, address, txid) {
+    const txName = name.substring(TX_NAME_START.length);
+
     addDoichainEntry({
-        name: name,
+        name: txName,
         value: value,
         address: address,
         txId: txid

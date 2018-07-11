@@ -24,7 +24,7 @@ const getDoiMailData = (data) => {
     const ourData = data;
     GetDoiMailDataSchema.validate(ourData);
     const optIn = OptIns.findOne({nameId: ourData.name_id});
-    if(optIn === undefined) throw "Opt-In not found";
+    if(optIn === undefined) throw "Opt-In with name_id: "+ourData.name_id+" not found";
     logSend('Opt-In found',optIn);
 
     const recipient = Recipients.findOne({_id: optIn.recipient});
