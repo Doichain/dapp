@@ -47,7 +47,8 @@ const confirmOptIn = (request) => {
     addUpdateBlockchainJob({
       nameId: optIn.nameId,
       value: jsonValue,
-      fromHostUrl: fromHostUrl
+      fromHostUrl: fromHostUrl,
+      host: ourRequest.host
     });
 
     return decoded.redirect;

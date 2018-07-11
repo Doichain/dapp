@@ -17,6 +17,9 @@ const UpdateSchema = new SimpleSchema({
   value: {
     type: String
   },
+  host : {
+      type: String
+  },
   fromHostUrl : {
       type: String
   }
@@ -26,13 +29,6 @@ const update = (data) => {
   try {
     const ourData = data;
     UpdateSchema.validate(ourData);
-
-    //TODO
-    // Inform senddApp about DOI-confirmation
-    // (this actually is coming too early (!) and should be called after the name_doi command)
-    // but  for now we have to do it like this since name_doi throws an error in case
-    // the DOI get's confirmed by the user before this first block confirmation
-
 
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
     const privateKey = getPrivateKeyFromWif({wif: wif});
@@ -50,7 +46,7 @@ const update = (data) => {
     const updateData = {
         nameId: ourData.nameId,
         signature: signature,
-        host: ourData.ip
+        host: ourData.host
     }
 
     try {
