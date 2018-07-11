@@ -42,7 +42,7 @@ const checkNewTransaction = (txid) => {
                   logConfirm("excuting name_show in order to get value of nameId:", txName);
                   const ety = nameShow(CONFIRM_CLIENT, txName);
                   if(!ety){
-                      logConfirm("couldn't find name - obviously not (yet?!) confirmed in blockchain:", txName);
+                      logConfirm("couldn't find name - obviously not (yet?!) confirmed in blockchain:", ety);
                       return;
                   }
                   addTx(txName, ety.value,tx.address,tx.txid);
