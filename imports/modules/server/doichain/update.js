@@ -59,11 +59,11 @@ const update = (data) => {
     }catch(exception){
         if(exception.toString().indexOf("there is already a registration for this doi name")==-1){
             throw new Meteor.Error('doichain.update.exception', exception);
-        }else{
-            const response = getHttpPUT(url, updateData);
-            logConfirm('informed send dApp about confirmed doi on url:'+url+' with updateData'+JSON.stringify(updateData)+" response:",response);
         }
     }
+
+    const response = getHttpPUT(url, updateData);
+    logConfirm('informed send dApp about confirmed doi on url:'+url+' with updateData'+JSON.stringify(updateData)+" response:",response)
 
 
   } catch(exception) {
