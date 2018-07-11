@@ -14,7 +14,7 @@ Api.addRoute(DOI_CONFIRMATION_ROUTE+'/:hash', {authRequired: false}, {
           (this.request.connection.socket ? this.request.connection.socket.remoteAddress: null);
 
           logConfirm('REST opt-in/confirm :',{hash:hash, host:ip});
-          const redirect = confirmOptIn({host: ip, hash: ip});
+          const redirect = confirmOptIn({host: ip, hash: hash});
 
         return {
           statusCode: 303,
