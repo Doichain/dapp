@@ -22,15 +22,16 @@ const checkNewTransaction = (txid, job) => {
               logConfirm("lastCheckedBlock",lastCheckedBlock);
               const ret = listSinceBlock(CONFIRM_CLIENT, lastCheckedBlock);
               if(ret === undefined || ret.transactions === undefined) return;
-              logConfirm("listSinceBlock",ret);
+
               const txs = ret.transactions;
               lastCheckedBlock = ret.lastblock;
-
               if(!ret || !txs || !txs.length===0){
                   logConfirm("transactions do not contain nameOp transaction details or transaction not found.", lastCheckedBlock);
                   addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
                   return;
               }
+              logConfirm("listSinceBlock",ret);
+
               const addressTxs = txs.filter(tx =>
                   tx.address === CONFIRM_ADDRESS
                   && tx.name !== undefined //since name_show cannot be read without confirmations
@@ -79,11 +80,8 @@ const checkNewTransaction = (txid, job) => {
           logConfirm("last blockhash:", addressTxs);
 
           addressTxs.forEach(tx => {
+              //meta are not getting updated here since block is only in mempool and unconfirmed.
               addTx(tx.scriptPubKey.nameOp.name, tx.scriptPubKey.nameOp.value,tx.scriptPubKey.addresses[0],txid);
-              //TODO hier gibts noch keinen Block!  Soll das der ChronJob übernehmen? Und dann merken, dass die Transaktion schon gespeichert wurde?
-
-              // addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: addressTxs[addressTxs.length-1].blockhash});
-
           });
       }
 
