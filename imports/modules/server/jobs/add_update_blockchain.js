@@ -11,6 +11,9 @@ const AddUpdateBlockchainJobSchema = new SimpleSchema({
   },
   fromHostUrl: {
     type: String
+  },
+  host: {
+      type: String
   }
 });
 
