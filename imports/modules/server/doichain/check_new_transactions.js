@@ -41,6 +41,10 @@ const checkNewTransaction = (txid) => {
                   var txName = tx.name.substring("doi: "+TX_NAME_START.length);
                   logConfirm("excuting name_show in order to get value of nameId:", txName);
                   const ety = nameShow(CONFIRM_CLIENT, txName);
+                  if(!ety){
+                      logConfirm("couldn't find name - obviously not (yet?!) confirmed in blockchain:", txName);
+                      return;
+                  }
                   addTx(txName, ety.value,tx.address,tx.txid);
               });
               addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
