@@ -28,10 +28,10 @@ export const renderRoutes = () => (
     <Route path="/" component={ AppContainer }>
       <IndexRoute component={ StartPage } />
       <Route path="key-generator" component={KeyGeneratorPage} />
-      <Route path="/signin" component={() => <Accounts.ui.LoginForm />} />
-      <Route path="/signup" component={() => <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />} />
       <Route component={requireRole(RecipientsPageContainer, ['admin'])} path="recipients"/>
       <Route component={requireRole(OptInsPageContainer, ['admin'])} path="opt-ins"/>
+      <Route path="/signin" component={() => <Accounts.ui.LoginForm />} />
+      <Route path="/signup" component={() => <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />} />
       <Route path="*" component={ NotFoundPage } />
     </Route>
   </Router>

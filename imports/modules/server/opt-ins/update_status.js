@@ -41,7 +41,7 @@ const updateOptInStatus = (data) => {
     }
     logSend('signature valid for publicKey', publicKey);
 
-      OptIns.update({_id : optIn._id},{$set:{confirmedAt: new Date()}});
+    OptIns.update({_id : optIn._id},{$set:{confirmedAt: new Date(), confirmedBy: ourData.host}});
   } catch (exception) {
     throw new Meteor.Error('dapps.send.updateOptInStatus.exception', exception);
   }

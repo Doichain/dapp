@@ -44,20 +44,27 @@ const update = (data) => {
 
     logConfirm('creating signature with ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.nameId);
     const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.nameId);
+
     logConfirm('signature created:',signature);
+
     const updateData = {
         nameId: ourData.nameId,
-        signature: signature
+        signature: signature,
+        host: ourData.ip
     }
 
-    const response = getHttpPUT(url, updateData);
-    logConfirm('informed send dApp about confirmed doi on url:'+url+' with updateData'+JSON.stringify(updateData)+" response:",response);
+    try {
+        const txid = nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null); //TODO maybe send this DOI to peter (the user which wants to receive a doi)
+        logConfirm('update transaction txid:',txid);
+    }catch(exception){
+        if(exception.toString().indexOf("there is already a registration for this doi name")==-1){
+            throw new Meteor.Error('doichain.update.exception', exception);
+        }else{
+            const response = getHttpPUT(url, updateData);
+            logConfirm('informed send dApp about confirmed doi on url:'+url+' with updateData'+JSON.stringify(updateData)+" response:",response);
+        }
+    }
 
-
-    //TODO this throws an exception from DOICHAIN node when DOI is not yet confirmed:
-    //(Error: there is already a registration for this doi name [doichain.update.exception])
-    const txid = nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null); //TODO maybe send this DOI to peter (the user which wants to receive a doi)
-    logConfirm('update transaction txid:',txid);
 
   } catch(exception) {
     throw new Meteor.Error('doichain.update.exception', exception);
