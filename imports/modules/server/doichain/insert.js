@@ -46,7 +46,8 @@ const insert = (data) => {
         from: from
     });
 
-    logBlockchain('sending a fee to bob so he can pay the doi storage (destAddress):', destAddress);
+      //TODO this must be replaced in future by "atomic name trading example" https://wiki.namecoin.info/?title=Atomic_Name-Trading
+      logBlockchain('sending a fee to bob so he can pay the doi storage (destAddress):', destAddress);
     const feeDoiTx = feeDoi(SEND_CLIENT, destAddress);
     logBlockchain('fee send txid to destaddress', feeDoiTx, destAddress);
 
@@ -55,7 +56,7 @@ const insert = (data) => {
     logBlockchain('name_doi added blockchain. txid:', nameDoiTx);
 
   } catch(exception) {
-    throw new Meteor.Error('doichain.insert.exception', exception);
+    throw new Meteor.Error('doichain.insert.exception', exception); //TODO update opt-in in local db to inform user about the error! e.g. Insufficient funds etc.
   }
 };
 

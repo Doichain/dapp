@@ -48,6 +48,11 @@ OptIns.schema = new SimpleSchema({
     optional: true,
     denyUpdate: false,
   },
+  index: {
+    type: String,
+    optional: true,
+    denyUpdate: false,
+  },
   nameId: {
     type: String,
     optional: true,
@@ -85,6 +90,7 @@ OptIns.publicFields = {
   recipient: 1,
   sender: 1,
   data: 1,
+  index: 1,
   nameId: 1,
   createdAt: 1,
   confirmedAt: 1,

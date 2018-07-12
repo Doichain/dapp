@@ -21,7 +21,7 @@ const AddOptInSchema = new SimpleSchema({
   }
 });
 
-const addOptIn = (optIn) => {
+const addOptIn = (optIn,index) => {
   try {
     const ourOptIn = optIn;
     AddOptInSchema.validate(ourOptIn);
@@ -34,18 +34,20 @@ const addOptIn = (optIn) => {
     }
     const senderId = addSender(sender);
     const optIns = OptIns.find({recipient: recipientId, sender: senderId}).fetch();
-    if(optIns.length > 0) return optIns[0]._id;
+    if(optIns.length > 0) return optIns[0]._id; //TODO when SOI already exists resend email?
+
     if(ourOptIn.data !== undefined) {
       try {
         JSON.parse(ourOptIn.data);
       } catch(error) { throw "Invalid data json"; }
     }
     const optInId = OptIns.insert({
+      index: index,
       recipient: recipientId,
       sender: senderId,
       data: ourOptIn.data
     });
-    logSend("optIn added to local db with optInId",optInId);
+    logSend("optIn (index:"+index+" added to local db with optInId",optInId);
 
     writeToBlockchain({id: optInId});
     return optInId;

@@ -17,6 +17,7 @@ Accounts.ui.config({
     passwordSignupFields: 'EMAIL_ONLY',
     loginPath: '/signin',
     signUpPath: '/signup',
+    changePasswordPath: '/change-password',
     resetPasswordPath: '/reset-password',
     profilePath: '/profile',
     minimumPasswordLength: 8

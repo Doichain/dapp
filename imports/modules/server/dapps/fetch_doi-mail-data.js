@@ -32,6 +32,7 @@ const fetchDoiMailData = (data) => {
     const query = "name_id="+encodeURIComponent(ourData.name)+"&signature="+encodeURIComponent(signature);
     logConfirm('calling for doi-email-template:'+url+' query:', query);
 
+    //TODO when running Send-dApp in Testnet behind NAT this URL will not be accessible from the internet
     const response = getHttpGET(url, query);
     if(response === undefined || response.data === undefined) throw "Bad response";
     const responseData = response.data;

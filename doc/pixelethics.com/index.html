@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+  <meta charset="utf-8">
+  <title>welcome to the pixelethics!</title>
+  <base href="http://pixelethics.com/">
+  <meta name="robots" content="index,follow">
+  <meta name="description" content="awesome retro pixel philosophical art discovery project by Mu - Leipzig, Germany.">
+  <meta name="author" content="an artist named mu">
+  <meta name="keywords" content="">
+  <meta property="og:title" content="pixelethics">
+  <meta property="og:description" content="awesome retro pixel philosophical art discovery project by Mu - Leipzig, Germany.">
+  <meta property="og:url" content="http://pixelethics.com/">
+
+
+
+<style>
+	* { box-sizing: border-box; }
+	
+	/* force scrollbar */
+	html { overflow-y: scroll; }
+	
+	body { font-family: sans-serif; }
+	
+	/* ---- grid ---- */
+	
+	.center {
+	text-align: center;
+	}
+	
+	.grid {
+	  background: #fff;
+	  margin: 0 auto;
+	}
+	
+	/* clear fix */
+	.grid:after {
+	  content: '';
+	  display: block;
+	  clear: both;
+	}
+	
+	/* ---- .grid-item ---- */
+	
+	.grid-sizer,
+	.grid-item {
+	 
+	}
+	
+	.grid-item {
+	  float: left;
+	}
+	
+	.grid-item img {
+	  display: block;
+/*	  max-width: 500px; */
+	}
+	
+	.grid-item-1a {
+		background: url("img/1a_rupee.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-1a:hover {
+		background: url("img/1a_ava_h.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-1b {
+		background: url("img/1b_herz.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-1b:hover {
+		background: url("img/1b_cari_h.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-2a {
+		background: url("img/2a_pilz.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-2a:hover {
+		background: url("img/2a_sup_h.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-2b {
+		background: url("img/2b_flag.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-2b:hover {
+		background: url("img/2b_hum_h.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-3a {
+		background: url("img/3a_shit.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-3a:hover {
+		background: url("img/3a_gula_h.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-3b {
+		background: url("img/3b_pogo.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-3b:hover {
+		background: url("img/3b_temp_h.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-4a {
+		background: url("img/4a_cherry.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-4a:hover {
+		background: url("img/4a_lux_h.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-4b {
+		background: url("img/4b_key.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-4b:hover {
+		background: url("img/4b_cast_h.png") no-repeat;
+		background-size: contain;
+	}	
+	.grid-item-5a {
+		background: url("img/5a_dots.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-5a:hover {
+		background: url("img/5a_ace_h.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-5b {
+		background: url("img/5b_hammer.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-5b:hover {
+		background: url("img/5b_indu.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-6a {
+		background: url("img/6a_bomb.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-6a:hover {
+		background: url("img/6a_ira.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-6b {
+		background: url("img/6b_kerze.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-6b:hover {
+		background: url("img/6b_pat.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-7a {
+		background: url("img/7a_blase.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-7a:hover {
+		background: url("img/7a_inv_h.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-7b {
+		background: url("img/7b_chest.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-7b:hover {
+		background: url("img/7b_hum_h.png") no-repeat;
+		background-size: contain;
+	}
+		.grid-item-8a {
+		background: url("img/8a_sculptures.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-8a:hover {
+		background: url("img/8a_sculptures_h.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-8b {
+		background: url("img/coin_2.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-8b:hover {
+		background: url("img/coin_2_h.png") no-repeat;
+		background-size: contain;
+		cursor: pointer;
+	}
+	.grid-item-9a {
+		background: url("img/pixelethics_about.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-9a:hover {
+		background: url("img/pixelethics_about_h.png") no-repeat;
+		background-size: contain;
+		cursor: pointer;
+	}
+	.grid-item-9b {
+		background: url("img/00_hi_there.png") no-repeat;
+		background-size: contain;
+	}
+	.grid-item-9b:hover {
+		background: url("img/00_hi_there_h.png") no-repeat;
+		background-size: contain;
+		cursor: pointer;
+	}
+		
+	# insta-link {
+		background: url("img/pixelethics_about.png") no-repeat;
+		background-size: contain;
+		display: block;
+		overflow:hidden;
+		text-indent:100%;
+		white-space:nowrap;
+	}
+	
+
+
+body {margin:0}
+.grid {width: 100vw;}
+
+.grid-item > div,
+.grid-item > div:hover {
+    width: 50vw;
+    height: 50vw;
+} 
+
+@media screen and (max-width: 600px) {
+
+    .grid-item > div,
+    .grid-item > div:hover {
+        width: 100vw;
+        height: 100vw;
+    } 
+
+}
+	
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
+<script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
+
+</head>
+
+<body>
+<div class="grid">
+  <div class="grid-sizer"></div>
+  <div class="grid-item">
+    <div class="grid-item-1a"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-1b"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-2a"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-2b"></div>
+  </div>
+   <div class="grid-item">
+    <div class="grid-item-3a"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-3b"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-4a"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-4b"></div>
+  </div>
+    <div class="grid-item">
+    <div class="grid-item-5a"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-5b"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-6a"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-6b"></div>
+  </div>
+    <div class="grid-item">
+    <div class="grid-item-7a"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-7b"></div>
+  </div>
+   <div class="grid-item">
+    <div class="grid-item-8a"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-8b">
+    </div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-9a">
+	</div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-9b">
+	</div>
+	</div>
+    </div>
+  </div>
+  </div>
+ <!-- <div class="center">
+    <img src="img/credits.png" />
+  </div>-->
+</body>
+
+
+</html>
+
+
+
+
+<script type="text/javascript">
+
+	$('.grid-item-8a').click(function(){ window.location.target = "_blank"; window.location.href="http://www.le-space.de"; return false; });
+	$('.grid-item-8b').click(function(){ window.location.target = "_blank"; window.location.href="http://www.coinmarketcap.com"; return false; });
+	$('.grid-item-9a').click(function(){ window.location.target = "_blank"; window.location.href="http://www.namecha.in"; return false; });
+	$('.grid-item-9b').click(function(){ 
+		window.location.target = "_blank";
+		window.location.href="http://www.heise.de"; return false; });
+
+	/*var $grid = $('.grid').imagesLoaded( function() {
+	  // init Masonry after all images have loaded
+	  $grid.masonry({
+	  	columnWidth: 500px,
+	  	isFitWidth: true
+	    // options...
+	  });
+	}); */
+</script>
