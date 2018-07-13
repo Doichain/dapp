@@ -16,7 +16,7 @@ const addFetchDoiMailDataJob = (data) => {
     const ourData = data;
     AddFetchDoiMailDataJobSchema.validate(ourData);
     const job = new Job(DAppJobs, 'fetchDoiMailData', ourData);
-    job.retry({retries: 360, wait: 1*10*1000 }).save(); //check every 10 secs for an hour
+    job.retry({retries: 5, wait: 1*10*1000 }).save(); //check every 10 secs for an hour
   } catch (exception) {
     throw new Meteor.Error('jobs.addFetchDoiMailData.exception', exception);
   }
