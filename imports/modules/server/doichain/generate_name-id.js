@@ -7,6 +7,14 @@ import {logSend} from "../../../startup/server/log-configuration";
 const GenerateNameIdSchema = new SimpleSchema({
   id: {
     type: String
+  },
+  master_doi: {
+      type: String,
+      optional: true
+  },
+  index: {
+      type: SimpleSchema.Integer,
+      optional: true
   }
 });
 
@@ -17,8 +25,6 @@ const generateNameId = (optIn) => {
     let nameId;
 
     logSend("ourOptIn1:",ourOptIn);
-    const optIn = OptIns.findOne({_id: ourOptIn.id});
-    logSend("optIn:",optIn);
     if(optIn.masterDoi){
         nameId = ourOptIn.masterDoi+"-"+ourOptIn.index;
         logSend("used master_doi as nameId index "+optIn.index+"storage:",nameId);

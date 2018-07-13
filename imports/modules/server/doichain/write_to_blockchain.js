@@ -24,10 +24,9 @@ const writeToBlockchain = (data) => {
     const recipient = Recipients.findOne({_id: optIn.recipient});
     const sender = Senders.findOne({_id: optIn.sender});
     logSend("optIn data:",{index:ourData.index, optIn:optIn,recipient:recipient,sender: sender});
-    logSend("error!");
-    return;
 
-      //const nameId = generateNameId({index:ourData.index, optIn:optIn,recipient:recipient,sender: sender});
+
+    const nameId = generateNameId({id: data.id,index:optIn.index,masterDoi:optIn.masterDoi });
     const signature = getSignature({message: recipient.email+sender.email, privateKey: recipient.privateKey});
     logSend("generated signature from email recipient and sender:",signature);
 
