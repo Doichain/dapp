@@ -15,19 +15,20 @@ const generateNameId = (optIn) => {
     const ourOptIn = optIn;
     GenerateNameIdSchema.validate(ourOptIn);
     let nameId;
+    logSend("ourOptIn1:",ourOptIn);
     const optIn = OptIns.findOne({_id: ourOptIn.id});
-
-    logSend("ourOptIn:",optIn);
+    logSend("optIn:",optIn);
     if(optIn.masterDoi){
-        nameId = optIn.masterDoi+"-"+optIn.index;
+        nameId = ourOptIn.masterDoi+"-"+ourOptIn.index;
         logSend("used master_doi as nameId index "+optIn.index+"storage:",nameId);
     }
     else{
         let nameId = getKeyPair().privateKey;
         logSend("generated nameId for doichain storage:",nameId);
     }
-    const retval = OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});
-    logSend("ourOptIn:",retval);
+
+    OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});
+
     return nameId;
   } catch(exception) {
     throw new Meteor.Error('doichain.generateNameId.exception', exception);
