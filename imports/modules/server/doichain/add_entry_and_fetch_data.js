@@ -34,7 +34,7 @@ const addDoichainEntry = (entry) => {
   try {
 
     const ourEntry = entry;
-    logSend('adding DoichainEntry locally...q',ourEntry.name);
+    logSend('adding DoichainEntry locally...',ourEntry.name);
     AddDoichainEntrySchema.validate(ourEntry);
 
     const ety = DoichainEntries.findOne({name: ourEntry.name})
@@ -44,7 +44,7 @@ const addDoichainEntry = (entry) => {
     }
 
     const value = JSON.parse(ourEntry.value);
-
+    logSend("value:",value);
     if(value.from === undefined) throw "Wrong blockchain entry";
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
     const privateKey = getPrivateKeyFromWif({wif: wif});

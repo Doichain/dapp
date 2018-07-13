@@ -111,8 +111,10 @@ function doichain_getrawtransaction(client, txid, callback) {
 
 function checkId(id) {
     console.log(id);
+    const DOI_PREFIX = "doi: ";
     let ret_val;
-    if(!id.startsWith("doi: ")) ret_val = id.substring(5,id.length);
+
+    if(!id.startsWith(DOI_PREFIX)) ret_val = id.substring(DOI_PREFIX.length);
     if(!id.startsWith(NAMESPACE)) ret_val = NAMESPACE+id;
   return ret_val;
 }
