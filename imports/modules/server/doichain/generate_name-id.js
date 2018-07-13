@@ -12,10 +12,10 @@ const GenerateNameIdSchema = new SimpleSchema({
 
 const generateNameId = (optIn) => {
   try {
-      logSend("test",optIn);
     const ourOptIn = optIn;
     GenerateNameIdSchema.validate(ourOptIn);
     let nameId;
+
     logSend("ourOptIn1:",ourOptIn);
     const optIn = OptIns.findOne({_id: ourOptIn.id});
     logSend("optIn:",optIn);
