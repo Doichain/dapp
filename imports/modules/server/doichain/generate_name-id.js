@@ -24,7 +24,8 @@ const generateNameId = (optIn) => {
         let nameId = getKeyPair().privateKey;
         logSend("generated nameId for doichain storage:",nameId);
     }
-    OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});
+    const retval = OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});
+    logSend("ourOptIn:",retval);
     return nameId;
   } catch(exception) {
     throw new Meteor.Error('doichain.generateNameId.exception', exception);
