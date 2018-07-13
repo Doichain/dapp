@@ -52,8 +52,6 @@ const addOptIn = (optIn) => {
       } catch(error) { throw "Invalid data json"; }
     }
 
-    logSend("test:",ourOptIn.index);
-
     const optInId = OptIns.insert({
       recipient: recipientId,
       sender: senderId,

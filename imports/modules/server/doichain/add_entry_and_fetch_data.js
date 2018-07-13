@@ -64,16 +64,25 @@ const addDoichainEntry = (entry) => {
 
     logSend('DoichainEntries added:', id);
 
-    addFetchDoiMailDataJob({
-      name: ourEntry.name,
-      domain: domain
-    });
+    const namePos = ourEntry.name.indexOf('-'); //if this is not a co-registration fetch mail.
+    const masterDoi = DoichainEntries.find({name:ourEntry.name.substring(0,namePos)});
 
-    logSend('New entry added: \n'+
-                  'NameId='+ourEntry.name+"\n"+
-                  'Address='+ourEntry.address+"\n"+
-                  'TxId='+ourEntry.txId+"\n"+
-                  'Value='+ourEntry.value);
+
+    if(namePos==-1 && masterDoi){
+        addFetchDoiMailDataJob({
+            name: ourEntry.name,
+            domain: domain
+        });
+
+        logSend('New entry added: \n'+
+            'NameId='+ourEntry.name+"\n"+
+            'Address='+ourEntry.address+"\n"+
+            'TxId='+ourEntry.txId+"\n"+
+            'Value='+ourEntry.value);
+
+    }else{
+        logSend('This transaction belongs to co-registration', masterDoi);
+    }
 
     return id;
   } catch (exception) {
