@@ -32,9 +32,8 @@ const AddOptInSchema = new SimpleSchema({
 const addOptIn = (optIn) => {
   try {
     const ourOptIn = optIn;
-    logSend("optIn:",ourOptIn);
     AddOptInSchema.validate(ourOptIn);
-    logSend("validation successful");
+    logSend("validation successful",ourOptIn);
     const recipient = {
       email: ourOptIn.recipient_mail
     }
