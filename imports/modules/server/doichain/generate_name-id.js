@@ -13,9 +13,16 @@ const generateNameId = (optIn) => {
   try {
     const ourOptIn = optIn;
     GenerateNameIdSchema.validate(ourOptIn);
+    let nameId;
 
-    let nameId = getKeyPair().privateKey;
-
+    if(optIn.masterDoi){
+        nameId = optIn.masterDoi+"-"+optIn.index;
+        logSend("used master_doi as nameId index "+optIn.index+"storage:",nameId);
+    }
+    else{
+        let nameId = getKeyPair().privateKey;
+        logSend("generated nameId for doichain storage:",nameId);
+    }
     OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});
     return nameId;
   } catch(exception) {

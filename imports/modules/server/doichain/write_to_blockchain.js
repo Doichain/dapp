@@ -25,20 +25,7 @@ const writeToBlockchain = (data) => {
     const sender = Senders.findOne({_id: optIn.sender});
     logSend("optIn data:",{index:ourData.index, optIn:optIn,recipient:recipient,sender: sender});
 
-    let nameId;
-    if(optIn.masterDoi){
-        nameId = optIn.masterDoi+"-"+optIn.index;
-        logSend("used master_doi as nameId index "+optIn.index+"storage:",nameId);
-    }
-    else{
-        nameId = generateNameId({id: optIn._id});
-        if(optIn.index){
-          nameId+="-"+optIn.index;
-        }
-        logSend("generated nameId for doichain storage:",nameId);
-    }
-
-
+    const nameId = generateNameId({id: optIn._id});
     const signature = getSignature({message: recipient.email+sender.email, privateKey: recipient.privateKey});
     logSend("generated signature from email recipient and sender:",signature);
 
