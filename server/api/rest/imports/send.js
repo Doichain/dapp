@@ -7,6 +7,7 @@ import {DOI_EXPORT_ROUTE} from "../rest";
 import exportDois from "../../../../imports/modules/server/dapps/export_dois";
 import {CONFIRM_CLIENT} from "../../../../imports/startup/server/doichain-configuration";
 import {nameShow} from "../../doichain";
+import {OptIns} from "../../../../imports/api/opt-ins/opt-ins";
 
 //doku of meteor-restivus https://github.com/kahmali/meteor-restivus
 
@@ -20,25 +21,13 @@ Api.addRoute(DOI_CONFIRMATION_NOTIFY_ROUTE, {
       let params = {}
       if(qParams !== undefined) params = {...qParams}
       if(bParams !== undefined) params = {...params, ...bParams}
-      logSend('qParams:',qParams);
-      logSend('bParams:',bParams);
+      logSend('params:',params);
 
       if(params.sender_mail.constructor === Array){ //this is a SOI with co-sponsors first email is main sponsor
-            console.log('is array:',params.sender_mail);
-
-            const senders = params.sender_mail;
-            const recipient_mail = params.recipient_mail;
-            const data = params.data;
-
-            let retResponse = [];
-            senders.forEach((sender,index) => {
-                retResponse.push(prepareAdd({sender_mail:sender,recipient_mail:recipient_mail,data:data},index));
-            });
-            return retResponse;
+          return prepareCoDOI(params);
       }else{
          return prepareAdd(params);
       }
-
     }
   },
   put: {
@@ -100,12 +89,45 @@ Api.addRoute(DOI_EXPORT_ROUTE, {
     }
 });
 
-function prepareAdd(params,index){
+function prepareCoDOI(params){
+    logSend('is array ',params.sender_mail);
+
+    const senders = params.sender_mail;
+    const recipient_mail = params.recipient_mail;
+    const data = params.data;
+
+    let currentOptInId;
+    let baseNameId;
+    let retResponse = [];
+
+    senders.forEach((sender,index) => {
+        const ret_response = prepareAdd({sender_mail:sender,recipient_mail:recipient_mail,data:data},index);
+        if(ret_response.status === undefined || ret_response.status==="failed") throw "could not add co-opt-in";
+        retResponse.push(ret_response);
+        currentOptInId = ret_response.data.id;
+
+        if(index===0)
+        {
+            logSend('main sponsor optInId:',currentOptInId);
+            const optIn = OptIns.findOne({_id: currentOptInId});
+            baseNameId = optIn.nameId;
+            logSend('main sponsor nameId:',baseNameId);
+        }
+        //updating the nameId of each co-sponsor with the same nameId + "-" + index
+        const nameId = baseNameId+"-"+index;
+        OptIns.update({_id : currentOptInId}, {$set:{nameId: nameId}});
+        logSend('updated optInId: '+currentOptInId+' with nameId',nameId);
+    });
+    logSend(retResponse);
+
+    return retResponse;
+}
+function prepareAdd(params, index){
 
     try {
         const val = addOptIn(params, index);
         logSend('opt-In added ID:',val);
-        return {status: 'success', data: {message: 'Opt-In added. ID: '+val}};
+        return {status: 'success', data: {id: val, status: 'success', message: 'Opt-In added.'}};
     } catch(error) {
         return {statusCode: 500, body: {status: 'fail', message: error.message}};
     }

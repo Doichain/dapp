@@ -46,8 +46,8 @@ const insert = (data) => {
         from: from
     });
 
-      //TODO this must be replaced in future by "atomic name trading example" https://wiki.namecoin.info/?title=Atomic_Name-Trading
-      logBlockchain('sending a fee to bob so he can pay the doi storage (destAddress):', destAddress);
+    //TODO (!) this must be replaced in future by "atomic name trading example" https://wiki.namecoin.info/?title=Atomic_Name-Trading
+    logBlockchain('sending a fee to bob so he can pay the doi storage (destAddress):', destAddress);
     const feeDoiTx = feeDoi(SEND_CLIENT, destAddress);
     logBlockchain('fee send txid to destaddress', feeDoiTx, destAddress);
 
