@@ -30,7 +30,7 @@ const generateNameId = (optIn) => {
         logSend("used master_doi as nameId index "+optIn.index+"storage:",nameId);
     }
     else{
-        let nameId = getKeyPair().privateKey;
+        nameId = getKeyPair().privateKey;
         logSend("generated nameId for doichain storage:",nameId);
     }
 
