@@ -24,7 +24,7 @@ const generateNameId = (optIn) => {
         let nameId = getKeyPair().privateKey;
         logSend("generated nameId for doichain storage:",nameId);
     }
-    const retval = OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});
+    const retval = OptIns.update({_id : ourOptIn._id}, {$set:{nameId: nameId}});
     logSend("ourOptIn:",retval);
     return nameId;
   } catch(exception) {
