@@ -110,6 +110,7 @@ function doichain_getrawtransaction(client, txid, callback) {
 }
 
 function checkId(id) {
-  if(!id.startsWith(NAMESPACE)) return NAMESPACE+id;
+    if(!id.startsWith("doi: ")) return id.substring(5);
+    if(!id.startsWith(NAMESPACE)) return NAMESPACE+id;
   return id;
 }
