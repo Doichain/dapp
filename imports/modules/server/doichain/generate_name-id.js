@@ -17,7 +17,7 @@ const generateNameId = (optIn) => {
     const ourOptIn = optIn;
     GenerateNameIdSchema.validate(ourOptIn);
 
-    if(ourOptIn.index && ourOptIn.index>0) return; //in case this is a co-sponsor do not generate and save a nameId.
+    //if(ourOptIn.index && ourOptIn.index>0) return; //in case this is a co-sponsor do not generate and save a nameId.
 
     const nameId = getKeyPair().privateKey;
     OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});

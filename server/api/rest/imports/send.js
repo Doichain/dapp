@@ -116,7 +116,7 @@ function prepareCoDOI(params){
         }
         //updating the nameId of each co-sponsor with the same nameId + "-" + index
         const nameId = baseNameId+"-"+index;
-        OptIns.update({_id : currentOptInId}, {$set:{nameId: nameId}});
+        OptIns.update({_id : currentOptInId}, {$set:{nameId: nameId}}); //overwriting the generated nameId with the nameID of the co-sponsor
         logSend('updated optInId: '+currentOptInId+' with nameId',nameId);
     });
     logSend(retResponse);
