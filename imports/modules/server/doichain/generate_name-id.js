@@ -6,6 +6,9 @@ import getKeyPair from './get_key-pair.js';
 const GenerateNameIdSchema = new SimpleSchema({
   id: {
     type: String
+  },
+  index: {
+      type: String
   }
 });
 
