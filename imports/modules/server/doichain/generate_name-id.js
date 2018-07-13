@@ -12,9 +12,11 @@ const GenerateNameIdSchema = new SimpleSchema({
 
 const generateNameId = (optIn) => {
   try {
-    //const ourOptIn = optIn;
-      // GenerateNameIdSchema.validate(ourOptIn);
+    const ourOptIn = optIn;
+    GenerateNameIdSchema.validate(ourOptIn);
     let nameId;
+    const optIn = OptIns.findOne({_id: ourOptIn.id});
+
     logSend("ourOptIn:",optIn);
     if(optIn.masterDoi){
         nameId = optIn.masterDoi+"-"+optIn.index;
@@ -24,7 +26,7 @@ const generateNameId = (optIn) => {
         let nameId = getKeyPair().privateKey;
         logSend("generated nameId for doichain storage:",nameId);
     }
-    const retval = OptIns.update({_id : optIn._id}, {$set:{nameId: nameId}});
+    const retval = OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});
     logSend("ourOptIn:",retval);
     return nameId;
   } catch(exception) {
