@@ -37,6 +37,7 @@ export function nameShow(client, id) {
 
 function doichain_nameShow(client, id, callback) {
   const ourId = checkId(id);
+  console.log("doichain-cli name_show "+ourId);
   client.cmd('name_show', ourId, function(err, data) {
     if(err !== undefined && err !== null && err.message.startsWith("name not found")) {
       err = undefined,
