@@ -54,7 +54,6 @@ const fetchDoiMailData = (data) => {
     logConfirm('opt-in found:',optIn);
     if(optIn.confirmationToken !== undefined) return;
 
-
     const token = generateDoiToken({id: optIn._id});
     logConfirm('generated confirmationToken:',token);
     const confirmationHash = generateDoiHash({id: optIn._id, token: token, redirect: responseData.data.redirect});
@@ -62,10 +61,10 @@ const fetchDoiMailData = (data) => {
     const confirmationUrl = getUrl()+API_PATH+VERSION+"/"+DOI_CONFIRMATION_ROUTE+"/"+encodeURIComponent(confirmationHash);
     logConfirm('confirmationUrl:'+confirmationUrl);
 
-
     const template = parseTemplate({template: responseData.data.content, data: {
       confirmation_url: confirmationUrl
     }});
+
     logConfirm('we are using this template:',template);
 
     logConfirm('adding email to endUser for confirmation');
