@@ -97,11 +97,11 @@ function prepareCoDOI(params){
     const data = params.data;
 
     let currentOptInId;
-    let baseNameId;
     let retResponse = [];
-
+    let master_doi = null;
     senders.forEach((sender,index) => {
-        const ret_response = prepareAdd({sender_mail:sender,recipient_mail:recipient_mail,data:data},index);
+
+        const ret_response = prepareAdd({sender_mail:sender,recipient_mail:recipient_mail,data:data, master_doi:master_doi, index: index});
         console.log(ret_response);
         if(ret_response.status === undefined || ret_response.status==="failed") throw "could not add co-opt-in";
         retResponse.push(ret_response);
@@ -111,22 +111,25 @@ function prepareCoDOI(params){
         {
             logSend('main sponsor optInId:',currentOptInId);
             const optIn = OptIns.findOne({_id: currentOptInId});
-            baseNameId = optIn.nameId;
-            logSend('main sponsor nameId:',baseNameId);
+            master_doi = optIn.nameId;
+            logSend('main sponsor nameId:',master_doi);
+
+            //const nameId = master_doi+"-"+index;
+            //OptIns.update({_id : currentOptInId}, {$set:{nameId: nameId}});
         }
         //updating the nameId of each co-sponsor with the same nameId + "-" + index
-        const nameId = baseNameId+"-"+index;
-        OptIns.update({_id : currentOptInId}, {$set:{nameId: nameId}}); //overwriting the generated nameId with the nameID of the co-sponsor
-        logSend('updated optInId: '+currentOptInId+' with nameId',nameId);
+        //const nameId = master_doi+"-"+index;
+        //OptIns.update({_id : currentOptInId}, {$set:{nameId: nameId}}); //overwriting the generated nameId with the nameID of the co-sponsor
+        //logSend('updated optInId: '+currentOptInId+' with nameId',nameId);
     });
     logSend(retResponse);
 
     return retResponse;
 }
-function prepareAdd(params, index){
+function prepareAdd(params){
 
     try {
-        const val = addOptIn(params, index);
+        const val = addOptIn(params);
         logSend('opt-In added ID:',val);
         return {status: 'success', data: {id: val, status: 'success', message: 'Opt-In added.'}};
     } catch(error) {

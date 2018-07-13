@@ -21,7 +21,7 @@ const AddOptInSchema = new SimpleSchema({
   }
 });
 
-const addOptIn = (optIn,index) => {
+const addOptIn = (optIn) => {
   try {
     const ourOptIn = optIn;
     AddOptInSchema.validate(ourOptIn);
@@ -32,7 +32,9 @@ const addOptIn = (optIn,index) => {
     const sender = {
       email: ourOptIn.sender_mail
     }
+    const master_doi = ourOptIn.master_doi;
     const senderId = addSender(sender);
+
     const optIns = OptIns.find({recipient: recipientId, sender: senderId}).fetch();
     if(optIns.length > 0) return optIns[0]._id; //TODO when SOI already exists resend email?
 
@@ -42,9 +44,10 @@ const addOptIn = (optIn,index) => {
       } catch(error) { throw "Invalid data json"; }
     }
     const optInId = OptIns.insert({
-      index: index,
       recipient: recipientId,
       sender: senderId,
+      index: index,
+      master_doi : master_doi,
       data: ourOptIn.data
     });
     logSend("optIn (index:"+index+" added to local db with optInId",optInId);
