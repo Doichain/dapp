@@ -58,6 +58,11 @@ OptIns.schema = new SimpleSchema({
     optional: true,
     denyUpdate: false,
   },
+  masterDoi: {
+      type: String,
+      optional: true,
+      denyUpdate: false,
+  },
   createdAt: {
     type: Date,
     denyUpdate: true,

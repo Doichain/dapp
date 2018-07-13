@@ -26,8 +26,8 @@ const writeToBlockchain = (data) => {
     logSend("optIn data:",{index:ourData.index, optIn:optIn,recipient:recipient,sender: sender});
 
     let nameId;
-    if(optIn.master_doi){
-        nameId = optIn.master_doi+"-"+optIn.index;
+    if(optIn.masterDoi){
+        nameId = optIn.masterDoi+"-"+optIn.index;
         logSend("used master_doi as nameId index "+optIn.index+"storage:",nameId);
     }
     else{
