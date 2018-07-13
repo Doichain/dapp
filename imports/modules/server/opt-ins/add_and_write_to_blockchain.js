@@ -33,7 +33,7 @@ const addOptIn = (optIn) => {
   try {
     const ourOptIn = optIn;
     AddOptInSchema.validate(ourOptIn);
-    logSend("validation successful",ourOptIn);
+
     const recipient = {
       email: ourOptIn.recipient_mail
     }
@@ -61,7 +61,7 @@ const addOptIn = (optIn) => {
       masterDoi : ourOptIn.master_doi,
       data: ourOptIn.data
     });
-    logSend("optIn (index:"+index+" added to local db with optInId",optInId);
+    logSend("optIn (index:"+ourOptIn.index+" added to local db with optInId",optInId);
 
     writeToBlockchain({id: optInId});
     return optInId;
