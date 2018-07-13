@@ -98,7 +98,7 @@ function prepareCoDOI(params){
 
     let currentOptInId;
     let retResponse = [];
-    let master_doi = null;
+    let master_doi;
     senders.forEach((sender,index) => {
 
         const ret_response = prepareAdd({sender_mail:sender,recipient_mail:recipient_mail,data:data, master_doi:master_doi, index: index});

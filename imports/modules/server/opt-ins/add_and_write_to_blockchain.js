@@ -23,7 +23,7 @@ const AddOptInSchema = new SimpleSchema({
       type: String,
       optional: true
   },
-  index: {
+  idx: {
       type: SimpleSchema.Integer,
       optional: true
   }
@@ -57,7 +57,7 @@ const addOptIn = (optIn) => {
     const optInId = OptIns.insert({
       recipient: recipientId,
       sender: senderId,
-      index: ourOptIn.index,
+      idx: ourOptIn.index,
       masterDoi : ourOptIn.master_doi,
       data: ourOptIn.data
     });
