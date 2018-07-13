@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import getKeyPair from './get_key-pair.js';
+import {logSend} from "../../../startup/server/log-configuration";
 
 const GenerateNameIdSchema = new SimpleSchema({
   id: {
@@ -23,7 +24,7 @@ const generateNameId = (optIn) => {
         let nameId = getKeyPair().privateKey;
         logSend("generated nameId for doichain storage:",nameId);
     }
-    OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});
+      OptIns.update({_id : ourOptIn.id}, {$set:{nameId: nameId}});
     return nameId;
   } catch(exception) {
     throw new Meteor.Error('doichain.generateNameId.exception', exception);
