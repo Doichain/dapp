@@ -8,7 +8,7 @@ const GenerateNameIdSchema = new SimpleSchema({
   id: {
     type: String
   },
-  master_doi: {
+  masterDoi: {
       type: String,
       optional: true
   },
