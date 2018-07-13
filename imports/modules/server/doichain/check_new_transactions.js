@@ -15,7 +15,7 @@ const checkNewTransaction = (txid, job) => {
 
       if(!txid){
           //logConfirm("checkNewTransaction triggered when starting node - checking all confirmed blocks since last check for doichain address",CONFIRM_ADDRESS);
-
+            return;
           try {
               var lastCheckedBlock = Meta.findOne({key: LAST_CHECKED_BLOCK_KEY});
               if(lastCheckedBlock !== undefined) lastCheckedBlock = lastCheckedBlock.value;
