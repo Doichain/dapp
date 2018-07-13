@@ -47,7 +47,7 @@ const checkNewTransaction = (txid, job) => {
                       logConfirm("couldn't find name - obviously not (yet?!) confirmed in blockchain:", ety);
                       return;
                   }
-                  addTx(txName, ety.value,tx.address,tx.txid); //TODO ety.value
+                  addTx(txName, ety.value,tx.address,tx.txid); //TODO ety.value.from is maybe NOT existing because of this its  (maybe) ont working...
               });
               addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
               logConfirm("Transactions updated - lastCheckedBlock:",lastCheckedBlock);
@@ -68,7 +68,7 @@ const checkNewTransaction = (txid, job) => {
               return;
           }
 
-          logConfirm('raw transaction:',txs);
+          logConfirm('now checking raw transactions with filter:',txs);
 
           const addressTxs = txs.filter(tx =>
               tx.scriptPubKey !== undefined
@@ -76,10 +76,10 @@ const checkNewTransaction = (txid, job) => {
               && tx.scriptPubKey.nameOp.op === "name_doi"
               && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
               && tx.scriptPubKey.nameOp.name !== undefined
-              && tx.scriptPubKey.nameOp.name.startsWith("doi: "+TX_NAME_START)
+              && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
           );
 
-          logConfirm("last blockhash:", addressTxs);
+          logConfirm("found name_op transactions:", addressTxs);
 
           addressTxs.forEach(tx => {
               //meta are not getting updated here since block is only in mempool and unconfirmed.
