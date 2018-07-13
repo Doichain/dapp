@@ -102,6 +102,7 @@ function prepareCoDOI(params){
 
     senders.forEach((sender,index) => {
         const ret_response = prepareAdd({sender_mail:sender,recipient_mail:recipient_mail,data:data},index);
+        console.log(ret_response);
       //  if(ret_response.status === undefined || ret_response.status==="failed") throw "could not add co-opt-in";
         retResponse.push(ret_response);
         currentOptInId = ret_response.optIn._id;
