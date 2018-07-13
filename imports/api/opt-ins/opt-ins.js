@@ -80,7 +80,7 @@ OptIns.schema = new SimpleSchema({
     denyUpdate: false,
   },
   confirmationToken: {
-    type: SimpleSchema.Integer,
+    type: String,
     optional: true,
     denyUpdate: false,
   }
