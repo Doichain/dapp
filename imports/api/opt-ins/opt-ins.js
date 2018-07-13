@@ -49,7 +49,7 @@ OptIns.schema = new SimpleSchema({
     denyUpdate: false,
   },
   index: {
-    type: String,
+    type: SimpleSchema.Integer,
     optional: true,
     denyUpdate: false,
   },
