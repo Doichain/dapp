@@ -6,6 +6,7 @@ class OptInsCollection extends Mongo.Collection {
     const ourOptIn = optIn;
     ourOptIn.recipient_sender = ourOptIn.recipient+ourOptIn.sender;
     ourOptIn.createdAt = ourOptIn.createdAt || new Date();
+    console.log(ourOptIn);
     const result = super.insert(ourOptIn, callback);
     return result;
   }
