@@ -13,7 +13,7 @@ const GenerateNameIdSchema = new SimpleSchema({
 const generateNameId = (optIn) => {
   try {
     const ourOptIn = optIn;
-    GenerateNameIdSchema.validate(ourOptIn);
+      // GenerateNameIdSchema.validate(ourOptIn);
     let nameId;
 
     if(optIn.masterDoi){
