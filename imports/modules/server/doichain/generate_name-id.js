@@ -12,7 +12,7 @@ const GenerateNameIdSchema = new SimpleSchema({
 
 const generateNameId = (optIn) => {
   try {
-      logSend("test");
+      logSend("test",optIn);
     const ourOptIn = optIn;
     GenerateNameIdSchema.validate(ourOptIn);
     let nameId;
