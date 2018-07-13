@@ -42,7 +42,7 @@ const checkNewTransaction = (txid, job) => {
                   var txName = tx.name.substring(("doi: "+TX_NAME_START).length);
                   logConfirm("excuting name_show in order to get value of nameId:", txName);
                   const ety = nameShow(CONFIRM_CLIENT, txName);
-                  console.log("nameShow: value",ety.value);
+                  console.log("nameShow: value",ety);
                   if(!ety){
                       logConfirm("couldn't find name - obviously not (yet?!) confirmed in blockchain:", ety);
                       return;
