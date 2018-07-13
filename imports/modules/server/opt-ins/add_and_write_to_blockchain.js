@@ -42,7 +42,6 @@ const addOptIn = (optIn) => {
       email: ourOptIn.sender_mail
     }
     const senderId = addSender(sender);
-    const masterDoi = ourOptIn.master_doi;
 
     const optIns = OptIns.find({recipient: recipientId, sender: senderId}).fetch();
     if(optIns.length > 0) return optIns[0]._id; //TODO when SOI already exists resend email?
@@ -55,8 +54,8 @@ const addOptIn = (optIn) => {
     const optInId = OptIns.insert({
       recipient: recipientId,
       sender: senderId,
-      index: index,
-      masterDoi : masterDoi,
+      index: ourOptIn.index,
+      masterDoi : ourOptIn.master_doi;
       data: ourOptIn.data
     });
     logSend("optIn (index:"+index+" added to local db with optInId",optInId);
