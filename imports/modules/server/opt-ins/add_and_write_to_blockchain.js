@@ -18,6 +18,14 @@ const AddOptInSchema = new SimpleSchema({
   data: {
     type: String,
     optional: true
+  },
+  masterDoi: {
+      type: String,
+      optional: true
+  },
+  index: {
+      type: String,
+      optional: true
   }
 });
 
@@ -32,7 +40,7 @@ const addOptIn = (optIn) => {
     const sender = {
       email: ourOptIn.sender_mail
     }
-    const master_doi = ourOptIn.masterDoi;
+    const master_doi = ourOptIn.master_doi;
     const senderId = addSender(sender);
 
     const optIns = OptIns.find({recipient: recipientId, sender: senderId}).fetch();
