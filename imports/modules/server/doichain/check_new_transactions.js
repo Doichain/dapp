@@ -76,7 +76,7 @@ const checkNewTransaction = (txid, job) => {
               && tx.scriptPubKey.nameOp.op === "name_doi"
               && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
               && tx.scriptPubKey.nameOp.name !== undefined
-              && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START) //here 'doi: e/xxxx' is NOT inside (compare filter above with doi:)
+              && tx.scriptPubKey.nameOp.name.startsWith("doi: "+TX_NAME_START);
           );
 
           logConfirm("last blockhash:", addressTxs);
