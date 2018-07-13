@@ -34,6 +34,7 @@ const addOptIn = (optIn) => {
     const ourOptIn = optIn;
     logSend("optIn:",ourOptIn);
     AddOptInSchema.validate(ourOptIn);
+    logSend("validation successful");
     const recipient = {
       email: ourOptIn.recipient_mail
     }
