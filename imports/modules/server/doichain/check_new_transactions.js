@@ -47,7 +47,7 @@ const checkNewTransaction = (txid, job) => {
                       logConfirm("couldn't find name - obviously not (yet?!) confirmed in blockchain:", ety);
                       return;
                   }
-                  addTx(txName, ety.value,tx.address,tx.txid);
+                  addTx(txName, ety.value,tx.address,tx.txid); //TODO ety.value
               });
               addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
               logConfirm("Transactions updated - lastCheckedBlock:",lastCheckedBlock);
