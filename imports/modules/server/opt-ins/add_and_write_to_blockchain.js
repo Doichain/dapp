@@ -32,7 +32,7 @@ const addOptIn = (optIn) => {
     const sender = {
       email: ourOptIn.sender_mail
     }
-    const master_doi = ourOptIn.master_doi;
+    const master_doi = ourOptIn.masterDoi;
     const senderId = addSender(sender);
 
     const optIns = OptIns.find({recipient: recipientId, sender: senderId}).fetch();
