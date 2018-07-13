@@ -24,7 +24,7 @@ const AddOptInSchema = new SimpleSchema({
       optional: true
   },
   index: {
-      type: String,
+      type: SimpleSchema.Integer,
       optional: true
   }
 });
