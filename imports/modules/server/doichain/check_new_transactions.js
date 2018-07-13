@@ -39,7 +39,7 @@ const checkNewTransaction = (txid, job) => {
               );
               addressTxs.forEach(tx => {
                   console.log(txName);
-                  var txName = tx.name.substring("doi: "+TX_NAME_START.length,tx.name.length);
+                  var txName = tx.name.substring(("doi: "+TX_NAME_START).length);
                   logConfirm("excuting name_show in order to get value of nameId:", txName);
                   const ety = nameShow(CONFIRM_CLIENT, txName);
                   console.log(ety);
