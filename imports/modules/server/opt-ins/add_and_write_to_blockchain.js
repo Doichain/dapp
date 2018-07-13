@@ -19,7 +19,7 @@ const AddOptInSchema = new SimpleSchema({
     type: String,
     optional: true
   },
-  masterDoi: {
+  master_doi: {
       type: String,
       optional: true
   },
