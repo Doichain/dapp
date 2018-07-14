@@ -43,6 +43,15 @@ DoichainEntries.schema = new SimpleSchema({
     type: String,
     denyUpdate: false
   },
+  masterDoi: {
+        type: String,
+        index: true,
+        denyUpdate: true
+  },
+  index: {
+        type: SimpleSchema.Integer,
+        denyUpdate: true
+  },
   txId: {
     type: String,
     denyUpdate: false
@@ -59,5 +68,7 @@ DoichainEntries.publicFields = {
   name: 1,
   value: 1,
   address: 1,
+  masterDoi: 1,
+  index: 1,
   txId: 1
 };
