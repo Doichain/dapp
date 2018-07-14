@@ -71,7 +71,7 @@ const addDoichainEntry = (entry) => {
         expired: ourEntry.expired
     });
 
-    logSend('DoichainEntries added:', {id:id,name:name,masterDoi:masterDoi,index:index});
+    logSend('DoichainEntries added:', {id:id,name:ourEntry.name,masterDoi:masterDoi,index:index});
 
     if(namePos==-1 && masterDoi){
         addFetchDoiMailDataJob({
