@@ -55,9 +55,9 @@ const addDoichainEntry = (entry) => {
 
     const namePos = ourEntry.name.indexOf('-'); //if this is not a co-registration fetch mail.
     logSend('namePos:',namePos);
-    const masterDoi = ourEntry.name.substring(0,namePos);
+    const masterDoi = (namePos!=-1)?ourEntry.name.substring(0,namePos):undefined;
     logSend('masterDoi:',masterDoi);
-    const index = ourEntry.name.substring(namePos+1);
+    const index = masterDoi?ourEntry.name.substring(namePos+1):undefined;
     logSend('index:',index);
 
     const id = DoichainEntries.insert({
