@@ -73,7 +73,7 @@ const addDoichainEntry = (entry) => {
 
     logSend('DoichainEntries added:', {id:id,name:ourEntry.name,masterDoi:masterDoi,index:index});
 
-    if(namePos==-1 && masterDoi){
+    if(!masterDoi){
         addFetchDoiMailDataJob({
             name: ourEntry.name,
             domain: domain

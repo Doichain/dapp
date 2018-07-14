@@ -45,11 +45,13 @@ DoichainEntries.schema = new SimpleSchema({
   },
   masterDoi: {
         type: String,
+        optional: true,
         index: true,
         denyUpdate: true
   },
   index: {
         type: SimpleSchema.Integer,
+        optional: true,
         denyUpdate: true
   },
   txId: {
