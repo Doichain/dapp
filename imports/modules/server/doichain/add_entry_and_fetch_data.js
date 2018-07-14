@@ -54,8 +54,11 @@ const addDoichainEntry = (entry) => {
     logSend('decrypted message from domain: ',domain);
 
     const namePos = ourEntry.name.indexOf('-'); //if this is not a co-registration fetch mail.
+    logSend('namePos:',namePos);
     const masterDoi = DoichainEntries.find({name:ourEntry.name.substring(0,namePos)});
+    logSend('masterDoi:',masterDoi);
     const index = ourEntry.name.substring(namePos+1);
+    logSend('index:',index);
 
     const id = DoichainEntries.insert({
         name: ourEntry.name,
