@@ -78,7 +78,6 @@ const addDoichainEntry = (entry) => {
             name: ourEntry.name,
             domain: domain
         });
-
         logSend('New entry added: \n'+
             'NameId='+ourEntry.name+"\n"+
             'Address='+ourEntry.address+"\n"+
