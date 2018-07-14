@@ -53,20 +53,22 @@ const addDoichainEntry = (entry) => {
     const domain = decryptMessage({privateKey: privateKey, message: value.from});
     logSend('decrypted message from domain: ',domain);
 
-    const id = DoichainEntries.insert({
-      name: ourEntry.name,
-      value: ourEntry.value,
-      address: ourEntry.address,
-      txId: ourEntry.txId,
-      expiresIn: ourEntry.expiresIn,
-      expired: ourEntry.expired
-    });
-
-    logSend('DoichainEntries added:', id);
-
     const namePos = ourEntry.name.indexOf('-'); //if this is not a co-registration fetch mail.
     const masterDoi = DoichainEntries.find({name:ourEntry.name.substring(0,namePos)});
+    const index = ourEntry.name.substring(namePos+1);
 
+    const id = DoichainEntries.insert({
+        name: ourEntry.name,
+        value: ourEntry.value,
+        address: ourEntry.address,
+        masterDoi: masterDoi,
+        index: index,
+        txId: ourEntry.txId,
+        expiresIn: ourEntry.expiresIn,
+        expired: ourEntry.expired
+    });
+
+    logSend('DoichainEntries added:', {id:id,name:name,masterDoi:masterDoi,index:index});
 
     if(namePos==-1 && masterDoi){
         addFetchDoiMailDataJob({

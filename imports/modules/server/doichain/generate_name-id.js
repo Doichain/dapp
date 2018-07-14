@@ -23,8 +23,6 @@ const generateNameId = (optIn) => {
     const ourOptIn = optIn;
     GenerateNameIdSchema.validate(ourOptIn);
     let nameId;
-
-    logSend("ourOptIn1:",ourOptIn);
     if(optIn.masterDoi){
         nameId = ourOptIn.masterDoi+"-"+ourOptIn.index;
         logSend("used master_doi as nameId index "+optIn.index+"storage:",nameId);

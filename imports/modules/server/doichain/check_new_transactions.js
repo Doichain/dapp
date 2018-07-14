@@ -82,7 +82,6 @@ const checkNewTransaction = (txid, job) => {
           logConfirm("found name_op transactions:", addressTxs);
 
           addressTxs.forEach(tx => {
-              //meta are not getting updated here since block is only in mempool and unconfirmed.
               addTx(tx.scriptPubKey.nameOp.name, tx.scriptPubKey.nameOp.value,tx.scriptPubKey.addresses[0],txid);
           });
       }

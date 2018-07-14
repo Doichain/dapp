@@ -25,30 +25,35 @@ const confirmOptIn = (request) => {
     const optIn = OptIns.findOne({_id: decoded.id});
     if(optIn === undefined || optIn.confirmationToken !== decoded.token) throw "Invalid hash";
     const confirmedAt = new Date();
+
     OptIns.update({_id : optIn._id},{$set:{confirmedAt: confirmedAt, confirmedBy: ourRequest.host}, $unset: {confirmationToken: ""}});
 
-    const entry = DoichainEntries.findOne({name: optIn.nameId});
-    if(entry === undefined) throw "Doichain entry not found";
-    logConfirm('found DoiChainEntry:',entry);
+    //TODO here find all DoichainEntries in the local database  and blockchain with the same masterDoi
+    const entries = DoichainEntries.find({$or: [{name: optIn.nameId}, {masterDoi: optIn.nameId}]});
+    if(entries === undefined) throw "Doichain entry/entries not found";
 
-    const value = JSON.parse(entry.value);
-    logConfirm('getSignature (only of value!)', value);
+    entries.forEach(entry => {
+        logConfirm('confirming DoiChainEntry:',entry);
 
-    const doiSignature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);
-    logConfirm('got doiSignature:',doiSignature);
-    const fromHostUrl = value.from;
+        const value = JSON.parse(entry.value);
+        logConfirm('getSignature (only of value!)', value);
 
-    delete value.from;
-    value.doiTimestamp = confirmedAt.toISOString();
-    value.doiSignature = doiSignature;
-    const jsonValue = JSON.stringify(value);
-    logConfirm('updating Doichain nameId:'+optIn.nameId+' with value:',jsonValue);
+        const doiSignature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, value.signature);
+        logConfirm('got doiSignature:',doiSignature);
+        const fromHostUrl = value.from;
 
-    addUpdateBlockchainJob({
-      nameId: optIn.nameId,
-      value: jsonValue,
-      fromHostUrl: fromHostUrl,
-      host: ourRequest.host
+        delete value.from;
+        value.doiTimestamp = confirmedAt.toISOString();
+        value.doiSignature = doiSignature;
+        const jsonValue = JSON.stringify(value);
+        logConfirm('updating Doichain nameId:'+optIn.nameId+' with value:',jsonValue);
+
+        addUpdateBlockchainJob({
+            nameId: entry.name,
+            value: jsonValue,
+            fromHostUrl: fromHostUrl,
+            host: ourRequest.host
+        });
     });
 
     return decoded.redirect;
