@@ -18,12 +18,7 @@ const UpdateSchema = new SimpleSchema({
     type: String
   },
   host : {
-      type: String,
-      optional: true
-  },
-  host : {
-      type: Array,
-      optional: true
+      type: String
   },
   fromHostUrl : {
       type: String
@@ -33,6 +28,7 @@ const UpdateSchema = new SimpleSchema({
 const update = (data) => {
   try {
     const ourData = data;
+    if(Array.isArray(data.host)) data.host = data.host[0];
     UpdateSchema.validate(ourData);
 
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
