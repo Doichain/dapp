@@ -15,9 +15,9 @@ const UpdateOptInStatusSchema = new SimpleSchema({
     type: String
   },
   host: {
-      type: String
+      type: String,
+      optional: true
   }
-
 });
 
 
