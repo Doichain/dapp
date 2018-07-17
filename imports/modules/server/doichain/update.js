@@ -28,7 +28,7 @@ const UpdateSchema = new SimpleSchema({
 const update = (data) => {
   try {
     const ourData = data;
-    if(Array.isArray(data.host)) data.host = data.host[0];
+    if(Array.isArray(ourData.host)) ourData.host = ourData.host[0];
     UpdateSchema.validate(ourData);
 
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
