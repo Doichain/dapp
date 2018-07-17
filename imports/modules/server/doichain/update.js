@@ -28,7 +28,7 @@ const UpdateSchema = new SimpleSchema({
 const update = (data) => {
   try {
     const ourData = data;
-    console.log('----->'+JSON.stringify(ourData)+" isArray:"+ourData.host.constructor === Array);
+    console.log('----->'+JSON.stringify(ourData));
     if(ourData.host.constructor === Array) ourData.host = ourData.host[0];
     console.log('----->'+JSON.stringify(ourData)+" isArray:"+ourData.host.constructor === Array);
     UpdateSchema.validate(ourData);
