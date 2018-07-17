@@ -8,10 +8,12 @@ Api.addRoute(DOI_CONFIRMATION_ROUTE+'/:hash', {authRequired: false}, {
     action: function() {
       const hash = this.urlParams.hash;
       try {
-        const ip = this.request.headers['x-forwarded-for'] ||
+        let ip = this.request.headers['x-forwarded-for'] ||
           this.request.connection.remoteAddress ||
           this.request.socket.remoteAddress ||
           (this.request.connection.socket ? this.request.connection.socket.remoteAddress: null);
+
+          if(ip.index(',')!=-1)ip=ip.substring(ip.indexOf(','));
 
           logConfirm('REST opt-in/confirm :',{hash:hash, host:ip});
           const redirect = confirmOptIn({host: ip, hash: hash});
