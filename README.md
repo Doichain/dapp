@@ -149,6 +149,14 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
     + ``recipient_mail`` - Email of the recipient
     + ``sender_mail`` - Email of the sender
     + ``data`` - (OPTIONAL) JSON string with recipient/Opt-In data
+##### Export
+* Auth required: yes
+* Role required: ``admin``
+* Url: ``export``
+* Method: ``GET``
+* Query-Parameter:
+    + ``status`` - not yet working
+
 
 ##### Get Double Opt-In mail data
 * Auth required: false

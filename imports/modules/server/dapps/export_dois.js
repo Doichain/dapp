@@ -7,7 +7,8 @@ import {OptIns} from "../../../api/opt-ins/opt-ins";
 
 const ExportDoisDataSchema = new SimpleSchema({
   status: {
-    type: String
+    type: String,
+    optional: true,
   }
 });
 
