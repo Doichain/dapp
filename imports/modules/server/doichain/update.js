@@ -28,9 +28,9 @@ const UpdateSchema = new SimpleSchema({
 const update = (data) => {
   try {
     const ourData = data;
-    console.log('----->'+ourData+" isArray:"+Array.isArray(ourData.host));
-    if(Array.isArray(ourData.host)) ourData.host = ourData.host[0];
-    console.log('----->'+ourData+" isArray:"+Array.isArray(ourData.host));
+    console.log('----->'+JSON.stringify(ourData)+" isArray:"+ourData.host.constructor === Array);
+    if(ourData.host.constructor === Array) ourData.host = ourData.host[0];
+    console.log('----->'+JSON.stringify(ourData)+" isArray:"+ourData.host.constructor === Array);
     UpdateSchema.validate(ourData);
 
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
