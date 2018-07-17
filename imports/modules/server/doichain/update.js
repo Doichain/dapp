@@ -18,7 +18,8 @@ const UpdateSchema = new SimpleSchema({
     type: String
   },
   host : {
-      type: String
+      type: String,
+      optional: true,
   },
   fromHostUrl : {
       type: String
