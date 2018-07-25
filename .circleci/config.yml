@@ -1,4 +1,6 @@
-machine:
+version: 2
+jobs:
+  build:
   node:
     version: 0.10.43
 dependencies:
