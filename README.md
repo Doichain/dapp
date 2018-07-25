@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/Doichain/dapp/tree/0.0.6.svg?style=svg)](https://circleci.com/gh/Doichain/dapp/tree/0.0.6)
+
 ## Table of Contents
 - [Docker Installation](#docker-installation)
 - [Manual Installation](#manual-installation)
