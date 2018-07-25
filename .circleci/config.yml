@@ -26,7 +26,8 @@ jobs:
         - v1-dependencies-
 
     - run: curl https://install.meteor.com | /bin/sh
-    - run: git submodule update --init
+    - run: git submodule init
+    - run: git submodule update
     - run: meteor npm install
 
     - save_cache:
