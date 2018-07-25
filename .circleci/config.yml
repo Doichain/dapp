@@ -23,6 +23,7 @@ jobs:
     - run: git submodule init
     - run: git submodule update
     - run: meteor npm install
+    - run: meteor npm run lint
 
     - save_cache:
         paths:
