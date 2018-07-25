@@ -1,8 +1,8 @@
 version: 2
 jobs:
   build:
-  node:
-    version: 0.10.43
+node:
+  version: 0.10.43
 steps:
   - checkout
   - run: curl https://install.meteor.com | /bin/sh
