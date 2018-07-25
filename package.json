@@ -2,7 +2,12 @@
   "name": "doichain",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "lint": "eslint .",
+    "pretest": "npm run lint --silent"
+  },
+  "eslintConfig": {
+    "extends": "@meteorjs/eslint-config-meteor"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.52",
@@ -33,5 +38,15 @@
     "standard-ecies": "^1.0.0",
     "uuid": "^3.3.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@meteorjs/eslint-config-meteor": "^1.0.5",
+    "babel-eslint": "^8.2.6",
+    "eslint": "^5.2.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-import-resolver-meteor": "^0.4.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-meteor": "^5.0.0",
+    "eslint-plugin-react": "^7.10.0"
+  }
 }
