@@ -1,13 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { isDebug } from '../../../startup/server/dapp-configuration.js';
 import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/doichain-configuration.js';
 import { getWif } from '../../../../server/api/doichain.js';
 import { DoichainEntries } from '../../../api/doichain/entries.js';
 import addFetchDoiMailDataJob from '../jobs/add_fetch-doi-mail-data.js';
 import getPrivateKeyFromWif from './get_private-key_from_wif.js';
 import decryptMessage from './decrypt_message.js';
-import {logConfirm, logSend} from "../../../startup/server/log-configuration";
+import {logSend} from "../../../startup/server/log-configuration";
 
 const AddDoichainEntrySchema = new SimpleSchema({
   name: {

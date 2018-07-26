@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+import { JobCollection } from 'meteor/vsivsi:job-collection';
 export const MailJobs = JobCollection('emails');
 import sendMail from '../../imports/modules/server/emails/send.js';
 

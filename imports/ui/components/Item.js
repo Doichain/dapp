@@ -1,6 +1,4 @@
 import React from 'react';
-import { _ } from 'meteor/underscore';
-import classnames from 'classnames';
 import BaseComponent from './BaseComponent.js';
 
 export default class Item extends BaseComponent {
@@ -10,19 +8,18 @@ export default class Item extends BaseComponent {
 
   render() {
     const { keys } = this.props;
-    console.log(keys);
 
     const renderedKeys = keys.map(key => (
-      <div className="key-wrapper" key={key.key}>
-        <div className="key">
-          <span className="name">{key.name}</span>
-          <span className="value">{key.json?this.renderJson(key.value):key.value}</span>
+      <div classNames="key-wrapper" key={key.key}>
+        <div classNames="key">
+          <span classNames="name">{key.name}</span>
+          <span classNames="value">{key.json?this.renderJson(key.value):key.value}</span>
         </div>
       </div>
     ))
 
     return (
-      <div className="item">
+      <div classNames="item">
         {renderedKeys}
       </div>
     );

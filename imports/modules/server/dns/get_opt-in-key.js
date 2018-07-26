@@ -38,7 +38,7 @@ const getOptInKey = (data) => {
 
 const useFallback = (domain) => {
   if(domain === FALLBACK_PROVIDER) throw new Meteor.Error("Fallback has no key defined!");
-  console.log("Key not defined. Fallback '"+FALLBACK_PROVIDER+"' is used");
+    logSend("Key not defined. Using fallback: ",FALLBACK_PROVIDER);
   return getOptInKey({domain: FALLBACK_PROVIDER});
 }
 

@@ -2,11 +2,9 @@ import { Api, DOI_FETCH_ROUTE, DOI_CONFIRMATION_NOTIFY_ROUTE } from '../rest.js'
 import addOptIn from '../../../../imports/modules/server/opt-ins/add_and_write_to_blockchain.js';
 import updateOptInStatus from '../../../../imports/modules/server/opt-ins/update_status.js';
 import getDoiMailData from '../../../../imports/modules/server/dapps/get_doi-mail-data.js';
-import {logConfirm, logError, logSend} from "../../../../imports/startup/server/log-configuration";
+import {logError, logSend} from "../../../../imports/startup/server/log-configuration";
 import {DOI_EXPORT_ROUTE} from "../rest";
 import exportDois from "../../../../imports/modules/server/dapps/export_dois";
-import {CONFIRM_CLIENT} from "../../../../imports/startup/server/doichain-configuration";
-import {nameShow} from "../../doichain";
 import {OptIns} from "../../../../imports/api/opt-ins/opt-ins";
 
 //doku of meteor-restivus https://github.com/kahmali/meteor-restivus
@@ -102,7 +100,7 @@ function prepareCoDOI(params){
     senders.forEach((sender,index) => {
 
         const ret_response = prepareAdd({sender_mail:sender,recipient_mail:recipient_mail,data:data, master_doi:master_doi, index: index});
-        console.log(ret_response);
+        logSend('CoDOI:',ret_response);
         if(ret_response.status === undefined || ret_response.status==="failed") throw "could not add co-opt-in";
         retResponse.push(ret_response);
         currentOptInId = ret_response.data.id;

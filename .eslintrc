@@ -1,9 +1,25 @@
 {
   "parser": "babel-eslint",
-  "rules": {
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
+  "plugins": [
+    "react","meteor"
+  ],
   "env": {
+    "meteor":true,
+    "mongo":true,
     "browser": true,
-    "node": true
-  }
+    "node": true,
+    "mocha":true,
+  },
+  "rules": {
+    "react/no-deprecated":"warn",
+    "react/jsx-uses-react": "warn",
+    "react/jsx-uses-vars": "warn",
+    "react/UNSAFE_componentWillReceiveProps":"warn"
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"]
 }

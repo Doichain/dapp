@@ -1,5 +1,8 @@
-export const DAppJobs = JobCollection('dapp');
+import { JobCollection } from 'meteor/vsivsi:job-collection';
 import fetchDoiMailData from '../../imports/modules/server/dapps/fetch_doi-mail-data.js';
+import { Meteor } from 'meteor/meteor';
+
+export const DAppJobs = JobCollection('dapp');
 
 DAppJobs.processJobs('fetchDoiMailData', function (job, cb) {
   try {

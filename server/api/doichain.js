@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import {logConfirm, logError} from "../../imports/startup/server/log-configuration";
 
 
 const NAMESPACE = 'e/';
@@ -12,7 +13,7 @@ export function getWif(client, address) {
 function doichain_dumpprivkey(client, address, callback) {
   const ourAddress = address;
   client.cmd('dumpprivkey', ourAddress, function(err, data) {
-    if(err) console.log(err);
+    if(err)  logError('doichain_dumpprivkey:',err);
     callback(err, data);
   });
 }
@@ -37,7 +38,7 @@ export function nameShow(client, id) {
 
 function doichain_nameShow(client, id, callback) {
   const ourId = checkId(id);
-  console.log("doichain-cli name_show "+ourId);
+  logConfirm('doichain-cli name_show :',ourId);
   client.cmd('name_show', ourId, function(err, data) {
     if(err !== undefined && err !== null && err.message.startsWith("name not found")) {
       err = undefined,
@@ -76,7 +77,7 @@ function doichain_nameDoi(client, name, value, address, callback) {
         client.cmd('name_doi', ourName, ourValue, destAddress, function(err, data) {
             callback(err, data);
         });
-    };
+    }
 }
 
 export function listSinceBlock(client, block) {
@@ -102,15 +103,14 @@ export function getRawTransaction(client, txid) {
 }
 
 function doichain_getrawtransaction(client, txid, callback) {
-    console.log('doichain_getrawtransaction: '+txid)
+    logConfirm('doichain_getrawtransaction:',txid);
     client.cmd('getrawtransaction', txid, 1, function(err, data) {
-        if(err) console.log(err);
+        if(err)  logError('doichain_getrawtransaction:',err);
         callback(err, data);
     });
 }
 
 function checkId(id) {
-    console.log(id);
     const DOI_PREFIX = "doi: ";
     let ret_val;
 

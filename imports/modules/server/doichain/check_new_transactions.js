@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { listSinceBlock, nameShow, getRawTransaction} from '../../../../server/api/doichain.js';
 import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/doichain-configuration.js';
 import addDoichainEntry from './add_entry_and_fetch_data.js'
-import {isDebug} from "../../../startup/server/dapp-configuration";
 import { Meta } from '../../../api/meta/meta.js';
 import addOrUpdateMeta from '../meta/addOrUpdate.js';
 import {logConfirm} from "../../../startup/server/log-configuration";
@@ -14,8 +13,8 @@ const checkNewTransaction = (txid, job) => {
   try {
 
       if(!txid){
-          //logConfirm("checkNewTransaction triggered when starting node - checking all confirmed blocks since last check for doichain address",CONFIRM_ADDRESS);
-            return;
+          logConfirm("checkNewTransaction triggered when starting node - checking all confirmed blocks since last check for doichain address",CONFIRM_ADDRESS);
+
           try {
               var lastCheckedBlock = Meta.findOne({key: LAST_CHECKED_BLOCK_KEY});
               if(lastCheckedBlock !== undefined) lastCheckedBlock = lastCheckedBlock.value;
@@ -38,11 +37,11 @@ const checkNewTransaction = (txid, job) => {
                   && tx.name.startsWith("doi: "+TX_NAME_START)  //here 'doi: e/xxxx' is already written in the block
               );
               addressTxs.forEach(tx => {
-                  console.log(txName);
+                  logConfirm("tx:",tx);
                   var txName = tx.name.substring(("doi: "+TX_NAME_START).length);
                   logConfirm("excuting name_show in order to get value of nameId:", txName);
                   const ety = nameShow(CONFIRM_CLIENT, txName);
-                  console.log("nameShow: value",ety);
+                  logConfirm("nameShow: value",ety);
                   if(!ety){
                       logConfirm("couldn't find name - obviously not (yet?!) confirmed in blockchain:", ety);
                       return;

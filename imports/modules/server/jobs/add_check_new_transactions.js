@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Job } from 'meteor/vsivsi:job-collection';
 import { BlockchainJobs } from '../../../../server/api/blockchain_jobs.js';
 
 const addCheckNewTransactionsBlockchainJob = () => {

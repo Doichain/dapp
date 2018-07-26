@@ -1,7 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { randomBytes } from 'crypto';
-import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { HashIds } from '../../../startup/server/email-configuration.js';
 
 const GenerateDoiHashSchema = new SimpleSchema({

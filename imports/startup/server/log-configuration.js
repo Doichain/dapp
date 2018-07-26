@@ -1,4 +1,3 @@
-import {Meteor} from "meteor/meteor";
 import {isDebug} from "./dapp-configuration";
 
 require('scribe-js')();

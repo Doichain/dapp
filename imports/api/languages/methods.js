@@ -1,3 +1,5 @@
+import { Meteor} from 'meteor/meteor';
+import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import getLanguages from '../../modules/server/languages/get.js';
 

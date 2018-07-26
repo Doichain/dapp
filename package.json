@@ -8,6 +8,13 @@
   },
   "eslintConfig": {
     "extends": "@meteorjs/eslint-config-meteor",
+    "env": {
+      "meteor":true,
+      "mongo":true,
+      "browser": true,
+      "node": true,
+      "mocha":true
+    },
     "cliOptions": {
       "exclude": [
         "node_modules",

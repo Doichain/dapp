@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import SimpleSchema from 'simpl-schema';
 import i18n from 'meteor/universe:i18n';
 
 // universe:i18n only bundles the default language on the client side.

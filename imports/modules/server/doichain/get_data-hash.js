@@ -11,6 +11,7 @@ const GetDataHashSchema = new SimpleSchema({
 const getDataHash = (data) => {
   try {
     const ourData = data;
+      GetDataHashSchema.validate(ourData);
     const hash = CryptoJS.SHA256(ourData).toString();
     return hash;
   } catch(exception) {

@@ -55,11 +55,8 @@ const confirmOptIn = (request) => {
             host: ourRequest.host
         });
     });
-
-    return decoded.redirect;
-
     logConfirm('redirecting user to:',decoded.redirect);
-
+    return decoded.redirect;
   } catch (exception) {
     throw new Meteor.Error('opt-ins.confirm.exception', exception);
   }

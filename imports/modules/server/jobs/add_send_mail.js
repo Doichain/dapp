@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Job } from 'meteor/vsivsi:job-collection';
 import SimpleSchema from 'simpl-schema';
 import { MailJobs } from '../../../../server/api/mail_jobs.js';
 

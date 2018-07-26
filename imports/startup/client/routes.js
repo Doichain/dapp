@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { Router, Route, IndexRoute, Redirect, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import i18n from 'meteor/universe:i18n';
 import AppContainer from '../../ui/containers/AppContainer.js';
 import StartPage from '../../ui/pages/StartPage.js';

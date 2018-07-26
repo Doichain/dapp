@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import { Job } from 'meteor/vsivsi:job-collection';
 import { DAppJobs } from '../../../../server/api/dapp_jobs.js';
 
 const AddFetchDoiMailDataJobSchema = new SimpleSchema({

@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { randomBytes } from 'crypto';
 import { HashIds } from '../../../startup/server/email-configuration.js';
 
 const DecodeDoiHashSchema = new SimpleSchema({

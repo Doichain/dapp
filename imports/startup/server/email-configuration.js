@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import fs from 'fs';
 import { SEND_APP, CONFIRM_APP, isAppType } from './type-configuration.js';
 import Hashids from 'hashids';
 import {logConfirm} from "./log-configuration";

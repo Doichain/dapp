@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import { Job } from 'meteor/vsivsi:job-collection';
 import { BlockchainJobs } from '../../../../server/api/blockchain_jobs.js';
 
 const AddUpdateBlockchainJobSchema = new SimpleSchema({
