@@ -16,7 +16,7 @@
       "host": "localhost",
       "port": "18339",
       "username": "admin",
-      "password": "change-pw"
+      "password": "generated-password"
     }
   },
   "confirm": {
@@ -24,7 +24,7 @@
       "host": "localhost",
       "port": "18339",
       "username": "admin",
-      "password": "change-pw",
+      "password": "generated-password",
       "address": ""
     },
     "smtp": {
@@ -40,7 +40,7 @@
       "host": "localhost",
       "port": "18339",
       "username": "admin",
-      "password": "change-pw"
+      "password": "generated-password"
     }
   }
 }
