@@ -31,13 +31,20 @@ if(isAppType(CONFIRM_APP)) {
   logConfirm('sending with defaultFrom:',defaultFrom);
 
   Meteor.startup(() => {
-   process.env.MAIL_URL = 'smtp://' +
-     encodeURIComponent(confirmSettings.smtp.username) +
-     ':' + encodeURIComponent(confirmSettings.smtp.password) +
-     '@' + encodeURIComponent(confirmSettings.smtp.server) +
-     ':' +
-     confirmSettings.smtp.port;
-
+    
+   if(confirmSettings.smtp.username === undefined){
+       process.env.MAIL_URL = 'smtp://' +
+           encodeURIComponent(confirmSettings.smtp.server) +
+           ':' +
+           confirmSettings.smtp.port;
+   }else{
+       process.env.MAIL_URL = 'smtp://' +
+           encodeURIComponent(confirmSettings.smtp.username) +
+           ':' + encodeURIComponent(confirmSettings.smtp.password) +
+           '@' + encodeURIComponent(confirmSettings.smtp.server) +
+           ':' +
+           confirmSettings.smtp.port;
+   }
      process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; //enable this only in settings.json
   });
 }
