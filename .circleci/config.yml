@@ -18,6 +18,8 @@ jobs:
     working_directory: ~/repo
 
     steps:
+    - run: doichain-cli addnode 5.9.154.231 true
+    - run: doichain-cli -getinfo
     - checkout
     # Download and cache dependencies
     - restore_cache:
