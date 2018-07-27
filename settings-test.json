@@ -32,7 +32,7 @@
       "password": "",
       "server": "",
       "port": "25",
-      "defaultFrom":""
+      "defaultFrom":"info@doichain.org"
     }
   },
   "verify": {
