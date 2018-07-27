@@ -1,9 +1,11 @@
 import {chai} from 'meteor/practicalmeteor:chai';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
-import {getHttpPOST} from "../server/api/http";
+import {getHttpPOST} from "./api/http";
 
 
 /*
+    Circle-Ci: https://circleci.com/docs/2.0/building-docker-images/
+
     Chaijs: http://www.chaijs.com/guide/styles/#assert
     Jest: (for React) https://www.hammerlab.org/2015/02/14/testing-react-web-apps-with-mocha/
  */
