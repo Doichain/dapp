@@ -13,13 +13,12 @@ jobs:
         TESTNET: true
         PORT: 18338
         RPC_PORT: 18339
-
-      #command: [doichain-cli -getinfo]
+      command: "/usr/local/bin/namecoin-cli addnode 5.9.154.231 true"
     working_directory: ~/repo
 
     steps:
-    - run: /usr/local/bin/namecoin-cli addnode 5.9.154.231 true
-    - run: /usr/local/bin/namecoin-cli -getinfo
+    #- run: /usr/local/bin/namecoin-cli addnode 5.9.154.231 true
+    #- run: /usr/local/bin/namecoin-cli -getinfo
     - checkout
     # Download and cache dependencies
     - restore_cache:
