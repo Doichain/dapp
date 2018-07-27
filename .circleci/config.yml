@@ -18,8 +18,8 @@ jobs:
     working_directory: ~/repo
 
     steps:
-    - run: /usr/local/bin/doichain-cli addnode 5.9.154.231 true
-    - run: /usr/local/bin/doichain-cli -getinfo
+    - run: /usr/local/bin/namecoin-cli addnode 5.9.154.231 true
+    - run: /usr/local/bin/namecoin-cli -getinfo
     - checkout
     # Download and cache dependencies
     - restore_cache:
