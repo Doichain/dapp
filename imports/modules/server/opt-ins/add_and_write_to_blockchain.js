@@ -4,7 +4,7 @@ import addRecipient from '../recipients/add.js';
 import addSender from '../senders/add.js';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import writeToBlockchain from '../doichain/write_to_blockchain.js';
-import {logSend} from "../../../startup/server/log-configuration";
+import {logError, logSend} from "../../../startup/server/log-configuration";
 
 const AddOptInSchema = new SimpleSchema({
   recipient_mail: {
@@ -49,7 +49,10 @@ const addOptIn = (optIn) => {
     if(ourOptIn.data !== undefined) {
       try {
         JSON.parse(ourOptIn.data);
-      } catch(error) { throw "Invalid data json"; }
+      } catch(error) {
+        logError("ourOptIn.data:",ourOptIn.data);
+        throw "Invalid data json ";
+      }
     }
 
     const optInId = OptIns.insert({

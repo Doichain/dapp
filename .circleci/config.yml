@@ -13,6 +13,7 @@ jobs:
         TESTNET: true
         PORT: 18338
         RPC_PORT: 18339
+        ADD
       #command: [doichain-cli -getinfo]
     working_directory: ~/repo
 
