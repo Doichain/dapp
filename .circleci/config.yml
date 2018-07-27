@@ -24,7 +24,7 @@ jobs:
     - run: git submodule update
     - run: meteor npm install
     - run: meteor npm run lint
-    - run: meteor npm run test-mocha
+    - run: meteor npm run test-circleci-mocha
 
     - save_cache:
         paths:
