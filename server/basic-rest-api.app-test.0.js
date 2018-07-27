@@ -37,7 +37,7 @@ describe('basic-rest-api-app-test', function () {
         chai.assert.equal('success', status);
 
         const urlOptIn = 'http://localhost:3000/api/v1/opt-in';
-        const dataOptIn = {"recipient_mail":"nico@le-space.de","sender_mail":"info@doichain.org","data":"special-data"};
+        const dataOptIn = {"recipient_mail":"nico@le-space.de","sender_mail":"info@doichain.org","data":"{'city':'Ekaterinburg'}"};
         const headersOptIn = {
             'Content-Type':'application/json',
             'X-User-Id':userId,
