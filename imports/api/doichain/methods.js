@@ -2,7 +2,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { Meteor } from 'meteor/meteor';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import getKeyPairM from '../../modules/server/doichain/get_key-pair.js';
-import * as _ from "meteor/underscore";
+
 
 const getKeyPair = new ValidatedMethod({
   name: 'doichain.getKeyPair',

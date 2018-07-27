@@ -1,7 +1,6 @@
-import './imports/debug.js'
-import { Restivus } from 'meteor/nimble:restivus'
-//import { isDebug } from '../../../imports/startup/server/dapp-configuration.js';
-//import { SEND_APP, CONFIRM_APP, VERIFY_APP, isAppType } from '../../../imports/startup/server/type-configuration.js';
+import { Restivus } from 'meteor/nimble:restivus';
+import { isDebug } from '../../../imports/startup/server/dapp-configuration.js';
+import { SEND_APP, CONFIRM_APP, VERIFY_APP, isAppType } from '../../../imports/startup/server/type-configuration.js';
 
 export const DOI_CONFIRMATION_ROUTE = "opt-in/confirm";
 export const DOI_CONFIRMATION_NOTIFY_ROUTE = "opt-in";
@@ -10,6 +9,7 @@ export const DOI_FETCH_ROUTE = "doi-mail";
 export const DOI_EXPORT_ROUTE = "export";
 export const API_PATH = "api/";
 export const VERSION = "v1";
+
 export const Api = new Restivus({
   apiPath: API_PATH,
   version: VERSION,
@@ -17,9 +17,7 @@ export const Api = new Restivus({
   prettyJson: true
 });
 
-//if(isAppType(SEND_APP))
-//if(isAppType(CONFIRM_APP))
-//if(isAppType(VERIFY_APP))
-import './imports/send.js'
-import './imports/confirm.js'
-import './imports/verify.js'
+if(isDebug()) require('./imports/debug.js');
+if(isAppType(SEND_APP)) require('./imports/send.js');
+if(isAppType(CONFIRM_APP)) require('./imports/confirm.js');
+if(isAppType(VERIFY_APP)) require('./imports/verify.js');

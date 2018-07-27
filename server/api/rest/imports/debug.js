@@ -1,5 +1,4 @@
 import { Api } from '../rest.js';
-
 Api.addRoute('debug/mail', {authRequired: false}, {
   get: {
     action: function() {

@@ -36,7 +36,6 @@ const fetchDoiMailData = (data) => {
       TODO when running Send-dApp in Testnet behind NAT this URL will not be accessible from the internet
       but even when we use the URL from localhost verify andn others will fails.
      */
-
     const response = getHttpGET(url, query);
     if(response === undefined || response.data === undefined) throw "Bad response";
     const responseData = response.data;

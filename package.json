@@ -4,16 +4,26 @@
   "scripts": {
     "start": "meteor run",
     "lint": "eslint .",
-    "pretest": "npm run lint --silent"
+    "pretest": "npm run lint --silent",
+    "test-mocha":"meteor test --once --driver-package meteortesting:mocha --settings settings.json --port 3100",
+    "test-watch-mocha":"TEST_WATCH=1 meteor test --settings settings.json --driver-package meteortesting:mocha --port 3100",
+    "test-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha --port 3100",
+    "test-app-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --full-app --once --driver-package meteortesting:mocha --port 3100",
+    "test-phantom": "TEST_BROWSER_DRIVER=phantomjs meteor test --once --driver-package meteortesting:mocha",
+    "test-app-phantom": "TEST_BROWSER_DRIVER=phantomjs meteor test --full-app --once --driver-package meteortesting:mocha",
+    "test-watch": "TEST_BROWSER_DRIVER=chrome TEST_WATCH=1 meteor test --driver-package meteortesting:mocha",
+    "test-app-watch": "TEST_BROWSER_DRIVER=chrome TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
+    "test-watch-browser": "TEST_WATCH=1 meteor test --driver-package meteortesting:mocha",
+    "test-app-watch-browser": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha"
   },
   "eslintConfig": {
     "extends": "@meteorjs/eslint-config-meteor",
     "env": {
-      "meteor":true,
-      "mongo":true,
+      "meteor": true,
+      "mongo": true,
       "browser": true,
       "node": true,
-      "mocha":true
+      "mocha": true
     },
     "cliOptions": {
       "exclude": [
@@ -54,6 +64,7 @@
   "devDependencies": {
     "@meteorjs/eslint-config-meteor": "^1.0.5",
     "babel-eslint": "^8.2.6",
+    "chromedriver": "^2.40.0",
     "eslint": "^5.2.0",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-config-jss": "^3.0.0",
@@ -61,6 +72,7 @@
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-meteor": "^5.0.0",
-    "eslint-plugin-react": "^7.10.0"
+    "eslint-plugin-react": "^7.10.0",
+    "selenium-webdriver": "^4.0.0-alpha.1"
   }
 }

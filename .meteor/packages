@@ -41,3 +41,5 @@ rwatts:uuid
 accounts-password
 zetoff:accounts-material-ui
 meteortesting:mocha
+xolvio:cleaner
+practicalmeteor:chai

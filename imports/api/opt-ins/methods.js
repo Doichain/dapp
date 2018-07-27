@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
-import { _ } from 'meteor/underscore';
-import ValidatedMethod from 'simpl-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
-import { Roles } from 'meteor/alanning:roles';
 import { _i18n as i18n } from 'meteor/universe:i18n';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { Roles } from 'meteor/alanning:roles';
+import { _ } from 'meteor/underscore';
 import addOptIn from '../../modules/server/opt-ins/add_and_write_to_blockchain.js';
 
 const add = new ValidatedMethod({
