@@ -9,7 +9,11 @@ jobs:
     - image: circleci/node:7.10
     # Secondary container image on common network.
     - image: doichain/node-only
-      command: [doichain-cli -getinfo]
+      environment:
+        TESTNET: true
+        PORT: 18338
+        RPC_PORT: 18339
+      #command: [doichain-cli -getinfo]
     working_directory: ~/repo
 
     steps:
