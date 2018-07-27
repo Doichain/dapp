@@ -1,0 +1,46 @@
+{
+  "app": {
+    "debug": "true",
+    "regtest":"true",
+    "host": "localhost",
+    "port": "3000",
+    "types": [
+      "send",
+      "confirm",
+      "verify"
+    ]
+  },
+  "send": {
+    "doiMailFetchUrl": "http://localhost:3000/api/v1/debug/mail",
+    "doichain": {
+      "host": "localhost",
+      "port": "18339",
+      "username": "admin",
+      "password": "change-pw"
+    }
+  },
+  "confirm": {
+    "doichain": {
+      "host": "localhost",
+      "port": "18339",
+      "username": "admin",
+      "password": "change-pw",
+      "address": ""
+    },
+    "smtp": {
+      "username": "",
+      "password": "",
+      "server": "",
+      "port": "25",
+      "defaultFrom":""
+    }
+  },
+  "verify": {
+    "doichain": {
+      "host": "localhost",
+      "port": "18339",
+      "username": "admin",
+      "password": "change-pw"
+    }
+  }
+}
