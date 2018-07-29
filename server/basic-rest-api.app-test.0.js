@@ -61,10 +61,10 @@ describe('basic-rest-api-app-test', function () {
 
         chai.assert.equal(200, statusCodeOptIn);
         chai.assert.equal('success', statusOptIn);
-        chai.assert.equal(our_optIn._id,resultDataOptIn.data.id)
+        chai.assert.equal(our_optIn._id,resultDataOptIn.data.id);
         //now check the blockchain with list transactions and find transaction with this
 
-        //check
+        //check funding
         //curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": ["*", 6] }' -H 'content-type: text/plain;' http://127.0.0.1:18339
         const urlGetBalance = 'http://127.0.0.1:18339/';
         const dataGetBalance = {"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": ["*", 6] };
