@@ -61,7 +61,7 @@ describe('basic-rest-api-app-test', function () {
 
         chai.assert.equal(200, statusCodeOptIn);
         chai.assert.equal('success', statusOptIn);
-        chai.assert.equal(our_optIn.id,resultDataOptIn.data.id)
+        chai.assert.equal(our_optIn._id,resultDataOptIn.data.id)
         //now check the blockchain with list transactions and find transaction with this
 
         done();
