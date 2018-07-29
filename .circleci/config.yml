@@ -29,7 +29,7 @@ jobs:
         - v1-dependencies-{{ checksum "package.json" }}
         # fallback to using the latest cache if no exact match is found
         - v1-dependencies-
-    - run: namecoin-cli -testnet -getinfo       # namecoind -testnet #namecoin-cli -testnet addnode 5.9.154.231 true
+    - run: doichain-cli -testnet -getinfo       # namecoind -testnet #namecoin-cli -testnet addnode 5.9.154.231 true
     - run:
       command: |
         curl https://install.meteor.com | /bin/sh
