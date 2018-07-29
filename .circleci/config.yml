@@ -30,7 +30,7 @@ jobs:
         # fallback to using the latest cache if no exact match is found
         - v1-dependencies-
     - run:
-        command: /usr/local/bin/doichain-cli -testnet -getinfo       # namecoind -testnet #namecoin-cli -testnet addnode 5.9.154.231 true
+        command: doichain-cli -testnet -getinfo       # namecoind -testnet #namecoin-cli -testnet addnode 5.9.154.231 true
     - run:
         command: |
           curl https://install.meteor.com | /bin/sh
