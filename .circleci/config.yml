@@ -13,9 +13,9 @@ jobs:
         TESTNET: true
         PORT: 18338
         RPC_PORT: 18339
-      command:
-        namecoin-cli stop
-        namecoind -testnet #namecoin-cli -testnet addnode 5.9.154.231 true
+#      command:
+       # namecoin-cli stop
+       # namecoind -testnet #namecoin-cli -testnet addnode 5.9.154.231 true
 
     working_directory: ~/repo
 
@@ -29,13 +29,15 @@ jobs:
         - v1-dependencies-{{ checksum "package.json" }}
         # fallback to using the latest cache if no exact match is found
         - v1-dependencies-
-
-    - run: curl https://install.meteor.com | /bin/sh
-    - run: git submodule init
-    - run: git submodule update
-    - run: meteor npm install
-    - run: meteor npm run lint
-    - run: meteor npm run test-circleci-mocha
+    - run: namecoin-cli -testnet -getinfo       # namecoind -testnet #namecoin-cli -testnet addnode 5.9.154.231 true
+    - run:
+      command: |
+      curl https://install.meteor.com | /bin/sh
+      git submodule init
+      git submodule update
+      meteor npm install
+      meteor npm run lint
+      meteor npm run test-circleci-mocha
 
     - save_cache:
         paths:
