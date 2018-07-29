@@ -8,7 +8,7 @@ export function getHttpGET(url, query) {
 
 export function getHttpGETdata(url, data) {
     const syncFunc = Meteor.wrapAsync(_getData);
-    return syncFunc(url, query);
+    return syncFunc(url, data);
 }
 
 export function getHttpPOST(url, data) {
