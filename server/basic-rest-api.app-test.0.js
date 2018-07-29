@@ -17,6 +17,8 @@ describe('basic-rest-api-app-test', function () {
     });
 
     it('should request a DOI on alice for peter and should be forwarded to bob (genereal fallback server)', function (done) {
+
+        //https://docs.meteor.com/api/http.html
         //curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
         const urlLogin = 'http://localhost:3000/api/v1/login';
         const paramsLogin = {"username":"admin","password":"password"};
@@ -31,9 +33,6 @@ describe('basic-rest-api-app-test', function () {
         const authToken = data.data.authToken;
         const userId = data.data.userId;
 
-        //console.log('authToken',authToken);
-        //console.log('userId',userId);
-
         chai.assert.equal(200, statusCode);
         chai.assert.equal('success', status);
 
@@ -45,17 +44,14 @@ describe('basic-rest-api-app-test', function () {
             'X-Auth-Token':authToken
         };
 
+        //https://docs.meteor.com/api/http.html
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
         const realDataOptin = { data: dataOptIn, headers: headersOptIn };
         const resultOptIn = getHttpPOST(urlOptIn, realDataOptin);
         //console.log(JSON.stringify(resultOptIn));
 
         const statusCodeOptIn = result.statusCode;
-        //console.log('statusCode',statusCodeOptIn);
         const resultDataOptIn = resultOptIn.data;
-        //console.log('data',resultDataOptIn);
-        //Meteor.connection._stores
-       // const OptIns = Meteor.connection._stores['opt-ins']._getCollection();
         const our_optIn = OptIns.findOne({_id: resultDataOptIn.data.id});
         const statusOptIn = resultDataOptIn.status;
 
@@ -66,7 +62,7 @@ describe('basic-rest-api-app-test', function () {
 
         //check funding
         //curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": ["*", 6] }' -H 'content-type: text/plain;' http://127.0.0.1:18339
-        const urlGetBalance = 'http://127.0.0.1:18339/';
+        const urlGetBalance = 'http://127.0.0.1:8339/';
         const dataGetBalance = {"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": ["*", 6] };
         const headersGetBalance = { 'Content-Type':'text/plain'  };
         const auth = "admin:generated-password";
