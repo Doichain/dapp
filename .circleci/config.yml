@@ -32,12 +32,12 @@ jobs:
     - run: namecoin-cli -testnet -getinfo       # namecoind -testnet #namecoin-cli -testnet addnode 5.9.154.231 true
     - run:
       command: |
-      curl https://install.meteor.com | /bin/sh
-      git submodule init
-      git submodule update
-      meteor npm install
-      meteor npm run lint
-      meteor npm run test-circleci-mocha
+        curl https://install.meteor.com | /bin/sh
+        git submodule init
+        git submodule update
+        meteor npm install
+        meteor npm run lint
+        meteor npm run test-circleci-mocha
 
     - save_cache:
         paths:
