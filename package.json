@@ -7,7 +7,7 @@
     "pretest": "npm run lint --silent",
     "test-mocha":"meteor test --once --driver-package meteortesting:mocha --settings settings-test.json --port 3100",
     "test-circleci-mocha":"meteor test --once --full-app --driver-package meteortesting:mocha --settings settings-test.json ",
-    "test-watch-mocha":"TEST_WATCH=1 meteor test --settings settings.json --driver-package meteortesting:mocha --port 3100",
+    "test-watch-mocha":"TEST_WATCH=1 meteor test --full-app --settings settings-test.json --driver-package meteortesting:mocha",
     "test-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha --port 3100",
     "test-app-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --full-app --once --driver-package meteortesting:mocha --port 3100",
     "test-phantom": "TEST_BROWSER_DRIVER=phantomjs meteor test --once --driver-package meteortesting:mocha",

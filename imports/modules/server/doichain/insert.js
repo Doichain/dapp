@@ -8,6 +8,7 @@ import {getUrl} from "../../../startup/server/dapp-configuration";
 import getOptInKey from "../dns/get_opt-in-key";
 import {logBlockchain, logSend} from "../../../startup/server/log-configuration";
 import {feeDoi,nameDoi} from "../../../../server/api/doichain";
+import {OptIns} from "../../../api/opt-ins/opt-ins";
 
 
 const InsertSchema = new SimpleSchema({
@@ -29,8 +30,8 @@ const InsertSchema = new SimpleSchema({
 });
 
 const insert = (data) => {
+  const ourData = data;
   try {
-    const ourData = data;
     InsertSchema.validate(ourData);
     const provider = getOptInProvider({domain: ourData.domain});
     const publicKey = getOptInKey({domain: provider});
@@ -56,6 +57,8 @@ const insert = (data) => {
     logBlockchain('name_doi added blockchain. txid:', nameDoiTx);
 
   } catch(exception) {
+      //logBlockchain("Error:",OptIns.findOne({nameId:ourData.nameId}).error);
+      OptIns.update({nameId: ourData.nameId}, {$set: {error:JSON.stringify(exception.message)}});
     throw new Meteor.Error('doichain.insert.exception', exception); //TODO update opt-in in local db to inform user about the error! e.g. Insufficient funds etc.
   }
 };

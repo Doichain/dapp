@@ -9,6 +9,7 @@ import {getHttpPUT} from "../../../../server/api/http";
 import {logConfirm} from "../../../startup/server/log-configuration";
 import getPrivateKeyFromWif from "./get_private-key_from_wif";
 import decryptMessage from "./decrypt_message";
+import {OptIns} from "../../../api/opt-ins/opt-ins";
 
 const UpdateSchema = new SimpleSchema({
   nameId: {
@@ -58,6 +59,7 @@ const update = (data) => {
         logConfirm('update transaction txid:',txid);
     }catch(exception){
         if(exception.toString().indexOf("there is already a registration for this doi name")==-1){
+            OptIns.update({nameId: ourData.nameId}, {$set: {error:JSON.stringify(exception.message)}});
             throw new Meteor.Error('doichain.update.exception', exception);
         }
     }

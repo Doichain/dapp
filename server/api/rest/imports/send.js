@@ -89,6 +89,7 @@ Api.addRoute(DOI_EXPORT_ROUTE, {
 });
 
 function prepareCoDOI(params){
+
     logSend('is array ',params.sender_mail);
 
     const senders = params.sender_mail;
@@ -112,15 +113,10 @@ function prepareCoDOI(params){
             const optIn = OptIns.findOne({_id: currentOptInId});
             master_doi = optIn.nameId;
             logSend('main sponsor nameId:',master_doi);
-
-            //const nameId = master_doi+"-"+index;
-            //OptIns.update({_id : currentOptInId}, {$set:{nameId: nameId}});
         }
-        //updating the nameId of each co-sponsor with the same nameId + "-" + index
-        //const nameId = master_doi+"-"+index;
-        //OptIns.update({_id : currentOptInId}, {$set:{nameId: nameId}}); //overwriting the generated nameId with the nameID of the co-sponsor
-        //logSend('updated optInId: '+currentOptInId+' with nameId',nameId);
+
     });
+
     logSend(retResponse);
 
     return retResponse;

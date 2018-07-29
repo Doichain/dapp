@@ -1,8 +1,9 @@
 import {chai} from 'meteor/practicalmeteor:chai';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import {getHttpPOST} from "./api/http";
-
-
+import {OptIns} from "../imports/api/opt-ins/opt-ins";
+//import {nameShow} from "./api/doichain";
+import {getRawTransaction} from "./api/doichain";
 /*
     Circle-Ci: https://circleci.com/docs/2.0/building-docker-images/
 
@@ -52,10 +53,16 @@ describe('basic-rest-api-app-test', function () {
         const statusCodeOptIn = result.statusCode;
         //console.log('statusCode',statusCodeOptIn);
         const resultDataOptIn = resultOptIn.data;
-        //console.log('data',resultDataOptIn);
+        console.log('data',resultDataOptIn);
+        //Meteor.connection._stores
+       // const OptIns = Meteor.connection._stores['opt-ins']._getCollection();
+        console.log(JSON.stringify(OptIns.findOne({_id: resultDataOptIn.data.id})));
         const statusOptIn = resultDataOptIn.status;
+
         chai.assert.equal(200, statusCodeOptIn);
         chai.assert.equal('success', statusOptIn);
+
+        //now check the blockchain with list transactions and find transaction with this
 
         done();
     })
