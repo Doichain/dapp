@@ -6,6 +6,11 @@ export function getHttpGET(url, query) {
   return syncFunc(url, query);
 }
 
+export function getHttpGETdata(url, data) {
+    const syncFunc = Meteor.wrapAsync(_getData);
+    return syncFunc(url, query);
+}
+
 export function getHttpPOST(url, data) {
     const syncFunc = Meteor.wrapAsync(_post);
     return syncFunc(url, data);
@@ -22,6 +27,14 @@ function _get(url, query, callback) {
   HTTP.get(ourUrl, {query: ourQuery}, function(err, ret) {
     callback(err, ret);
   });
+}
+
+function _getData(url, data, callback) {
+    const ourUrl = url;
+    const ourData = data;
+    HTTP.get(ourUrl, ourData, function(err, ret) {
+        callback(err, ret);
+    });
 }
 
 function _post(url, data, callback) {

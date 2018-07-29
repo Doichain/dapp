@@ -1,6 +1,6 @@
 import {chai} from 'meteor/practicalmeteor:chai';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
-import {getHttpPOST} from "./api/http";
+import {getHttpGET, getHttpGETdata, getHttpPOST} from "./api/http";
 import {OptIns} from "../imports/api/opt-ins/opt-ins";
 //import {nameShow} from "./api/doichain";
 //import {getRawTransaction} from "./api/doichain";
@@ -68,7 +68,7 @@ describe('basic-rest-api-app-test', function () {
         const auth = "admin:generated-password";
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
         const realdataGetBalance = { auth: auth, data: dataGetBalance, headers: headersGetBalance };
-        const resultGetBalance = getHttpPOST(urlGetBalance, realdataGetBalance);
+        const resultGetBalance = getHttpGETdata(urlGetBalance, realdataGetBalance);
         //console.log(resultGetBalance.data.result);
         chai.assert.isAbove(resultGetBalance.data.result, 0, 'no funding! ');
 
