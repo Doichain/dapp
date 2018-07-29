@@ -12,6 +12,11 @@ jobs:
       environment:
         TESTNET: true
         PORT: 18338
+        RPC_PASSWORD: generated-password
+        DAPP_SMTP_USER: doichain
+        DAPP_SMTP_PASS: generated-password
+        DAPP_SMTP_HOST: localhost
+        DAPP_SMTP_PORT: 25
         RPC_PORT: 18339
 #      command:
        # namecoin-cli stop
