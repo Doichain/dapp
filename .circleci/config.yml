@@ -13,9 +13,9 @@ jobs:
         TESTNET: true
         PORT: 18338
         RPC_PORT: 18339
-      command:
-        "/usr/local/bin/namecoind -testnet"
-        "/usr/local/bin/namecoin-cli -testnet addnode 5.9.154.231 true"
+      command: |
+        namecoind -testnet
+        namecoin-cli -testnet addnode 5.9.154.231 true
 
     working_directory: ~/repo
 
