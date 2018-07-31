@@ -75,7 +75,7 @@ describe('basic-rest-api-app-test', function () {
         const realdataGetNewAddress = { auth: auth, data: dataGetNewAddress, headers: headersGetNewAddress };
         const resultGetNewAddress = getHttpPOST(url, realdataGetNewAddress);
         chai.expect(resultGetNewAddress.error).to.be.undefined;
-        chai.expect(resultGetNewAddress.result)to.not.be.null;
+        chai.expect(resultGetNewAddress.result).to.not.be.null;
         //chai.should.not.exist(resultGetNewAddress.error);
         //chai.should.exist(resultGetNewAddress.result);
 
@@ -86,7 +86,7 @@ describe('basic-rest-api-app-test', function () {
         const headersGenerates = { 'Content-Type':'text/plain'  };
         const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
         const resultGenerate = getHttpPOST(url, realdataGenerate);
-        chai.should.not.exist(resultGenerate.error);
+        chai.expect(resultGenerate.error).to.be.undefined;
         chai.should.exist(resultGenerate.result);
         done();
     });
