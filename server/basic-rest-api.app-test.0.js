@@ -89,7 +89,8 @@ describe('basic-rest-api-app-test', function () {
         const statusResultGenerate = resultGenerate.statusCode;
         chai.assert.equal(200, statusResultGenerate);
         chai.expect(resultGenerate.data.error).to.be.null;
-        chai.should.exist(resultGenerate.data.result);
+        chai.expect(resultGenerate.data.result).to.not.be.null;
+        //chai.should.exist(resultGenerate.data.result);
         done();
     });
 
