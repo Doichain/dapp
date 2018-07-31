@@ -115,7 +115,7 @@ describe('basic-rest-api-app-test', function () {
     it('should list all transactions and check if our SOI is inside', function (done) {
 
         const urlListTransactions = 'http://localhost:18443/';
-        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": [200] };
+        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",200] };
         const headersListTransaction = { 'Content-Type':'text/plain'  };
         const auth = "admin:generated-password";
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
