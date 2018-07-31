@@ -106,6 +106,7 @@ describe('basic-rest-api-app-test', function () {
         const realdataGetBalance = { auth: auth, data: dataGetBalance, headers: headersGetBalance };
         const resultGetBalance = getHttpPOST(urlGetBalance, realdataGetBalance);
         //console.log(resultGetBalance.data.result);
+        logBlockchain('resultGetBalance:',resultGetBalance);
         chai.assert.isAbove(resultGetBalance.data.result, 0, 'no funding! ');
 
         done();
