@@ -99,7 +99,7 @@ describe('basic-rest-api-app-test', function () {
         //check funding
         //curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": ["*", 6] }' -H 'content-type: text/plain;' http://127.0.0.1:18339
         const urlGetBalance = 'http://localhost:18443/';
-        const dataGetBalance = {"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": ["*", 6] };
+        const dataGetBalance = {"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": [] };
         const headersGetBalance = { 'Content-Type':'text/plain'  };
         const auth = "admin:generated-password";
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
