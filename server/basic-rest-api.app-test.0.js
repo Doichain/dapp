@@ -13,6 +13,7 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
  */
 describe('basic-rest-api-app-test', function () {
 
+    let nameId;
     beforeEach(function () {
 
     });
@@ -60,7 +61,7 @@ describe('basic-rest-api-app-test', function () {
         chai.assert.equal('success', statusOptIn);
         chai.assert.equal(our_optIn._id,resultDataOptIn.data.id);
         //now check the blockchain with list transactions and find transaction with this
-
+        nameId = resultDataOptIn.data.id;
         done();
     })
 
@@ -121,6 +122,7 @@ describe('basic-rest-api-app-test', function () {
         const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
         const resultListTransactions = getHttpPOST(urlListTransactions, realdataListTransactions);
         logBlockchain('resultListTransactions:',resultListTransactions);
+        chai.expect(resultListTransactions).to.deep.include({name: "doi: e/"+nameId});
         done();
 
     });
