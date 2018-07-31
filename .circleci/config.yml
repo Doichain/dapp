@@ -35,13 +35,11 @@ jobs:
         - v1-dependencies-{{ checksum "package.json" }}
         # fallback to using the latest cache if no exact match is found
         - v1-dependencies-
-
-    - run: docker run -t -e DAPP_DEBUG=true  -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD= -e RPC_HOST=localhost -e DAPP_HOST=alice -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18338:18338 -p 18339:18339 --name=testnet-alice --hostname=testnet-alice -i doichain/node-only:latest
-    - run: docker run -t -e DAPP_DEBUG=true  -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD= -e RPC_HOST=localhost -e DAPP_HOST=alice -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 28338:18338 -p 28339:18339 --name=testnet-bob --hostname=testnet-bob -i doichain/node-only:latest
-
     #    command: doichain-cli -testnet -getinfo       # namecoind -testnet #namecoin-cli -testnet addnode 5.9.154.231 true
     - run:
         command: |
+          docker run -t -e DAPP_DEBUG=true  -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD= -e RPC_HOST=localhost -e DAPP_HOST=alice -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18338:18338 -p 18339:18339 --name=testnet-alice --hostname=testnet-alice -i doichain/node-only:latest
+          docker run -t -e DAPP_DEBUG=true  -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD= -e RPC_HOST=localhost -e DAPP_HOST=alice -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 28338:18338 -p 28339:18339 --name=testnet-bob --hostname=testnet-bob -i doichain/node-only:latest
           curl https://install.meteor.com | /bin/sh
           git submodule init
           git submodule update
