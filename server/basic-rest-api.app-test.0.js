@@ -13,11 +13,11 @@ import {OptIns} from "../imports/api/opt-ins/opt-ins";
 describe('basic-rest-api-app-test', function () {
 
     beforeEach(function () {
-       resetDatabase();
+
     });
 
     it('should request a DOI on alice for peter and should be forwarded to bob (genereal fallback server)', function (done) {
-
+        resetDatabase();
         //https://docs.meteor.com/api/http.html
         //curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
         const urlLogin = 'http://localhost:3000/api/v1/login';
@@ -63,8 +63,29 @@ describe('basic-rest-api-app-test', function () {
         done();
     })
 
-    it('should have a balance bigger then 0 in the doichain wallet', function (done) {
+    it('should generate some coins into this regtest wallet.', function (done) {
+        const url = 'http://localhost:18339/';
 
+        //1. getnewaddress
+        const dataGetNewAddress = {"jsonrpc": "1.0", "id":"curltest", "method": "getnewaddress", "params": [] };
+        const headersGetNewAddress = { 'Content-Type':'text/plain'  };
+        const auth = "admin:generated-password";
+        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
+        const realdataGetNewAddress = { auth: auth, data: dataGetNewAddress, headers: headersGetNewAddress };
+        const resultGetNewAddress = getHttpPOST(url, realdataGetNewAddress);
+        chai.should.not.exist(resultGetNewAddress.error);
+        chai.should.exist(resultGetNewAddress.result);
+
+        const newAddress = resultGetNewAddress.result;
+
+        //2. generatetoaddress nblocks address
+
+
+
+    });
+
+
+    it('should have a balance bigger then 0 in the doichain wallet', function (done) {
         //check funding
         //curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": ["*", 6] }' -H 'content-type: text/plain;' http://127.0.0.1:18339
         const urlGetBalance = 'http://localhost:18339/';
@@ -78,6 +99,6 @@ describe('basic-rest-api-app-test', function () {
         chai.assert.isAbove(resultGetBalance.data.result, 0, 'no funding! ');
 
         done();
-    })
+});
 
 })

@@ -10,7 +10,7 @@ jobs:
       # Secondary container image on common network.
       - image: doichain/node-only
         environment:
-          TESTNET: true
+          REGTEST: true
           PORT: 18338
           RPC_PASSWORD: generated-password
           DAPP_SMTP_USER: doichain
