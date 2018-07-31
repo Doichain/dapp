@@ -82,7 +82,7 @@ describe('basic-rest-api-app-test', function () {
         //const newAddress = resultGetNewAddress.result;
 
         //2. generatetoaddress nblocks address
-        const dataGenerate = {"jsonrpc": "1.0", "id":"curltest", "method": "generatetoaddress", "params": [11,resultGetNewAddress.result] };
+        const dataGenerate = {"jsonrpc": "1.0", "id":"curltest", "method": "generatetoaddress", "params": ["11",resultGetNewAddress.result] };
         const headersGenerates = { 'Content-Type':'text/plain'  };
         const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
         const resultGenerate = getHttpPOST(url, realdataGenerate);
