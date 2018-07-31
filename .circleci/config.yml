@@ -11,13 +11,13 @@ jobs:
       - image: doichain/node-only
         environment:
           REGTEST: true
-          #PORT: 18338
+          PORT: 18445 #18338 #testnet
           RPC_PASSWORD: generated-password
           DAPP_SMTP_USER: doichain
           DAPP_SMTP_PASS: generated-password
           DAPP_SMTP_HOST: localhost
           DAPP_SMTP_PORT: 25
-          #RPC_PORT: 18339
+          RPC_PORT: 18443 #18339 #testnet
 
 #      command:
        # namecoin-cli stop

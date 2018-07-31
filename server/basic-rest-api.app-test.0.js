@@ -64,7 +64,7 @@ describe('basic-rest-api-app-test', function () {
     })
 
     it('should generate some coins into this regtest wallet.', function (done) {
-        const url = 'http://localhost:18339/';
+        const url = 'http://localhost:18443/';
         const auth = "admin:generated-password";
 
         //1. getnewaddress
@@ -93,7 +93,7 @@ describe('basic-rest-api-app-test', function () {
     it('should have a balance bigger then 0 in the doichain wallet', function (done) {
         //check funding
         //curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": ["*", 6] }' -H 'content-type: text/plain;' http://127.0.0.1:18339
-        const urlGetBalance = 'http://localhost:18339/';
+        const urlGetBalance = 'http://localhost:18443/';
         const dataGetBalance = {"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": ["*", 6] };
         const headersGetBalance = { 'Content-Type':'text/plain'  };
         const auth = "admin:generated-password";
