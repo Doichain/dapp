@@ -65,11 +65,12 @@ describe('basic-rest-api-app-test', function () {
 
     it('should generate some coins into this regtest wallet.', function (done) {
         const url = 'http://localhost:18339/';
+        const auth = "admin:generated-password";
 
         //1. getnewaddress
         const dataGetNewAddress = {"jsonrpc": "1.0", "id":"curltest", "method": "getnewaddress", "params": [] };
         const headersGetNewAddress = { 'Content-Type':'text/plain'  };
-        const auth = "admin:generated-password";
+
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
         const realdataGetNewAddress = { auth: auth, data: dataGetNewAddress, headers: headersGetNewAddress };
         const resultGetNewAddress = getHttpPOST(url, realdataGetNewAddress);
@@ -79,8 +80,12 @@ describe('basic-rest-api-app-test', function () {
         const newAddress = resultGetNewAddress.result;
 
         //2. generatetoaddress nblocks address
-
-
+        const dataGenerate = {"jsonrpc": "1.0", "id":"curltest", "method": "generatetoaddress", "params": [11,newAddress] };
+        const headersGenerates = { 'Content-Type':'text/plain'  };
+        const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
+        const resultGenerate = getHttpPOST(url, realdataGenerate);
+        chai.should.not.exist(resultGenerate.error);
+        chai.should.exist(resultGenerate.result);
 
     });
 
