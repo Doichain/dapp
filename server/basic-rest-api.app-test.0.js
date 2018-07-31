@@ -72,24 +72,24 @@ describe('basic-rest-api-app-test', function () {
         const dataGetNewAddress = {"jsonrpc": "1.0", "id":"getnewaddress", "method": "getnewaddress", "params": [] };
         const headersGetNewAddress = { 'Content-Type':'text/plain'  };
 
-        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
         const realdataGetNewAddress = { auth: auth, data: dataGetNewAddress, headers: headersGetNewAddress };
         const resultGetNewAddress = getHttpPOST(url, realdataGetNewAddress);
-        chai.expect(resultGetNewAddress.error).to.be.undefined;
-        chai.expect(resultGetNewAddress.result).to.not.be.null;
-        //chai.should.not.exist(resultGetNewAddress.error);
-        //chai.should.exist(resultGetNewAddress.result);
-
-        //const newAddress = resultGetNewAddress.result;
+        const statusOptInGetNewAddress = resultGetNewAddress.statusCode;
+        const newAddress  = resultGetNewAddress.data.result;
+        chai.assert.equal(200, statusOptInGetNewAddress);
+        chai.expect(resultGetNewAddress.data.error).to.be.null;
+        chai.expect(newAddress).to.not.be.null;
 
         //2. generatetoaddress nblocks address
-        logBlockchain('resultGetNewAddress.result:',resultGetNewAddress);
-        const dataGenerate = {"jsonrpc": "1.0", "id":"generatetoaddress", "method": "generatetoaddress", "params": [11,resultGetNewAddress.result] };
+        logBlockchain('resultGetNewAddress.result:',newAddress);
+        const dataGenerate = {"jsonrpc": "1.0", "id":"generatetoaddress", "method": "generatetoaddress", "params": [11,newAddress] };
         const headersGenerates = { 'Content-Type':'text/plain'  };
         const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
         const resultGenerate = getHttpPOST(url, realdataGenerate);
-        chai.expect(resultGenerate.error).to.be.undefined;
-        chai.should.exist(resultGenerate.result);
+        const statusResultGenerate = resultGenerate.statusCode;
+        chai.assert.equal(200, statusResultGenerate);
+        chai.expect(resultGenerate.data.error).to.be.null;
+        chai.should.exist(resultGenerate.data.result);
         done();
     });
 
