@@ -86,6 +86,7 @@ describe('basic-rest-api-app-test', function () {
         const headersGenerates = { 'Content-Type':'text/plain'  };
         const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
         const resultGenerate = getHttpPOST(url, realdataGenerate);
+        logBlockchain('resultGenerate:',resultGenerate);
         const statusResultGenerate = resultGenerate.statusCode;
         chai.assert.equal(200, statusResultGenerate);
         chai.expect(resultGenerate.data.error).to.be.null;
