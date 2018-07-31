@@ -1,6 +1,6 @@
 import {chai} from 'meteor/practicalmeteor:chai';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
-import {getHttpGETdata, getHttpPOST} from "./api/http";
+import { getHttpPOST} from "./api/http";
 import {OptIns} from "../imports/api/opt-ins/opt-ins";
 //import {nameShow} from "./api/doichain";
 //import {getRawTransaction} from "./api/doichain";
