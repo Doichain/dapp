@@ -74,8 +74,8 @@ describe('basic-rest-api-app-test', function () {
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
         const realdataGetNewAddress = { auth: auth, data: dataGetNewAddress, headers: headersGetNewAddress };
         const resultGetNewAddress = getHttpPOST(url, realdataGetNewAddress);
-        chai.expect(resultGetNewAddress.error).to.be.null
-        chai.expect(resultGetNewAddress.result).to.not.be.null
+        chai.expect(resultGetNewAddress.error).to.be.undefined;
+        chai.expect(resultGetNewAddress.result)to.not.be.null;
         //chai.should.not.exist(resultGetNewAddress.error);
         //chai.should.exist(resultGetNewAddress.result);
 
