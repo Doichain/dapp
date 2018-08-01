@@ -1,5 +1,5 @@
 import {chai} from 'meteor/practicalmeteor:chai';
-import { resetDatabase } from 'meteor/xolvio:cleaner';
+//import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { getHttpPOST} from "./api/http";
 import {OptIns} from "../imports/api/opt-ins/opt-ins";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
