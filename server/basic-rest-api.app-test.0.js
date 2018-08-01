@@ -19,7 +19,7 @@ describe('basic-rest-api-app-test', function () {
     });
 
     it('should generate some coins into this regtest wallet.', function (done) {
-        resetDatabase();
+        //resetDatabase();
 
         const url = 'http://localhost:18443/';
         const auth = "admin:generated-password";
@@ -67,7 +67,7 @@ describe('basic-rest-api-app-test', function () {
         done();
     });
 
-    it('should request a DOI on alice for peter and should be forwarded to bob (genereal fallback server)', function (done) {
+    it('should request a DOI on alice for peter and should be forwarded to bob (general fallback server)', function (done) {
 
         //https://docs.meteor.com/api/http.html
         //curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
@@ -117,7 +117,7 @@ describe('basic-rest-api-app-test', function () {
     it('should list all transactions and check if our SOI is inside', function (done) {
 
         const urlListTransactions = 'http://localhost:18443/';
-        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": [] };
+        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
         const headersListTransaction = { 'Content-Type':'text/plain'  };
         const auth = "admin:generated-password";
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
