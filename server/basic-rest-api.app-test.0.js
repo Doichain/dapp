@@ -125,7 +125,7 @@ describe('basic-rest-api-app-test', function () {
         const resultListTransactions = getHttpPOST(urlListTransactions, realdataListTransactions);
        // logBlockchain('resultListTransactions:',resultListTransactions);
 
-        var newArray = resultListTransactions.filter(function (el) {
+        var newArray = JSON.parse(resultListTransactions).filter(function (el) {
             return el.name === "doi: e/"+nameId;
         });
         logBlockchain('newArray:',newArray);
