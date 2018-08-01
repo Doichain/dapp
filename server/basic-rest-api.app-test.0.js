@@ -19,6 +19,8 @@ describe('basic-rest-api-app-test', function () {
     });
 
     it('should generate some coins into this regtest wallet.', function (done) {
+        resetDatabase();
+
         const url = 'http://localhost:18443/';
         const auth = "admin:generated-password";
 
@@ -66,7 +68,7 @@ describe('basic-rest-api-app-test', function () {
     });
 
     it('should request a DOI on alice for peter and should be forwarded to bob (genereal fallback server)', function (done) {
-        resetDatabase();
+
         //https://docs.meteor.com/api/http.html
         //curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
         const urlLogin = 'http://localhost:3000/api/v1/login';
