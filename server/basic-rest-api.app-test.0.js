@@ -112,7 +112,7 @@ describe('basic-rest-api-app-test', function () {
         //now check the blockchain with list transactions and find transaction with this
         //const nameId = resultDataOptIn.data.id;
         const txId = our_optIn.txId;
-
+        logBlockchain('txId:',txId);
         const urlGetRawTransaction = 'http://localhost:18443/';
         const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
         const headersGetRawTransaction = { 'Content-Type':'text/plain'  };
