@@ -13,7 +13,7 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
  */
 describe('basic-rest-api-app-test', function () {
 
-    let nameId;
+   // let nameId, txId;
     beforeEach(function () {
 
     });
