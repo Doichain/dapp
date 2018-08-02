@@ -111,27 +111,37 @@ describe('basic-rest-api-app-test', function () {
         chai.assert.equal(our_optIn._id,resultDataOptIn.data.id);
         //now check the blockchain with list transactions and find transaction with this
         nameId = resultDataOptIn.data.id;
+        const txId = our_optIn.txId;
+
+        const urlGetRawTransaction = 'http://localhost:18443/';
+        const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
+        const headersGetRawTransaction = { 'Content-Type':'text/plain'  };
+        const auth = "admin:generated-password";
+
+        const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headersGetRawTransaction };
+        const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
+        logBlockchain('resultGetRawTransaction:',resultGetRawTransaction);
         done();
     })
 
-    it('should list all transactions and check if our SOI is inside', function (done) {
+    /*     it('should list all transactions and check if our SOI is inside', function (done) {
 
-        const urlListTransactions = 'http://localhost:18443/';
-        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
-        const headersListTransaction = { 'Content-Type':'text/plain'  };
-        const auth = "admin:generated-password";
-        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
-        const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
-        const resultListTransactions = getHttpPOST(urlListTransactions, realdataListTransactions);
-       // logBlockchain('resultListTransactions:',resultListTransactions);
-        var json = JSON.stringify(eval("(" + resultListTransactions + ")"));
-        var newArray = JSON.parse(json).filter(function (el) {
-            return el.name === "doi: e/"+nameId;
-        });
-        logBlockchain('newArray:',newArray);
-        chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});
-        done();
+           const urlListTransactions = 'http://localhost:18443/';
+            const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
+            const headersListTransaction = { 'Content-Type':'text/plain'  };
+            const auth = "admin:generated-password";
+            //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
+            const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
+            const resultListTransactions = getHttpPOST(urlListTransactions, realdataListTransactions);
+           // logBlockchain('resultListTransactions:',resultListTransactions);
+            var json = JSON.stringify(eval("(" + resultListTransactions + ")")); //
+            var newArray = JSON.parse(json).filter(function (el) {
+                return el.name === "doi: e/"+nameId;
+            });
+            logBlockchain('newArray:',newArray);
+            chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});
+            done();
 
-    });
+        });*/
 
 })

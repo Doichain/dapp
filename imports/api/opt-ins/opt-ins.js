@@ -58,6 +58,11 @@ OptIns.schema = new SimpleSchema({
     optional: true,
     denyUpdate: false,
   },
+  txId: {
+      type: String,
+      optional: true,
+      denyUpdate: false,
+  },
   masterDoi: {
       type: String,
       optional: true,
@@ -102,6 +107,7 @@ OptIns.publicFields = {
   data: 1,
   index: 1,
   nameId: 1,
+  txId: 1,
   masterDoi: 1,
   createdAt: 1,
   confirmedAt: 1,
