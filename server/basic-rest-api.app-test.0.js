@@ -1,4 +1,5 @@
 import {chai} from 'meteor/practicalmeteor:chai';
+import {sinon} from 'sinon';
 //import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { getHttpPOST} from "./api/http";
 import {OptIns} from "../imports/api/opt-ins/opt-ins";
@@ -12,6 +13,10 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
     Jest: (for React) https://www.hammerlab.org/2015/02/14/testing-react-web-apps-with-mocha/
  */
 describe('basic-rest-api-app-test', function () {
+
+    setup(function(){
+        this.clock = sinon.useFakeTimers();
+    });
 
    // let nameId, txId;
     beforeEach(function () {
@@ -100,7 +105,7 @@ describe('basic-rest-api-app-test', function () {
         const realDataOptin = { data: dataOptIn, headers: headersOptIn };
         const resultOptIn = getHttpPOST(urlOptIn, realDataOptin);
         //console.log(JSON.stringify(resultOptIn));
-
+        this.clock.tick(1000);
         const statusCodeOptIn = result.statusCode;
         const resultDataOptIn = resultOptIn.data;
         const our_optIn = OptIns.findOne({_id: resultDataOptIn.data.id});

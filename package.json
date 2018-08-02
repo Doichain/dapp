@@ -5,9 +5,9 @@
     "start": "meteor run",
     "lint": "eslint .",
     "pretest": "npm run lint --silent",
-    "test-mocha":"meteor test --once --driver-package meteortesting:mocha --settings settings-test.json --port 3100",
-    "test-circleci-mocha":"meteor test --once --full-app --driver-package meteortesting:mocha --settings settings-test.json ",
-    "test-watch-mocha":"TEST_WATCH=1 meteor test --full-app --settings settings-test.json --driver-package meteortesting:mocha",
+    "test-mocha": "meteor test --once --driver-package meteortesting:mocha --settings settings-test.json --port 3100",
+    "test-circleci-mocha": "meteor test --once --full-app --driver-package meteortesting:mocha --settings settings-test.json ",
+    "test-watch-mocha": "TEST_WATCH=1 meteor test --full-app --settings settings-test.json --driver-package meteortesting:mocha",
     "test-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha --port 3100",
     "test-app-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --full-app --once --driver-package meteortesting:mocha --port 3100",
     "test-phantom": "TEST_BROWSER_DRIVER=phantomjs meteor test --once --driver-package meteortesting:mocha",
@@ -74,6 +74,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-meteor": "^5.0.0",
     "eslint-plugin-react": "^7.10.0",
-    "selenium-webdriver": "^4.0.0-alpha.1"
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "sinon": "^6.1.4"
   }
 }
