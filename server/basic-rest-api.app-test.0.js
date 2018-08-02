@@ -1,5 +1,5 @@
 import {chai} from 'meteor/practicalmeteor:chai';
-import {sinon} from 'sinon';
+import {sinon} from 'sinon'; //x
 //import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { getHttpPOST} from "./api/http";
 import {OptIns} from "../imports/api/opt-ins/opt-ins";
@@ -8,15 +8,11 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
 //import {getRawTransaction} from "./api/doichain";
 /*
     Circle-Ci: https://circleci.com/docs/2.0/building-docker-images/
-
+    SinonJS: https://sinonjs.org/releases/v6.1.4/fake-timers/
     Chaijs: http://www.chaijs.com/guide/styles/#assert
     Jest: (for React) https://www.hammerlab.org/2015/02/14/testing-react-web-apps-with-mocha/
  */
 describe('basic-rest-api-app-test', function () {
-
-    setup(function(){
-        this.clock = sinon.useFakeTimers();
-    });
 
    // let nameId, txId;
     beforeEach(function () {
@@ -105,6 +101,7 @@ describe('basic-rest-api-app-test', function () {
         const realDataOptin = { data: dataOptIn, headers: headersOptIn };
         const resultOptIn = getHttpPOST(urlOptIn, realDataOptin);
         //console.log(JSON.stringify(resultOptIn));
+        this.clock = sinon.useFakeTimers();
         this.clock.tick(1000);
         const statusCodeOptIn = result.statusCode;
         const resultDataOptIn = resultOptIn.data;
