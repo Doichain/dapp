@@ -110,7 +110,7 @@ describe('basic-rest-api-app-test', function () {
         chai.assert.equal('success', statusOptIn);
         chai.assert.equal(our_optIn._id,resultDataOptIn.data.id);
         //now check the blockchain with list transactions and find transaction with this
-        nameId = resultDataOptIn.data.id;
+        //const nameId = resultDataOptIn.data.id;
         const txId = our_optIn.txId;
 
         const urlGetRawTransaction = 'http://localhost:18443/';
