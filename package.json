@@ -74,7 +74,6 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-meteor": "^5.0.0",
     "eslint-plugin-react": "^7.10.0",
-    "selenium-webdriver": "^4.0.0-alpha.1",
-    "sinon": "^6.1.4"
+    "selenium-webdriver": "^4.0.0-alpha.1"
   }
 }

@@ -1,5 +1,4 @@
 import {chai} from 'meteor/practicalmeteor:chai';
-import {sinon} from 'sinon'; //x
 //import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { getHttpPOST} from "./api/http";
 import {OptIns} from "../imports/api/opt-ins/opt-ins";
@@ -101,8 +100,8 @@ describe('basic-rest-api-app-test', function () {
         const realDataOptin = { data: dataOptIn, headers: headersOptIn };
         const resultOptIn = getHttpPOST(urlOptIn, realDataOptin);
         //console.log(JSON.stringify(resultOptIn));
-        this.clock = sinon.useFakeTimers();
-        this.clock.tick(1000);
+
+        this.timeout(5000); // This works
         const statusCodeOptIn = result.statusCode;
         const resultDataOptIn = resultOptIn.data;
         const our_optIn = OptIns.findOne({_id: resultDataOptIn.data.id});
