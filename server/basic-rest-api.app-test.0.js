@@ -31,7 +31,7 @@ describe('basic-doi-test', function () {
 
         done();
     })
-/*
+
     it('should check if bob is alive', function(done){
 
         const url = 'http://localhost:18444/';
@@ -47,7 +47,7 @@ describe('basic-doi-test', function () {
         logBlockchain('resultGenerate:',statusGetNetworkInfo);
 
         done();
-    }) */
+    })
 
     it('should generate some coins into this regtest wallet.', function (done) {
         //resetDatabase();
