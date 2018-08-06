@@ -27,7 +27,7 @@ describe('basic-doi-test', function () {
         const resultGetNetworkInfo = getHttpPOST(url, realdataGetNetworkInfo);
         const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
         chai.assert.equal(200, statusGetNetworkInfo);
-        logBlockchain('resultGenerate:',statusGetNetworkInfo); // getnetworkinfo | jq '.localaddresses[0].address'
+        logBlockchain('resultGetNetworkInfo:',resultGetNetworkInfo); // getnetworkinfo | jq '.localaddresses[0].address'
 
         done();
     })
