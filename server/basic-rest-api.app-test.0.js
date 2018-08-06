@@ -32,7 +32,7 @@ describe('basic-doi-test', function () {
         done();
     })
 
-    it('should check if bob is alive', function(done){
+    it('should check if bob is alive and connected to alice', function(done){
 
         const url = 'http://localhost:18444/';
         const auth = "admin:generated-password";
@@ -45,6 +45,15 @@ describe('basic-doi-test', function () {
         const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
         chai.assert.equal(200, statusGetNetworkInfo);
         logBlockchain('resultGetNetworkInfo:',resultGetNetworkInfo);
+
+        const dataGetPeerInfo = {"jsonrpc": "1.0", "id":"getnetworkinfo", "method": "getnetworkinfo", "params": [] };
+        const headersGetPeerInfo = { 'Content-Type':'text/plain'  };
+
+        const realdataGetPeerInfo = { auth: auth, data: dataGetPeerInfo, headers: headersGetPeerInfo };
+        const resultGetPeerInfo = getHttpPOST(url, realdataGetPeerInfo);
+        const statusGetPeerInfo = resultGetPeerInfo.statusCode;
+        chai.assert.equal(200, statusGetPeerInfo);
+        logBlockchain('resultGetPeerInfo:',resultGetPeerInfo);
 
         done();
     })
