@@ -67,13 +67,13 @@ const checkNewTransaction = (txid, job) => {
               return;
           }
 
-         // logConfirm('now checking raw transactions with filter:',txs);
+          logConfirm('now checking raw transactions with filter:',txs);
 
           const addressTxs = txs.filter(tx =>
               tx.scriptPubKey !== undefined
               && tx.scriptPubKey.nameOp !== undefined
               && tx.scriptPubKey.nameOp.op === "name_doi"
-            //  && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS
+            //  && tx.scriptPubKey.addresses[0] === CONFIRM_ADDRESS //only own transaction should arrive here. - so check on own address unneccesary
               && tx.scriptPubKey.nameOp.name !== undefined
               && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
           );
