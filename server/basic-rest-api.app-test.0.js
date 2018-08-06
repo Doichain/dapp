@@ -163,7 +163,13 @@ describe('basic-doi-test', function () {
             const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headersGetRawTransaction };
             const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
             logBlockchain('resultGetRawTransaction:',resultGetRawTransaction);
-            chai.assert.equal("e/"+our_optIn.nameId, resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp.name);
+            if(resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp!==undefined){
+                chai.assert.equal("e/"+our_optIn.nameId, resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp.name);
+            }
+            else{
+                chai.assert.equal("e/"+our_optIn.nameId, resultGetRawTransaction.data.result.vout[0].scriptPubKey.nameOp.name);
+            }
+
             //alice is not querying the dns and finds out bobs public key where to send the nameId
 
             //we assume the name_doi reached bob's node -
