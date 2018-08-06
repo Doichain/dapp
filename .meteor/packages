@@ -28,6 +28,7 @@ aldeed:schema-deny
 session@1.1.7
 less@2.7.12
 mdg:validated-method
+msavin:mongol
 vsivsi:job-collection
 email@1.2.3
 aldeed:collection2@3.0.0
@@ -43,3 +44,5 @@ zetoff:accounts-material-ui
 meteortesting:mocha
 xolvio:cleaner
 practicalmeteor:chai
+
+anti:gagarin

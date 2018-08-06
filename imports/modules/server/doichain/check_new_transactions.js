@@ -67,7 +67,7 @@ const checkNewTransaction = (txid, job) => {
               return;
           }
 
-          logConfirm('now checking raw transactions with filter:',txs);
+         // logConfirm('now checking raw transactions with filter:',txs);
 
           const addressTxs = txs.filter(tx =>
               tx.scriptPubKey !== undefined

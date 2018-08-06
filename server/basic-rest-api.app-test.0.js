@@ -5,13 +5,13 @@ import {OptIns} from "../imports/api/opt-ins/opt-ins";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 //import {nameShow} from "./api/doichain";
 //import {getRawTransaction} from "./api/doichain";
+
 /*
     Circle-Ci: https://circleci.com/docs/2.0/building-docker-images/
     SinonJS: https://sinonjs.org/releases/v6.1.4/fake-timers/
     Chaijs: http://www.chaijs.com/guide/styles/#assert
     Jest: (for React) https://www.hammerlab.org/2015/02/14/testing-react-web-apps-with-mocha/
  */
-
 describe('basic-rest-api-app-test', function () {
     this.timeout(20000);
 
@@ -129,10 +129,20 @@ describe('basic-rest-api-app-test', function () {
             const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headersGetRawTransaction };
             const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
             logBlockchain('resultGetRawTransaction:',resultGetRawTransaction);
-
             chai.assert.equal(our_optIn.nameId, resultGetRawTransaction.data.result.vout[0].scriptPubKey.name);
-                done();
-            }), 5000);
+
+            //we assume the name_doi reached bob's node -
+            // so we connect to bob's node via rpc an check if this transaction is there too
+            const urlBobGetRawTransaction = 'http://localhost:18444/';
+            const resultBobGetRawTransaction = getHttpPOST(urlBobGetRawTransaction, realdataGetRawTransaction);
+            logBlockchain('resultBobGetRawTransaction:',resultBobGetRawTransaction);
+            chai.assert.equal(our_optIn.nameId, resultBobGetRawTransaction.data.result.vout[0].scriptPubKey.name);
+
+            done();
+
+
+
+            }), 5000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
 
 
     })
