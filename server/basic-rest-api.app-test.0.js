@@ -10,13 +10,21 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
     SinonJS: https://sinonjs.org/releases/v6.1.4/fake-timers/
     Chaijs: http://www.chaijs.com/guide/styles/#assert
     Jest: (for React) https://www.hammerlab.org/2015/02/14/testing-react-web-apps-with-mocha/
- */
-describe('basic-rest-api-app-test', function () {
+ *//*
+describe('a suite of tests', function() {
+    this.timeout(500);
 
-   // let nameId, txId;
-    beforeEach(function () {
-
+    it('should take less than 500ms', function(done){
+        setTimeout(done, 300);
     });
+
+    it('should take less than 500ms as well', function(done){
+        setTimeout(done, 250);
+    });
+})*/
+
+describe('basic-rest-api-app-test', function () {
+    this.timeout(20000);
 
     it('should generate some coins into this regtest wallet.', function (done) {
         //resetDatabase();
@@ -86,7 +94,7 @@ describe('basic-rest-api-app-test', function () {
 
         chai.assert.equal(200, statusCode);
         chai.assert.equal('success', status);
-
+       // setTimeout(done, 300);
         const urlOptIn = 'http://localhost:3000/api/v1/opt-in';
         const dataOptIn = {"recipient_mail":"nico@le-space.de","sender_mail":"info@doichain.org","data":JSON.stringify({'city':'Ekaterinburg'})};
         const headersOptIn = {
@@ -94,35 +102,46 @@ describe('basic-rest-api-app-test', function () {
             'X-User-Id':userId,
             'X-Auth-Token':authToken
         };
+        logBlockchain('before timeout:',new Date());
 
+        // ...
         //https://docs.meteor.com/api/http.html
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
+
         const realDataOptin = { data: dataOptIn, headers: headersOptIn };
         const resultOptIn = getHttpPOST(urlOptIn, realDataOptin);
-        //console.log(JSON.stringify(resultOptIn));
 
-        this.timeout(5000); // This works
         const statusCodeOptIn = result.statusCode;
         const resultDataOptIn = resultOptIn.data;
-        const our_optIn = OptIns.findOne({_id: resultDataOptIn.data.id});
-        const statusOptIn = resultDataOptIn.status;
 
-        chai.assert.equal(200, statusCodeOptIn);
-        chai.assert.equal('success', statusOptIn);
-        chai.assert.equal(our_optIn._id,resultDataOptIn.data.id);
-        //now check the blockchain with list transactions and find transaction with this
-        //const nameId = resultDataOptIn.data.id;
-        const txId = our_optIn.txId;
-        logBlockchain('txId:',txId);
-        const urlGetRawTransaction = 'http://localhost:18443/';
-        const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
-        const headersGetRawTransaction = { 'Content-Type':'text/plain'  };
-        const auth = "admin:generated-password";
+       // setTimeout(done, 300);
+        setTimeout(
 
-        const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headersGetRawTransaction };
-        const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
-        logBlockchain('resultGetRawTransaction:',resultGetRawTransaction);
-        done();
+            Meteor.bindEnvironment(function () {
+
+            logBlockchain('after timeout:',new Date());
+            const our_optIn = OptIns.findOne({_id: resultDataOptIn.data.id});
+            const statusOptIn = resultDataOptIn.status;
+
+            chai.assert.equal(200, statusCodeOptIn);
+            chai.assert.equal('success', statusOptIn);
+            chai.assert.equal(our_optIn._id,resultDataOptIn.data.id);
+            //now check the blockchain with list transactions and find transaction with this
+            //const nameId = resultDataOptIn.data.id;
+            const txId = our_optIn.txId;
+            logBlockchain('txId:',txId);
+            const urlGetRawTransaction = 'http://localhost:18443/';
+            const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
+            const headersGetRawTransaction = { 'Content-Type':'text/plain'  };
+            const auth = "admin:generated-password";
+
+            const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headersGetRawTransaction };
+            const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
+            logBlockchain('resultGetRawTransaction:',resultGetRawTransaction);
+                done();
+            }), 5000);
+
+
     })
 
     /*     it('should list all transactions and check if our SOI is inside', function (done) {
