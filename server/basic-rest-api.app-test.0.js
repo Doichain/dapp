@@ -10,18 +10,7 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
     SinonJS: https://sinonjs.org/releases/v6.1.4/fake-timers/
     Chaijs: http://www.chaijs.com/guide/styles/#assert
     Jest: (for React) https://www.hammerlab.org/2015/02/14/testing-react-web-apps-with-mocha/
- *//*
-describe('a suite of tests', function() {
-    this.timeout(500);
-
-    it('should take less than 500ms', function(done){
-        setTimeout(done, 300);
-    });
-
-    it('should take less than 500ms as well', function(done){
-        setTimeout(done, 250);
-    });
-})*/
+ */
 
 describe('basic-rest-api-app-test', function () {
     this.timeout(20000);
@@ -140,6 +129,8 @@ describe('basic-rest-api-app-test', function () {
             const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headersGetRawTransaction };
             const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
             logBlockchain('resultGetRawTransaction:',resultGetRawTransaction);
+
+            chai.assert.equal(our_optIn.nameId, resultGetRawTransaction.data.result.vout[0].scriptPubKey.name);
                 done();
             }), 5000);
 
