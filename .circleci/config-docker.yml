@@ -1,0 +1,16 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    machine: true
+    steps:
+    - checkout
+    # start proprietary DB using private Docker image
+    # with credentials stored in the UI
+    - run: |
+        docker run -d --name alice doichain/node-only:0.0.6
+        docker run -d --name bob doichain/node-only:0.0.6
+
