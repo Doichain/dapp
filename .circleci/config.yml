@@ -23,6 +23,10 @@ jobs:
           REGTEST: true
           PORT: 18445 #18338 #testnet
           RPC_PASSWORD: generated-password
+          DAPP_SMTP_USER: doichain
+          DAPP_SMTP_PASS: generated-password
+          DAPP_SMTP_HOST: localhost
+          DAPP_SMTP_PORT: 25
 
 #      command:
        # namecoin-cli stop
