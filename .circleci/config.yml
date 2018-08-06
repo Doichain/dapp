@@ -11,6 +11,6 @@ jobs:
     # start proprietary DB using private Docker image
     # with credentials stored in the UI
     - run: |
-        docker run -d --name alice doichain/node-only:0.0.6
-        docker run -d --name bob doichain/node-only:0.0.6
+        docker run -d --name alice doichain/node-only
+        docker run -d --name bob doichain/node-only
       # Javascript Node CircleCI 2.0 configuration file
