@@ -22,6 +22,7 @@ jobs:
         environment:
           REGTEST: true
           PORT: 18445 #18338 #testnet
+          RPC_PASSWORD: generated-password
 
 #      command:
        # namecoin-cli stop
