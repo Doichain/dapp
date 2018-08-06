@@ -6,11 +6,32 @@ version: 2
 jobs:
   build:
     machine: true
+    working_directory: ~/repo
+
     steps:
     - checkout
+    # Download and cache dependencies
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "package.json" }}
+        # fallback to using the latest cache if no exact match is found
+        - v1-dependencies-
     # start proprietary DB using private Docker image
     # with credentials stored in the UI
     - run: |
         docker run -d -i -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18332:18332 -e DAPP_DEBUG=true -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost -e DAPP_HOST=your-domain-name-or-ip -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx --name=alice --hostname=alice doichain/node-only
         docker run -d -i -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18446:18445 -p 18333:18332 -e DAPP_DEBUG=true -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost -e DAPP_HOST=your-domain-name-or-ip -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx --name=bob --hostname=bob doichain/node-only
-      # Javascript Node CircleCI 2.0 configuration file
+
+    - run:
+        command: |
+          curl https://install.meteor.com | /bin/sh
+          git submodule init
+          git submodule update
+          meteor npm install
+          meteor npm run lint
+          meteor npm run test-circleci-mocha
+
+    - save_cache:
+        paths:
+        - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
