@@ -44,7 +44,7 @@ describe('basic-doi-test', function () {
         const resultGetNetworkInfo = getHttpPOST(url, realdataGetNetworkInfo);
         const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
         chai.assert.equal(200, statusGetNetworkInfo);
-        logBlockchain('resultGenerate:',statusGetNetworkInfo);
+        logBlockchain('resultGetNetworkInfo:',resultGetNetworkInfo);
 
         done();
     })
