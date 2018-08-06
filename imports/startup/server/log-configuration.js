@@ -6,7 +6,7 @@ export const console = process.console;
 export const sendModeTagColor = {msg : 'send-mode', colors : ['yellow', 'inverse']};
 export const confirmModeTagColor = {msg : 'confirm-mode', colors : ['blue', 'inverse']};
 export const verifyModeTagColor = {msg : 'verify-mode', colors : ['green', 'inverse']};
-export const blockchainModeTagColor = {msg : 'verify-mode', colors : ['white', 'inverse']};
+export const blockchainModeTagColor = {msg : 'blockchain-mode', colors : ['white', 'inverse']};
 
 export function logSend(message,param) {
     if(isDebug()) {console.time().tag(sendModeTagColor).log(message,param);}

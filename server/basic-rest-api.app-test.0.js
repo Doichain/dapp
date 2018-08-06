@@ -12,7 +12,7 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
     Chaijs: http://www.chaijs.com/guide/styles/#assert
     Jest: (for React) https://www.hammerlab.org/2015/02/14/testing-react-web-apps-with-mocha/
  */
-describe('basic-rest-api-app-test', function () {
+describe('basic-doi-test', function () {
     this.timeout(20000);
 
     it('should check if alice is alive', function(done){

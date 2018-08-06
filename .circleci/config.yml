@@ -21,7 +21,7 @@ jobs:
       - image: doichain/node-only
         environment:
           REGTEST: true
-          PORT: 18445 #18338 #testnet
+          PORT: 18444 #18338 #testnet
           RPC_PASSWORD: generated-password
           DAPP_SMTP_USER: doichain
           DAPP_SMTP_PASS: generated-password
