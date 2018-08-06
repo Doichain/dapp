@@ -27,11 +27,11 @@ describe('basic-doi-test', function () {
         const resultGetNetworkInfo = getHttpPOST(url, realdataGetNetworkInfo);
         const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
         chai.assert.equal(200, statusGetNetworkInfo);
-        logBlockchain('resultGenerate:',statusGetNetworkInfo);
+        logBlockchain('resultGenerate:',statusGetNetworkInfo); // getnetworkinfo | jq '.localaddresses[0].address'
 
         done();
     })
-
+/*
     it('should check if bob is alive', function(done){
 
         const url = 'http://localhost:18444/';
@@ -47,7 +47,7 @@ describe('basic-doi-test', function () {
         logBlockchain('resultGenerate:',statusGetNetworkInfo);
 
         done();
-    })
+    }) */
 
     it('should generate some coins into this regtest wallet.', function (done) {
         //resetDatabase();
@@ -163,7 +163,7 @@ describe('basic-doi-test', function () {
             const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headersGetRawTransaction };
             const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
             logBlockchain('resultGetRawTransaction:',resultGetRawTransaction);
-            chai.assert.equal("e/"+our_optIn.nameId, resultGetRawTransaction.data.result.vout[0].scriptPubKey.nameOp.name);
+            chai.assert.equal("e/"+our_optIn.nameId, resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp.name);
             //alice is not querying the dns and finds out bobs public key where to send the nameId
 
             //we assume the name_doi reached bob's node -
