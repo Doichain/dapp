@@ -129,16 +129,16 @@ describe('basic-rest-api-app-test', function () {
             const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headersGetRawTransaction };
             const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
             logBlockchain('resultGetRawTransaction:',resultGetRawTransaction);
-            chai.assert.equal(our_optIn.nameId, resultGetRawTransaction.data.result.vout[0].scriptPubKey.name);
+            chai.assert.equal("e/"+our_optIn.nameId, resultGetRawTransaction.data.result.vout[0].scriptPubKey.name);
             //alice is not querying the dns and finds out bobs public key where to send the nameId
 
             //we assume the name_doi reached bob's node -
             // so we connect to bob's node via rpc an check if this transaction is there too
-            const urlBobGetRawTransaction = 'http://localhost:18444/';
+           /* const urlBobGetRawTransaction = 'http://localhost:18444/';
             const resultBobGetRawTransaction = getHttpPOST(urlBobGetRawTransaction, realdataGetRawTransaction);
             logBlockchain('resultBobGetRawTransaction:',resultBobGetRawTransaction);
             chai.assert.equal(our_optIn.nameId, resultBobGetRawTransaction.data.result.vout[0].scriptPubKey.name);
-
+*/
             done();
 
 
