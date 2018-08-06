@@ -56,7 +56,8 @@ const insert = (data) => {
     const nameDoiTx = nameDoi(SEND_CLIENT, ourData.nameId, nameValue, destAddress);
     logBlockchain('name_doi added blockchain. txid:', nameDoiTx);
 
-    OptIns.update(ourData.id, {$set: {txId:nameDoiTx}});
+    OptIns.update({nameId: ourData.nameId}, {$set: {txId:nameDoiTx}});
+    logBlockchain('updating OptIn locally with:', {nameId: ourData.nameId, txId: nameDoiTx);
 
   } catch(exception) {
       //logBlockchain("Error:",OptIns.findOne({nameId:ourData.nameId}).error);
