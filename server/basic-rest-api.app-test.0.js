@@ -15,6 +15,40 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
 describe('basic-rest-api-app-test', function () {
     this.timeout(20000);
 
+    it('should check if alice is alive', function(done){
+
+        const url = 'http://localhost:18443/';
+        const auth = "admin:generated-password";
+
+        const dataGetNetworkInfo = {"jsonrpc": "1.0", "id":"getnetworkinfo", "method": "getnetworkinfo", "params": [] };
+        const headersGetNetworkInfo = { 'Content-Type':'text/plain'  };
+
+        const realdataGetNetworkInfo = { auth: auth, data: dataGetNetworkInfo, headers: headersGetNetworkInfo };
+        const resultGetNetworkInfo = getHttpPOST(url, realdataGetNetworkInfo);
+        const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
+        chai.assert.equal(200, statusGetNetworkInfo);
+        logBlockchain('resultGenerate:',statusGetNetworkInfo);
+
+        done();
+    })
+
+    it('should check if bob is alive', function(done){
+
+        const url = 'http://localhost:18444/';
+        const auth = "admin:generated-password";
+
+        const dataGetNetworkInfo = {"jsonrpc": "1.0", "id":"getnetworkinfo", "method": "getnetworkinfo", "params": [] };
+        const headersGetNetworkInfo = { 'Content-Type':'text/plain'  };
+
+        const realdataGetNetworkInfo = { auth: auth, data: dataGetNetworkInfo, headers: headersGetNetworkInfo };
+        const resultGetNetworkInfo = getHttpPOST(url, realdataGetNetworkInfo);
+        const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
+        chai.assert.equal(200, statusGetNetworkInfo);
+        logBlockchain('resultGenerate:',statusGetNetworkInfo);
+
+        done();
+    })
+
     it('should generate some coins into this regtest wallet.', function (done) {
         //resetDatabase();
 
