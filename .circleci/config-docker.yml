@@ -1,16 +1,49 @@
-# Javascript Node CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
 jobs:
   build:
-    machine: true
+    docker:
+    - image: circleci/node:7.10
+    # Secondary container image on common network.
+    - image: doichain/node-only
+      environment:
+        REGTEST: true
+        PORT: 18445 #18338 #testnet
+        RPC_PASSWORD: generated-password
+        DAPP_SMTP_USER: doichain
+        DAPP_SMTP_PASS: generated-password
+        DAPP_SMTP_HOST: localhost
+        DAPP_SMTP_PORT: 25
+        RPC_PORT: 18443 #18339 #testnet
+
+    working_directory: ~/repo
     steps:
     - checkout
-    # start proprietary DB using private Docker image
-    # with credentials stored in the UI
-    - run: |
-        docker run -d --name alice doichain/node-only:0.0.6
-        docker run -d --name bob doichain/node-only:0.0.6
+
+    # Download and cache dependencies
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "package.json" }}
+        # fallback to using the latest cache if no exact match is found
+        - v1-dependencies-
+    - run:
+        command: |
+          curl https://install.meteor.com | /bin/sh
+          git submodule init
+          git submodule update
+          meteor npm install
+          meteor npm run lint
+          meteor npm run test-circleci-mocha
+
+    - save_cache:
+        paths:
+        - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
+
+
+
+
+
 
