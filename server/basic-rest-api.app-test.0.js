@@ -130,8 +130,8 @@ describe('basic-rest-api-app-test', function () {
             chai.assert.equal(our_optIn._id,resultDataOptIn.data.id);
             //now check the blockchain with list transactions and find transaction with this
             //const nameId = resultDataOptIn.data.id;
-            const txId = resultDataOptIn.data.id;
-            logBlockchain('txId:',txId);
+            const txId = our_optIn.txId;
+            logBlockchain('txId:', our_optIn.txId);
             const urlGetRawTransaction = 'http://localhost:18443/';
             const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
             const headersGetRawTransaction = { 'Content-Type':'text/plain'  };
