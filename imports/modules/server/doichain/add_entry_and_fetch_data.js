@@ -45,7 +45,7 @@ const addDoichainEntry = (entry) => {
     const value = JSON.parse(ourEntry.value);
     logSend("value:",value);
     if(value.from === undefined) throw "Wrong blockchain entry"; //TODO if from is missing but value is there, it is probably allready handeled correctly anyways this is not so cool as it seems.
-    const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
+    const wif = getWif(CONFIRM_CLIENT, null); //we don't use the CONFIRMATION_ADDRESS here in order to decrypt the message. just the first address in the wallet of default account ""
     const privateKey = getPrivateKeyFromWif({wif: wif});
     logSend('got private key (will not show it here)');
 

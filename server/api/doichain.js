@@ -1,11 +1,19 @@
 import { Meteor } from 'meteor/meteor';
-import {logConfirm, logError} from "../../imports/startup/server/log-configuration";
+import {logBlockchain, logConfirm, logError} from "../../imports/startup/server/log-configuration";
 
 
 const NAMESPACE = 'e/';
 
 
 export function getWif(client, address) {
+  if(!address){
+        address = getAddressesByAccount("")[0];
+        logBlockchain('address was not defined so getting the first existing one of the wallet:',address);
+  }
+  if(!address){
+        address = getNewAddress("");
+        logBlockchain('address was never defined  at all generated new address for this wallet:',address);
+  }
   const syncFunc = Meteor.wrapAsync(doichain_dumpprivkey);
   return syncFunc(client, address);
 }
@@ -17,6 +25,32 @@ function doichain_dumpprivkey(client, address, callback) {
     callback(err, data);
   });
 }
+
+export function getAddressesByAccount(client, accout) {
+    const syncFunc = Meteor.wrapAsync(doichain_getaddressesbyaccount);
+    return syncFunc(client, accout);
+}
+
+function doichain_getaddressesbyaccount(client, account, callback) {
+    const ourAccount = account;
+    client.cmd('getaddressesbyaccount', ourAccount, function(err, data) {
+        if(err)  logError('getaddressesbyaccount:',err);
+        callback(err, data);
+    });
+}
+
+export function getNewAddress(client, accout) {
+    const syncFunc = Meteor.wrapAsync(doichain_getnewaddress);
+    return syncFunc(client, accout);
+}
+function doichain_getnewaddress(client, account, callback) {
+    const ourAccount = account;
+    client.cmd('getnewaddresss', ourAccount, function(err, data) {
+        if(err)  logError('getnewaddresss:',err);
+        callback(err, data);
+    });
+}
+
 
 export function signMessage(client, address, message) {
     const syncFunc = Meteor.wrapAsync(doichain_signMessage);
