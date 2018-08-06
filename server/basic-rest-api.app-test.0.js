@@ -83,7 +83,7 @@ describe('basic-rest-api-app-test', function () {
         const paramsLogin = {"username":"admin","password":"password"};
         const headersLogin = [{'Content-Type':'application/json'}];
         const realDataLogin= { params: paramsLogin, headers: headersLogin };
-        //console.log(realDataLogin);
+
         const result = getHttpPOST(urlLogin, realDataLogin);
         const statusCode = result.statusCode;
         const data = result.data;
@@ -94,7 +94,7 @@ describe('basic-rest-api-app-test', function () {
 
         chai.assert.equal(200, statusCode);
         chai.assert.equal('success', status);
-       // setTimeout(done, 300);
+
         const urlOptIn = 'http://localhost:3000/api/v1/opt-in';
         const dataOptIn = {"recipient_mail":"nico@le-space.de","sender_mail":"info@doichain.org","data":JSON.stringify({'city':'Ekaterinburg'})};
         const headersOptIn = {
@@ -114,6 +114,7 @@ describe('basic-rest-api-app-test', function () {
         const statusCodeOptIn = result.statusCode;
         const resultDataOptIn = resultOptIn.data;
 
+        logBlockchain('resultDataOptIn:',resultDataOptIn);
        // setTimeout(done, 300);
         setTimeout(
 
