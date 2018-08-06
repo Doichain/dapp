@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/doichain-configuration.js';
+import { CONFIRM_CLIENT } from '../../../startup/server/doichain-configuration.js';
 import { getWif } from '../../../../server/api/doichain.js';
 import { DoichainEntries } from '../../../api/doichain/entries.js';
 import addFetchDoiMailDataJob from '../jobs/add_fetch-doi-mail-data.js';
