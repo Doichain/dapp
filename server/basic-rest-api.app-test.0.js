@@ -122,6 +122,7 @@ describe('basic-rest-api-app-test', function () {
 
             logBlockchain('after timeout:',new Date());
             const our_optIn = OptIns.findOne({_id: resultDataOptIn.data.id});
+            logBlockchain('foundDataOptIn:',our_optIn);
             const statusOptIn = resultDataOptIn.status;
 
             chai.assert.equal(200, statusCodeOptIn);
