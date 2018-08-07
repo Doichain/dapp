@@ -10,12 +10,6 @@ jobs:
 
     steps:
     - checkout
-    # Download and cache dependencies
-    - restore_cache:
-        keys:
-        - v1-dependencies-{{ checksum "package.json" }}
-        # fallback to using the latest cache if no exact match is found
-        - v1-dependencies-
     # start proprietary DB using private Docker image
     # with credentials stored in the UI
     - run: |
@@ -44,6 +38,12 @@ jobs:
       #docker run -p 25:25 \
       # -e maildomain=ci-tests.doichain.org -e smtp_user=postfix:postfix \
       #--name postfix -d catatnight/postfix
+      # Download and cache dependencies
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "package.json" }}
+        # fallback to using the latest cache if no exact match is found
+        - v1-dependencies-
     - run:
         command: |
           curl https://install.meteor.com | /bin/sh
