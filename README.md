@@ -77,8 +77,8 @@ Example configuration with all three dApps activated:
     "types": ["send", "confirm", "verify"]
   },
   "send": {
-    "namecoin": {
-      "host": "192.168.99.100",
+    "doichain": {
+      "host": "localhost",
       "port": 8339,
       "username": "admin",
       "password": "****"
@@ -93,8 +93,8 @@ Example configuration with all three dApps activated:
       "port": 587
       "defaultFrom": "doichain@your-email.com"
     },
-    "namecoin": {
-      "host": "192.168.99.100",
+    "doichain": {
+      "host": "localhost",
       "port": 8339,
       "username": "admin",
       "password": "****",
@@ -103,7 +103,7 @@ Example configuration with all three dApps activated:
   },
   "verify": {
     "namecoin": {
-      "host": "192.168.99.100",
+      "host": "localhost",
       "port": 8339,
       "username": "admin",
       "password": "****"
