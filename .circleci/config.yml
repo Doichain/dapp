@@ -13,7 +13,6 @@ jobs:
     # start proprietary DB using private Docker image
     # with credentials stored in the UI
     - run:
-      working_directory: ~/setup
       command: |
         MY_IP=$(ip route get 1 | awk '{print $NF;exit}')
         docker run -d --name=bind --dns=$MY_IP \
@@ -35,7 +34,7 @@ jobs:
         ./setup.sh email add bob@test-ci.doichain.org test
         ./setup.sh config dkim
         docker-compose up -d mail
-
+      working_directory: ~/setup
 
       #docker run -p 25:25 \
       # -e maildomain=ci-tests.doichain.org -e smtp_user=postfix:postfix \
