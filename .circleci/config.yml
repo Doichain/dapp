@@ -23,9 +23,10 @@ jobs:
         ALICE_DOCKER_IP=$(sudo docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' alice)
         echo "alice has internal IP starting and connecting bob's node too:"$ALICE_DOCKER_IP
         docker run -d -i -e CONNECTION_NODE=$ALICE_DOCKER_IP -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18446:18445 -p 18444:18443 -e DAPP_DEBUG=true -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost -e DAPP_HOST=your-domain-name-or-ip -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx --name=bob --hostname=bob doichain/node-only
+        sudo mkdir /bind
         docker run -d --name=bind --dns=127.0.0.1 \
               --publish=10000:10000 \
-              --volume=/srv/docker/bind:/data \
+              --volume=/bind:/data \
               --env='ROOT_PASSWORD=generated-password' \
               sameersbn/bind:latest
     - run:
