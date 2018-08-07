@@ -102,7 +102,7 @@ Example configuration with all three dApps activated:
     }
   },
   "verify": {
-    "namecoin": {
+    "doichain": {
       "host": "localhost",
       "port": 8339,
       "username": "admin",
