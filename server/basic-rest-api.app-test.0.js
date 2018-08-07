@@ -46,7 +46,7 @@ describe('basic-doi-test', function () {
         chai.assert.equal(200, statusGetNetworkInfo);
         logBlockchain('resultGetNetworkInfo:',resultGetNetworkInfo);
 
-        const dataGetPeerInfo = {"jsonrpc": "1.0", "id":"getnetworkinfo", "method": "getnetworkinfo", "params": [] };
+        const dataGetPeerInfo = {"jsonrpc": "1.0", "id":"getpeerinfo", "method": "getpeerinfo", "params": [] };
         const headersGetPeerInfo = { 'Content-Type':'text/plain'  };
 
         const realdataGetPeerInfo = { auth: auth, data: dataGetPeerInfo, headers: headersGetPeerInfo };
