@@ -15,7 +15,7 @@ jobs:
     - run:
         command: |
           MY_IP=$(ip route get 1 | awk '{print $NF;exit}')
-          docker run -d --name=bind --dns=$MY_IP \
+          docker run -d --name=bind --dns=127.0.0.1 \
           --publish=53:53/udp \
           --publish=$MY_IP:10000:10000 \
           --volume=/bind:/data \
