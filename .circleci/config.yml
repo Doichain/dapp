@@ -6,13 +6,13 @@ version: 2
 jobs:
   build:
     machine: true
-    working_directory: ~/repo
-
     steps:
     - checkout
     # start proprietary DB using private Docker image
     # with credentials stored in the UI
-    - run: |
+    - run:
+      working_directory: ~/setup
+      command: |
         MY_IP=$(ip route get 1 | awk '{print $NF;exit}')
         docker run -d --name=bind --dns=$MY_IP \
         --publish=10000:10000 \
@@ -34,6 +34,7 @@ jobs:
         ./setup.sh config dkim
         docker-compose up -d mail
 
+
       #docker run -p 25:25 \
       # -e maildomain=ci-tests.doichain.org -e smtp_user=postfix:postfix \
       #--name postfix -d catatnight/postfix
@@ -44,6 +45,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
     - run:
+        working_directory: ~/repo
         command: |
           curl https://install.meteor.com | /bin/sh
           git submodule init
