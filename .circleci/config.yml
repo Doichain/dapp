@@ -14,7 +14,7 @@ jobs:
     # with credentials stored in the UI
     - run: |
         MY_IP=$(ip route get 1 | awk '{print $NF;exit}')
-        docker run -d --name=bind --dns=127.0.0.1 \
+        docker run -d --name=bind --dns=$MY_IP \
         --publish=10000:10000 \
         --volume=/bind:/data \
         --env='ROOT_PASSWORD=generated-password' \
