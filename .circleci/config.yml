@@ -23,7 +23,6 @@ jobs:
         ALICE_DOCKER_IP=$(sudo docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' alice)
         echo "alice has internal IP starting and connecting bob's node too:"$ALICE_DOCKER_IP
         docker run -d -i --dns=$MY_IP -e CONNECTION_NODE=$ALICE_DOCKER_IP -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18446:18445 -p 18444:18443 -e DAPP_DEBUG=true -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost -e DAPP_HOST=your-domain-name-or-ip -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx --name=bob --hostname=bob doichain/node-only
-    #if [ ! -f /tmp/foo.txt ]; then sudo mkdir /bind fi
         sudo apt-get udpate
         sudoe apt-get install curl
         docker pull tvial/docker-mailserver:latest
@@ -39,11 +38,11 @@ jobs:
       # -e maildomain=ci-tests.doichain.org -e smtp_user=postfix:postfix \
       #--name postfix -d catatnight/postfix
       # Download and cache dependencies
-      #- restore_cache:
-      #    keys:
-      #  - v1-dependencies-{{ checksum "package.json" }}
-        # fallback to using the latest cache if no exact match is found
-      #  - v1-dependencies-
+    - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
     - run:
         command: |
           curl https://install.meteor.com | /bin/sh
