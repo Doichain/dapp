@@ -39,11 +39,11 @@ jobs:
       # -e maildomain=ci-tests.doichain.org -e smtp_user=postfix:postfix \
       #--name postfix -d catatnight/postfix
       # Download and cache dependencies
-    - restore_cache:
-        keys:
-        - v1-dependencies-{{ checksum "package.json" }}
+      #- restore_cache:
+      #    keys:
+      #  - v1-dependencies-{{ checksum "package.json" }}
         # fallback to using the latest cache if no exact match is found
-        - v1-dependencies-
+      #  - v1-dependencies-
     - run:
         command: |
           curl https://install.meteor.com | /bin/sh
@@ -54,6 +54,6 @@ jobs:
           meteor npm run test-circleci-mocha
 
     - save_cache:
-        paths:
-        - node_modules
         key: v1-dependencies-{{ checksum "package.json" }}
+        paths:
+          - node_modules
