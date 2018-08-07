@@ -13,28 +13,28 @@ jobs:
     # start proprietary DB using private Docker image
     # with credentials stored in the UI
     - run:
-      command: |
-        MY_IP=$(ip route get 1 | awk '{print $NF;exit}')
-        docker run -d --name=bind --dns=$MY_IP \
-        --publish=10000:10000 \
-        --volume=/bind:/data \
-        --env='ROOT_PASSWORD=generated-password' \
-        sameersbn/bind:latest
-        docker run -d -i --dns=$MY_IP -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18443:18443 -e DAPP_DEBUG=true -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost -e DAPP_HOST=your-domain-name-or-ip -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx --name=alice --hostname=alice doichain/node-only
-        ALICE_DOCKER_IP=$(sudo docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' alice)
-        echo "alice has internal IP starting and connecting bob's node too:"$ALICE_DOCKER_IP
-        docker run -d -i --dns=$MY_IP -e CONNECTION_NODE=$ALICE_DOCKER_IP -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18446:18445 -p 18444:18443 -e DAPP_DEBUG=true -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost -e DAPP_HOST=your-domain-name-or-ip -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx --name=bob --hostname=bob doichain/node-only
-        sudo apt-get update
-        sudo apt-get install curl
-        docker pull tvial/docker-mailserver:latest
-        curl -o setup.sh https://raw.githubusercontent.com/tomav/docker-mailserver/master/setup.sh; chmod a+x ./setup.sh
-        curl -o docker-compose.yml https://raw.githubusercontent.com/tomav/docker-mailserver/master/docker-compose.yml.dist
-        curl -o .env https://raw.githubusercontent.com/tomav/docker-mailserver/master/.env.dist
-        ./setup.sh email add alice@test-ci.doichain.org test
-        ./setup.sh email add bob@test-ci.doichain.org test
-        ./setup.sh config dkim
-        docker-compose up -d mail
-      working_directory: ~/setup
+        command: |
+          MY_IP=$(ip route get 1 | awk '{print $NF;exit}')
+          docker run -d --name=bind --dns=$MY_IP \
+          --publish=10000:10000 \
+          --volume=/bind:/data \
+          --env='ROOT_PASSWORD=generated-password' \
+          sameersbn/bind:latest
+          docker run -d -i --dns=$MY_IP -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18443:18443 -e DAPP_DEBUG=true -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost -e DAPP_HOST=your-domain-name-or-ip -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx --name=alice --hostname=alice doichain/node-only
+          ALICE_DOCKER_IP=$(sudo docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' alice)
+          echo "alice has internal IP starting and connecting bob's node too:"$ALICE_DOCKER_IP
+          docker run -d -i --dns=$MY_IP -e CONNECTION_NODE=$ALICE_DOCKER_IP -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18446:18445 -p 18444:18443 -e DAPP_DEBUG=true -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost -e DAPP_HOST=your-domain-name-or-ip -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx --name=bob --hostname=bob doichain/node-only
+          sudo apt-get update
+          sudo apt-get install curl
+          docker pull tvial/docker-mailserver:latest
+          curl -o setup.sh https://raw.githubusercontent.com/tomav/docker-mailserver/master/setup.sh; chmod a+x ./setup.sh
+          curl -o docker-compose.yml https://raw.githubusercontent.com/tomav/docker-mailserver/master/docker-compose.yml.dist
+          curl -o .env https://raw.githubusercontent.com/tomav/docker-mailserver/master/.env.dist
+          ./setup.sh email add alice@test-ci.doichain.org test
+          ./setup.sh email add bob@test-ci.doichain.org test
+          ./setup.sh config dkim
+          docker-compose up -d mail
+        working_directory: ~/setup
 
       #docker run -p 25:25 \
       # -e maildomain=ci-tests.doichain.org -e smtp_user=postfix:postfix \
