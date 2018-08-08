@@ -2,14 +2,14 @@ pipeline {
     agent {
         docker {
             image 'node:8'
-            //args '-u root:root'
+            args '-u jenkins'
             // args '--tmpfs /.config'
             }
         }
     stages {
         stage('build') {
             steps {
-                sh 'sudo curl https://install.meteor.com | /bin/sh'
+                sh 'curl https://install.meteor.com | /bin/sh'
                 sh 'git submodule init'
                 sh 'git submodule update'
                 sh 'meteor npm install'
