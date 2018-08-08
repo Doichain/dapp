@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'node:8'
-            args '-u jenkins'
+            args '-u node'
             // args '--tmpfs /.config'
             }
         }
