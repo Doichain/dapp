@@ -31,7 +31,7 @@ pipeline {
                     },
                     "Meteor":{
                             sh "apt-get update; apt-get install -y git sudo curl python jq g++ build-essential"
-                            sh "sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
+                            sh "curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha"
                     }
             )
             steps {
