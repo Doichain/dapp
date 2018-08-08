@@ -10,12 +10,15 @@ jobs:
 
     steps:
     - checkout
-    # start proprietary DB using private Docker image
+    # Bob's node should use this reg-test (for DNS-TXT doichain-testnet-opt-in-key)
+    # address: mthu4XsqpmMYsrgTore36FV621JWM3Epxj
+    # publicKey: 0259daba8cfd6f5e404d776da61421ffbbfb6f3720bfb00ad116f6054a31aad5b8
+    # privateKey: cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj
     # with credentials stored in the UI
     - run:
         command: |
           MY_IP=$(ip route get 1 | awk '{print $NF;exit}')
-          docker run -d --name=bind --dns=127.0.0.1 \
+          docker run -d --name=bind --dns=$MY_IP \
           --publish=53:53/udp \
           --publish=10000:10000 \
           --volume=/bind:/data \
