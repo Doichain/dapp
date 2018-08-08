@@ -12,13 +12,7 @@ pipeline {
                 sh "sudo adduser --disabled-password --gecos '' doichain && \
                     sudo adduser doichain sudo && \
                     sudo echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers"
-                sh 'su doichain'
-                sh 'curl https://install.meteor.com | /bin/sh'
-                sh 'git submodule init'
-                sh 'git submodule update'
-                sh 'meteor npm install'
-                sh 'meteor npm run lint'
-                sh 'meteor npm run test-circleci-mocha'
+                sh 'su doichain;cd;curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-circleci-mocha'
             }
         }
     }
