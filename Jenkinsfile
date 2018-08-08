@@ -1,14 +1,16 @@
 pipeline {
     agent {
         docker {
-            image 'node:8'
-            args '-u node'
-            // args '--tmpfs /.config'
+            image 'ubuntu'
             }
         }
     stages {
         stage('build') {
             steps {
+                sh 'adduser --disabled-password --gecos '' doichain && \
+                    adduser doichain sudo && \
+                    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers'
+                sh 'su doichain'
                 sh 'curl https://install.meteor.com | /bin/sh'
                 sh 'git submodule init'
                 sh 'git submodule update'
