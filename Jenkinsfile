@@ -6,13 +6,13 @@ node {
     }
 
   stage 'Build'
-  runCmd 'make stuff'
+  runCmd 'echo stuff'
   parallel (
     "frontend": {
-      runCmd "make frontend"
+      runCmd "echo frontend"
     },
     "backend": {
-      runCmd "make backend"
+      runCmd "echo backend"
     }
   )
 }
