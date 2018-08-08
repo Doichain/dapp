@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'curl https://install.meteor.com | /bin/sh'
+                sh 'sudo curl https://install.meteor.com | /bin/sh'
                 sh 'git submodule init'
                 sh 'git submodule update'
                 sh 'meteor npm install'
