@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh "docker run -d --name=bind --dns=$MY_IP \
+                sh "docker run -d --name=bind \
                       --publish=53:53/udp \
                       --publish=10000:10000 \
                       --volume=/bind:/data \
