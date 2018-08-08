@@ -7,6 +7,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
+                sh "su root"
                 sh "adduser --disabled-password --gecos '' doichain && \
                     adduser doichain sudo && \
                     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers"
