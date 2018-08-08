@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh "apt-get update; apt-get install sudo"
+                sh "apt-get update; apt-get install sudo curl jq"
                 sh "sudo adduser --disabled-password --gecos '' doichain && \
                     sudo adduser doichain sudo && \
                     sudo echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers"
