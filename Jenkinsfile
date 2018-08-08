@@ -6,7 +6,7 @@ node {
     }
 
   stage 'Build'
-  runCmd 'npm install'
+  runCmd 'make stuff'
   parallel (
     "frontend": {
       runCmd "make frontend"
