@@ -3,7 +3,7 @@ pipeline {
         docker {
             image 'node:8'
             args '-u root:root'
-            //args '--tmpfs /.config'
+            // args '--tmpfs /.config'
             }
         }
     stages {
