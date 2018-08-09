@@ -37,7 +37,7 @@ node {
     "meteor": {
 
 
-         docker.image("node:8").inside { c ->
+         docker.image("node:8").withRun("-u root:root").inside { c ->
               checkout scm;
               echo "starting meteor parallel task"
               sh "pwd"
