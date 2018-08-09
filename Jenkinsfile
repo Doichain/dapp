@@ -13,7 +13,7 @@ node {
     }
 
   stage 'Build'
-  runCmd 'echo stuff'
+  //runCmd 'echo stuff'
   parallel (
     "alice": {
       runCmd "alice" "alice's node"
