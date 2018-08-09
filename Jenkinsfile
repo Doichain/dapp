@@ -21,7 +21,7 @@ pipeline {
                            sh 'docker run -td -p 18443:18443--name=alice doichain/node-only'
                            sh 'sleep 20'
                           // sh 'docker exec alice doichain-cli -getinfo'
-                           echo "finished alice after 60 seconds"
+                           echo "finished alice after 20 seconds"
                            sh 'sleep 60'
 
                     },
@@ -34,7 +34,7 @@ pipeline {
                             echo "running with doichain docker image bob"
                             sh 'sleep 20'
                            // sh 'doichain-cli -getinfo'
-                            echo "finished alice after 60 seconds"
+                            echo "finished alice after 20 seconds"
                             sh 'sleep 60'
                         //}
                     },
