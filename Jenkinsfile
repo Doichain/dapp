@@ -16,12 +16,12 @@ pipeline {
                            //         docker { image 'doichain/node-only' }
                              //       args '-u root:root'
                                // }
-                         steps {
+
                            sh 'doichain-cli -getinfo'
                            sh 'sleep 60'
                            sh 'doichain-cli -getinfo'
                            echo "finished alice after 60 seconds"
-                         }
+
                     },
                     "bob" : {
                       echo "start bob node";
