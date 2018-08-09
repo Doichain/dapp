@@ -1,14 +1,6 @@
 node {
 
-   agent {
-                dockerfile {
-                    reuseNode true
-                    registryUrl "https://registry.hub.docker.com"
-                    registryCredentialsId "Docker-Hub-Credentials"
-                   // additionalBuildArgs "--pull --build-arg APP_VERSION=${params.APP_VERSION}"
-                    dir "dapp"
-                }
-          }
+
    // docker.withRegistry('https://registry.hub.docker.com', 'Docker-Hub-Credentials') {
      //   image = docker.image('doichain:node-only')
        // image.pull()
@@ -23,21 +15,15 @@ node {
   //      }
     }
 
-  stage 'Build' {
-
-
-                parallel (
-                  "alice": {
-                    runCmd "alice" "alice's node"
-                     docker {
-                                 app = docker.build "doichain/node-only"
-                            }
-                  },
-                  "bob": {
-                    runCmd "bob" "bob's node"
-                  }
-                )
-
-  }
+ stage 'Build'
+  //runCmd 'echo stuff'
+  parallel (
+    "alice": {
+      runCmd "alice" "alice's node"
+    },
+    "bob": {
+      runCmd "bob" "bob's node"
+    }
+  )
 
 }
