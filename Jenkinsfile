@@ -1,3 +1,49 @@
+pipeline {
+    agent {
+        docker {
+            image 'ubuntu'
+            args '-u root:root'
+            }
+        }
+    stages {
+        parallel (
+            "node-alice": {
+             // runCmd ("alice", 18445,18443)
+             docker.image("doichain/node-only").withRun("-u root:root") { c ->
+                        //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
+                        echo "running with doichain docker image alice"
+                        sh 'sleep 60'
+                        echo "finished alice after 60 seconds"
+             }
+
+            },
+            "node-bob": {
+                   docker.image("doichain/node-only").withRun("-u root:root") { c ->
+                         echo "running with doichain docker image bob"
+                         sh 'sleep 60'
+                         echo "finished bob after 60 seconds"
+
+                    }
+            },
+            "dapp": {
+
+                steps {
+                       /* sh "docker run -d --name=bind --dns=$MY_IP \
+                        --publish=53:53/udp \
+                        --publish=10000:10000 \
+                        --volume=/bind:/data \
+                        --env='ROOT_PASSWORD=generated-password' \
+                        sameersbn/bind:latest"*/
+
+                        sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
+
+                }
+
+            }
+        )
+    }
+}
+/*
 node {
 
 
@@ -6,13 +52,13 @@ node {
         image.pull()
    }
 
-/*
-  def runCmd = { cmd,port, rpc_port ->
-        docker.image("doichain/node-only").withRun("--rm --hostname=${cmd} -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p ${port}:18445 -p ${rpc_port}:18443 -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost") {
-           echo "running inside doichain docker image ${cmd} ${port} ${rpc_port}"
-        }
-    }
-*/
+
+//  def runCmd = { cmd,port, rpc_port ->
+  //      docker.image("doichain/node-only").withRun("--rm --hostname=${cmd} -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p ${port}:18445 -p ${rpc_port}:18443 -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost") {
+    //       echo "running inside doichain docker image ${cmd} ${port} ${rpc_port}"
+      //  }
+  //  }
+
  stage 'Build'
   parallel (
     "alice": {
@@ -42,4 +88,4 @@ node {
     }
   )
 
-}
+}*/
