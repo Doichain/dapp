@@ -12,10 +12,10 @@ pipeline {
                 parallel (
                     "alice" : {
                         echo "start alice node";
-                         agent {
-                                    docker { image 'doichain/node-only' }
-                                    args '-u root:root'
-                                }
+                         //agent {
+                           //         docker { image 'doichain/node-only' }
+                             //       args '-u root:root'
+                               // }
                          steps {
                            sh 'doichain-cli -getinfo'
                            sh 'sleep 60'
