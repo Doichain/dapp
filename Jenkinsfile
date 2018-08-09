@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'ubuntu'
-            args '-u root:root'
+            //args '-u root:root'
             }
         }
     stages {
