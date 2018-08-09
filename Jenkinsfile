@@ -36,6 +36,7 @@ node {
     },
     "meteor": {
              checkout scm;
+
              sh 'sudo ./contrib/scripts/meteor-install.sh'
              sh 'sudo git submodule init;sudo git submodule update;sudo meteor npm install;sudo meteor npm run lint;sudo meteor npm run test-jenkins-mocha'
     },
