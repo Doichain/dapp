@@ -37,7 +37,7 @@ node {
     "meteor": {
 
          docker.image("node:8").withRun("-u root:root") { c ->
-             docker.image("node:8").inside("--link ${c.id}") {
+             docker.image("node:8").inside("--link ${c.id}:db") {
                   checkout scm;
 
                   echo "starting meteor parallel task"
