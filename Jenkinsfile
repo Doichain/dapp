@@ -5,8 +5,7 @@ pipeline {
             args '-u root:root'
             }
         }
-     stages {
-     stage('build') {
+    stage('build') {
         parallel "node-alice": {
              // runCmd ("alice", 18445,18443)
              docker.image("doichain/node-only").withRun("-u root:root") { c ->
@@ -38,11 +37,8 @@ pipeline {
                 //        sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
 
                 //}
-
             }
         }
-    }
-
 }
 /*
 node {
