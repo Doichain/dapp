@@ -20,14 +20,16 @@ node {
      docker.image("doichain/node-only").withRun("-u root:root") { c ->
                 //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                 echo "running with doichain docker image alice"
-                sh 'sleep 30'
+                sh 'sleep 10'
+                echo "finished alice"
      }
 
     },
     "bob": {
            docker.image("doichain/node-only").withRun("-u root:root") { c ->
-                  echo "running with doichain docker image bob"
-                 sh 'sleep 30'
+                 echo "running with doichain docker image bob"
+                 sh 'sleep 20'
+                 echo "finished bob"
 
             }
     },
@@ -35,6 +37,7 @@ node {
              docker.image("ubuntu").withRun("-u root:root"){ c ->
                  echo "running with doichain docker image ubuntu"
                  sh 'sleep 30'
+                 echo "finished ubuntu"
              }
     }
   )
