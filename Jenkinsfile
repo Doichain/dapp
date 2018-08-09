@@ -36,7 +36,7 @@ node {
     },
     "meteor": {
 
-             checkout scm;
+             //checkout scm;
              steps {
                    echo "starting meteor parallel task"
                    sh "pwd"
