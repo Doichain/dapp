@@ -39,6 +39,7 @@ node {
          docker.image("node:8").withRun("-u root:root --name meteor") { c ->
              docker.image("node:8").inside("--link ${c.id}:meteor") {
                   checkout scm;
+
                   echo "starting meteor parallel task"
                   sh "pwd"
                   sh "cd; curl https://install.meteor.com | /bin/sh"
