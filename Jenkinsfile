@@ -5,20 +5,34 @@ pipeline {
             args '-u root:root'
             }
         }
+
     stages {
-        stage('build') {
+        stage("Parallel") {
+            steps {
+                parallel (
+                    "firstTask" : {
+                        echo "do some stuff  in firsttask"
+                    },
+                    "secondTask" : {
+                        echo "do some parallel stuff  in secondtask"
+                    }
+                )
+            } // steips
+        } //stage parallel
+
+      /*  stage('build') {
              parallel alice: {
                          // runCmd ("alice", 18445,18443)
                          stage("start") {
                          steps {
                             echo "test 1"
                             }
-                            /*docker.image("doichain/node-only").withRun("-u root:root") { c ->
+                            docker.image("doichain/node-only").withRun("-u root:root") { c ->
                                     //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                                     echo "running with doichain docker image alice"
                                     sh 'sleep 60'
                                     echo "finished alice after 60 seconds"
-                            }*/
+                            }
                           }
                         },
                         bob: {
@@ -26,12 +40,12 @@ pipeline {
                               steps {
                                                         echo "test 2"
                                                         }
-                              /* docker.image("doichain/node-only").withRun("-u root:root") { c ->
+                              docker.image("doichain/node-only").withRun("-u root:root") { c ->
                                      echo "running with doichain docker image bob"
                                      sh 'sleep 60'
                                      echo "finished bob after 60 seconds"
 
-                                }*/
+                                }
                             }
                         },
                         meteor:{
@@ -43,10 +57,10 @@ pipeline {
                             }
                         },
                         failFast: true
-        }
+        } */
 
-    }
-}
+    } //stages
+} //pipeline
     /*
 pipeline {
     agent {
