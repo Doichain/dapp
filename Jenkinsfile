@@ -12,7 +12,8 @@ pipeline {
                 parallel (
                     "alice" : {
                         echo "start alice node"
-                        sh 'sudo docker run doichain/node-only'
+                        docker.image("doichain/node-only")
+
 
 
                     },
@@ -21,12 +22,7 @@ pipeline {
                        // docker.image("doichain/node-only").withRun("-u root:root") { c ->
                             //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                             //sh 'docker run doichain/node-only'
-                            sh 'sudo docker run -td -p 18444:18444 --name=bob doichain/node-only'
-                            echo "running with doichain docker image bob"
-                            sh 'sleep 20'
-                           // sh 'doichain-cli -getinfo'
-                            echo "finished alice after 20 seconds"
-                            sh 'sleep 60'
+
                         //}
                     },
                     "meteor": {
