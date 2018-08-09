@@ -6,7 +6,7 @@ node {
        // image.pull()
     //}
 
-  def runCmd = { cmd, cmd2 ->
+  def runCmd = { (cmd, cmd2) ->
         echo "${cmd}"
         echo "${cmd2}"
 
@@ -19,10 +19,10 @@ node {
   //runCmd 'echo stuff'
   parallel (
     "alice": {
-      runCmd "alice" "alice's node"
+      runCmd ("alice", "alice's node")
     },
     "bob": {
-      runCmd "bob" "bob's node"
+      runCmd ("bob", "bob's node")
     }
   )
 
