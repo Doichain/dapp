@@ -22,7 +22,7 @@ node {
      }
     },
     "bob": {
-           docker.image("doichain/node-only").withRun("--rm --hostname=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18444:18443 -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost") {
+           docker.image("doichain/node-only").withRun("--rm --hostname=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18446:18445 -p 18444:18443 -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost") {
                       echo "running inside doichain docker image alice"
             }
     }
