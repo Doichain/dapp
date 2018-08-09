@@ -6,7 +6,8 @@ node {
        // image.pull()
     //}
 
-  def runCmd = { (cmd, cmd2) ->
+
+  def runCmd = { cmd,cmd2 ->
         echo "${cmd}"
         echo "${cmd2}"
 
