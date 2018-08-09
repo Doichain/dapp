@@ -37,7 +37,7 @@ node {
     "meteor": {
 
              checkout scm;
-             sh 'sudo ./contrib/scripts/meteor-install.sh'
+             sh 'sudo -S ./contrib/scripts/meteor-install.sh'
              /*stage("start") {
              steps {
                    echo "starting meteor parallel task"
