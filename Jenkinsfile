@@ -11,18 +11,9 @@ pipeline {
             steps {
                 parallel (
                     "alice" : {
-                        echo "start alice node";
-                         //agent {
-                           //         docker { image 'doichain/node-only' }
-                             //       args '-u root:root'
-                               // }
+                        echo "start alice node"
+                        sh 'sudo docker run -p 18443:18443 --name=alice doichain/node-only'
 
-                          // sh 'doichain-cli -getinfo'
-                           sh 'sudo docker run -td -p 18443:18443 --name=alice doichain/node-only'
-                           sh 'sleep 20'
-                          // sh 'docker exec alice doichain-cli -getinfo'
-                           echo "finished alice after 20 seconds"
-                           sh 'sleep 60'
 
                     },
                     "bob" : {
