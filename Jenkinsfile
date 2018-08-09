@@ -2,7 +2,7 @@ node {
 
 
    docker.withRegistry('https://registry.hub.docker.com', 'Docker-Hub-Credentials') {
-        image = docker.image('doichain:node-only')
+        image = docker.image('doichain/node-only')
         image.pull()
    }
 
