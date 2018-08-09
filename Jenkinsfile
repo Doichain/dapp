@@ -15,7 +15,7 @@ node {
 */
  stage 'Build'
   parallel (
-    "alice": {
+  /*  "alice": {
      // runCmd ("alice", 18445,18443)
      docker.image("doichain/node-only").withRun("--rm --hostname=alice -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18443:18443 -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost") { c ->
                 //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
@@ -30,7 +30,7 @@ node {
                  sh 'sleep 30'
 
             }
-    },
+    }, */
     "ubuntu": {
              docker.image("ubuntu").withRun("-u root:root"){ c ->
                  echo "running with doichain docker image ubuntu"
