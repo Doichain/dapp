@@ -23,7 +23,7 @@ node {
       runCmd ("alice", 18445,18443)
     },
     "bob": {
-      runCmd ("bob", 18446,18444)
+      runCmd ("bob2", 18446,18444)
     }
   )
 
