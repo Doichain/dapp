@@ -12,7 +12,7 @@ pipeline {
                 parallel (
                     "alice" : {
                         echo "start alice node"
-                        sh 'sudo docker run -p 18443:18443 --name=alice doichain/node-only'
+                        sh 'sudo docker run doichain/node-only'
 
 
                     },
