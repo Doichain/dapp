@@ -21,7 +21,7 @@ node {
      docker.image("doichain/node-only").withRun("-u root:root") { c ->
                 //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                 echo "running with doichain docker image alice"
-               // sh 'sleep 10'
+                sh 'sleep 180'
                 echo "finished alice"
      }
 
@@ -29,7 +29,7 @@ node {
     "bob": {
            docker.image("doichain/node-only").withRun("-u root:root") { c ->
                  echo "running with doichain docker image bob"
-                // sh 'sleep 20'
+                 sh 'sleep 180'
                  echo "finished bob"
 
             }
@@ -39,16 +39,7 @@ node {
              checkout scm;
 
              sh 'sudo ./contrib/scripts/meteor-install.sh'
-             /*stage("start") {
-             steps {
-                   echo "starting meteor parallel task"
-                   sh "pwd"
-                   sh "cd; sudo curl https://install.meteor.com | /bin/sh"
-                   sh 'git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
-
-             }
-             }*/
-
+             sh 'git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
     },
     failFast: false
   )
