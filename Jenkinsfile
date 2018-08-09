@@ -12,7 +12,11 @@ pipeline {
                 parallel (
                     "alice" : {
                         echo "start alice node"
-                        docker.image("doichain/node-only")
+                        docker.image("doichain/node-only").withRun("-u root:root") { c ->
+                                                                                      //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
+                                                                                      //sh 'docker run doichain/node-only'
+
+                                                                                  }
 
 
 
