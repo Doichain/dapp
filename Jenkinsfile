@@ -21,7 +21,7 @@ node {
      docker.image("doichain/node-only").withRun("-u root:root") { c ->
                 //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                 echo "running with doichain docker image alice"
-                sh 'sleep 10'
+               // sh 'sleep 10'
                 echo "finished alice"
      }
 
@@ -29,15 +29,15 @@ node {
     "bob": {
            docker.image("doichain/node-only").withRun("-u root:root") { c ->
                  echo "running with doichain docker image bob"
-                 sh 'sleep 20'
+                // sh 'sleep 20'
                  echo "finished bob"
 
             }
     },
     "meteor": {
 
-
-         docker.image("node:8").withRun("-u root:root").inside { c ->
+         docker.image("node:8").withRun("-u root:root --name meteor") { c ->
+         docker.image("node:8").inside("--link ${c.id}:meteor") { c ->
               checkout scm;
               echo "starting meteor parallel task"
               sh "pwd"
