@@ -24,13 +24,13 @@ node {
      }
 
     },
-  /*  "bob": {
-           docker.image("doichain/node-only").withRun("--rm --hostname=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18446:18445 -p 18444:18443 -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost") { c ->
+    "bob": {
+           docker.image("doichain/node-only").withRun("-u root:root") { c ->
                   echo "running with doichain docker image bob"
                  sh 'sleep 30'
 
             }
-    }, */
+    },
     "ubuntu": {
              docker.image("ubuntu").withRun("-u root:root"){ c ->
                  echo "running with doichain docker image ubuntu"
