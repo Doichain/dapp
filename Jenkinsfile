@@ -6,7 +6,7 @@ pipeline {
             }
         }
     stages {
-     stage 'Build'
+     stage('build') {
         parallel (
             "node-alice": {
              // runCmd ("alice", 18445,18443)
@@ -42,6 +42,7 @@ pipeline {
 
             }
         )
+     }
     }
 }
 /*
