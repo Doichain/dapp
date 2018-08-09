@@ -26,12 +26,12 @@ pipeline {
             },
             "dapp": {
               //  steps {
-                       /* sh "docker run -d --name=bind --dns=$MY_IP \
+                       sh "docker run -d --name=bind --dns=$MY_IP \
                         --publish=53:53/udp \
                         --publish=10000:10000 \
                         --volume=/bind:/data \
                         --env='ROOT_PASSWORD=generated-password' \
-                        sameersbn/bind:latest"*/
+                        sameersbn/bind:latest"
 
                 //        sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
 
