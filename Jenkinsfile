@@ -19,10 +19,12 @@ node {
      // runCmd ("alice", 18445,18443)
      docker.image("doichain/node-only").withRun("--rm --hostname=alice -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18443:18443 -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost") {
                 echo "running inside doichain docker image alice"
-             }
+     }
     },
     "bob": {
-      runCmd ("bob", 18446,18444)
+           docker.image("doichain/node-only").withRun("--rm --hostname=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18444:18443 -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost") {
+                      echo "running inside doichain docker image alice"
+            }
     }
   )
 
