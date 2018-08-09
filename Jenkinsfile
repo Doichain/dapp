@@ -10,27 +10,34 @@ pipeline {
              parallel alice: {
                          // runCmd ("alice", 18445,18443)
                          stage("start") {
-                            docker.image("doichain/node-only").withRun("-u root:root") { c ->
+                         steps {
+                            echo "test 1"
+                            }
+                            /*docker.image("doichain/node-only").withRun("-u root:root") { c ->
                                     //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                                     echo "running with doichain docker image alice"
                                     sh 'sleep 60'
                                     echo "finished alice after 60 seconds"
-                            }
+                            }*/
                           }
                         },
                         bob: {
                             stage("start") {
-                               docker.image("doichain/node-only").withRun("-u root:root") { c ->
+                              steps {
+                                                        echo "test 2"
+                                                        }
+                              /* docker.image("doichain/node-only").withRun("-u root:root") { c ->
                                      echo "running with doichain docker image bob"
                                      sh 'sleep 60'
                                      echo "finished bob after 60 seconds"
 
-                                }
+                                }*/
                             }
                         },
                         meteor:{
                             stage("start") {
                                 steps {
+                                echo "teset 3"
                                         sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
                                 }
                             }
