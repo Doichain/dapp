@@ -18,7 +18,7 @@ pipeline {
                                // }
 
                           // sh 'doichain-cli -getinfo'
-                           sh 'docker run doichain/node-only'
+                          // sh 'docker run doichain/node-only'
                            sh 'sleep 20'
                            sh 'doichain-cli -getinfo'
                            echo "finished alice after 60 seconds"
@@ -29,7 +29,7 @@ pipeline {
                       echo "start bob node";
                        // docker.image("doichain/node-only").withRun("-u root:root") { c ->
                             //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
-                            sh 'docker run doichain/node-only'
+                            //sh 'docker run doichain/node-only'
                             echo "running with doichain docker image bob"
                             sh 'sleep 20'
                             sh 'doichain-cli -getinfo'
@@ -42,7 +42,7 @@ pipeline {
                         sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
 
                     },
-                    failFast: true
+                    failFast: false
                 )
             } // steips
         } //stage parallel
