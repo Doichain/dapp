@@ -12,21 +12,25 @@ pipeline {
                 parallel (
                     "alice" : {
                         echo "start alice node";
-                        docker.image("doichain/node-only").withRun("-u root:root") { c ->
-                            //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
-                            echo "running with doichain docker image alice"
+                         agent {
+                                    docker { image 'doichain/node-only' }
+                                    args '-u root:root'
+                                }
+                         steps {
+                                    sh 'doichain-cli -getinfo'
+                         }
                             sh 'sleep 60'
                             echo "finished alice after 60 seconds"
                         }
                     },
                     "bob" : {
                       echo "start bob node";
-                        docker.image("doichain/node-only").withRun("-u root:root") { c ->
+                       // docker.image("doichain/node-only").withRun("-u root:root") { c ->
                             //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                             echo "running with doichain docker image bob"
                             sh 'sleep 60'
                             echo "finished alice after 60 seconds"
-                        }
+                        //}
                     },
                     "meteor": {
                         echo "starting meteor parallel task"
