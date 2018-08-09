@@ -36,7 +36,7 @@ node {
     },
     "meteor": {
 
-         docker.image("node:8").withRun("-u root:root --name meteor") { c ->
+         docker.image("node:8").withRun("-u root:root") { c ->
              docker.image("node:8").inside("--link ${c.id}:meteor") {
                   checkout scm;
 
