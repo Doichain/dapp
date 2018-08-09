@@ -18,7 +18,7 @@ pipeline {
                                // }
 
                           // sh 'doichain-cli -getinfo'
-                           sh 'sleep 60'
+                           sh 'docker run -td -e REGTEST=true doichain/node-only --hostname=alice'
                           // sh 'doichain-cli -getinfo'
                            echo "finished alice after 60 seconds"
 
@@ -27,6 +27,7 @@ pipeline {
                       echo "start bob node";
                        // docker.image("doichain/node-only").withRun("-u root:root") { c ->
                             //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
+                            sh 'docker run -td -e REGTEST=true doichain/node-only --hostname=bob'
                             echo "running with doichain docker image bob"
                             sh 'sleep 60'
                             echo "finished alice after 60 seconds"
