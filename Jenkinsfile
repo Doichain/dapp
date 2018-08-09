@@ -17,9 +17,9 @@ pipeline {
                              //       args '-u root:root'
                                // }
 
-                           sh 'doichain-cli -getinfo'
+                          // sh 'doichain-cli -getinfo'
                            sh 'sleep 60'
-                           sh 'doichain-cli -getinfo'
+                          // sh 'doichain-cli -getinfo'
                            echo "finished alice after 60 seconds"
 
                     },
