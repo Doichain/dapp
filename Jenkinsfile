@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                    sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-circleci-mocha'
+                    sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
             }
         }
     }
