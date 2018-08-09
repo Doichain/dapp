@@ -8,7 +8,7 @@ node {
 
 
   def runCmd = { cmd,port, rpc_port ->
-        docker.image("doichain/node-only").withRun("--rm --name=${cmd} --hostname=${cmd} -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p ${port}:18445 -p ${rpc_port}:18443 -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost") {
+        docker.image("doichain/node-only").withRun("--rm --hostname=${cmd} -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p ${port}:18445 -p ${rpc_port}:18443 -e RPC_USER=admin -e RPC_PASSWORD=generated-password -e RPC_HOST=localhost") {
            echo "running inside doichain docker image ${cmd} ${port} ${rpc_port}"
         }
     }
