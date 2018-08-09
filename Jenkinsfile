@@ -5,7 +5,6 @@ pipeline {
             args '-u root:root'
             }
         }
-    stages {
      stage('build') {
         parallel (
             "node-alice": {
@@ -42,7 +41,6 @@ pipeline {
 
             }
         )
-     }
     }
 }
 /*
