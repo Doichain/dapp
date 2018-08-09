@@ -4,17 +4,17 @@ pipeline {
             image 'ubuntu'
             args '-u root:root'
             }
-        }
-    stage('build') {
-        parallel "node-alice": {
+    }
+    stages {
+        stage('build') {
+           /* parallel "node-alice": {
              // runCmd ("alice", 18445,18443)
-             docker.image("doichain/node-only").withRun("-u root:root") { c ->
+                docker.image("doichain/node-only").withRun("-u root:root") { c ->
                         //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                         echo "running with doichain docker image alice"
                         sh 'sleep 60'
                         echo "finished alice after 60 seconds"
-             }
-
+                }
             },
             "node-bob": {
                    docker.image("doichain/node-only").withRun("-u root:root") { c ->
@@ -25,7 +25,6 @@ pipeline {
                     }
             },
             "dapp": {
-
               //  steps {
                        /* sh "docker run -d --name=bind --dns=$MY_IP \
                         --publish=53:53/udp \
@@ -38,7 +37,9 @@ pipeline {
 
                 //}
             }
-        }
+            */
+        } //stage build
+    } //stages
 }
 /*
 node {
