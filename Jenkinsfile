@@ -41,7 +41,7 @@ node {
               checkout scm;
               echo "starting meteor parallel task"
               sh "pwd"
-              sh "cd; sudo curl https://install.meteor.com | /bin/sh"
+              sh "cd; curl https://install.meteor.com | /bin/sh"
               sh 'git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
           }
     },
