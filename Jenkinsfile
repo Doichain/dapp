@@ -1,10 +1,10 @@
 node {
 
 
-   // docker.withRegistry('https://registry.hub.docker.com', 'Docker-Hub-Credentials') {
-     //   image = docker.image('doichain:node-only')
-       // image.pull()
-    //}
+   docker.withRegistry('https://registry.hub.docker.com', 'Docker-Hub-Credentials') {
+        image = docker.image('doichain:node-only')
+        image.pull()
+   }
 
 
   def runCmd = { cmd,cmd2 ->
