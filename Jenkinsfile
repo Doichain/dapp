@@ -37,6 +37,7 @@ node {
     "meteor": {
 
              checkout scm;
+
              sh 'sudo ./contrib/scripts/meteor-install.sh'
              /*stage("start") {
              steps {
