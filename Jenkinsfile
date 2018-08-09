@@ -18,18 +18,18 @@ node {
   parallel (
     "alice": {
      // runCmd ("alice", 18445,18443)
-     docker.image("doichain/node-only").withRun("-u root:root") { c ->
+     docker.image("doichain/node-only").withRun("-u root:root -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18443:18443") { c ->
                 //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                 echo "running with doichain docker image alice"
-                sh 'sleep 180'
+                sh 'sleep 600'
                 echo "finished alice"
      }
 
     },
     "bob": {
-           docker.image("doichain/node-only").withRun("-u root:root") { c ->
+           docker.image("doichain/node-only").withRun("-u root:root -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18443:18443") { c ->
                  echo "running with doichain docker image bob"
-                 sh 'sleep 180'
+                 sh 'sleep 680'
                  echo "finished bob"
 
             }
