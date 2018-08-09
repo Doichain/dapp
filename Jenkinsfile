@@ -35,9 +35,7 @@ node {
             docker {
                         image 'ubuntu'
                         args '-u root:root'
-                        withRun("echo inside ubuntu")
                     }
-       }
     }
   )
 
