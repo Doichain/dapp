@@ -10,17 +10,30 @@ pipeline {
         stage("Parallel") {
             steps {
                 parallel (
-                    "firstTask" : {
-                        echo "do some stuff  in firsttask"
+                    "alice" : {
+                        echo "start alice node"
+                        docker.image("doichain/node-only").withRun("-u root:root") { c ->
+                            //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
+                            echo "running with doichain docker image alice"
+                            sh 'sleep 60'
+                            echo "finished alice after 60 seconds"
+                        }
                     },
-                    "secondTask" : {
-                        echo "do some parallel stuff  in secondtask"
+                    "bob" : {
+                      echo "start bob node"
+                        docker.image("doichain/node-only").withRun("-u root:root") { c ->
+                            //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
+                            echo "running with doichain docker image bob"
+                            sh 'sleep 60'
+                            echo "finished alice after 60 seconds"
+                        }
                     },
                     "meteor": {
                         echo "starting meteor parallel task"
                         sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
 
-                    }
+                    },
+                    failFast: true
                 )
             } // steips
         } //stage parallel
