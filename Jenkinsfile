@@ -9,28 +9,41 @@ pipeline {
         stage('build') {
              parallel alice: {
                          // runCmd ("alice", 18445,18443)
+                         stage("start") {
                             docker.image("doichain/node-only").withRun("-u root:root") { c ->
                                     //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                                     echo "running with doichain docker image alice"
                                     sh 'sleep 60'
                                     echo "finished alice after 60 seconds"
                             }
+                          }
                         },
                         bob: {
+                            stage("start") {
                                docker.image("doichain/node-only").withRun("-u root:root") { c ->
                                      echo "running with doichain docker image bob"
                                      sh 'sleep 60'
                                      echo "finished bob after 60 seconds"
 
                                 }
+                            }
                         },
                         meteor:{
+                            stage("start") {
                                 steps {
                                         sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
                                 }
+                            }
                         },
                         failFast: true
         }
+        stage('Test') {
+           parallel (
+        // "win7-vs2012" : { stage("checkout") { }; stage("build") { }; stage("test") { } },
+        // "win10-vs2015" : { stage("checkout") { }; stage("build") { }; stage("test") { }},
+        // "linux-gcc5" : { stage("checkout") { }; stage("build") { }; stage("test") { } }
+        )
+          }
     }
 }
     /*
