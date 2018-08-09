@@ -1,6 +1,6 @@
 node {
 
-   checkout scm
+
 
    docker.withRegistry('https://registry.hub.docker.com', 'Docker-Hub-Credentials') {
         image = docker.image('doichain/node-only')
@@ -35,10 +35,16 @@ node {
             }
     },
     "meteor": {
-          echo "starting meteor parallel task"
-          sh "pwd"
-          sh "cd; sudo curl https://install.meteor.com | /bin/sh"
-          sh 'git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
+
+         docker.image("node:8") { c ->
+              checkout scm;
+              echo "starting meteor parallel task"
+              sh "pwd"
+              sh "cd; sudo curl https://install.meteor.com | /bin/sh"
+              sh 'git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
+          }
+
+
     },
     failFast: false
   )
