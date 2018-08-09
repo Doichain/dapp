@@ -34,13 +34,11 @@ node {
 
             }
     },
-    "ubuntu": {
-             docker.image("ubuntu").withRun("-u root:root"){ c ->
-                 echo "running with doichain docker image ubuntu"
-                 sh 'sleep 30'
-                 echo "finished ubuntu"
-             }
-    }
+    "meteor": {
+          echo "starting meteor parallel task"
+          sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
+    },
+    failFast: false
   )
 
 }
