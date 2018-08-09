@@ -1,5 +1,14 @@
 node {
 
+   agent {
+                dockerfile {
+                    reuseNode true
+                    registryUrl "https://registry.hub.docker.com"
+                    registryCredentialsId "Docker-Hub-Credentials"
+                   // additionalBuildArgs "--pull --build-arg APP_VERSION=${params.APP_VERSION}"
+                    dir "dapp"
+                }
+          }
    // docker.withRegistry('https://registry.hub.docker.com', 'Docker-Hub-Credentials') {
      //   image = docker.image('doichain:node-only')
        // image.pull()
@@ -15,15 +24,7 @@ node {
     }
 
   stage 'Build' {
-               agent {
-                            dockerfile {
-                                reuseNode true
-                                registryUrl "https://registry.hub.docker.com"
-                                registryCredentialsId "Docker-Hub-Credentials"
-                               // additionalBuildArgs "--pull --build-arg APP_VERSION=${params.APP_VERSION}"
-                                dir "dapp"
-                            }
-                        }
+
 
                 parallel (
                   "alice": {
