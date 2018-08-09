@@ -36,8 +36,9 @@ node {
     },
     "meteor": {
 
-             //checkout scm;
-             stage("start") {
+             checkout scm;
+             sh './contrib/scripts/meteor-install.sh'
+             /*stage("start") {
              steps {
                    echo "starting meteor parallel task"
                    sh "pwd"
@@ -45,7 +46,7 @@ node {
                    sh 'git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
 
              }
-             }
+             }*/
 
     },
     failFast: false
