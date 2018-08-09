@@ -36,7 +36,7 @@ node {
     },
     "meteor": {
           echo "starting meteor parallel task"
-          sh 'curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
+          sh 'sudo curl https://install.meteor.com | /bin/sh;git submodule init;git submodule update;meteor npm install; meteor npm run lint;meteor npm run test-jenkins-mocha'
     },
     failFast: false
   )
