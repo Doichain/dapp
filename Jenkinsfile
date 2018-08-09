@@ -11,7 +11,7 @@ pipeline {
             steps {
                 parallel (
                     "alice" : {
-                        echo "start alice node"
+                        echo "start alice node";
                         docker.image("doichain/node-only").withRun("-u root:root") { c ->
                             //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                             echo "running with doichain docker image alice"
@@ -20,7 +20,7 @@ pipeline {
                         }
                     },
                     "bob" : {
-                      echo "start bob node"
+                      echo "start bob node";
                         docker.image("doichain/node-only").withRun("-u root:root") { c ->
                             //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                             echo "running with doichain docker image bob"
