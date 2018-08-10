@@ -3,7 +3,7 @@
 MY_IP=$(sudo docker inspect alice | jq '.[0].NetworkSettings.IPAddress' | tr -d \")
 echo $MY_IP
 docker ps
-docker exec alice doichain-cli -getinfo
+docker exec alice netstat -atn
 docker exec alice doichain-cli -getinfo
 docker exec alice doichain-cli getnetworkinfo
 
