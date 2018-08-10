@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import dns from 'dns';
+import {logSend} from "../../imports/startup/server/log-configuration";
 
 export function resolveTxt(key, domain) {
   const syncFunc = Meteor.wrapAsync(dns_resolveTxt);
@@ -11,9 +12,9 @@ export function resolveTxt(key, domain) {
       if(record[0].startsWith(key)) {
         const val = record[0].substring(key.length+1);
         value = val.trim();
-        return;
+
       }
-    })
+    });
     return value;
   } catch(error) {
     if(error.message.startsWith("queryTxt ENODATA") ||
@@ -23,7 +24,14 @@ export function resolveTxt(key, domain) {
 }
 
 function dns_resolveTxt(key, domain, callback) {
-  dns.resolveTxt(domain, (err, records) => {
+    logSend("resolving dns txt attribute: ";
+    {
+        key, domain;
+    :
+        domain
+    }
+)
+    dns.resolveTxt(domain, (err, records) => {
     callback(err, records);
   });
 }
