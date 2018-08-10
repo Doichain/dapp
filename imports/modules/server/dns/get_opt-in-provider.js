@@ -23,7 +23,7 @@ const getOptInProvider = (data) => {
     let ourPROVIDER_KEY=PROVIDER_KEY;
     if(isRegtest() || isTestnet()){
         ourPROVIDER_KEY = PROVIDER_KEY_TESTNET;
-        logSend('Using RegTest:'+isRegtest()+" : Testnet:"+isTestnet()+" PROVIDER_KEY",ourPROVIDER_KEY);
+        logSend('Using RegTest:'+isRegtest()+" : Testnet:"+isTestnet()+" PROVIDER_KEY",{providerKey:ourPROVIDER_KEY, domain:ourData.domain});
     }
 
     const provider = resolveTxt(ourPROVIDER_KEY, ourData.domain);
@@ -39,6 +39,6 @@ const getOptInProvider = (data) => {
 const useFallback = () => {
   logSend('Provider not defined. Fallback '+FALLBACK_PROVIDER+' is used');
   return FALLBACK_PROVIDER;
-}
+};
 
 export default getOptInProvider;
