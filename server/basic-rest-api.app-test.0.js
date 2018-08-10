@@ -58,7 +58,7 @@ describe('basic-doi-test', function () {
         const resultGetPeerInfo = getHttpPOST(url, realdataGetPeerInfo);
         const statusGetPeerInfo = resultGetPeerInfo.statusCode;
         chai.assert.equal(200, statusGetPeerInfo);
-        chai.expect(resultGetPeerInfo.data.result).to.not.be.empty;
+        chai.expect(resultGetPeerInfo.data.result).that.is.an("array").with.a.length.of.at.least(1);
         logBlockchain('resultGetPeerInfo:',resultGetPeerInfo);
 
         done();
