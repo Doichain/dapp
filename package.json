@@ -7,7 +7,9 @@
     "pretest": "npm run lint --silent",
     "test-mocha": "meteor test --once --driver-package meteortesting:mocha --settings settings-test.json --port 3100",
     "test-circleci-mocha": "meteor test --once --full-app --driver-package meteortesting:mocha --settings settings-test.json ",
-    "test-jenkins-mocha": "meteor test --once --full-app --driver-package meteortesting:mocha --settings settings-test.json --allow-superuser",
+    "test-jenkins-alice-mocha": "meteor test --once --full-app --driver-package meteortesting:mocha --settings settings-jenkins-alice.json --allow-superuser",
+    "test-jenkins-bob-mocha": "meteor test --once --full-app --driver-package meteortesting:mocha --settings settings--jenkins-bob.json --allow-superuser",
+
     "test-watch-mocha": "TEST_WATCH=1 meteor test --full-app --settings settings-test.json --driver-package meteortesting:mocha",
     "test-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha --port 3100",
     "test-app-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --full-app --once --driver-package meteortesting:mocha --port 3100",
