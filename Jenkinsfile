@@ -51,7 +51,7 @@ node {
                   }
 
     }
-    failFast: false */
+   // failFast: false
   )
 
 }
