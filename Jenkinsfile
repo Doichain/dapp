@@ -39,8 +39,10 @@ node {
 
     "meteor": {
              checkout scm;
-
-               docker.image("doichain/node-only").withRun("-u root:root --name=alice -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18545:18445 -p 18543:18332") { c ->
+               docker.image('python:2.7').withRun('-u root --entrypoint /bin/bash') {
+                   sh 'pip install version'
+               }
+               /*docker.image("doichain/node-only").withRun("-u root:root --name=alice -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18545:18445 -p 18543:18332") { c ->
                              sh './contrib/scripts/check-alice.sh'
                             // sh 'while ! lsof -i TCP:18445 | grep LISTEN; do sleep 1; done'
                              echo "running with doichain docker image alice"
@@ -49,7 +51,7 @@ node {
                              sh 'sudo git submodule init;sudo git submodule update;sudo meteor npm install;sudo meteor npm run lint;sudo meteor npm run test-jenkins-mocha'
 
                              echo "finished alice"
-                  }
+                  }*/
 
     }
    // failFast: false
