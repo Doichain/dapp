@@ -15,10 +15,10 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
 describe('basic-doi-test', function () {
     this.timeout(20000);
     const node_url_alice = 'http://localhost:18543/';
-    const node_url_bob = 'http://localhost:18544/';
+   // const node_url_bob = 'http://localhost:18544/';
 
     const dapp_url_alice = 'http://localhost:3000';
-    const dapp_url_bob = 'http://localhost:3001';
+   // const dapp_url_bob = 'http://localhost:3001';
 
     it('should check if alice is alive', function(done){
 
