@@ -24,13 +24,7 @@ export function resolveTxt(key, domain) {
 }
 
 function dns_resolveTxt(key, domain, callback) {
-    logSend("resolving dns txt attribute: ";
-    {
-        key, domain;
-    :
-        domain
-    }
-)
+    logSend("resolving dns txt attribute: ", {key:key,domain:domain});
     dns.resolveTxt(domain, (err, records) => {
     callback(err, records);
   });
