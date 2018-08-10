@@ -8,7 +8,7 @@ node {
 
     docker.image("sameersbn/bind:latest").withRun("-it --name=bind --publish=53:53/udp --volume=/bind:/data --env='ROOT_PASSWORD=generated-password'") { b ->
 
-        def BIND_IP = sh(script: "sudo docker inspect bind | jq '.[0].NetworkSettings.IPAddress' | tr -d \"", returnStdout: true)
+        def BIND_IP = sh(script: "sudo docker inspect bind | jq '.[0].NetworkSettings.IPAddress' | tr -d \\\"", returnStdout: true)
         println BIND_IP
         //BIND_IP=$(
           //  sudo docker inspect bind | jq '.[0].NetworkSettings.IPAddress' | tr -d \"
