@@ -36,6 +36,7 @@ node {
 
             }
     }*/
+
     "meteor": {
              checkout scm;
 
