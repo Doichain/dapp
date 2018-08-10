@@ -28,7 +28,7 @@ node {
 
     },
     "bob": {
-           docker.image("doichain/node-only").withRun("-u root:root --name=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18443:18443") { c ->
+           docker.image("doichain/node-only").withRun("-u root:root --name=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18446:18445 -p 18444:18443") { c ->
                  echo "running with doichain docker image bob"
                  sh 'sleep 680'
                  echo "finished bob"
