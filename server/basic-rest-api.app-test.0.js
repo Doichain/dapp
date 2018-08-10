@@ -165,7 +165,7 @@ describe('basic-doi-test', function () {
             //const nameId = resultDataOptIn.data.id;
             const txId = our_optIn.txId;
             logBlockchain('txId:', our_optIn.txId);
-            const urlGetRawTransaction = 'http://localhost:18443/';
+            const urlGetRawTransaction = node_url_alice;
             const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
             const headersGetRawTransaction = { 'Content-Type':'text/plain'  };
             const auth = "admin:generated-password";
