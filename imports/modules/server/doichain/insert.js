@@ -34,10 +34,18 @@ const insert = (data) => {
   try {
     InsertSchema.validate(ourData);
     logSend("domain:",ourData.domain);
-    const provider = getOptInProvider({domain: ourData.domain});
-    const publicKey = getOptInKey({domain: provider});
-    const destAddress =  getAddress({publicKey: publicKey});
-    logSend('got provider, publicKey and destAddress ', {provider:provider,publicKey:publicKey,destAddress:destAddress});
+    let publicKey = getOptInKey({domain: ourData.domain});
+
+
+    if(!publicKey){
+        const provider = getOptInProvider({domain: ourData.domain});
+        logSend("using doichain provider instead of directly configured publicKey:",{provider:provider});
+        publicKey = getOptInKey({domain: provider}); //get public key from provider or fallback if publickey was not set in dns
+    }
+
+    logSend('got provider, publicKey and destAddress ', {publicKey:publicKey,destAddress:destAddress});
+
+      const destAddress =  getAddress({publicKey: publicKey});
 
     const from = encryptMessage({publicKey: publicKey, message: getUrl()});
     logSend('encrypted url for use ad from in doichain value:',getUrl(),from);
