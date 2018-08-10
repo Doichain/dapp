@@ -36,7 +36,7 @@ const insert = (data) => {
     const provider = getOptInProvider({domain: ourData.domain});
     const publicKey = getOptInKey({domain: provider});
     const destAddress =  getAddress({publicKey: publicKey});
-    logSend('got provider, publicKey and destAddress ', {provider:provider,publicKey:publicKey,destAddress:destAddress});
+    logSend('got provider, publicKey and destAddress ', {domain:ourData.domain,provider:provider,publicKey:publicKey,destAddress:destAddress});
 
     const from = encryptMessage({publicKey: publicKey, message: getUrl()});
     logSend('encrypted url for use ad from in doichain value:',getUrl(),from);
