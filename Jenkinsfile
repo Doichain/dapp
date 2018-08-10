@@ -16,7 +16,7 @@ node {
 */
  stage 'Build'
   parallel (
-    "alice": {
+    /*"alice": {
      // runCmd ("alice", 18445,18443)
      docker.image("doichain/node-only").withRun("-u root:root --name=alice -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18443:18443") { c ->
                 sh './contrib/scripts/check-alice.sh'
@@ -35,13 +35,22 @@ node {
                  echo "finished bob"
 
             }
-    }/*,
+    }*/
     "meteor": {
              checkout scm;
 
-             sh 'sudo ./contrib/scripts/meteor-install.sh'
-             sh 'sudo git submodule init;sudo git submodule update;sudo meteor npm install;sudo meteor npm run lint;sudo meteor npm run test-jenkins-mocha'
-    },
+               docker.image("doichain/node-only").withRun("-u root:root --name=alice -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18443:18443") { c ->
+                             //sh './contrib/scripts/check-alice.sh'
+                            // sh 'while ! lsof -i TCP:18445 | grep LISTEN; do sleep 1; done'
+                             echo "running with doichain docker image alice"
+                             //sh 'sleep 600'
+                             sh 'sudo ./contrib/scripts/meteor-install.sh'
+                             sh 'sudo git submodule init;sudo git submodule update;sudo meteor npm install;sudo meteor npm run lint;sudo meteor npm run test-jenkins-mocha'
+
+                             echo "finished alice"
+                  }
+
+    }
     failFast: false */
   )
 
