@@ -36,16 +36,15 @@ const insert = (data) => {
     logSend("domain:",ourData.domain);
     let publicKey = getOptInKey({domain: ourData.domain});
 
-
     if(!publicKey){
         const provider = getOptInProvider({domain: ourData.domain});
         logSend("using doichain provider instead of directly configured publicKey:",{provider:provider});
         publicKey = getOptInKey({domain: provider}); //get public key from provider or fallback if publickey was not set in dns
     }
-
+    const destAddress =  getAddress({publicKey: publicKey});
     logSend('got provider, publicKey and destAddress ', {publicKey:publicKey,destAddress:destAddress});
 
-      const destAddress =  getAddress({publicKey: publicKey});
+
 
     const from = encryptMessage({publicKey: publicKey, message: getUrl()});
     logSend('encrypted url for use ad from in doichain value:',getUrl(),from);
