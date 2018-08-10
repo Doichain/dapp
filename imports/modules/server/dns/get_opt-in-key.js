@@ -27,7 +27,7 @@ const getOptInKey = (data) => {
         logSend('Using RegTest:'+isRegtest()+" Testnet: "+isTestnet()+" ourOPT_IN_KEY",ourOPT_IN_KEY);
     }
     const key = resolveTxt(ourOPT_IN_KEY, ourData.domain);
-    logSend('DNS TXT configured public key of recipient email domain and confirmation dapp',key);
+    logSend('DNS TXT configured public key of recipient email domain and confirmation dapp',{foundKey:key, domain:ourData.domain, dnskey:ourOPT_IN_KEY});
 
     if(key === undefined) return useFallback(ourData.domain);
     return key;
@@ -40,6 +40,6 @@ const useFallback = (domain) => {
   if(domain === FALLBACK_PROVIDER) throw new Meteor.Error("Fallback has no key defined!");
     logSend("Key not defined. Using fallback: ",FALLBACK_PROVIDER);
   return getOptInKey({domain: FALLBACK_PROVIDER});
-}
+};
 
 export default getOptInKey;
