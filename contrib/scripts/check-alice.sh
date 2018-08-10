@@ -9,5 +9,6 @@ docker exec alice sudo netstat -atn
 docker exec alice doichain-cli -getinfo
 docker exec alice doichain-cli getnetworkinfo
 
+docker exec alice curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "-getinfo", "params": [] }' -H 'content-type: text/plain;' http://$MY_IP:18443/
+curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "-getinfo", "params": [] }' -H 'content-type: text/plain;' http://$MY_IP:18445/
 curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "-getinfo", "params": [] }' -H 'content-type: text/plain;' http://$MY_IP:18543/
-#curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "-getinfo", "params": [] }' -H 'content-type: text/plain;' http://$MY_IP:18543/
