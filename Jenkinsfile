@@ -19,10 +19,10 @@ node {
     "alice": {
      // runCmd ("alice", 18445,18443)
      docker.image("doichain/node-only").withRun("-u root:root --name=alice -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18445:18445 -p 18443:18443") { c ->
-                //sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
+                sh 'echo lsof -i TCP:18445 | grep LISTEN)'
+                sh 'while ! lsof -i TCP:18445 | grep LISTEN); do sleep 1; done'
                 echo "running with doichain docker image alice"
-
-                sh 'sleep 600'
+                //sh 'sleep 600'
                 echo "finished alice"
      }
 
@@ -30,7 +30,8 @@ node {
     "bob": {
            docker.image("doichain/node-only").withRun("-u root:root --name=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18446:18445 -p 18444:18443") { c ->
                  echo "running with doichain docker image bob"
-                 sh 'sleep 680'
+                 sh 'echo lsof -i TCP:18445 | grep LISTEN)'
+                 //sh 'sleep 680'
                  echo "finished bob"
 
             }
