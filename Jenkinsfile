@@ -30,7 +30,7 @@ node {
     "bob": {
            docker.image("doichain/node-only").withRun("-u root:root --name=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18446:18445 -p 18444:18443") { c ->
                  echo "running with doichain docker image bob"
-                 sh 'echo lsof -i TCP:18445 | grep LISTEN)'
+                 sh 'echo lsof -i TCP:18445 | grep LISTEN'
                  //sh 'sleep 680'
                  echo "finished bob"
 
