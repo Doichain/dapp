@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-MY_IP=$(sudo docker inspect alice | jq '.[0].NetworkSettings.IPAddress')
-echo  ${$MY_IP//"}
-MY_IP=${$MY_IP//"}
+MY_IP=$(sudo docker inspect alice | jq '.[0].NetworkSettings.IPAddress' | tr -d \")
+echo $MY_IP
 docker ps
 ping $MY_IP
 sleep 10
