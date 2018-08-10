@@ -14,10 +14,11 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
  */
 describe('basic-doi-test', function () {
     this.timeout(20000);
-
+    const node_url_alice = 'http://localhost:18543/';
+    const node_url_bob = 'http://localhost:18544/';
     it('should check if alice is alive', function(done){
 
-        const url = 'http://localhost:18443/';
+        const url = node_url_alice;
         const auth = "admin:generated-password";
 
         const dataGetNetworkInfo = {"jsonrpc": "1.0", "id":"getnetworkinfo", "method": "getnetworkinfo", "params": [] };
@@ -34,7 +35,7 @@ describe('basic-doi-test', function () {
 
     it('should check if bob is alive and connected to alice', function(done){
 
-        const url = 'http://localhost:18444/';
+        const url = node_url_bob;
         const auth = "admin:generated-password";
 
         const dataGetNetworkInfo = {"jsonrpc": "1.0", "id":"getnetworkinfo", "method": "getnetworkinfo", "params": [] };
@@ -61,7 +62,7 @@ describe('basic-doi-test', function () {
     it('should generate some coins into this regtest wallet.', function (done) {
         //resetDatabase();
 
-        const url = 'http://localhost:18443/';
+        const url = node_url_alice;
         const auth = "admin:generated-password";
 
         //1. getnewaddress
@@ -94,7 +95,7 @@ describe('basic-doi-test', function () {
 
     it('should have a balance bigger then 0 in the doichain wallet', function (done) {
         //curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": ["*", 6] }' -H 'content-type: text/plain;' http://127.0.0.1:18339
-        const urlGetBalance = 'http://localhost:18443/';
+        const urlGetBalance = node_url_alice;
         const dataGetBalance = {"jsonrpc": "1.0", "id":"getbalance", "method": "getbalance", "params": [] };
         const headersGetBalance = { 'Content-Type':'text/plain'  };
         const auth = "admin:generated-password";
