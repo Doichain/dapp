@@ -32,7 +32,7 @@ describe('basic-doi-test', function () {
 
         done();
     })
-
+/*
     it('should check if bob is alive and connected to alice', function(done){
 
         const url = node_url_bob;
@@ -57,7 +57,7 @@ describe('basic-doi-test', function () {
         logBlockchain('resultGetPeerInfo:',resultGetPeerInfo);
 
         done();
-    })
+    }) */
 
     it('should generate some coins into this regtest wallet.', function (done) {
         //resetDatabase();
