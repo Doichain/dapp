@@ -116,7 +116,7 @@ describe('basic-doi-test', function () {
 
         //https://docs.meteor.com/api/http.html
         //curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
-        const urlLogin = dapp_url_alice+"/api/v1/login';
+        const urlLogin = dapp_url_alice+'/api/v1/login';
         const paramsLogin = {"username":"admin","password":"password"};
         const headersLogin = [{'Content-Type':'application/json'}];
         const realDataLogin= { params: paramsLogin, headers: headersLogin };
@@ -132,7 +132,7 @@ describe('basic-doi-test', function () {
         chai.assert.equal(200, statusCode);
         chai.assert.equal('success', status);
 
-        const urlOptIn = dapp_url_alice+"/api/v1/opt-in';
+        const urlOptIn = dapp_url_alice+'/api/v1/opt-in';
         const dataOptIn = {"recipient_mail":"nico@le-space.de","sender_mail":"info@doichain.org","data":JSON.stringify({'city':'Ekaterinburg'})};
         const headersOptIn = {
             'Content-Type':'application/json',
