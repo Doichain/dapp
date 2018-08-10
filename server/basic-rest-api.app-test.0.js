@@ -15,7 +15,7 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
 describe('basic-doi-test', function () {
     this.timeout(20000);
     const node_url_alice = 'http://localhost:18543/';
-   // const node_url_bob = 'http://localhost:18544/';
+    const node_url_bob = 'http://localhost:18544/';
 
     const dapp_url_alice = 'http://localhost:3000';
    // const dapp_url_bob = 'http://localhost:3001';
@@ -36,7 +36,7 @@ describe('basic-doi-test', function () {
 
         done();
     })
-/*
+
     it('should check if bob is alive and connected to alice', function(done){
 
         const url = node_url_bob;
@@ -61,7 +61,7 @@ describe('basic-doi-test', function () {
         logBlockchain('resultGetPeerInfo:',resultGetPeerInfo);
 
         done();
-    }) */
+    })
 
     it('should generate some coins into this regtest wallet.', function (done) {
         //resetDatabase();
