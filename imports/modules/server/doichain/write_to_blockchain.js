@@ -35,6 +35,7 @@ const writeToBlockchain = (data) => {
 
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
+    logSend("email domain for publicKey request is:",domain);
     addInsertBlockchainJob({
       nameId: nameId,
       signature: signature,
