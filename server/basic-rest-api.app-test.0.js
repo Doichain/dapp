@@ -35,7 +35,7 @@ describe('basic-doi-test', function () {
         logBlockchain('resultGetNetworkInfo:',resultGetNetworkInfo); // getnetworkinfo | jq '.localaddresses[0].address'
 
         done();
-    })
+    });
 
     it('should check if bob is alive and connected to alice', function(done){
 
@@ -62,7 +62,7 @@ describe('basic-doi-test', function () {
         logBlockchain('resultGetPeerInfo:',resultGetPeerInfo);
 
         done();
-    })
+    });
 
     it('should generate some coins into this regtest wallet.', function (done) {
         //resetDatabase();
@@ -134,7 +134,7 @@ describe('basic-doi-test', function () {
         chai.assert.equal('success', status);
 
         const urlOptIn = dapp_url_alice+'/api/v1/opt-in';
-        const dataOptIn = {"recipient_mail":"nico@le-space.de","sender_mail":"info@doichain.org","data":JSON.stringify({'city':'Ekaterinburg'})};
+        const dataOptIn = {"recipient_mail":"alice@ci-doichain.org","sender_mail":"bob@ci-doichain.org","data":JSON.stringify({'city':'Ekaterinburg'})};
         const headersOptIn = {
             'Content-Type':'application/json',
             'X-User-Id':userId,
@@ -223,4 +223,4 @@ describe('basic-doi-test', function () {
 
         });*/
 
-})
+});
