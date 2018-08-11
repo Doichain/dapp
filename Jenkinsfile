@@ -24,31 +24,23 @@ node {
                                 sh 'sudo ./contrib/scripts/meteor-install.sh'
                                 sh 'sudo git submodule init;sudo git submodule update;sudo meteor npm install;sudo meteor npm run lint;sudo meteor npm run test-jenkins-alice-mocha'
                                 echo "finished alice"
-
+                                jobFinished()
                           }
          }
     }
 }
 
-def notifyStarted() {
-  // send to Slack
-  /*slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-
-  // send to HipChat
-  hipchatSend (color: 'YELLOW', notify: true,
-      message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
-    ) */
-
-  // send to email
- /* emailext (
-      subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>"""
-    )*/
-
+def notifyStarted() { //https://medium.com/@gustavo.guss/jenkins-sending-email-on-post-build-938b236545d2
      emailext
-     subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-     body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+        subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+        body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
              <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
-     recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], to: 'nico@le-space.de'
+        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], to: 'nico@le-space.de'
+}
+
+def jobFinished() { //https://medium.com/@gustavo.guss/jenkins-sending-email-on-post-build-938b236545d2
+     emailext
+        subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+        body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], to: 'nico@le-space.de'
 }
