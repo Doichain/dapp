@@ -7,7 +7,7 @@ node {
     // privateKey: cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj
 
       emailext to: 'nico@le-space.de',
-       subject: 'STARTED: Job ${env.JOB_NAME} [${env.BUILD_ID}]',
+       subject: 'STARTED: Job ${env.JOB_NAME} ['+${env.BUILD_ID},
        body:  '${params}<p>STARTED: Job ${env.JOB_NAME} Branch: ${env.BRANCH_NAME} Build:[${env.BUILD_NUMBER}]:</p><p>Check console output at <a href="${env.JENKINS_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>',
        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
 
