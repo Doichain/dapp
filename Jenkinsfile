@@ -1,4 +1,5 @@
 node {
+    echo "Running $ENV.BUILD_ID on $ENV.JENKINS_URL"
     notifyStarted()
     checkout scm
     def emailRecipient='nico@doichain.org'
