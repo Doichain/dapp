@@ -1,4 +1,5 @@
 node {
+    notifyStarted()
     checkout scm
     def emailRecipient='nico@doichain.org'
     // Bob's node should use this reg-test (for DNS-TXT doichain-testnet-opt-in-key)
