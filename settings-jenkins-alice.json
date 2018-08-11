@@ -28,11 +28,11 @@
       "address": ""
     },
     "smtp": {
-      "username": "",
-      "password": "",
-      "server": "",
+      "username": "alice@ci-doichain.org",
+      "password": "doichain-alice-xyz!",
+      "server": "smtp",
       "port": "25",
-      "defaultFrom":"info@doichain.org"
+      "defaultFrom":"info@ci-doichain.org"
     }
   },
   "verify": {

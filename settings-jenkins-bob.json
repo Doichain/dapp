@@ -3,7 +3,7 @@
     "debug": "true",
     "regtest":"true",
     "host": "localhost",
-    "port": "3000",
+    "port": "3001",
     "types": [
       "send",
       "confirm",
@@ -14,7 +14,7 @@
     "doiMailFetchUrl": "http://localhost:3000/api/v1/debug/mail",
     "doichain": {
       "host": "localhost",
-      "port": "18543",
+      "port": "18544",
       "username": "admin",
       "password": "generated-password"
     }
@@ -22,23 +22,23 @@
   "confirm": {
     "doichain": {
       "host": "localhost",
-      "port": "18543",
+      "port": "18544",
       "username": "admin",
       "password": "generated-password",
-      "address": ""
+      "address": "mthu4XsqpmMYsrgTore36FV621JWM3Epxj"
     },
     "smtp": {
-      "username": "",
-      "password": "",
-      "server": "",
+      "username": "bob@ci-doichain.org",
+      "password": "doichain-bob-xyz!",
+      "server": "smtp",
       "port": "25",
-      "defaultFrom":"info@doichain.org"
+      "defaultFrom":"info@ci-doichain.org"
     }
   },
   "verify": {
     "doichain": {
       "host": "localhost",
-      "port": "18543",
+      "port": "18544",
       "username": "admin",
       "password": "generated-password"
     }
