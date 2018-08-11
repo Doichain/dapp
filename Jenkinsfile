@@ -31,7 +31,7 @@ node {
 }
 
 def notifyStarted() {
-   emailext to: 'nico@le-space.de', subject: 'Test', body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
+   emailext to: 'nico@le-space.de', subject: 'STARTED: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]', body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
 
         /*subject: 'test',
         body: "<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
