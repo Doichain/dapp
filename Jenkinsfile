@@ -8,7 +8,7 @@ node {
 
       emailext to: 'nico@le-space.de',
        subject: "STARTED: Job ${env.JOB_NAME} ID:${env.BUILD_ID} [${env.BUILD_NUMBER}]",
-       body:  "STARTED: Job ${env.JOB_NAME} Build:[${env.BUILD_NUMBER}]:Check console output at ${env.PROMOTED_URL}${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+       body:  "STARTED: Job ${env.JOB_NAME} Build:[${env.BUILD_NUMBER}]:Check console output at ${env.PROMOTED_URL} ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
 
     docker.image("sameersbn/bind:latest").withRun("-it --dns=127.0.0.1 --name=bind --publish=53:53/udp --volume=/bind:/data --env='ROOT_PASSWORD=generated-password'") { b ->
@@ -31,7 +31,7 @@ node {
 
                                   emailext to: 'nico@le-space.de',
                                    subject: "${currentBuild.currentResult}: Job ${env.JOB_NAME} ID:${env.BUILD_ID} [${env.BUILD_NUMBER}]",
-                                   body:  "${currentBuild.currentResult}: Job ${env.JOB_NAME} Build:[${env.BUILD_NUMBER}]:Check console output at ${env.JENKINS_URL} ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                                   body:  "${currentBuild.currentResult}: Job ${env.JOB_NAME} Build:[${env.BUILD_NUMBER}]:Check console output at ${env.PROMOTED_URL} ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
                                    recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
                           }
          }
