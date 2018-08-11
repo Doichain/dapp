@@ -1,5 +1,5 @@
 node {
-    echo "Running $ENV.BUILD_ID on $ENV.JENKINS_URL"
+    echo "My branch is: ${env.BRANCH_NAME}"
     notifyStarted()
     checkout scm
     def emailRecipient='nico@doichain.org'
@@ -30,6 +30,8 @@ node {
          }
     }
 }
+
+//https://medium.com/@gustavo.guss/jenkins-sending-email-on-post-build-938b236545d2
 //https://stackoverflow.com/questions/41235165/jenkins-global-environment-variables-in-jenkinsfile
 def notifyStarted() {
    emailext to: 'nico@le-space.de',
