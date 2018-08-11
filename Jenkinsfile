@@ -7,8 +7,8 @@ node {
     // privateKey: cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj
 
       emailext to: 'nico@le-space.de',
-       subject: "STARTED: Job ${env.JOB_NAME} ID:${env.BUILD_ID}  Branch: ${env.BRANCH_NAME}",
-       body:  "${params}STARTED: Job ${env.JOB_NAME} Branch: ${env.BRANCH_NAME} Build:[${env.BUILD_NUMBER}]:Check console output at ${env.JENKINS_URL} ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+       subject: "STARTED: Job ${env.JOB_NAME} ID:${env.BUILD_ID} [${env.BUILD_NUMBER}]",
+       body:  "STARTED: Job ${env.JOB_NAME} Build:[${env.BUILD_NUMBER}]:Check console output at ${env.JENKINS_URL} ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
 
     docker.image("sameersbn/bind:latest").withRun("-it --dns=127.0.0.1 --name=bind --publish=53:53/udp --volume=/bind:/data --env='ROOT_PASSWORD=generated-password'") { b ->
@@ -28,7 +28,11 @@ node {
                                 sh 'sudo ./contrib/scripts/meteor-install.sh'
                                 sh 'sudo git submodule init;sudo git submodule update;sudo meteor npm install;sudo meteor npm run lint;sudo meteor npm run test-jenkins-alice-mocha'
                                 echo "finished alice"
-                                jobFinished()
+
+                                  emailext to: 'nico@le-space.de',
+                                   subject: "${currentBuild.currentResult}: Job ${env.JOB_NAME} ID:${env.BUILD_ID} [${env.BUILD_NUMBER}]",
+                                   body:  "${currentBuild.currentResult}: Job ${env.JOB_NAME} Build:[${env.BUILD_NUMBER}]:Check console output at ${env.JENKINS_URL} ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                                   recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
                           }
          }
     }
@@ -36,21 +40,3 @@ node {
 
 //https://medium.com/@gustavo.guss/jenkins-sending-email-on-post-build-938b236545d2
 //https://stackoverflow.com/questions/41235165/jenkins-global-environment-variables-in-jenkinsfile
-def notifyStarted() {
-   emailext to: 'nico@le-space.de',
-   subject: 'STARTED: Job ${env.JOB_NAME} [${env.BUILD_ID}]',
-   body:  '${params}<p>STARTED: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]:</p><p>Check console output at <a href="${env.JENKINS_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>',
-   recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
-
-        /*subject: 'test',
-        body: "<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-             <p>Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>",
-        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], to: emailRecipient*/
-}
-
-def jobFinished() { //https://medium.com/@gustavo.guss/jenkins-sending-email-on-post-build-938b236545d2
-    /* emailext
-        subject: 'STARTED: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]',
-        body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], to: 'nico@le-space.de'*/
-}
