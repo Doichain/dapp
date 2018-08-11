@@ -30,15 +30,17 @@ node {
 }
 
 def notifyStarted() {
-        subject: 'test',
+   emailext to: 'nico@le-space.de', subject: 'Test', body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
+
+        /*subject: 'test',
         body: "<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
              <p>Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>",
-        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], to: emailRecipient
+        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], to: emailRecipient*/
 }
 
 def jobFinished() { //https://medium.com/@gustavo.guss/jenkins-sending-email-on-post-build-938b236545d2
-     emailext
+    /* emailext
         subject: 'STARTED: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]',
         body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], to: 'nico@le-space.de'
+        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], to: 'nico@le-space.de'*/
 }
