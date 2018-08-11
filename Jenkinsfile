@@ -1,7 +1,7 @@
 node {
     notifyStarted()
     checkout scm
-
+    def emailRecipient='nico@doichain.org'
     // Bob's node should use this reg-test (for DNS-TXT doichain-testnet-opt-in-key)
     // address: mthu4XsqpmMYsrgTore36FV621JWM3Epxj
     // publicKey: 0259daba8cfd6f5e404d776da61421ffbbfb6f3720bfb00ad116f6054a31aad5b8
@@ -32,10 +32,10 @@ node {
 
 def notifyStarted() { //https://medium.com/@gustavo.guss/jenkins-sending-email-on-post-build-938b236545d2
      emailext
-        subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+        subject: """STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'""",
         body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
              <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
-        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], to: 'nico@le-space.de'
+        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], to: emailRecipient
 }
 
 def jobFinished() { //https://medium.com/@gustavo.guss/jenkins-sending-email-on-post-build-938b236545d2
