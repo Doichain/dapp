@@ -20,9 +20,10 @@ node {
                                  sh 'docker logs alice'
                                  sh './contrib/scripts/check-alice.sh'
                                  echo "running with doichain docker image alice"
-                                 docker.image("doichain/node-only").withRun("-it --name=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18544:18443 -e RPC_PASSWORD=generated-password -e RPC_HOST=bob -e DAPP_SMTP_HOST=smtp -e DAPP_SMTP_USER=bob -e DAPP_SMTP_PASS='bob-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e DEFAULT_FROM='doichain@ci-doichain.org' --dns=${BIND_IP} --dns-search=ci-doichain.org") { c2 ->
+                                 def BOBS_DOCKER_PARAMS = "-it --name=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p 18544:18443 -e RPC_PASSWORD=generated-password -e RPC_HOST=bob -e DAPP_SMTP_HOST=smtp -e DAPP_SMTP_USER=bob -e DAPP_SMTP_PASS='bob-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e DEFAULT_FROM='doichain@ci-doichain.org' --dns=${BIND_IP} --dns-search=ci-doichain.org";
+                                 docker.image("doichain/node-only").withRun(BOBS_DOCKER_PARAMS) { c2 ->
                                         sh 'docker logs bob'
-                                        sh 'docker exec bob sed -i.bak s/localhost:3000/${METEOR_IP}:3001/g /home/doichain/.doichain/doichain.conf'
+                                        sh "docker exec bob sed -i.bak s/localhost:3000/${METEOR_IP}:3001/g /home/doichain/.doichain/doichain.conf;doichain-cli stop;doichaind -d ${BOBS_DOCKER_PARAMS}"
                                         sh 'sleep 5'
                                         sh './contrib/scripts/connect-alice.sh'
                                         sh 'sudo ./contrib/scripts/meteor-install.sh'
