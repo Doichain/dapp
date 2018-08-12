@@ -34,7 +34,7 @@ node {
             }//bind
         }//mongo
     }catch(error){
-            echo error
+            echo "error: ${error}"
 
    }finally{
         emailext to: 'nico@le-space.de',
