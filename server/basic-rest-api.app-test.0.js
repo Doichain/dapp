@@ -3,14 +3,13 @@ import {chai} from 'meteor/practicalmeteor:chai';
 import { getHttpPOST} from "./api/http";
 import {OptIns} from "../imports/api/opt-ins/opt-ins";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
-//import {nameShow} from "./api/doichain";
-//import {getRawTransaction} from "./api/doichain";
 
 /*
-    Circle-Ci: https://circleci.com/docs/2.0/building-docker-images/
+    Meteor-Testing: http://khaidoan.wikidot.com/meteor-testing
     SinonJS: https://sinonjs.org/releases/v6.1.4/fake-timers/
     Chaijs: http://www.chaijs.com/guide/styles/#assert
     Jest: (for React) https://www.hammerlab.org/2015/02/14/testing-react-web-apps-with-mocha/
+    Circle-Ci: https://circleci.com/docs/2.0/building-docker-images/
  */
 describe('alice-basic-doi-test', function () {
     this.timeout(20000);
