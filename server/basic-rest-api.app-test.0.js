@@ -217,20 +217,18 @@ describe('bob-basic-doi-test', function () {
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
         const realdata_importprivkey = { auth: auth, data: data_importprivkey, headers: headers_importprivkey };
         const result = getHttpPOST(url_importprivkey, realdata_importprivkey);
-        logBlockchain('resultListTransactions:',result);
+        logBlockchain('result:',result);
         done();
     });
 
     it('should list all transactions and check if our SOI is inside', function (done) {
 
-       /* const urlListTransactions = node_url_bob;
+        const urlListTransactions = node_url_bob;
         const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
         const headersListTransaction = { 'Content-Type':'text/plain'  };
         const auth = "admin:generated-password";
-        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
         const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
         const resultListTransactions = getHttpPOST(urlListTransactions, realdataListTransactions);
-       // logBlockchain('resultListTransactions:',resultListTransactions);
         var json = JSON.stringify(eval("(" + resultListTransactions + ")")); //
         var newArray = JSON.parse(json).filter(function (el) {
             return el.name === "doi: e/"+nameId;
