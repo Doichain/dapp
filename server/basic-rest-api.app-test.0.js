@@ -234,7 +234,7 @@ describe('bob-basic-doi-test', function () {
             return el.name === "doi: e/"+nameId;
         });
         logBlockchain('newArray:',newArray);
-        chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});*/
+        chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});
         done();
 
     });

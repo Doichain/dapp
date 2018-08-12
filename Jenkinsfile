@@ -4,6 +4,7 @@ node {
     def METEOR_IP='5.9.154.231'
     def ALICE_NODE_PORT=18543
     def BOB_NODE_PORT=18544
+
     // Bob's node should use this reg-test (for DNS-TXT doichain-testnet-opt-in-key)
     // address: mthu4XsqpmMYsrgTore36FV621JWM3Epxj
     // publicKey: 0259daba8cfd6f5e404d776da61421ffbbfb6f3720bfb00ad116f6054a31aad5b8
