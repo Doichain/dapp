@@ -158,17 +158,7 @@ describe('alice-basic-doi-test', function () {
             else{
                 chai.assert.equal("e/"+our_optIn.nameId, resultGetRawTransaction.data.result.vout[0].scriptPubKey.nameOp.name);
             }
-
-            generatetoaddress(node_url_alice,aliceAddress,6);
-                //alice is not querying the dns and finds out bobs public key where to send the nameId
-
-            //we assume the name_doi reached bob's node -
-            // so we connect to bob's node via rpc an check if this transaction is there too
-           /* const urlBobGetRawTransaction = 'http://localhost:18444/';
-            const resultBobGetRawTransaction = getHttpPOST(urlBobGetRawTransaction, realdataGetRawTransaction);
-            logBlockchain('resultBobGetRawTransaction:',resultBobGetRawTransaction);
-            chai.assert.equal(our_optIn.nameId, resultBobGetRawTransaction.data.result.vout[0].scriptPubKey.name);
-*/
+            generatetoaddress(node_url_alice,aliceAddress,1); //generate 1 block to not make the blockchain crash! (very strange in regtest mode - is this norma)
             done();
 
 
@@ -212,7 +202,21 @@ describe('alice-basic-doi-test', function () {
 
     });
 
-    it('should return two transactions', function (done) {
+});
+describe('bob-basic-doi-test', function () {
+
+  /* it('imports bob´s private key in order to see HIS transactions', function (done) {
+        const url_importprivkey = 'http://localhost:18544'; //node_url_bob;
+        const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": ["cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj", "jenkins testing privkey don't use anywhere", true] };
+        const headers_importprivkey = { 'Content-Type':'text/plain'  };
+        const auth = "admin:generated-password";
+        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
+        const realdata_importprivkey = { auth: auth, data: data_importprivkey, headers: headers_importprivkey };
+        const result = getHttpPOST(url_importprivkey, realdata_importprivkey);
+        logBlockchain('result:',result);
+        done();
+    });*/
+    it('should return two transactions from bobs', function (done) {
 
         const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
         const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": [] };
@@ -224,7 +228,7 @@ describe('alice-basic-doi-test', function () {
         chai.expect(result.data.error).to.be.null;
         chai.expect(result.data.result).to.have.lengthOf(2);
         // var json = JSON.stringify(eval("(" + result + ")"));
-         // var newArray = JSON.parse(json).filter(function (el) {
+        // var newArray = JSON.parse(json).filter(function (el) {
         //      return el.name === "doi: e/"+nameId;
         //  });
         //  logBlockchain('newArray:',newArray);
@@ -232,40 +236,6 @@ describe('alice-basic-doi-test', function () {
         done();
     });
 
-});
-describe('bob-basic-doi-test', function () {
-
-   it('imports bob´s private key in order to see HIS transactions', function (done) {
-        const url_importprivkey = 'http://localhost:18544'; //node_url_bob;
-        const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": ["cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj", "jenkins testing privkey don't use anywhere", true] };
-        const headers_importprivkey = { 'Content-Type':'text/plain'  };
-        const auth = "admin:generated-password";
-        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
-        const realdata_importprivkey = { auth: auth, data: data_importprivkey, headers: headers_importprivkey };
-        const result = getHttpPOST(url_importprivkey, realdata_importprivkey);
-        logBlockchain('result:',result);
-        done();
-    });
-
-    it('should list all transactions and check if our SOI is inside', function (done) {
-/*
-        const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
-        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
-        const headersListTransaction = { 'Content-Type':'text/plain'  };
-        const auth = "admin:generated-password";
-        const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
-        const result = getHttpPOST(urlListTransactions, realdataListTransactions);
-        logBlockchain('result:',result);
-
-     /*   var json = JSON.stringify(eval("(" + resultListTransactions + ")")); //
-        var newArray = JSON.parse(json).filter(function (el) {
-            return el.name === "doi: e/"+nameId;
-        });
-        logBlockchain('newArray:',newArray);
-        chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});*/
-        done();
-
-    });
 });
 
 function generatetoaddress(url,toaddress,amount){
