@@ -31,10 +31,10 @@ node {
                                         sh 'sleep 5'
                                         sh './contrib/scripts/connect-alice.sh'
                                         sh 'sudo ./contrib/scripts/meteor-install.sh'
-                                        sh './contrib/scripts/check-bob.sh'
+
                                         sh 'sudo git submodule init;sudo git submodule update;sudo meteor npm install;sudo meteor npm install --save bcrypt;sudo meteor npm run lint;sudo meteor npm run test-jenkins-alice-mocha'
                                         echo "finished alice"
-
+                                        sh './contrib/scripts/check-bob.sh'
                                         sh 'sudo meteor npm run test-jenkins-bob-mocha'
                                         echo "finished bob"
                                   } //bobs node

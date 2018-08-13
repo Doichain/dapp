@@ -12,9 +12,9 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
     Circle-Ci: https://circleci.com/docs/2.0/building-docker-images/
  */
 const node_url_alice = 'http://localhost:18543/';
-const node_url_bob = 'http://localhost:18544/';
+const node_url_bob =   'http://localhost:18544/';
 const dapp_url_alice = 'http://localhost:3000';
-//const dapp_url_bob = 'http://localhost:3001';
+//const dapp_url_bob = 'http://localhost:4000';
 describe('alice-basic-doi-test', function () {
     this.timeout(20000);
 
