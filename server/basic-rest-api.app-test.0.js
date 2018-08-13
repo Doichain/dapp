@@ -214,7 +214,7 @@ describe('alice-basic-doi-test', function () {
     it('should return two transactions', function (done) {
 
         const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
-        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
+        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": [] };
         const headersListTransaction = { 'Content-Type':'text/plain'  };
         const auth = "admin:generated-password";
         const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
