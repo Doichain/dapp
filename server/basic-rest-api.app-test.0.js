@@ -209,7 +209,7 @@ describe('alice-basic-doi-test', function () {
         const result = getHttpPOST(urlListTransactions, realdataListTransactions);
         logBlockchain('result:',result);
         chai.assert.equal(200, result.statusCode);
-        chai.expect(result.data.result.data.error).to.be.null;
+        chai.expect(result.data.error).to.be.null;
         chai.expect(result.data.result).to.have.lengthOf(0);
         done();
     });
@@ -234,7 +234,7 @@ describe('alice-basic-doi-test', function () {
         const result = getHttpPOST(urlListTransactions, realdataListTransactions);
         logBlockchain('result:',result);
         chai.assert.equal(200, result.statusCode);
-        chai.expect(result.data.result.data.error).to.be.null;
+        chai.expect(result.data.error).to.be.null;
         chai.expect(result.data.result).to.have.lengthOf(2);
         /*  var json = JSON.stringify(eval("(" + result + ")")); //
           var newArray = JSON.parse(json).filter(function (el) {
