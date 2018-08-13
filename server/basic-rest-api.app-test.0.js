@@ -71,7 +71,7 @@ describe('alice-basic-doi-test', function () {
         chai.expect(resultGetNewAddress.data.error).to.be.null;
         chai.expect(newAddress).to.not.be.null;
 
-        generatetoaddress();
+        generatetoaddress(node_url_alice,newAddress,110);  //110 coins new address!
         //chai.should.exist(resultGenerate.data.result);
         done();
     });
@@ -195,12 +195,12 @@ describe('alice-basic-doi-test', function () {
                 const result = getHttpPOST(url_importprivkey, realdata_importprivkey);
                 logBlockchain('result:',result);
 
-                const url_importaddress = 'http://localhost:18544'; //node_url_bob;
+               /* const url_importaddress = 'http://localhost:18544'; //node_url_bob;
                 const data_importaddress = {"jsonrpc": "1.0", "id":"importaddress", "method": "importaddress", "params": ["mthu4XsqpmMYsrgTore36FV621JWM3Epxj"] };
                 //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
                 const realdata_importaddress = { auth: auth, data: data_importaddress, headers: headers };
                 const resultimportaddress = getHttpPOST(url_importaddress, realdata_importaddress);
-                logBlockchain('result:',resultimportaddress);
+                logBlockchain('result:',resultimportaddress);*/
 
                 done();
             }), 5000);
@@ -272,7 +272,7 @@ describe('bob-basic-doi-test', function () {
     });
 });
 
-function generatetoaddress(toaddress,amount){
+function generatetoaddress(url,toaddress,amount){
     //2. generatetoaddress nblocks address
 
     const dataGenerate = {"jsonrpc": "1.0", "id":"generatetoaddress", "method": "generatetoaddress", "params": [amount,toaddress] };
