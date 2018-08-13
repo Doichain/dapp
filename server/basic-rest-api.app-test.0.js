@@ -215,13 +215,22 @@ describe('alice-basic-doi-test', function () {
     });
     it('imports bob´s private key in order to see HIS transactions', function (done) {
         const url_importprivkey = 'http://localhost:18544'; //node_url_bob;
-        const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": ["cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj", "jenkins testing privkey don't use anywhere", true] };
+        const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": ["cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj"] };
         const headers_importprivkey = { 'Content-Type':'text/plain'  };
         const auth = "admin:generated-password";
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
         const realdata_importprivkey = { auth: auth, data: data_importprivkey, headers: headers_importprivkey };
         const result = getHttpPOST(url_importprivkey, realdata_importprivkey);
         logBlockchain('result:',result);
+
+        const url_importaddress = 'http://localhost:18544'; //node_url_bob;
+        const data_importaddress = {"jsonrpc": "1.0", "id":"importaddress", "method": "importaddress", "params": ["mthu4XsqpmMYsrgTore36FV621JWM3Epxj"] };
+        const headers_importaddress = { 'Content-Type':'text/plain'  };
+        const auth_importaddress = "admin:generated-password";
+        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
+        const realdata_importaddress = { auth: auth_importaddress, data: data_importaddress, headers: headers_importaddress };
+        const resultimportaddress = getHttpPOST(url_importaddress, realdata_importaddress);
+        logBlockchain('result:',resultimportaddress);
         done();
     });
     it('should return two transactions', function (done) {
