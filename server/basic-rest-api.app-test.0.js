@@ -207,11 +207,7 @@ describe('alice-basic-doi-test', function () {
 
 
     });
-
-    it('imports bob´s test private key and address in order to see HIS transactions', function (done) {
-
-        done();
-    });
+/*
     it('should return two transactions', function (done) {
 
         const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
@@ -231,10 +227,9 @@ describe('alice-basic-doi-test', function () {
           logBlockchain('newArray:',newArray);
           chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});*/
         done();
-    });
+    }); */
 
-});
-
+})
 describe('bob-basic-doi-test', function () {
     //this.timeout(20000);
 
