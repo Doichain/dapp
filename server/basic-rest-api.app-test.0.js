@@ -17,7 +17,7 @@ const dapp_url_alice = 'http://localhost:3000';
 
 const auth = "admin:generated-password";
 const headers = { 'Content-Type':'text/plain'  };
-
+let aliceAddress = "";
 //const dapp_url_bob = 'http://localhost:4000';
 describe('alice-basic-doi-test', function () {
     this.timeout(180000);
@@ -66,12 +66,12 @@ describe('alice-basic-doi-test', function () {
         const realdataGetNewAddress = { auth: auth, data: dataGetNewAddress, headers: headers };
         const resultGetNewAddress = getHttpPOST(url, realdataGetNewAddress);
         const statusOptInGetNewAddress = resultGetNewAddress.statusCode;
-        const newAddress  = resultGetNewAddress.data.result;
+        aliceAddress  = resultGetNewAddress.data.result;
         chai.assert.equal(200, statusOptInGetNewAddress);
         chai.expect(resultGetNewAddress.data.error).to.be.null;
         chai.expect(newAddress).to.not.be.null;
 
-        generatetoaddress(node_url_alice,newAddress,110);  //110 coins new address!
+        generatetoaddress(node_url_alice,aliceAddress,110);  //110 coins new address!
         //chai.should.exist(resultGenerate.data.result);
         done();
     });
@@ -159,7 +159,8 @@ describe('alice-basic-doi-test', function () {
                 chai.assert.equal("e/"+our_optIn.nameId, resultGetRawTransaction.data.result.vout[0].scriptPubKey.nameOp.name);
             }
 
-            //alice is not querying the dns and finds out bobs public key where to send the nameId
+            generatetoaddress(node_url_alice,aliceAddress,110);
+                //alice is not querying the dns and finds out bobs public key where to send the nameId
 
             //we assume the name_doi reached bob's node -
             // so we connect to bob's node via rpc an check if this transaction is there too
@@ -233,8 +234,6 @@ describe('alice-basic-doi-test', function () {
 
 });
 describe('bob-basic-doi-test', function () {
-    //this.timeout(20000);
-
 
    it('imports bob´s private key in order to see HIS transactions', function (done) {
         const url_importprivkey = 'http://localhost:18544'; //node_url_bob;
