@@ -96,7 +96,8 @@ describe('alice-basic-doi-test', function () {
         //curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
         const urlLogin = dapp_url_alice+'/api/v1/login';
         const paramsLogin = {"username":"admin","password":"password"};
-        const realDataLogin= { params: paramsLogin, headers: headers };
+        const headersLogin = [{'Content-Type':'application/json'}];
+        const realDataLogin= { params: paramsLogin, headers: headersLogin };
 
         const result = getHttpPOST(urlLogin, realDataLogin);
         logBlockchain('result login:',result);
