@@ -69,7 +69,7 @@ describe('alice-basic-doi-test', function () {
         aliceAddress  = resultGetNewAddress.data.result;
         chai.assert.equal(200, statusOptInGetNewAddress);
         chai.expect(resultGetNewAddress.data.error).to.be.null;
-        chai.expect(newAddress).to.not.be.null;
+        chai.expect(aliceAddress).to.not.be.null;
 
         generatetoaddress(node_url_alice,aliceAddress,110);  //110 coins new address!
         //chai.should.exist(resultGenerate.data.result);
@@ -159,7 +159,7 @@ describe('alice-basic-doi-test', function () {
                 chai.assert.equal("e/"+our_optIn.nameId, resultGetRawTransaction.data.result.vout[0].scriptPubKey.nameOp.name);
             }
 
-            generatetoaddress(node_url_alice,aliceAddress,110);
+            generatetoaddress(node_url_alice,aliceAddress,6);
                 //alice is not querying the dns and finds out bobs public key where to send the nameId
 
             //we assume the name_doi reached bob's node -
