@@ -199,7 +199,7 @@ describe('alice-basic-doi-test', function () {
             }), 5000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
     });
 
-    it('should list all transactions and check if our SOI is inside', function (done) {
+    it('should return no transactions', function (done) {
 
         const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
         const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
@@ -208,8 +208,36 @@ describe('alice-basic-doi-test', function () {
         const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
         const result = getHttpPOST(urlListTransactions, realdataListTransactions);
         logBlockchain('result:',result);
-        chai.assert.equal(200, result.status);
-        chai.assert.equal('success', result.data.status);
+        chai.assert.equal(200, result.statusCode);
+        chai.assert.equal('success', result.data.result);
+        chai.expect(result.data.result.data.error).to.be.null;
+        chai.expect(result.data.result).to.have.lengthOf(0);
+        done();
+    });
+    it('imports bob´s private key in order to see HIS transactions', function (done) {
+        const url_importprivkey = 'http://localhost:18544'; //node_url_bob;
+        const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": ["cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj", "jenkins testing privkey don't use anywhere", true] };
+        const headers_importprivkey = { 'Content-Type':'text/plain'  };
+        const auth = "admin:generated-password";
+        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
+        const realdata_importprivkey = { auth: auth, data: data_importprivkey, headers: headers_importprivkey };
+        const result = getHttpPOST(url_importprivkey, realdata_importprivkey);
+        logBlockchain('result:',result);
+        done();
+    });
+    it('should return two transactions', function (done) {
+
+        const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
+        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
+        const headersListTransaction = { 'Content-Type':'text/plain'  };
+        const auth = "admin:generated-password";
+        const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
+        const result = getHttpPOST(urlListTransactions, realdataListTransactions);
+        logBlockchain('result:',result);
+        chai.assert.equal(200, result.statusCode);
+        chai.assert.equal('success', result.data.result);
+        chai.expect(result.data.result.data.error).to.be.null;
+        chai.expect(result.data.result).to.have.lengthOf(2);
         /*  var json = JSON.stringify(eval("(" + result + ")")); //
           var newArray = JSON.parse(json).filter(function (el) {
               return el.name === "doi: e/"+nameId;
@@ -217,7 +245,6 @@ describe('alice-basic-doi-test', function () {
           logBlockchain('newArray:',newArray);
           chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});*/
         done();
-
     });
 
 });
