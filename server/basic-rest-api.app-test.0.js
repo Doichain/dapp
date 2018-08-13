@@ -213,7 +213,7 @@ describe('alice-basic-doi-test', function () {
         chai.expect(result.data.result).to.have.lengthOf(0);
         done();
     });
-    it('imports bob´s private key in order to see HIS transactions', function (done) {
+    it('imports bob´s test private key and address in order to see HIS transactions', function (done) {
         const url_importprivkey = 'http://localhost:18544'; //node_url_bob;
         const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": ["cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj"] };
         const headers_importprivkey = { 'Content-Type':'text/plain'  };
