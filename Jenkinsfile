@@ -24,6 +24,7 @@ node {
                                  sh './contrib/scripts/check-alice.sh'
                                  echo "running with doichain docker image alice"
                                  def BOBS_DOCKER_PARAMS = "-it --name=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p ${BOB_NODE_PORT}:18443 -e RPC_PASSWORD=generated-password -e RPC_HOST=bob -e DAPP_SMTP_HOST=smtp -e DAPP_SMTP_USER=bob -e DAPP_SMTP_PASS='bob-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e DEFAULT_FROM='doichain@ci-doichain.org' --dns=${BIND_IP} --dns-search=ci-doichain.org";
+                                 echo BOBS_DOCKER_PARAMS
                                  docker.image("doichain/node-only:latest").withRun(BOBS_DOCKER_PARAMS) { c2 ->
                                         sh 'docker logs bob;sleep 10'
                                         sh "docker exec bob  sh -c 'sed -i.bak s/localhost:3000/${METEOR_IP}:3001/g /home/doichain/.doichain/doichain.conf && cat /home/doichain/.doichain/doichain.conf && /usr/local/bin/doichain-cli stop && sleep 10 && /usr/local/bin/doichaind -regtest'"
