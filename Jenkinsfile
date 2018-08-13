@@ -33,6 +33,7 @@ node {
                                         sh 'sudo ./contrib/scripts/meteor-install.sh'
 
                                         sh 'sudo git submodule init && sudo git submodule update && sudo meteor npm install && sudo meteor npm install --save bcrypt && sudo meteor npm run lint && sudo meteor npm run test-jenkins-alice-mocha && sudo meteor npm run test-jenkins-bob-mocha'
+                                        sleep 120
                                         echo "finished alice"
 
                                         echo "finished bob"
