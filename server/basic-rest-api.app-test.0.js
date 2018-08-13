@@ -20,7 +20,7 @@ const headers = { 'Content-Type':'text/plain'  };
 
 //const dapp_url_bob = 'http://localhost:4000';
 describe('alice-basic-doi-test', function () {
-    this.timeout(60000);
+    this.timeout(180000);
 
     it('should check if alice is alive', function(done){
 
@@ -215,9 +215,8 @@ describe('alice-basic-doi-test', function () {
 
         const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
         const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": [] };
-        const headersListTransaction = { 'Content-Type':'text/plain'  };
         const auth = "admin:generated-password";
-        const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
+        const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headers };
         const result = getHttpPOST(urlListTransactions, realdataListTransactions);
         logBlockchain('result:',result);
         chai.assert.equal(200, result.statusCode);
