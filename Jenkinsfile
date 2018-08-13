@@ -32,7 +32,7 @@ node {
                                         sh './contrib/scripts/connect-alice.sh'
                                         sh 'sudo ./contrib/scripts/meteor-install.sh'
 
-                                        sh 'sudo git submodule init;sudo git submodule update;sudo meteor npm install;sudo meteor npm install --save bcrypt;sudo meteor npm run lint;sudo meteor npm run test-jenkins-alice-mocha;./contrib/scripts/check-bob.sh;sudo meteor npm run test-jenkins-bob-mocha'
+                                        sh 'sudo git submodule init && sudo git submodule update && sudo meteor npm install && sudo meteor npm install --save bcrypt && sudo meteor npm run lint && sudo meteor npm run test-jenkins-alice-mocha && ./contrib/scripts/check-bob.sh && sudo meteor npm run test-jenkins-bob-mocha'
                                         echo "finished alice"
 
                                         echo "finished bob"
