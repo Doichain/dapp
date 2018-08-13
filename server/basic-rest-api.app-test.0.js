@@ -197,28 +197,28 @@ describe('alice-basic-doi-test', function () {
 
 
             }), 5000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
+    });
 
-        it('should list all transactions and check if our SOI is inside', function (done) {
+    it('should list all transactions and check if our SOI is inside', function (done) {
 
-                    const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
-                    const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
-                    const headersListTransaction = { 'Content-Type':'text/plain'  };
-                    const auth = "admin:generated-password";
-                    const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
-                    const result = getHttpPOST(urlListTransactions, realdataListTransactions);
-                    logBlockchain('result:',result);
-                    chai.assert.equal(200, result.status);
-                    chai.assert.equal('success', result.data.status);
-                  /*  var json = JSON.stringify(eval("(" + result + ")")); //
-                    var newArray = JSON.parse(json).filter(function (el) {
-                        return el.name === "doi: e/"+nameId;
-                    });
-                    logBlockchain('newArray:',newArray);
-                    chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});*/
-            done();
+        const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
+        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
+        const headersListTransaction = { 'Content-Type':'text/plain'  };
+        const auth = "admin:generated-password";
+        const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
+        const result = getHttpPOST(urlListTransactions, realdataListTransactions);
+        logBlockchain('result:',result);
+        chai.assert.equal(200, result.status);
+        chai.assert.equal('success', result.data.status);
+        /*  var json = JSON.stringify(eval("(" + result + ")")); //
+          var newArray = JSON.parse(json).filter(function (el) {
+              return el.name === "doi: e/"+nameId;
+          });
+          logBlockchain('newArray:',newArray);
+          chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});*/
+        done();
 
-        });
-    })
+    });
 
 });
 
