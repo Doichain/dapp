@@ -13,4 +13,4 @@ echo "checking bob's node from inside docker cointainer"
 docker exec bob curl -s --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"bob-getblockchaininfo-external", "method": "getblockchaininfo", "params": [] }' -H 'content-type: text/plain;' http://$MY_IP:18443/
 
 echo "checking bob's node from outside the docker cointainer (localhost)"
-curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"bob-getblockchaininfo-external", "method": "getblockchaininfo", "params": [] }' -H 'content-type: text/plain;' http://localhost:18544/
+curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"bob-getblockchaininfo-external", "method": "getblockchaininfo", "params": [] }' -H 'content-type: text/plain;' http://$MY_IP:18544/
