@@ -220,16 +220,16 @@ describe('alice-basic-doi-test', function () {
         chai.assert.equal(200, result.statusCode);
         chai.expect(result.data.error).to.be.null;
         chai.expect(result.data.result).to.have.lengthOf(2);
-        /*  var json = JSON.stringify(eval("(" + result + ")")); //
-          var newArray = JSON.parse(json).filter(function (el) {
-              return el.name === "doi: e/"+nameId;
-          });
+        // var json = JSON.stringify(eval("(" + result + ")"));
+         // var newArray = JSON.parse(json).filter(function (el) {
+        //      return el.name === "doi: e/"+nameId;
+        //  });
           logBlockchain('newArray:',newArray);
-          chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});*/
+          chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});
         done();
     }); */
 
-})
+});
 describe('bob-basic-doi-test', function () {
     //this.timeout(20000);
 
