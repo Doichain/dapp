@@ -206,9 +206,9 @@ describe('alice-basic-doi-test', function () {
 describe('bob-basic-doi-test', function () {
     //this.timeout(20000);
 
-/*
+
     it('imports bob´s private key in order to see HIS transactions', function (done) {
-        const url_importprivkey = 'http://localhost:18544/' //node_url_bob;
+        const url_importprivkey = 'http://localhost:18544/'; //node_url_bob;
         const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": ["cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj", "jenkins testing privkey don't use anywhere", true] };
         const headers_importprivkey = { 'Content-Type':'text/plain'  };
         const auth = "admin:generated-password";
@@ -217,7 +217,7 @@ describe('bob-basic-doi-test', function () {
         const result = getHttpPOST(url_importprivkey, realdata_importprivkey);
         logBlockchain('result:',result);
         done();
-    });*/
+    });
 
     it('should list all transactions and check if our SOI is inside', function (done) {
 /*
