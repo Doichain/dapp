@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+MY_IP=$(sudo docker inspect bob | jq '.[0].NetworkSettings.IPAddress' | tr -d \")
+echo $MY_IP
+docker ps
+docker exec bob sudo apt-get update
+docker exec bob sudo apt install net-tools
+docker exec bob sudo netstat -atn
+docker exec bob doichain-cli -getinfo
+docker exec bob doichain-cli getnetworkinfo
+
+echo "checking node from inside docker cointainer"
+docker exec bob curl -s --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getblockchaininfo", "params": [] }' -H 'content-type: text/plain;' http://$MY_IP:18443/
+
+echo "checking node from outside the docker cointainer (localhost)"
+curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getblockchaininfo", "params": [] }' -H 'content-type: text/plain;' http://localhost:18544/
