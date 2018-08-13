@@ -210,7 +210,7 @@ describe('alice-basic-doi-test', function () {
 
 
     });
-/*
+
     it('should return two transactions', function (done) {
 
         const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
@@ -230,7 +230,7 @@ describe('alice-basic-doi-test', function () {
           logBlockchain('newArray:',newArray);
           chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});
         done();
-    }); */
+    });
 
 });
 describe('bob-basic-doi-test', function () {
