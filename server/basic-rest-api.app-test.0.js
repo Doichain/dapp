@@ -204,7 +204,7 @@ describe('alice-basic-doi-test', function () {
 });
 
 describe('bob-basic-doi-test', function () {
-    this.timeout(20000);
+    //this.timeout(20000);
 
 
     it('imports bob´s private key in order to see HIS transactions', function (done) {
