@@ -14,6 +14,10 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
 const node_url_alice = 'http://localhost:18543/';
 const node_url_bob =   'http://localhost:18544/';
 const dapp_url_alice = 'http://localhost:3000';
+
+const auth = "admin:generated-password";
+const headers = { 'Content-Type':'text/plain'  };
+
 //const dapp_url_bob = 'http://localhost:4000';
 describe('alice-basic-doi-test', function () {
     this.timeout(60000);
@@ -21,12 +25,8 @@ describe('alice-basic-doi-test', function () {
     it('should check if alice is alive', function(done){
 
         const url = node_url_alice;
-        const auth = "admin:generated-password";
-
         const dataGetNetworkInfo = {"jsonrpc": "1.0", "id":"getnetworkinfo", "method": "getnetworkinfo", "params": [] };
-        const headersGetNetworkInfo = { 'Content-Type':'text/plain'  };
-
-        const realdataGetNetworkInfo = { auth: auth, data: dataGetNetworkInfo, headers: headersGetNetworkInfo };
+        const realdataGetNetworkInfo = { auth: auth, data: dataGetNetworkInfo, headers: headers };
         const resultGetNetworkInfo = getHttpPOST(url, realdataGetNetworkInfo);
         const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
         chai.assert.equal(200, statusGetNetworkInfo);
@@ -38,21 +38,15 @@ describe('alice-basic-doi-test', function () {
     it('should check if bob is alive and connected to alice', function(done){
 
         const url = node_url_bob;
-        const auth = "admin:generated-password";
-
         const dataGetNetworkInfo = {"jsonrpc": "1.0", "id":"getnetworkinfo", "method": "getnetworkinfo", "params": [] };
-        const headersGetNetworkInfo = { 'Content-Type':'text/plain'  };
-
-        const realdataGetNetworkInfo = { auth: auth, data: dataGetNetworkInfo, headers: headersGetNetworkInfo };
+        const realdataGetNetworkInfo = { auth: auth, data: dataGetNetworkInfo, headers: headers };
         const resultGetNetworkInfo = getHttpPOST(url, realdataGetNetworkInfo);
         const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
         chai.assert.equal(200, statusGetNetworkInfo);
         logBlockchain('resultGetNetworkInfo:',resultGetNetworkInfo);
 
         const dataGetPeerInfo = {"jsonrpc": "1.0", "id":"getpeerinfo", "method": "getpeerinfo", "params": [] };
-        const headersGetPeerInfo = { 'Content-Type':'text/plain'  };
-
-        const realdataGetPeerInfo = { auth: auth, data: dataGetPeerInfo, headers: headersGetPeerInfo };
+        const realdataGetPeerInfo = { auth: auth, data: dataGetPeerInfo, headers: headers };
         const resultGetPeerInfo = getHttpPOST(url, realdataGetPeerInfo);
         const statusGetPeerInfo = resultGetPeerInfo.statusCode;
         chai.assert.equal(200, statusGetPeerInfo);
@@ -66,13 +60,10 @@ describe('alice-basic-doi-test', function () {
         //resetDatabase();
 
         const url = node_url_alice;
-        const auth = "admin:generated-password";
 
         //1. getnewaddress
         const dataGetNewAddress = {"jsonrpc": "1.0", "id":"getnewaddress", "method": "getnewaddress", "params": [] };
-        const headersGetNewAddress = { 'Content-Type':'text/plain'  };
-
-        const realdataGetNewAddress = { auth: auth, data: dataGetNewAddress, headers: headersGetNewAddress };
+        const realdataGetNewAddress = { auth: auth, data: dataGetNewAddress, headers: headers };
         const resultGetNewAddress = getHttpPOST(url, realdataGetNewAddress);
         const statusOptInGetNewAddress = resultGetNewAddress.statusCode;
         const newAddress  = resultGetNewAddress.data.result;
@@ -80,17 +71,7 @@ describe('alice-basic-doi-test', function () {
         chai.expect(resultGetNewAddress.data.error).to.be.null;
         chai.expect(newAddress).to.not.be.null;
 
-        //2. generatetoaddress nblocks address
-        logBlockchain('resultGetNewAddress.result:',newAddress);
-        const dataGenerate = {"jsonrpc": "1.0", "id":"generatetoaddress", "method": "generatetoaddress", "params": [110,newAddress] };
-        const headersGenerates = { 'Content-Type':'text/plain'  };
-        const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
-        const resultGenerate = getHttpPOST(url, realdataGenerate);
-        logBlockchain('resultGenerate:',resultGenerate);
-        const statusResultGenerate = resultGenerate.statusCode;
-        chai.assert.equal(200, statusResultGenerate);
-        chai.expect(resultGenerate.data.error).to.be.null;
-        chai.expect(resultGenerate.data.result).to.not.be.null;
+        generatetoaddress();
         //chai.should.exist(resultGenerate.data.result);
         done();
     });
@@ -100,10 +81,8 @@ describe('alice-basic-doi-test', function () {
         //curl --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getbalance", "params": ["*", 6] }' -H 'content-type: text/plain;' http://127.0.0.1:18339
         const urlGetBalance = node_url_alice;
         const dataGetBalance = {"jsonrpc": "1.0", "id":"getbalance", "method": "getbalance", "params": [] };
-        const headersGetBalance = { 'Content-Type':'text/plain'  };
-        const auth = "admin:generated-password";
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
-        const realdataGetBalance = { auth: auth, data: dataGetBalance, headers: headersGetBalance };
+        const realdataGetBalance = { auth: auth, data: dataGetBalance, headers: headers };
         const resultGetBalance = getHttpPOST(urlGetBalance, realdataGetBalance);
         //console.log(resultGetBalance.data.result);
         logBlockchain('resultGetBalance:',resultGetBalance);
@@ -117,8 +96,7 @@ describe('alice-basic-doi-test', function () {
         //curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
         const urlLogin = dapp_url_alice+'/api/v1/login';
         const paramsLogin = {"username":"admin","password":"password"};
-        const headersLogin = [{'Content-Type':'application/json'}];
-        const realDataLogin= { params: paramsLogin, headers: headersLogin };
+        const realDataLogin= { params: paramsLogin, headers: headers };
 
         const result = getHttpPOST(urlLogin, realDataLogin);
         const statusCode = result.statusCode;
@@ -151,7 +129,6 @@ describe('alice-basic-doi-test', function () {
         const resultDataOptIn = resultOptIn.data;
 
         logBlockchain('resultDataOptIn:',resultDataOptIn);
-       // setTimeout(done, 300);
         setTimeout(
 
             Meteor.bindEnvironment(function () {
@@ -165,15 +142,11 @@ describe('alice-basic-doi-test', function () {
             chai.assert.equal('success', statusOptIn);
             chai.assert.equal(our_optIn._id,resultDataOptIn.data.id);
             //now check the blockchain with list transactions and find transaction with this
-            //const nameId = resultDataOptIn.data.id;
             const txId = our_optIn.txId;
             logBlockchain('txId:', our_optIn.txId);
             const urlGetRawTransaction = node_url_alice;
             const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
-            const headersGetRawTransaction = { 'Content-Type':'text/plain'  };
-            const auth = "admin:generated-password";
-
-            const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headersGetRawTransaction };
+            const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headers };
             const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
             logBlockchain('resultGetRawTransaction:',resultGetRawTransaction);
             if(resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp!==undefined){
@@ -203,34 +176,40 @@ describe('alice-basic-doi-test', function () {
 
         const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
         const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
-        const headersListTransaction = { 'Content-Type':'text/plain'  };
-        const auth = "admin:generated-password";
-        const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headersListTransaction };
+        const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headers };
         const result = getHttpPOST(urlListTransactions, realdataListTransactions);
         logBlockchain('result:',result);
         chai.assert.equal(200, result.statusCode);
         chai.expect(result.data.error).to.be.null;
         chai.expect(result.data.result).to.have.lengthOf(0);
-        done();
-    });
-    it('imports bob´s test private key and address in order to see HIS transactions', function (done) {
-        const url_importprivkey = 'http://localhost:18544'; //node_url_bob;
-        const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": ["cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj"] };
-        const headers_importprivkey = { 'Content-Type':'text/plain'  };
-        const auth = "admin:generated-password";
-        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
-        const realdata_importprivkey = { auth: auth, data: data_importprivkey, headers: headers_importprivkey };
-        const result = getHttpPOST(url_importprivkey, realdata_importprivkey);
-        logBlockchain('result:',result);
 
-        const url_importaddress = 'http://localhost:18544'; //node_url_bob;
-        const data_importaddress = {"jsonrpc": "1.0", "id":"importaddress", "method": "importaddress", "params": ["mthu4XsqpmMYsrgTore36FV621JWM3Epxj"] };
-        const headers_importaddress = { 'Content-Type':'text/plain'  };
-        const auth_importaddress = "admin:generated-password";
-        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
-        const realdata_importaddress = { auth: auth_importaddress, data: data_importaddress, headers: headers_importaddress };
-        const resultimportaddress = getHttpPOST(url_importaddress, realdata_importaddress);
-        logBlockchain('result:',resultimportaddress);
+        setTimeout(
+
+            Meteor.bindEnvironment(function () {
+
+                const url_importprivkey = 'http://localhost:18544'; //node_url_bob;
+                const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": ["cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj"] };
+
+                //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
+                const realdata_importprivkey = { auth: auth, data: data_importprivkey, headers: headers };
+                const result = getHttpPOST(url_importprivkey, realdata_importprivkey);
+                logBlockchain('result:',result);
+
+                const url_importaddress = 'http://localhost:18544'; //node_url_bob;
+                const data_importaddress = {"jsonrpc": "1.0", "id":"importaddress", "method": "importaddress", "params": ["mthu4XsqpmMYsrgTore36FV621JWM3Epxj"] };
+                //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
+                const realdata_importaddress = { auth: auth, data: data_importaddress, headers: headers };
+                const resultimportaddress = getHttpPOST(url_importaddress, realdata_importaddress);
+                logBlockchain('result:',resultimportaddress);
+
+                done();
+            }), 5000);
+
+
+    });
+
+    it('imports bob´s test private key and address in order to see HIS transactions', function (done) {
+
         done();
     });
     it('should return two transactions', function (done) {
@@ -292,3 +271,17 @@ describe('bob-basic-doi-test', function () {
 
     });
 });
+
+function generatetoaddress(toaddress,amount){
+    //2. generatetoaddress nblocks address
+
+    const dataGenerate = {"jsonrpc": "1.0", "id":"generatetoaddress", "method": "generatetoaddress", "params": [amount,toaddress] };
+    const headersGenerates = { 'Content-Type':'text/plain'  };
+    const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
+    const resultGenerate = getHttpPOST(url, realdataGenerate);
+    logBlockchain('resultGenerate:',resultGenerate);
+    const statusResultGenerate = resultGenerate.statusCode;
+    chai.assert.equal(200, statusResultGenerate);
+    chai.expect(resultGenerate.data.error).to.be.null;
+    chai.expect(resultGenerate.data.result).to.not.be.null;
+}
