@@ -27,7 +27,7 @@ node {
                                  echo BOBS_DOCKER_PARAMS
                                  docker.image("doichain/node-only:latest").withRun(BOBS_DOCKER_PARAMS) { c2 ->
                                         sh 'docker logs bob;sleep 10'
-                                        sh "docker exec bob  sh -c 'sed -i.bak s/localhost:3000/${METEOR_IP}:3001/g /home/doichain/.doichain/doichain.conf && cat /home/doichain/.doichain/doichain.conf && /usr/local/bin/doichain-cli stop && sleep 10 && /usr/local/bin/doichaind -regtest'"
+                                        sh "docker exec bob  sh -c 'sed -i.bak s/localhost:3000/${METEOR_IP}:4000/g /home/doichain/.doichain/doichain.conf && cat /home/doichain/.doichain/doichain.conf && /usr/local/bin/doichain-cli stop && sleep 10 && /usr/local/bin/doichaind -regtest'"
                                         sh 'sleep 5'
                                         sh './contrib/scripts/connect-alice.sh'
                                         sh 'sudo ./contrib/scripts/meteor-install.sh'
