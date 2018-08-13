@@ -16,7 +16,7 @@ const node_url_bob =   'http://localhost:18544/';
 const dapp_url_alice = 'http://localhost:3000';
 //const dapp_url_bob = 'http://localhost:4000';
 describe('alice-basic-doi-test', function () {
-    this.timeout(20000);
+    this.timeout(60000);
 
     it('should check if alice is alive', function(done){
 
