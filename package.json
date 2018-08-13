@@ -8,7 +8,7 @@
     "test-mocha": "meteor test --once --driver-package meteortesting:mocha --settings settings-test.json --port 3100",
     "test-circleci-mocha": "meteor test --once --full-app --driver-package meteortesting:mocha --settings settings-test.json ",
     "test-jenkins-alice-mocha": "export MONGO_URL=mongodb://localhost:27018/alice; export MOCHA_GREP=alice-basic-doi-test; meteor test --once --full-app --driver-package meteortesting:mocha --settings settings-jenkins-alice.json --allow-superuser",
-    "test-jenkins-bob-mocha": "export MONGO_URL=mongodb://localhost:27018/bob;export MOCHA_GREP=bob-basic-doi-test; meteor test --once --full-app --driver-package meteortesting:mocha --port 3001 --settings settings-jenkins-bob.json --allow-superuser",
+    "test-jenkins-bob-mocha": "export MONGO_URL=mongodb://localhost:27018/bob;export MOCHA_GREP=bob-basic-doi-test; meteor test --once --full-app --driver-package meteortesting:mocha --port 4000 --settings settings-jenkins-bob.json --allow-superuser",
 
     "test-watch-mocha": "TEST_WATCH=1 meteor test --full-app --settings settings-test.json --driver-package meteortesting:mocha",
     "test-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha --port 3100",
