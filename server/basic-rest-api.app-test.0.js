@@ -99,6 +99,7 @@ describe('alice-basic-doi-test', function () {
         const realDataLogin= { params: paramsLogin, headers: headers };
 
         const result = getHttpPOST(urlLogin, realDataLogin);
+        logBlockchain('result login:',result);
         const statusCode = result.statusCode;
         const data = result.data;
 
@@ -122,13 +123,14 @@ describe('alice-basic-doi-test', function () {
         //https://docs.meteor.com/api/http.html
         //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
 
-        const realDataOptin = { data: dataOptIn, headers: headersOptIn };
+            const realDataOptin = { data: dataOptIn, headers: headersOptIn };
         const resultOptIn = getHttpPOST(urlOptIn, realDataOptin);
 
         const statusCodeOptIn = result.statusCode;
         const resultDataOptIn = resultOptIn.data;
 
         logBlockchain('resultDataOptIn:',resultDataOptIn);
+
         setTimeout(
 
             Meteor.bindEnvironment(function () {
