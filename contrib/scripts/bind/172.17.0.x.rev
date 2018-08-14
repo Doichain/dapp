@@ -1,0 +1,8 @@
+$ttl 38400
+x.0.17.172.in-addr.arpa.	IN	SOA	ns.ci-doichain.org. admin.ci-doichain.org. (
+			201808141711
+			10800
+			3600
+			604800
+			38400 )
+x.0.17.172.in-addr.arpa.	IN	NS	ns.ci-doichain.org.
