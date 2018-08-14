@@ -6,7 +6,7 @@ ci-doichain.org.	IN	SOA	ns.ci-doichain.org. admin.le-space.de. (
 			604800
 			38400 )
 ci-doichain.org.	IN	NS	ns.ci-doichain.org.
-1w 			IN      MX      10   mail.ci-doichain.org.
+#1w 			IN      MX      10   mail.ci-doichain.org.
 ci-doichain.org.	IN	A	172.17.0.ns
 ns.ci-doichain.org.	IN	A	172.17.0.ns
 mail.ci-doichain.org.	IN	A	172.17.0.mail
