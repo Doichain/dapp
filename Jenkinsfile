@@ -35,12 +35,13 @@ node {
 //                                     sleep 1800
                                      docker.image("doichain/node-only:latest").withRun(BOBS_DOCKER_PARAMS) { c2 ->
                                      def BOB_IP = sh(script: "sudo docker inspect bob | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim()
-                                     def BOB_IP_LASTPART = BOB_IP.substring(BOB_IP.lastIndexOf('.')+1,BOB_IP.length()-1)
+
+                                     def BIND_IP_LASTPART = BOB_IP.substring(BIND_IP.lastIndexOf('.')+1,BIND_IP.length()-1)
                                             echo "${BOB_IP_LASTPART}"
-                                            //update bind
-                                            sh "docker cp contrib/scripts/bind/named.conf.local bind:/data/bind/etc/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BOB_IP_LASTPART}.0.17.172./g /data/bind/etc/named.conf.local && sed -i.bak s/172.17.0.x./172.17.0.${BOB_IP_LASTPART}/g /data/bind/etc/named.conf.local && service bind9 reload'"
-                                            sh "docker cp contrib/scripts/bind/172.17.0.x.rev bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BOB_IP_LASTPART}.0.17.172./g /data/bind/lib/172.17.0.x.rev && service bind9 reload'"
-                                            sh "docker cp contrib/scripts/bind/ci-doichain.org.hosts bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/172.17.0.x./172.17.0.${BOB_IP_LASTPART}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
+                                            //update and reload bind with correct ip of bind
+                                            sh "docker cp contrib/scripts/bind/named.conf.local bind:/data/bind/etc/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/etc/named.conf.local && sed -i.bak s/172.17.0.x./172.17.0.${BIND_IP_LASTPART}/g /data/bind/etc/named.conf.local && service bind9 reload'"
+                                            sh "docker cp contrib/scripts/bind/172.17.0.x.rev bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/lib/172.17.0.x.rev && service bind9 reload'"
+                                            sh "docker cp contrib/scripts/bind/ci-doichain.org.hosts bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/172.17.0.x./172.17.0.${BIND_IP_LASTPART}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
 
                                             //sh "docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BOB_IP_LASTPART}.0.17.172./g /data/lib/172.17.0.x.rev && mv /data/lib/172.17.0.x.rev /data/lib/172.17.0.$CN.rev && service bind9 reload"
                                            // sh "docker exec bind  sh -c 'CN=`echo ${BIND_IP} | cut -d . -f 4` sed -i.bak s/x.0.17.172./${BIND_IP}.0.17.172./g /data/etc/named.conf.local && service bind9 reload"
