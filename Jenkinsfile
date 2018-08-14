@@ -43,14 +43,13 @@ node {
                                             sh "docker cp contrib/scripts/bind/ci-doichain.org.hosts bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/172.17.0.ns./172.17.0.${BIND_IP_LASTPART}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
 
                                             //update hostname of alice and bob
-                                            sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.alice./172.17.0.${ALICE_IP}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
-                                            sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.bob./172.17.0.${BOB_IP}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
+                                            sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.alice./${ALICE_IP}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
+                                            sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.bob./${BOB_IP}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
 
+                                            //update hostname of mail
+                                            sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.mail./${MAIL_IP}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
 
-                                            //sh "docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BOB_IP_LASTPART}.0.17.172./g /data/lib/172.17.0.x.rev && mv /data/lib/172.17.0.x.rev /data/lib/172.17.0.$CN.rev && service bind9 reload"
-                                           // sh "docker exec bind  sh -c 'CN=`echo ${BIND_IP} | cut -d . -f 4` sed -i.bak s/x.0.17.172./${BIND_IP}.0.17.172./g /data/etc/named.conf.local && service bind9 reload"
-
-                                            sh 'docker logs bob;sleep 10'
+                                            //update meteor ip of bob for correct walletnotfify
                                             sh "docker exec bob  sh -c 'sed -i.bak s/localhost:3000/${METEOR_IP}:4000/g /home/doichain/.doichain/doichain.conf && cat /home/doichain/.doichain/doichain.conf && /usr/local/bin/doichain-cli stop && sleep 10 && /usr/local/bin/doichaind -regtest'"
                                             sh 'sleep 5'
                                             sh './contrib/scripts/connect-alice.sh'
