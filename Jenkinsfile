@@ -35,7 +35,7 @@ node {
                                      def BOBS_DOCKER_PARAMS = "-it --name=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p ${BOB_NODE_PORT}:18443 -e RPC_PASSWORD=generated-password -e RPC_HOST=bob -e DAPP_SMTP_HOST=smtp -e DAPP_SMTP_USER=bob -e DAPP_SMTP_PASS='bob-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e DEFAULT_FROM='doichain@ci-doichain.org' --dns=${BIND_IP} --dns-search=ci-doichain.org";
                                      docker.image("doichain/node-only:latest").withRun(BOBS_DOCKER_PARAMS) { c2 ->
                                             def BOB_IP = sh(script: "sudo docker inspect bob | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim().replaceAll("\"", "")
-
+                                            def NOW = System.currentTimeMillis()
                                             //update bind with correct ip of bind (named.local.conf, rev-file, host-file)
                                             sh "docker cp contrib/scripts/bind/named.conf.local bind:/data/bind/etc/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/etc/named.conf.local && sed -i.bak s/172.17.0.x./172.17.0.${BIND_IP_LASTPART}/g /data/bind/etc/named.conf.local'"
                                             sh "docker cp contrib/scripts/bind/172.17.0.x.rev bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/lib/172.17.0.x.rev && mv  /data/bind/lib/172.17.0.x.rev  /data/bind/lib/172.17.0.${BIND_IP_LASTPART}.rev && sed -i.bak s/_serial_/${NOW}/g /data/bind/lib/172.17.0.${BIND_IP_LASTPART}.rev'"
@@ -46,7 +46,7 @@ node {
                                             sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.bob/${BOB_IP}/g /data/bind/lib/ci-doichain.org.hosts'"
 
                                             //update bind with hostname of mail, update serial and reload bind
-                                            def NOW = System.currentTimeMillis()
+
                                             sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.mail/${MAIL_IP}/g /data/bind/lib/ci-doichain.org.hosts && sed -i.bak s/_serial_/${NOW}/g /data/bind/lib/ci-doichain.org.hosts service bind9 reload'"
 
                                             //update meteor ip of bob for correct walletnotfify
