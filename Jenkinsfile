@@ -20,8 +20,8 @@ node {
             docker.image("sameersbn/bind:latest").withRun("-it --dns=127.0.0.1 --name=bind --publish=53:53/udp --volume=/bind:/data --env='ROOT_PASSWORD=generated-password'") { b ->
             def BIND_IP = sh(script: "sudo docker inspect bind | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim()
 
-                //https://hub.docker.com/r/esminis/mail-server-postfix-vm-pop3d/
-                docker.image("esminis/mail-server-postfix-vm-pop3d").withRun("-it --dns=${BIND_IP} --name=mail --hostname=mail -p 8443:8443 -p 25:25 -p 465:465 -p 995:995"){
+                //https://bitbucket.org/esminis/mailserver https://hub.docker.com/r/esminis/mail-server-postfix-vm-pop3d/
+                docker.image("esminis/mail-server-postfix-vm-pop3d").withRun("-it --dns=${BIND_IP} --name=mail --hostname=mail -p 8443:8443 -p 25:25 -p 465:465 -p 995:995 -v /var/jenkins/tequila:/opt/opt/tequila -v /var/jenkins/stunnel:/var/lib/stunnel4/"){
                 def MAIL_IP = sh(script: "sudo docker inspect mail | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim()
 
                     docker.image("doichain/node-only:latest").withRun("-it --name=alice -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p ${ALICE_NODE_PORT}:18443 -e RPC_PASSWORD=generated-password -e DAPP_HOST=alice -e DAPP_SMTP_HOST=smtp -e DAPP_SMTP_USER=alice -e DAPP_SMTP_PASS='alice-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e DEFAULT_FROM='doichain@ci-doichain.org' --dns=${BIND_IP} --dns-search=ci-doichain.org") { c ->
