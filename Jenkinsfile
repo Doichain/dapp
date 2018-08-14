@@ -39,6 +39,9 @@ node {
                                             echo "${BOB_IP_LASTPART}"
                                             //update bind
                                             sh "docker cp contrib/scripts/bind/named.conf.local bind:/data/bind/etc/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BOB_IP_LASTPART}.0.17.172./g /data/bind/etc/named.conf.local && sed -i.bak s/172.17.0.x./172.17.0.${BOB_IP_LASTPART}/g /data/bind/etc/named.conf.local && service bind9 reload'"
+                                            sh "docker cp contrib/scripts/bind/172.17.0.x.rev bind:/data/bind/etc/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BOB_IP_LASTPART}.0.17.172./g /data/bind/etc/172.17.0.x.rev && service bind9 reload'"
+                                            sh "docker cp contrib/scripts/bind/ci-doichain.org.hosts bind:/data/bind/etc/ && docker exec bind  sh -c 'sed -i.bak s/172.17.0.x./172.17.0.${BOB_IP_LASTPART}/g /data/bind/etc/ci.doichain.org.hosts && service bind9 reload'"
+
                                             //sh "docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BOB_IP_LASTPART}.0.17.172./g /data/lib/172.17.0.x.rev && mv /data/lib/172.17.0.x.rev /data/lib/172.17.0.$CN.rev && service bind9 reload"
                                            // sh "docker exec bind  sh -c 'CN=`echo ${BIND_IP} | cut -d . -f 4` sed -i.bak s/x.0.17.172./${BIND_IP}.0.17.172./g /data/etc/named.conf.local && service bind9 reload"
 
