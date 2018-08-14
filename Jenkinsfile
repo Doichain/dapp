@@ -19,7 +19,7 @@ node {
         docker.image("mongo:3.2").withRun("-p 27018:27017"){
             docker.image("sameersbn/bind:latest").withRun("-it --dns=127.0.0.1 --name=bind --publish=53:53/udp --publish 10000:10000/tcp --env='ROOT_PASSWORD=generated-password'") { b -> // --volume=/var/jenkins/bind/:/data
             def BIND_IP = sh(script: "sudo docker inspect bind | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim()
-            def BIND_IP_LASTPART = BOB_IP.substring(BIND_IP.lastIndexOf('.')+1,BIND_IP.length()-1)
+            def BIND_IP_LASTPART = BIND_IP.substring(BIND_IP.lastIndexOf('.')+1,BIND_IP.length()-1)
 
                 //https://bitbucket.org/esminis/mailserver https://hub.docker.com/r/esminis/mail-server-postfix-vm-pop3d/
                 docker.image("esminis/mail-server-postfix-vm-pop3d").withRun("-it --dns=${BIND_IP} --name=mail --hostname=mail -p 8443:8443 -p 25:25 -p 465:465 -p 995:995 "){ //-v /var/jenkins/tequila:/opt/tequila -v /var/jenkins/stunnel:/var/lib/stunnel4
