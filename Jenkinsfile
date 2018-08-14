@@ -37,8 +37,8 @@ node {
                                      def BOB_IP = sh(script: "sudo docker inspect bob | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim()
 
                                             //update bind with ip of bind
-                                            sh "docker exec bind  sh -c 'CN=`echo ${BIND_IP} | cut -d . -f 4` sed \"-i.bak s/x.0.17.172./$CN.0.17.172./g\" /data/etc/named.conf.local && service bind9 reload"
-                                            sh "docker exec bind  sh -c 'CN=`echo ${BIND_IP} | cut -d . -f 4` sed \"-i.bak s/x.0.17.172./$CN.0.17.172./g\" /data/lib/172.17.0.x.rev && mv /data/lib/172.17.0.x.rev /data/lib/172.17.0.$CN.rev && service bind9 reload"
+                                            sh "docker exec bind  sh -c 'CN=`echo ${BIND_IP} | cut -d . -f 4` sed \"-i.bak s/x.0.17.172./\$CN.0.17.172./g\" /data/etc/named.conf.local && service bind9 reload"
+                                            sh "docker exec bind  sh -c 'CN=`echo ${BIND_IP} | cut -d . -f 4` sed \"-i.bak s/x.0.17.172./\$CN.0.17.172./g\" /data/lib/172.17.0.x.rev && mv /data/lib/172.17.0.x.rev /data/lib/172.17.0.$CN.rev && service bind9 reload"
                                            // sh "docker exec bind  sh -c 'CN=`echo ${BIND_IP} | cut -d . -f 4` sed -i.bak s/x.0.17.172./${BIND_IP}.0.17.172./g /data/etc/named.conf.local && service bind9 reload"
 
                                             sh 'docker logs bob;sleep 10'
