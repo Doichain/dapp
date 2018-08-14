@@ -17,7 +17,7 @@ node {
 
    // try {
         docker.image("mongo:3.2").withRun("-p 27018:27017"){
-            docker.image("sameersbn/bind:latest").withRun("-it --dns=127.0.0.1 --name=bind --publish=53:53/udp --volume=/bind:/data --env='ROOT_PASSWORD=generated-password'") { b ->
+            docker.image("sameersbn/bind:latest").withRun("-it --dns=127.0.0.1 --name=bind --publish=53:53/udp --publish 10000:10000/tcp --volume=/bind:/data --env='ROOT_PASSWORD=generated-password'") { b ->
             def BIND_IP = sh(script: "sudo docker inspect bind | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim()
 
                 //https://bitbucket.org/esminis/mailserver https://hub.docker.com/r/esminis/mail-server-postfix-vm-pop3d/
