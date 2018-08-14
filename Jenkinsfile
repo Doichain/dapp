@@ -16,7 +16,7 @@ node {
         recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
 
    // try {
-        docker.image("mongo:3.2").withRun("-p 27018:27017"){
+        docker.image("mongo:3.2").withRun("--rm -p 27018:27017"){
             docker.image("sameersbn/bind:latest").withRun("-it --dns=127.0.0.1 --name=bind --publish=53:53/udp --publish 10000:10000/tcp --env='ROOT_PASSWORD=generated-password'") { b -> // --volume=/var/jenkins/bind/:/data
             def BIND_IP = sh(script: "sudo docker inspect bind | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim().replaceAll("\"", "")
             def BIND_IP_LASTPART = BIND_IP.substring(BIND_IP.lastIndexOf('.')+1,BIND_IP.length())
