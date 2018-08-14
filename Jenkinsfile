@@ -35,7 +35,7 @@ node {
 //                                     sleep 1800
                                      docker.image("doichain/node-only:latest").withRun(BOBS_DOCKER_PARAMS) { c2 ->
                                      def BOB_IP = sh(script: "sudo docker inspect bob | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim()
-                                     def BOB_IP_LASTPART = BOB_IP.substring(BOB_IP.indexOf('.'),BOB_IP.length())
+                                     def BOB_IP_LASTPART = BOB_IP.substring(BOB_IP.lastindexOf('.'),BOB_IP.length()-1)
                                             echo "${BOB_IP_LASTPART}"
                                             //update bind
                                             sh "docker cp contrib/scripts/bind/named.conf.local bind:/data/bind/etc/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BOB_IP_LASTPART}.0.17.172./g /data/bind/etc/named.conf.local && service bind9 reload'"
