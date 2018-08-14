@@ -46,7 +46,7 @@ node {
                                             sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.bob/${BOB_IP}/g /data/bind/lib/ci-doichain.org.hosts'"
 
                                             //update bind with hostname of mail, update serial and reload bind
-                                            def NOW = Instant.now().toEpochMilli();
+                                            def NOW = System.currentTimeMillis()
                                             sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.mail/${MAIL_IP}/g /data/bind/lib/ci-doichain.org.hosts && sed -i.bak s/_serial_/${NOW}/g /data/bind/lib/ci-doichain.org.hosts service bind9 reload'"
 
                                             //update meteor ip of bob for correct walletnotfify
