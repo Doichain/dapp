@@ -19,6 +19,7 @@ node {
         docker.image("mongo:3.2").withRun("-p 27018:27017"){
             docker.image("sameersbn/bind:latest").withRun("-it --dns=127.0.0.1 --name=bind --publish=53:53/udp --publish 10000:10000/tcp --env='ROOT_PASSWORD=generated-password'") { b -> // --volume=/var/jenkins/bind/:/data
             def BIND_IP = sh(script: "sudo docker inspect bind | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim()
+            def BIND_IP_LASTPART = BOB_IP.substring(BIND_IP.lastIndexOf('.')+1,BIND_IP.length()-1)
 
                 //https://bitbucket.org/esminis/mailserver https://hub.docker.com/r/esminis/mail-server-postfix-vm-pop3d/
                 docker.image("esminis/mail-server-postfix-vm-pop3d").withRun("-it --dns=${BIND_IP} --name=mail --hostname=mail -p 8443:8443 -p 25:25 -p 465:465 -p 995:995 "){ //-v /var/jenkins/tequila:/opt/tequila -v /var/jenkins/stunnel:/var/lib/stunnel4
@@ -30,18 +31,21 @@ node {
 
                                      sh './contrib/scripts/check-alice.sh'
                                      echo "running with doichain docker image alice"
+
                                      def BOBS_DOCKER_PARAMS = "-it --name=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p ${BOB_NODE_PORT}:18443 -e RPC_PASSWORD=generated-password -e RPC_HOST=bob -e DAPP_SMTP_HOST=smtp -e DAPP_SMTP_USER=bob -e DAPP_SMTP_PASS='bob-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e DEFAULT_FROM='doichain@ci-doichain.org' --dns=${BIND_IP} --dns-search=ci-doichain.org";
-                                     echo BOBS_DOCKER_PARAMS
-//                                     sleep 1800
                                      docker.image("doichain/node-only:latest").withRun(BOBS_DOCKER_PARAMS) { c2 ->
                                      def BOB_IP = sh(script: "sudo docker inspect bob | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim()
 
-                                     def BIND_IP_LASTPART = BOB_IP.substring(BIND_IP.lastIndexOf('.')+1,BIND_IP.length()-1)
                                             echo "${BOB_IP_LASTPART}"
                                             //update and reload bind with correct ip of bind (named.local.conf, rev-file, host-file)
                                             sh "docker cp contrib/scripts/bind/named.conf.local bind:/data/bind/etc/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/etc/named.conf.local && sed -i.bak s/172.17.0.x./172.17.0.${BIND_IP_LASTPART}/g /data/bind/etc/named.conf.local && service bind9 reload'"
                                             sh "docker cp contrib/scripts/bind/172.17.0.x.rev bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/lib/172.17.0.x.rev && mv  /data/bind/lib/172.17.0.x.rev  /data/bind/lib/172.17.0.${BIND_IP_LASTPART}.rev service bind9 reload'"
-                                            sh "docker cp contrib/scripts/bind/ci-doichain.org.hosts bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/172.17.0.x./172.17.0.${BIND_IP_LASTPART}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
+                                            sh "docker cp contrib/scripts/bind/ci-doichain.org.hosts bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/172.17.0.ns./172.17.0.${BIND_IP_LASTPART}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
+
+                                            //update hostname of alice and bob
+                                            sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.alice./172.17.0.${ALICE_IP}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
+                                            sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.bob./172.17.0.${BOB_IP}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
+
 
                                             //sh "docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BOB_IP_LASTPART}.0.17.172./g /data/lib/172.17.0.x.rev && mv /data/lib/172.17.0.x.rev /data/lib/172.17.0.$CN.rev && service bind9 reload"
                                            // sh "docker exec bind  sh -c 'CN=`echo ${BIND_IP} | cut -d . -f 4` sed -i.bak s/x.0.17.172./${BIND_IP}.0.17.172./g /data/etc/named.conf.local && service bind9 reload"
