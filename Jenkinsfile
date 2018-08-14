@@ -34,9 +34,8 @@ node {
 
                                      def BOBS_DOCKER_PARAMS = "-it --name=bob -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p ${BOB_NODE_PORT}:18443 -e RPC_PASSWORD=generated-password -e RPC_HOST=bob -e DAPP_SMTP_HOST=smtp -e DAPP_SMTP_USER=bob -e DAPP_SMTP_PASS='bob-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e DEFAULT_FROM='doichain@ci-doichain.org' --dns=${BIND_IP} --dns-search=ci-doichain.org";
                                      docker.image("doichain/node-only:latest").withRun(BOBS_DOCKER_PARAMS) { c2 ->
-                                     def BOB_IP = sh(script: "sudo docker inspect bob | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim()
+                                            def BOB_IP = sh(script: "sudo docker inspect bob | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim()
 
-                                            echo "${BOB_IP_LASTPART}"
                                             //update and reload bind with correct ip of bind (named.local.conf, rev-file, host-file)
                                             sh "docker cp contrib/scripts/bind/named.conf.local bind:/data/bind/etc/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/etc/named.conf.local && sed -i.bak s/172.17.0.x./172.17.0.${BIND_IP_LASTPART}/g /data/bind/etc/named.conf.local && service bind9 reload'"
                                             sh "docker cp contrib/scripts/bind/172.17.0.x.rev bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/lib/172.17.0.x.rev && mv  /data/bind/lib/172.17.0.x.rev  /data/bind/lib/172.17.0.${BIND_IP_LASTPART}.rev service bind9 reload'"
