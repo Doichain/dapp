@@ -37,8 +37,8 @@ node {
                                             def BOB_IP = sh(script: "sudo docker inspect bob | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim().replaceAll("\"", "")
                                             def NOW = System.currentTimeMillis()
                                             //update bind with correct ip of bind (named.local.conf, rev-file, host-file)
-                                            sh "docker cp contrib/scripts/bind/named.conf.local bind:/data/bind/etc/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/etc/named.conf.local && sed -i.bak s/172.17.0.x./172.17.0.${BIND_IP_LASTPART}./g /data/bind/etc/named.conf.local'"
-                                            sh "docker cp contrib/scripts/bind/172.17.0.x.rev bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/lib/172.17.0.x.rev && mv  /data/bind/lib/172.17.0.x.rev  /data/bind/lib/172.17.0.${BIND_IP_LASTPART}.rev && sed -i.bak s/_serial_/${NOW}/g /data/bind/lib/172.17.0.${BIND_IP_LASTPART}.rev'"
+                                            sh "docker cp contrib/scripts/bind/named.conf.local bind:/data/bind/etc/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/etc/named.conf.local && sed -i.bak s/172.17.0.x./172.17.0.${BIND_IP_LASTPART}./g /data/bind/etc/named.conf.local' && cd /data/bind/etc/ && chmod bind.bind"
+                                            sh "docker cp contrib/scripts/bind/172.17.0.x.rev bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/x.0.17.172./${BIND_IP_LASTPART}.0.17.172./g /data/bind/lib/172.17.0.x.rev && mv /data/bind/lib/172.17.0.x.rev  /data/bind/lib/172.17.0.${BIND_IP_LASTPART}.rev && sed -i.bak s/_serial_/${NOW}/g /data/bind/lib/172.17.0.${BIND_IP_LASTPART}.rev'"
                                             sh "docker cp contrib/scripts/bind/ci-doichain.org.hosts bind:/data/bind/lib/ && docker exec bind  sh -c 'sed -i.bak s/172.17.0.ns/172.17.0.${BIND_IP_LASTPART}/g /data/bind/lib/ci-doichain.org.hosts'"
 
                                             //update bind with hostname of alice and bob
@@ -47,7 +47,7 @@ node {
 
                                             //update bind with hostname of mail, update serial and reload bind
 
-                                            sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.mail/${MAIL_IP}/g /data/bind/lib/ci-doichain.org.hosts && sed -i.bak s/_serial_/${NOW}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
+                                            sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.mail/${MAIL_IP}/g /data/bind/lib/ci-doichain.org.hosts && sed -i.bak s/_serial_/${NOW}/g /data/bind/lib/ci-doichain.org.hosts && cd /data/bind/lib/ && chmod bind.bind && service bind9 reload'"
 
                                             //update meteor ip of bob for correct walletnotfify
                                             sh "docker exec bob  sh -c 'sed -i.bak s/localhost:3000/${METEOR_IP}:4000/g /home/doichain/.doichain/doichain.conf && cat /home/doichain/.doichain/doichain.conf && /usr/local/bin/doichain-cli stop && sleep 10 && /usr/local/bin/doichaind -regtest'"
