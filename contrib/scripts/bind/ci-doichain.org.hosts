@@ -1,6 +1,6 @@
 $ttl 38400
 ci-doichain.org.	IN	SOA	ns.ci-doichain.org. admin.le-space.de. (
-			201808141712
+			_serial_
 			10800
 			3600
 			604800
