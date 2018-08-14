@@ -47,7 +47,7 @@ node {
 
                                             //update bind with hostname of mail, update serial and reload bind
 
-                                            sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.mail/${MAIL_IP}/g /data/bind/lib/ci-doichain.org.hosts && sed -i.bak s/_serial_/${NOW}/g /data/bind/lib/ci-doichain.org.hosts service bind9 reload'"
+                                            sh "docker exec bind  sh -c 'sed -i.bak s/172.17.0.mail/${MAIL_IP}/g /data/bind/lib/ci-doichain.org.hosts && sed -i.bak s/_serial_/${NOW}/g /data/bind/lib/ci-doichain.org.hosts && service bind9 reload'"
 
                                             //update meteor ip of bob for correct walletnotfify
                                             sh "docker exec bob  sh -c 'sed -i.bak s/localhost:3000/${METEOR_IP}:4000/g /home/doichain/.doichain/doichain.conf && cat /home/doichain/.doichain/doichain.conf && /usr/local/bin/doichain-cli stop && sleep 10 && /usr/local/bin/doichaind -regtest'"
