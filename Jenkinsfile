@@ -17,11 +17,14 @@ node {
 
    // try {
         docker.image("mongo:3.2").withRun("--rm -p 27018:27017"){
+
+          //check webmin   (root. generated-password - or env=ROOT_PASSWORD) https://x.x.x.x:10000/
           docker.image("sameersbn/bind:latest").withRun("-it --dns=127.0.0.1 --name=bind --publish=53:53/udp --publish 10000:10000/tcp --env='ROOT_PASSWORD=generated-password'") { b -> // --volume=/var/jenkins/bind/:/data
             def BIND_IP = sh(script: "sudo docker inspect bind | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim().replaceAll("\"", "")
             def BIND_IP_LASTPART = BIND_IP.substring(BIND_IP.lastIndexOf('.')+1,BIND_IP.length())
 
-                //https://bitbucket.org/esminis/mailserver https://hub.docker.com/r/esminis/mail-server-postfix-vm-pop3d/
+                //check webmin (admin:x) https://x.x.x.x:8443/
+                //doku: https://bitbucket.org/esminis/mailserver https://hub.docker.com/r/esminis/mail-server-postfix-vm-pop3d/
                 docker.image("esminis/mail-server-postfix-vm-pop3d").withRun("-it --dns=${BIND_IP} --name=mail --hostname=mail -p 8443:8443 -p 25:25 -p 465:465 -p 995:995 "){ //-v /var/jenkins/tequila:/opt/tequila -v /var/jenkins/stunnel:/var/lib/stunnel4
                 def MAIL_IP = sh(script: "sudo docker inspect mail | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim().replaceAll("\"", "")
 

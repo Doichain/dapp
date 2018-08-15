@@ -29,7 +29,7 @@
     },
     "smtp": {
       "username": "bob@ci-doichain.org",
-      "password": "doichain-bob-xyz!",
+      "password": "bob",
       "server": "smtp",
       "port": "25",
       "defaultFrom":"info@ci-doichain.org"
