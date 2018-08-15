@@ -67,7 +67,7 @@ node {
                                             echo "finished alice"
                                             //sh 'sudo meteor npm run test-jenkins-bob-mocha'
                                            // echo "finished bob"
-                                           // sleep 1200
+                                            sleep 1200
                                       } //bobs node
                      } //alice node
                 } //mail-server
