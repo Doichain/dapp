@@ -50,7 +50,7 @@ node {
 
                                             //update meteor ip of bob for correct walletnotfify
                                             sh "docker exec bob  sh -c 'sed -i.bak s/localhost:3000/${METEOR_IP}:4000/g /home/doichain/.doichain/doichain.conf && cat /home/doichain/.doichain/doichain.conf && /usr/local/bin/doichain-cli stop && sleep 10 && /usr/local/bin/doichaind -regtest'"
-                                            sh "docker exec bind sh -c 'echo \"search ci-doichain.org\" >> /etc/resolv.conf'
+                                            sh "docker exec bind sh -c 'echo \"search ci-doichain.org\" >> /etc/resolv.conf'"
                                             sh 'sleep 10'
                                             sh './contrib/scripts/connect-alice.sh'
                                             sh 'sudo ./contrib/scripts/meteor-install.sh'
