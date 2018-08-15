@@ -112,7 +112,7 @@ describe('alice-basic-doi-test', function () {
         chai.assert.equal('success', status);
 
         const urlOptIn = dapp_url_alice+'/api/v1/opt-in';
-        const dataOptIn = {"recipient_mail":"alice@ci-doichain.org","sender_mail":"bob@ci-doichain.org","data":JSON.stringify({'city':'Ekaterinburg'})};
+        const dataOptIn = {"recipient_mail":"bob@ci-doichain.org","sender_mail":"alice@ci-doichain.org","data":JSON.stringify({'city':'Ekaterinburg'})};
         const headersOptIn = {
             'Content-Type':'application/json',
             'X-User-Id':userId,
