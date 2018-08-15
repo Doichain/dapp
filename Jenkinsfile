@@ -29,6 +29,7 @@ node {
                 def MAIL_IP = sh(script: "sudo docker inspect mail | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim().replaceAll("\"", "")
 
                 sh "docker cp ./contrib/scripts/tequila/. mail:/opt/tequila/domains/ && docker exec mail sh -c 'chown -R tequila:tequila /opt/tequila/domains && mkdir /var/spool/virtual/ci-doichain.org && chown tequila:tequila /var/spool/virtual/ci-doichain.org'"
+                sleep 5
                     docker.image("doichain/node-only:latest").withRun("-it --name=alice -e REGTEST=true -e RPC_ALLOW_IP=::/0 -p ${ALICE_NODE_PORT}:18443 -e RPC_PASSWORD=generated-password -e DAPP_HOST=alice -e DAPP_SMTP_HOST=smtp -e DAPP_SMTP_USER=alice -e DAPP_SMTP_PASS='alice-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=xxx -e DEFAULT_FROM='doichain@ci-doichain.org' --dns=${BIND_IP} --dns-search=ci-doichain.org") { c ->
                      def ALICE_IP = sh(script: "sudo docker inspect alice | jq '.[0].NetworkSettings.IPAddress'", returnStdout: true).trim().replaceAll("\"", "")
                                       sh 'docker logs alice'
@@ -66,7 +67,7 @@ node {
                                             echo "finished alice"
                                             //sh 'sudo meteor npm run test-jenkins-bob-mocha'
                                            // echo "finished bob"
-                                            sleep 1200
+                                           // sleep 1200
                                       } //bobs node
                      } //alice node
                 } //mail-server
