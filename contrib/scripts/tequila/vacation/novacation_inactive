@@ -1,0 +1,17 @@
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=
+This file is just a hint to a long forgotten/undocumented feature!
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=
+
+     The Tequila auto responder will detect automated email to your
+     accounts, and thus not answer this kind of mail. However, some 
+     of the mail servers out there don't care about setting up the
+     appropriate header flags to mark their email as auto generated,
+     which will trigger a vacation message by Tequila,naturally.
+
+    If you want to disable the Tequila vacation response to such mail
+    servers, please create/edit the file "~tequila/domains/novacation"
+    with your favourite editor, and enter the machine names you'd like
+    to blacklist. Simply enter one machine name per line ("grep" 
+    regular expressions are allowed).
+
