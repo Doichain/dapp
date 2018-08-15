@@ -205,19 +205,7 @@ describe('alice-basic-doi-test', function () {
 });
 describe('bob-basic-doi-test', function () {
 
-  /* it('imports bob´s private key in order to see HIS transactions', function (done) {
-        const url_importprivkey = 'http://localhost:18544'; //node_url_bob;
-        const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": ["cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj", "jenkins testing privkey don't use anywhere", true] };
-        const headers_importprivkey = { 'Content-Type':'text/plain'  };
-        const auth = "admin:generated-password";
-        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
-        const realdata_importprivkey = { auth: auth, data: data_importprivkey, headers: headers_importprivkey };
-        const result = getHttpPOST(url_importprivkey, realdata_importprivkey);
-        logBlockchain('result:',result);
-        done();
-    });*/
     it('should return two transactions from bobs', function (done) {
-
         const urlListTransactions = 'http://localhost:18544/'; //node_url_bob;
         const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": [] };
         const auth = "admin:generated-password";
@@ -227,20 +215,12 @@ describe('bob-basic-doi-test', function () {
         chai.assert.equal(200, result.statusCode);
         chai.expect(result.data.error).to.be.null;
         chai.expect(result.data.result).to.have.lengthOf(2);
-        // var json = JSON.stringify(eval("(" + result + ")"));
-        // var newArray = JSON.parse(json).filter(function (el) {
-        //      return el.name === "doi: e/"+nameId;
-        //  });
-        //  logBlockchain('newArray:',newArray);
-        //  chai.expect(newArray).to.deep.include({name: "doi: e/"+nameId});
         done();
     });
 
 });
 
 function generatetoaddress(url,toaddress,amount){
-    //2. generatetoaddress nblocks address
-
     const dataGenerate = {"jsonrpc": "1.0", "id":"generatetoaddress", "method": "generatetoaddress", "params": [amount,toaddress] };
     const headersGenerates = { 'Content-Type':'text/plain'  };
     const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
