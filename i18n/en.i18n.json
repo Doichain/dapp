@@ -11,6 +11,9 @@
         "key-generator": {
           "name": "Key Generator"
         },
+        "balance": {
+          "name": "Balance"
+        },
         "recipients": {
           "name": "Recipients"
         },
@@ -20,6 +23,11 @@
       }
     },
     "keyGenerator": {
+      "privateKey": "Private key",
+      "publicKey": "Public key",
+      "generateButton": "Generate"
+    },
+    "balance": {
       "privateKey": "Private key",
       "publicKey": "Public key",
       "generateButton": "Generate"
@@ -40,6 +48,9 @@
     },
     "keyGeneratorPage": {
       "title": "Key Generator"
+    },
+    "balance": {
+      "title": "Balance"
     },
     "recipientsPage": {
       "title": "Recipients",
