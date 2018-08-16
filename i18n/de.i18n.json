@@ -28,9 +28,7 @@
       "generateButton": "Generieren"
     },
     "balance": {
-      "privateKey": "Privater Schlüssel",
-      "publicKey": "Öffentlicher Schlüssel",
-      "generateButton": "Generieren"
+
     },
     "connectionNotification": {
       "tryingToConnect": "Versuche zu verbinden",

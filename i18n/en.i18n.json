@@ -28,9 +28,6 @@
       "generateButton": "Generate"
     },
     "balance": {
-      "privateKey": "Private key",
-      "publicKey": "Public key",
-      "generateButton": "Generate"
     },
     "connectionNotification": {
       "tryingToConnect": "Trying to connect",
@@ -49,7 +46,7 @@
     "keyGeneratorPage": {
       "title": "Key Generator"
     },
-    "balance": {
+    "balancePage": {
       "title": "Balance"
     },
     "recipientsPage": {

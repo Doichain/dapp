@@ -29,7 +29,8 @@ export default class PageMenu extends BaseComponent {
       {
         id: "balance",
         path: "balance",
-        name: i18n.__('components.userMenu.entries.balance.name')
+        name: i18n.__('components.userMenu.entries.balance.name'),
+        roles: ["admin"]
       },
       {
         id: "recipients",

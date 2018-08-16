@@ -7,20 +7,20 @@ export default class Balance extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = Object.assign(this.state, {
-      privateKey: "",
-      publicKey: ""
+      balance: ""
     });
     this.generate = this.generate.bind(this);
+    this.generate();
   }
 
-  generate(e) {
-    e.stopPropagation();
-    Meteor.call("doichain.getKeyPair", (error, value) => {
-      const keyPair = value;
+  generate() {   
+    Meteor.call("doichain.getBalance", (error, bal) => {
+      console.log("error: "+error+"\nbalance: "+bal);
+      
+      const tmpVal = bal;
       if(!error) {
         this.setState({
-          privateKey: keyPair.privateKey,
-          publicKey: keyPair.publicKey
+          balance: tmpVal
         })
       }
     });
@@ -29,7 +29,8 @@ export default class Balance extends BaseComponent {
   render() {
     return (
       <div className="balance">
-        <label>Hello this is test!</label>
+        <label>{this.state.balance}</label>
+
       </div>
     )
   }

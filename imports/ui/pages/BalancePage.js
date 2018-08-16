@@ -8,7 +8,7 @@ class BalancePage extends BaseComponent {
   render() {
     return (
       <div className="page balance">
-        <Header title={i18n.__('pages.balance.title')}/>
+        <Header title={i18n.__('pages.balancePage.title')}/>
         <div className="content-scrollable">
           <Balance />
         </div>

@@ -29,7 +29,7 @@ export const renderRoutes = () => (
     <Route path="/" component={ AppContainer }>
       <IndexRoute component={ StartPage } />
       <Route path="key-generator" component={KeyGeneratorPage} />
-      <Route path="balance" component={BalancePage} />
+      <Route component={requireRole(BalancePage, ['admin'])} path="balance"/>
       <Route component={requireRole(RecipientsPageContainer, ['admin'])} path="recipients"/>
       <Route component={requireRole(OptInsPageContainer, ['admin'])} path="opt-ins"/>
       <Route path="/signin" component={() => <Accounts.ui.LoginForm />} />
