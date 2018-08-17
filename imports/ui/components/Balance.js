@@ -15,8 +15,6 @@ export default class Balance extends BaseComponent {
 
   generate() {   
     Meteor.call("doichain.getBalance", (error, bal) => {
-      console.log("error: "+error+"\nbalance: "+bal);
-      
       const tmpVal = bal;
       if(!error) {
         this.setState({
@@ -30,7 +28,6 @@ export default class Balance extends BaseComponent {
     return (
       <div className="balance">
         <label>{this.state.balance}</label>
-
       </div>
     )
   }

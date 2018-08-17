@@ -6,9 +6,7 @@ import { CONFIRM_CLIENT} from '../../../startup/server/doichain-configuration.js
 const get_Balance = () => {
     
   try {
-    console.log("and this");
     const bal=getBalance(CONFIRM_CLIENT);
-    console.log(bal);
     return bal;
     
   } catch(exception) {

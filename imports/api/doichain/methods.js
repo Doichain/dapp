@@ -18,8 +18,6 @@ const getBalance = new ValidatedMethod({
   validate: null,
   run() {
     const logVal = getBalanceM();
-    console.log(logVal);
-    
     return logVal;
   },
 });
