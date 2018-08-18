@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  bind:
+    image: "sameersbn/bind:latest"
+    ports:
+    - "53:53"
+    - "10000:10000"
+    environment:
+    - ROOT_PASSWORD=generated-password
+    command:
+      - /contrib/scripts/docker-compose/update_bind.sh
+    stdin_open: true
+    tty: true
+    volumes:
+      - "./contrib/:/contrib"
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.5
+
+
+networks:
+  static-network:
+    ipam:
+      config:
+      - subnet: 172.20.0.0/16

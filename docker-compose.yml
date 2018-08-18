@@ -1,0 +1,97 @@
+version: "3"
+
+services:
+  mongo:
+    image: "mongo:3.2"
+    ports:
+      - "27017:27017"
+  bind:
+    image: "sameersbn/bind:latest"
+    ports:
+      - "53:53"
+      - "10000:10000"
+    environment:
+      - ROOT_PASSWORD=generated-password
+    command:
+      - /contrib/scripts/docker-compose/update_bind.sh
+    stdin_open: true
+    tty: true
+    volumes:
+      - "./contrib/:/contrib"
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.5
+
+  mail:
+    image: "esminis/mail-server-postfix-vm-pop3d"
+    ports:
+      - "8443:8443"
+      - "25:25"
+      - "465:465"
+      - "995:995"
+    dns: bind
+    dns_search: ci-doichain.org
+    depends_on:
+      - bind
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.4
+
+  alicenode:
+    image: "doichain/node-only:latest"
+    ports:
+      - "18543:18332"
+    environment:
+      - REGTEST=true
+      - RPC_ALLOW_IP=::/0
+      - RPC_PASSWORD=generated-password
+      - DAPP_URL='http://172.20.0.8:3000/'
+    dns: bind
+    dns_search: ci-doichain.org
+    depends_on:
+      - mongo
+      - bind
+      - mail
+    stdin_open: true
+    tty: true
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.6
+
+  bobnode:
+    image: "doichain/node-only:latest"
+    ports:
+      - "18544:18332"
+    environment:
+      - REGTEST=true
+      - RPC_ALLOW_IP=::/0
+      - RPC_PASSWORD=generated-password
+      - DAPP_URL='http://172.20.0.8:4000/'
+    dns: bind
+    dns_search: ci-doichain.org
+    depends_on:
+      - mongo
+      - bind
+      - mail
+    stdin_open: true
+    tty: true
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.7
+
+#  alicedapp:
+#    build: .
+#    depends_on:
+#      - mongo
+#      - bind
+#      - mail
+#      - alicenode
+#    networks:
+#        static-network:
+#          ipv4_address: 172.20.0.8
+
+networks:
+  static-network:
+    ipam:
+      config:
+      - subnet: 172.20.0.0/16

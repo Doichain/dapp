@@ -34,12 +34,12 @@ email@1.2.3
 aldeed:collection2@3.0.0
 aldeed:schema-index
 http@1.4.1
-underscore
-mongo-livedata
+underscore@1.0.10
+mongo-livedata@1.0.12
 sakulstra:aggregate
 std:accounts-ui
 rwatts:uuid
-accounts-password
+accounts-password@1.5.1
 zetoff:accounts-material-ui
 meteortesting:mocha
 xolvio:cleaner

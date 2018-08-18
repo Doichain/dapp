@@ -11,6 +11,7 @@ import {logBlockchain} from "../imports/startup/server/log-configuration";
     Jest: (for React) https://www.hammerlab.org/2015/02/14/testing-react-web-apps-with-mocha/
     Circle-Ci: https://circleci.com/docs/2.0/building-docker-images/
  */
+
 const node_url_alice = 'http://localhost:18543/';
 const node_url_bob =   'http://localhost:18544/';
 const dapp_url_alice = 'http://localhost:3000';

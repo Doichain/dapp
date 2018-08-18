@@ -13,16 +13,16 @@
   "send": {
     "doiMailFetchUrl": "http://localhost:3000/api/v1/debug/mail",
     "doichain": {
-      "host": "localhost",
-      "port": "18543",
+      "host": "alice",
+      "port": "18332",
       "username": "admin",
       "password": "generated-password"
     }
   },
   "confirm": {
     "doichain": {
-      "host": "localhost",
-      "port": "18543",
+      "host": "alice",
+      "port": "18332",
       "username": "admin",
       "password": "generated-password",
       "address": ""
@@ -37,8 +37,8 @@
   },
   "verify": {
     "doichain": {
-      "host": "localhost",
-      "port": "18543",
+      "host": "alice",
+      "port": "18332",
       "username": "admin",
       "password": "generated-password"
     }
