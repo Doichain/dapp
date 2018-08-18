@@ -8,6 +8,9 @@ services:
     - "10000:10000"
     environment:
     - ROOT_PASSWORD=generated-password
+    dns:
+      - 172.20.0.5
+      - 8.8.8.8
     command:
       - /contrib/scripts/docker-compose/update_bind.sh
     stdin_open: true

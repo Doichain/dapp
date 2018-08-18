@@ -43,11 +43,15 @@ service bind9 status
 named-checkzone ci-doichain.org /data/bind/lib/ci-doichain.org.hosts
 named-checkzone 5.0.20.172.in-addr.arpa.in-addr.arpa. /data/bind/lib/172.20.0.${BIND_IP_LASTPART}.rev
 #ls -l /data/bind/etc/
-cat /data/bind/etc/named.conf.local
-#ls -l /data/bind/lib/
+named-checkconf /etc/bind/named.conf
+echo "name.conf ok"
+cat /etc/bind/named.conf.local
 
-cat /data/bind/lib/172.20.0.${BIND_IP_LASTPART}.rev
-cat /data/bind/lib/ci-doichain.org.hosts
+cat /etc/resolv.conf
+ls -l /var/lib/bind/
+
+cat /var/lib/bind/172.20.0.${BIND_IP_LASTPART}.rev
+cat /var/lib/bind/ci-doichain.org.hosts
 
 
 

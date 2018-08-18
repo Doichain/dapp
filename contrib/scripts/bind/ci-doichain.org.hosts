@@ -1,5 +1,5 @@
 $ttl 38400
-ci-doichain.org.	IN	SOA	ns.ci-doichain.org. admin.le-space.de. (
+ci-doichain.org.	IqN	SOA	ns.ci-doichain.org. admin.le-space.de. (
 			_serial_
 			10800
 			3600
