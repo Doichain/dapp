@@ -4,6 +4,7 @@
       "logout": "Ausloggen",
       "login": "Einloggen",
       "join": "Beitreten",
+      "change": "Passwort ändern",
       "entries": {
         "home": {
           "name": "Startseite"

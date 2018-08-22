@@ -4,6 +4,7 @@
       "logout": "Logout",
       "login": "Login",
       "join": "Sign-up",
+      "change": "Change password",
       "entries": {
         "home": {
           "name": "Home"

@@ -34,6 +34,9 @@ export const renderRoutes = () => (
       <Route component={requireRole(OptInsPageContainer, ['admin'])} path="opt-ins"/>
       <Route path="/signin" component={() => <Accounts.ui.LoginForm />} />
       <Route path="/signup" component={() => <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />} />
+      <Route path="/change-password" component={requireRole(() => <Accounts.ui.LoginForm formState={STATES.PASSWORD_CHANGE} />,['admin'])} />
+
+     
       <Route path="*" component={ NotFoundPage } />
     </Route>
   </Router>
