@@ -13,8 +13,6 @@ services:
       - 8.8.8.8
     command:
       - /contrib/scripts/docker-compose/update_bind.sh
-    stdin_open: true
-    tty: true
     volumes:
       - "./contrib/:/contrib"
     networks:

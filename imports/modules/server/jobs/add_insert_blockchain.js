@@ -11,7 +11,8 @@ const AddInsertBlockchainJobSchema = new SimpleSchema({
     type: String
   },
   dataHash: {
-    type: String
+    type: String,
+    optional:true
   },
   domain: {
     type: String

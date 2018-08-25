@@ -1,6 +1,9 @@
 FROM ubuntu
 
-RUN apt-get update && apt-get install -y --no-install-recommends bsdtar curl sudo ca-certificates && export tar='bsdtar' \
+RUN apt-get update && apt-get install -y --no-install-recommends bsdtar curl iputils-ping sudo ca-certificates build-essential gnupg2 \
+    && curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - \
+    && apt-get install -y nodejs \
+    && export tar='bsdtar' \
     && adduser --disabled-password --gecos '' doichain && \
     adduser doichain sudo && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
@@ -10,5 +13,5 @@ ADD . /home/doichain/dapp
 WORKDIR /home/doichain/dapp
 
 RUN export tar='bsdtar' && sudo curl https://install.meteor.com/ | sh && \
-sudo chown -R doichain:doichain /home/doichain/dapp &&meteor npm install && meteor npm install --save bcrypt && \
-meteor npm run lint && meteor npm run test-d-compose-alice-mocha
+sudo chown -R doichain:doichain /home/doichain/dapp && meteor npm install && meteor npm install --save bcrypt && \
+cd build/bundle/programs/server && npm install &&  npm install --save bcrypt

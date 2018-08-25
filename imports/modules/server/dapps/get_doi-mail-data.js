@@ -33,10 +33,16 @@ const getDoiMailData = (data) => {
 
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
-    const provider = getOptInProvider({domain: domain});
-    const publicKey = getOptInKey({domain: provider});
 
-    logSend('queried data: (parts, domain, provider, publicKey)', '('+parts+','+domain+','+provider+','+publicKey+')');
+    let publicKey = getOptInKey({domain: domain});
+
+    if(!publicKey){
+        const provider = getOptInProvider({domain: ourData.domain});
+        logSend("using doichain provider instead of directly configured publicKey:",{provider:provider});
+        publicKey = getOptInKey({domain: provider}); //get public key from provider or fallback if publickey was not set in dns
+    }
+
+    logSend('queried data: (parts, domain, provider, publicKey)', '('+parts+','+domain+','+publicKey+')');
 
     //TODO: Only allow access one time
     // Possible solution:

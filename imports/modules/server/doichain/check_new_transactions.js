@@ -18,7 +18,7 @@ const checkNewTransaction = (txid, job) => {
           try {
               var lastCheckedBlock = Meta.findOne({key: LAST_CHECKED_BLOCK_KEY});
               if(lastCheckedBlock !== undefined) lastCheckedBlock = lastCheckedBlock.value;
-              //logConfirm("lastCheckedBlock",lastCheckedBlock);
+              logConfirm("lastCheckedBlock",lastCheckedBlock);
               const ret = listSinceBlock(CONFIRM_CLIENT, lastCheckedBlock);
               if(ret === undefined || ret.transactions === undefined) return;
 
@@ -29,7 +29,8 @@ const checkNewTransaction = (txid, job) => {
                   addOrUpdateMeta({key: LAST_CHECKED_BLOCK_KEY, value: lastCheckedBlock});
                   return;
               }
-             // logConfirm("listSinceBlock",ret);
+
+              logConfirm("listSinceBlock",ret);
 
               const addressTxs = txs.filter(tx =>
                   tx.address === CONFIRM_ADDRESS
@@ -56,7 +57,6 @@ const checkNewTransaction = (txid, job) => {
           }
 
       }else{
-
           logConfirm("checking"+txid+" was triggered by walletnotify getting its data from blockchain for doichain address",CONFIRM_ADDRESS);
 
           const ret = getRawTransaction(CONFIRM_CLIENT, txid);

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { CONFIRM_CLIENT } from '../../../startup/server/doichain-configuration.js';
+import { CONFIRM_CLIENT, CONFIRM_ADDRESS } from '../../../startup/server/doichain-configuration.js';
 import { getWif } from '../../../../server/api/doichain.js';
 import { DoichainEntries } from '../../../api/doichain/entries.js';
 import addFetchDoiMailDataJob from '../jobs/add_fetch-doi-mail-data.js';
@@ -45,7 +45,7 @@ const addDoichainEntry = (entry) => {
     const value = JSON.parse(ourEntry.value);
     logSend("value:",value);
     if(value.from === undefined) throw "Wrong blockchain entry"; //TODO if from is missing but value is there, it is probably allready handeled correctly anyways this is not so cool as it seems.
-    const wif = getWif(CONFIRM_CLIENT, null); //we don't use the CONFIRMATION_ADDRESS here in order to decrypt the message. just the first address in the wallet of default account ""
+    const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
     const privateKey = getPrivateKeyFromWif({wif: wif});
     logSend('got private key (will not show it here)');
 

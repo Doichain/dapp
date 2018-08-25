@@ -1,12 +1,21 @@
 version: "3"
 
 services:
-  mongo:
+
+  mongo:   # enabling this service was intended to make the network faster but for some reason its not possible to switch of the mongodb's from alice and bob's :(
     image: "mongo:3.2"
     ports:
-      - "27017:27017"
+      - "27018:27017"
+    expose:
+      - "27017"
+    dns:
+      - 172.20.0.5
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.3
+
   bind:
-    image: "sameersbn/bind:latest"
+    image: "sameersbn/bind:9.11.3-20180713"
     ports:
       - "53:53"
       - "10000:10000"
@@ -17,8 +26,8 @@ services:
       - ROOT_PASSWORD=generated-password
     command:
       - /contrib/scripts/docker-compose/update_bind.sh
-    stdin_open: true
-    tty: true
+    #stdin_open: true
+    #tty: true
     volumes:
       - "./contrib/:/contrib"
     networks:
@@ -32,69 +41,101 @@ services:
       - "25:25"
       - "465:465"
       - "995:995"
-    dns: 172.20.0.5
+    dns:
+      - 172.20.0.5
+      - 8.8.8.8
     dns_search: ci-doichain.org
     depends_on:
       - bind
+    volumes:
+      - "./contrib/:/contrib"
+    command: bash -c 'cp /contrib/scripts/sasl/sasldb2 /etc/ && cp -r /contrib/scripts/tequila/* /opt/tequila/domains/ && chown -R tequila:tequila /opt/tequila/domains && mkdir -p /var/spool/virtual/ci-doichain.org && chown tequila:tequila /var/spool/virtual/ci-doichain.org && service postfix reload && sleep 1000000'
     networks:
       static-network:
         ipv4_address: 172.20.0.4
 
-  alicenode:
+  alice:
     image: "doichain/node-only:latest"
     ports:
       - "18543:18332"
+    expose:
+      - "18332"
     environment:
       - REGTEST=true
       - RPC_ALLOW_IP=::/0
       - RPC_PASSWORD=generated-password
-      - DAPP_URL='http://172.20.0.8:3000/'
-    dns: 172.20.0.5
+      - DAPP_URL=http://alicedapp:3000/
+    dns:
+      - 172.20.0.5
+      - 8.8.8.8
     dns_search: ci-doichain.org
-    depends_on:
-      - mongo
-      - bind
-      - mail
     stdin_open: true
     tty: true
     networks:
       static-network:
         ipv4_address: 172.20.0.6
 
-  bobnode:
+  bob:
     image: "doichain/node-only:latest"
     ports:
       - "18544:18332"
+    expose:
+      - "18332"
     environment:
       - REGTEST=true
       - RPC_ALLOW_IP=::/0
       - RPC_PASSWORD=generated-password
-      - DAPP_URL='http://172.20.0.8:4000/'
-    dns: 172.20.0.5
+      - DAPP_URL=http://alicedapp:4000
+    dns:
+      - 172.20.0.5
+      - 8.8.8.8
     dns_search: ci-doichain.org
-    depends_on:
-      - mongo
-      - bind
-      - mail
     stdin_open: true
     tty: true
+#    deploy: swarm only.
+#      resources:
+#        limits:
+#          cpus: '0.50'
+#          memory: 50M
+#        reservations:
+#          cpus: '0.25'
+#          memory: 20M
     networks:
       static-network:
         ipv4_address: 172.20.0.7
 
-#  alicedapp:
-#    build: .
-#    depends_on:
-#      - mongo
-#      - bind
-#      - mail
-#      - alicenode
-#    networks:
-#        static-network:
-#          ipv4_address: 172.20.0.8
+  alicedapp:
+    image: "doichain/dapp-only:latest"
+    #build: .
+    volumes:
+      - ".:/home/doichain/dapp" # enable this when changing the code meteor should reload automatically in meteor
+    dns:
+      - 172.20.0.5
+      - 8.8.8.8
+    dns_search: ci-doichain.org
+    command: bash -c "contrib/scripts/meteor/start_dapp.sh & echo 'sleeping 60 secs to start bobs dapp' && sleep 60 && export MONGO_URL=mongodb://mongo:27017/alice && meteor npm run test-d-compose-alice-mocha"
+    #command:  bash -c "export METEOR_SETTINGS=\$(cat ../../settings-jenkins-bob.json) && export ROOT_URL=http://localhost:4000 && export MONGO_URL=mongodb://mongo:27017/bob; node build/bundle/main.js && meteor npm install --save bcrypt && echo 'sleeping 60 secs to start bobs dapp' && sleep 60 && export MONGO_URL=mongodb://mongo:27017/alice && meteor npm run test-d-compose-alice-mocha "
+    #export METEOR_SETTINGS=$(cat ../../settings-jenkins-bob.json);
+    #command:  bash -c "meteor npm install --save bcrypt; export MONGO_URL=mongodb://mongo:27017/bob;nohup meteor run --production --port 4000 --settings settings-jenkins-bob.json & echo 'starting bobs dapp - waiting 2 minutes to come up - to continue with testing'; sleep 120;export MONGO_URL=mongodb://mongo:27017/alice;meteor npm run test-d-compose-alice-mocha;#meteor run --port 3000 --production --settings settings-jenkins-alice.json"
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    expose:
+      - "3000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - alice
+      - bob
+      - bind
+      - mail
+    networks:
+        static-network:
+          ipv4_address: 172.20.0.8
 
 networks:
   static-network:
+    driver: bridge
     ipam:
       config:
       - subnet: 172.20.0.0/16
