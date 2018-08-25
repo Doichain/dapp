@@ -92,14 +92,6 @@ services:
     dns_search: ci-doichain.org
     stdin_open: true
     tty: true
-#    deploy: swarm only.
-#      resources:
-#        limits:
-#          cpus: '0.50'
-#          memory: 50M
-#        reservations:
-#          cpus: '0.25'
-#          memory: 20M
     networks:
       static-network:
         ipv4_address: 172.20.0.7
@@ -113,10 +105,7 @@ services:
       - 172.20.0.5
       - 8.8.8.8
     dns_search: ci-doichain.org
-    command: bash -c "contrib/scripts/meteor/start_dapp.sh & echo 'sleeping 60 secs to start bobs dapp' && sleep 60 && export MONGO_URL=mongodb://mongo:27017/alice && meteor npm run test-d-compose-alice-mocha"
-    #command:  bash -c "export METEOR_SETTINGS=\$(cat ../../settings-jenkins-bob.json) && export ROOT_URL=http://localhost:4000 && export MONGO_URL=mongodb://mongo:27017/bob; node build/bundle/main.js && meteor npm install --save bcrypt && echo 'sleeping 60 secs to start bobs dapp' && sleep 60 && export MONGO_URL=mongodb://mongo:27017/alice && meteor npm run test-d-compose-alice-mocha "
-    #export METEOR_SETTINGS=$(cat ../../settings-jenkins-bob.json);
-    #command:  bash -c "meteor npm install --save bcrypt; export MONGO_URL=mongodb://mongo:27017/bob;nohup meteor run --production --port 4000 --settings settings-jenkins-bob.json & echo 'starting bobs dapp - waiting 2 minutes to come up - to continue with testing'; sleep 120;export MONGO_URL=mongodb://mongo:27017/alice;meteor npm run test-d-compose-alice-mocha;#meteor run --port 3000 --production --settings settings-jenkins-alice.json"
+    command: bash -c "contrib/scripts/meteor/start_dapp.sh & echo 'bobs dapp started - starting alice' && export MONGO_URL=mongodb://mongo:27017/alice && meteor npm run test-d-compose-alice-mocha"
     ports:
       - "3000:3000"
       - "4000:4000"

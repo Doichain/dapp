@@ -199,7 +199,7 @@ describe('alice-basic-doi-test', function () {
 
                 //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
                 const realdata_importprivkey = { auth: auth, data: data_importprivkey, headers: headers };
-                const result = getHttpPOST(url_importprivkey, realdata_importprivkey);
+                getHttpPOST(url_importprivkey, realdata_importprivkey);
                // logBlockchain('result:',result);
 
                // const url_importaddress = 'http://localhost:18544'; //node_url_bob;
@@ -256,17 +256,6 @@ it('should return two transactions from bobs', function (done) {
 
 });
 
-function generatetoaddress(url,toaddress,amount){
-  const dataGenerate = {"jsonrpc": "1.0", "id":"generatetoaddress", "method": "generatetoaddress", "params": [amount,toaddress] };
-  const headersGenerates = { 'Content-Type':'text/plain'  };
-  const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
-  const resultGenerate = getHttpPOST(url, realdataGenerate);
-  //logBlockchain('resultGenerate:',resultGenerate);
-  const statusResultGenerate = resultGenerate.statusCode;
-  chai.assert.equal(200, statusResultGenerate);
-  chai.expect(resultGenerate.data.error).to.be.null;
-  chai.expect(resultGenerate.data.result).to.not.be.null;
-}
 /*
 function checkBobsDapp(){
 
@@ -292,3 +281,15 @@ function checkBobsDapp(){
           }), 5000);
   }
 }*/
+
+function generatetoaddress(url,toaddress,amount){
+    const dataGenerate = {"jsonrpc": "1.0", "id":"generatetoaddress", "method": "generatetoaddress", "params": [amount,toaddress] };
+    const headersGenerates = { 'Content-Type':'text/plain'  };
+    const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
+    const resultGenerate = getHttpPOST(url, realdataGenerate);
+    //logBlockchain('resultGenerate:',resultGenerate);
+    const statusResultGenerate = resultGenerate.statusCode;
+    chai.assert.equal(200, statusResultGenerate);
+    chai.expect(resultGenerate.data.error).to.be.null;
+    chai.expect(resultGenerate.data.result).to.not.be.null;
+}
