@@ -157,9 +157,9 @@ function doichain_getbalance(client, callback) {
 
 function checkId(id) {
     const DOI_PREFIX = "doi: ";
-    let ret_val;
+    let ret_val = id; //default value
 
-    if(!id.startsWith(DOI_PREFIX)) ret_val = id.substring(DOI_PREFIX.length);
-    if(!id.startsWith(NAMESPACE)) ret_val = NAMESPACE+id;
+    if(id.startsWith(DOI_PREFIX)) ret_val = id.substring(DOI_PREFIX.length); //in case it starts with doi: cut  this away
+    if(!id.startsWith(NAMESPACE)) ret_val = NAMESPACE+id; //in case it doesn't start with e/ put it in front now.
   return ret_val;
 }

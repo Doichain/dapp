@@ -1,12 +1,12 @@
 import {chai} from 'meteor/practicalmeteor:chai';
-import { getHttpPOST,getHttpGET} from "./api/http";
+import {getHttpPOST, getHttpGET, getHttpGETdata} from "./api/http";
 import {OptIns} from "../imports/api/opt-ins/opt-ins";
+import { Recipients } from '../imports/api/recipients/recipients.js';
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 import { quotedPrintableDecode} from 'emailjs-mime-codec'
 var POP3Client = require("poplib");
 chai.use(require('chai-datetime'));
 chai.use(require('chai-date-string'));
-//import {dateString} from 'chai-date-string';
 
 /*
     Meteor-Testing: http://khaidoan.wikidot.com/meteor-testing
@@ -21,8 +21,10 @@ const node_url_bob =   'http://172.20.0.7:18332/'; //18544
 const dapp_url_alice = 'http://localhost:3000';
 const auth = "admin:generated-password";
 const headers = { 'Content-Type':'text/plain'  };
-let aliceAddress, doiConfirmlink, txid, nameId = "";
 
+let aliceAddress, doiConfirmlink, txid, nameId,authToken,userId = "";
+const sender_mail = "alice@ci-doichain.org";
+const recipient_mail = "bob@ci-doichain.org";
 
 
 describe('alice-basic-doi-test', function () {
@@ -118,8 +120,8 @@ describe('alice-basic-doi-test', function () {
         const data = result.data;
 
         const status = data.status;
-        const authToken = data.data.authToken;
-        const userId = data.data.userId;
+        authToken = data.data.authToken;
+        userId = data.data.userId;
 
         chai.assert.equal(200, statusCode);
         chai.assert.equal('success', status);
@@ -175,21 +177,8 @@ describe('alice-basic-doi-test', function () {
             txid = resultGetRawTransaction.data.result.txid;
             //generatetoaddress(node_url_alice,aliceAddress,1); //generate 1 block to not make the blockchain crash! (very strange in regtest mode - is this norma)
             done();
-            }), 30000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
+            }), 25000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
     });
-
-   /* it('should return no transactions on bobs node', function (done) {
-
-        const urlListTransactions = node_url_bob;
-        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": ["",100] };
-        const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headers };
-        const result = getHttpPOST(urlListTransactions, realdataListTransactions);
-       // logBlockchain('result:',result);
-        chai.assert.equal(200, result.statusCode);
-        chai.expect(result.data.error).to.be.null;
-        chai.expect(result.data.result).to.have.lengthOf(0);
-        done();
-    }); */
 
     it('should return raw transactions from alice on bobs node ', function (done) {
         const url = node_url_bob;
@@ -200,26 +189,7 @@ describe('alice-basic-doi-test', function () {
         logBlockchain('result:',result);
         done();
     });
-/*
-    it('should return two transactions from bobs', function (done) {
-        const urlListTransactions = node_url_bob; //node_url_bob;
-        const dataListTransactions = {"jsonrpc": "1.0", "id":"listtransactions", "method": "listtransactions", "params": [] };
-        const auth = "admin:generated-password";
-        const realdataListTransactions = { auth: auth, data: dataListTransactions, headers: headers };
-        const result = getHttpPOST(urlListTransactions, realdataListTransactions);
-       // logBlockchain('result:',result);
-        chai.assert.equal(200, result.statusCode);
-        chai.expect(result.data.error).to.be.null;
-        chai.expect(result.data.result).to.have.lengthOf(2);
-        //now wait at least 30seconds so bob can retrieve the doi request template from alice
-         setTimeout(
 
-            Meteor.bindEnvironment(function () {
-                logBlockchain('we are waiting now a little for the doi request template and send the email out','');
-                done();
-            }), 30000);
-    });
-*/
    it('should check if a server connects to pop3', function(done){
 
        logBlockchain("logging bob into pop3 server",'');
@@ -329,6 +299,35 @@ describe('alice-basic-doi-test', function () {
         done();
     });
 
+    it('should validate the doi verify function of a dApp', function(done){
+        const url = dapp_url_alice+'/api/v1/opt-in/verify';
+
+        const recipient_public_key = Recipients.findOne({email: recipient_mail}).publicKey;
+
+        const data = {
+            recipient_mail: recipient_mail,
+            sender_mail: sender_mail,
+            name_id: nameId,
+            recipient_public_key: recipient_public_key
+        };
+
+        const headers = {
+            'Content-Type':'application/json',
+            'X-User-Id':userId,
+            'X-Auth-Token':authToken
+        };
+
+        logBlockchain('verifying opt-in:', data);
+        const realdata = { data: data, headers: headers };
+        const result = getHttpGETdata(url, realdata);
+
+        logBlockchain('result /opt-in/verify:', result);
+        const status = result.statusCode;
+        chai.assert.equal(200, status);
+        chai.assert.equal(true, result.data.data.val);
+
+        done();
+    });
 });
 
 function generatetoaddress(url,toaddress,amount){

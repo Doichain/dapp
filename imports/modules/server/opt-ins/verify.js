@@ -6,6 +6,7 @@ import getOptInProvider from '../dns/get_opt-in-provider.js';
 import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../doichain/verify_signature.js';
 import {logVerify} from "../../../startup/server/log-configuration";
+import getPublicKeyAndAddress from "../doichain/get_publickey_and_address_by_domain";
 
 const VerifyOptInSchema = new SimpleSchema({
   recipient_mail: {
@@ -40,18 +41,18 @@ const verifyOptIn = (data) => {
       publicKey: ourData.recipient_public_key
     })
 
-    if(!firstCheck) return false;
+    if(!firstCheck) return {firstCheck: false};
     const parts = ourData.recipient_mail.split("@");
     const domain = parts[parts.length-1];
-    const provider = getOptInProvider({domain: domain});
-    const publicKey = getOptInKey({domain: provider});
-    const secondCheck = verifySignature({
+    const publicKeyAndAddress = getPublicKeyAndAddress({domain: domain});
+
+      const secondCheck = verifySignature({
       data: entryData.signature,
       signature: entryData.doiSignature,
-      publicKey: publicKey
+      publicKey: publicKeyAndAddress.publicKey
     })
 
-    if(!secondCheck) return false;
+    if(!secondCheck) return {secondCheck: false};
     return true;
   } catch (exception) {
     throw new Meteor.Error('opt-ins.verify.exception', exception);
