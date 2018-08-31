@@ -32,6 +32,13 @@ export default class UserMenu extends BaseComponent {
           {emailLocalPart}
         </a>
         {open
+          ?
+          <Link to="/change-password" className="btn-secondary">
+          {i18n.__('components.userMenu.change')}
+          </Link>
+          : null}
+
+        {open
           ? <a className="btn-secondary" onClick={logout}>
             {i18n.__('components.userMenu.logout')}
           </a>
@@ -49,6 +56,7 @@ export default class UserMenu extends BaseComponent {
         <Link to="/signup" className="btn-secondary">
           {i18n.__('components.userMenu.join')}
         </Link>
+
       </div>
     );
   }

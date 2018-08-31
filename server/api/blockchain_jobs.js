@@ -42,7 +42,7 @@ BlockchainJobs.processJobs('checkNewTransaction', {workTimeout: 30*1000},functio
       job.cancel();
       job.remove();
     } else {
-     // checkNewTransaction(null,job);
+      //checkNewTransaction(null,job);
     }
   } catch(exception) {
     job.fail();

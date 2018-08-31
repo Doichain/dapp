@@ -143,6 +143,17 @@ function doichain_getrawtransaction(client, txid, callback) {
         callback(err, data);
     });
 }
+export function getBalance(client) {
+    const syncFunc = Meteor.wrapAsync(doichain_getbalance);
+    return syncFunc(client);
+}
+
+function doichain_getbalance(client, callback) {
+    client.cmd('getbalance', function(err, data) {
+        if(err) { logError('doichain_getbalance:',err);}
+        callback(err, data);
+    });
+}
 
 function checkId(id) {
     const DOI_PREFIX = "doi: ";

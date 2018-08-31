@@ -4,12 +4,16 @@
       "logout": "Logout",
       "login": "Login",
       "join": "Sign-up",
+      "change": "Change password",
       "entries": {
         "home": {
           "name": "Home"
         },
         "key-generator": {
           "name": "Key Generator"
+        },
+        "balance": {
+          "name": "Balance"
         },
         "recipients": {
           "name": "Recipients"
@@ -23,6 +27,8 @@
       "privateKey": "Private key",
       "publicKey": "Public key",
       "generateButton": "Generate"
+    },
+    "balance": {
     },
     "connectionNotification": {
       "tryingToConnect": "Trying to connect",
@@ -40,6 +46,9 @@
     },
     "keyGeneratorPage": {
       "title": "Key Generator"
+    },
+    "balancePage": {
+      "title": "Balance"
     },
     "recipientsPage": {
       "title": "Recipients",
