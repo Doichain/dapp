@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#meteor build build/ --architecture os.linux.x86_64  #this takes a lot of time and could be excluded when not needed.
 cd build/bundle/programs/server/
 meteor npm install --save bcrypt
 cd -
@@ -7,4 +8,4 @@ echo $METEOR_SETTINGS
 export PORT=4000
 export ROOT_URL=http://localhost:4000
 export MONGO_URL=mongodb://mongo:27017/bob
-node build/bundle/main.js
+nohup node build/bundle/main.js &

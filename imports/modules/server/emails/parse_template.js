@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import {logConfirm} from "../../../startup/server/log-configuration";
 
-const PLACEHOLDER_REGEX = /\${([\w]*)}/g
+const PLACEHOLDER_REGEX = /\${([\w]*)}/g;
 const ParseTemplateSchema = new SimpleSchema({
   template: {
     type: String,
@@ -16,14 +16,14 @@ const ParseTemplateSchema = new SimpleSchema({
 const parseTemplate = (data) => {
   try {
     const ourData = data;
-    logConfirm('parseTemplate:',ourData);
+    //logConfirm('parseTemplate:',ourData);
 
     ParseTemplateSchema.validate(ourData);
     logConfirm('ParseTemplateSchema validated');
 
     var _match;
     var template = ourData.template;
-    logConfirm('doing some regex with template:',template);
+   //logConfirm('doing some regex with template:',template);
 
     do {
       _match = PLACEHOLDER_REGEX.exec(template);

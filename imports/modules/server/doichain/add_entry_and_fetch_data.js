@@ -36,14 +36,14 @@ const addDoichainEntry = (entry) => {
     logSend('adding DoichainEntry locally...',ourEntry.name);
     AddDoichainEntrySchema.validate(ourEntry);
 
-    const ety = DoichainEntries.findOne({name: ourEntry.name})
+    const ety = DoichainEntries.findOne({name: ourEntry.name});
     if(ety !== undefined){
         logSend('returning locally saved entry with _id:'+ety._id);
         return ety._id;
     }
 
     const value = JSON.parse(ourEntry.value);
-    logSend("value:",value);
+    //logSend("value:",value);
     if(value.from === undefined) throw "Wrong blockchain entry"; //TODO if from is missing but value is there, it is probably allready handeled correctly anyways this is not so cool as it seems.
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
     const privateKey = getPrivateKeyFromWif({wif: wif});

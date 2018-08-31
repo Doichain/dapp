@@ -2,10 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import { Recipients } from '../../../api/recipients/recipients.js';
-import getOptInProvider from '../dns/get_opt-in-provider.js';
-import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../doichain/verify_signature.js';
 import {logSend} from "../../../startup/server/log-configuration";
+import getPublicKeyAndAddress from "../doichain/get_publickey_and_address_by_domain";
 
 const UpdateOptInStatusSchema = new SimpleSchema({
   nameId: {
@@ -34,16 +33,11 @@ const updateOptInStatus = (data) => {
     if(recipient === undefined) throw "Recipient not found";
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
-    const provider = getOptInProvider({domain: domain});
-    const publicKey = getOptInKey({domain: provider});
-
-    logSend('provider is',provider);
-    logSend('publicKey is',publicKey);
-
-    if(!verifySignature({publicKey: publicKey, data: ourData.nameId, signature: ourData.signature})) {
+    const publicKeyAndAddress = getPublicKeyAndAddress({domain:domain});
+    if(!verifySignature({publicKey: publicKeyAndAddress.publicKey, data: ourData.nameId, signature: ourData.signature})) {
       throw "Access denied";
     }
-    logSend('signature valid for publicKey', publicKey);
+    logSend('signature valid for publicKey', publicKeyAndAddress.publicKey);
 
     OptIns.update({_id : optIn._id},{$set:{confirmedAt: new Date(), confirmedBy: ourData.host}});
   } catch (exception) {

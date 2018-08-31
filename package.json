@@ -69,7 +69,10 @@
   "devDependencies": {
     "@meteorjs/eslint-config-meteor": "^1.0.5",
     "babel-eslint": "^8.2.6",
+    "chai-date-string": "^0.1.0",
+    "chai-datetime": "^1.5.0",
     "chromedriver": "^2.40.0",
+    "emailjs-mime-codec": "^2.0.7",
     "eslint": "^5.2.0",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-config-jss": "^3.0.0",
@@ -78,7 +81,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-meteor": "^5.0.0",
     "eslint-plugin-react": "^7.10.0",
-    "pop3": "^0.2.0",
+    "poplib": "^0.1.7",
     "selenium-webdriver": "^4.0.0-alpha.1"
   }
 }

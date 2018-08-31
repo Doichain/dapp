@@ -2,7 +2,7 @@ version: "3"
 
 services:
 
-  mongo:   # enabling this service was intended to make the network faster but for some reason its not possible to switch of the mongodb's from alice and bob's :(
+  mongo:
     image: "mongo:3.2"
     ports:
       - "27018:27017"
@@ -64,7 +64,7 @@ services:
       - REGTEST=true
       - RPC_ALLOW_IP=::/0
       - RPC_PASSWORD=generated-password
-      - DAPP_URL=http://alicedapp:3000/
+      - DAPP_URL=http://172.20.0.8:3000/
     dns:
       - 172.20.0.5
       - 8.8.8.8
@@ -85,7 +85,7 @@ services:
       - REGTEST=true
       - RPC_ALLOW_IP=::/0
       - RPC_PASSWORD=generated-password
-      - DAPP_URL=http://alicedapp:4000
+      - DAPP_URL=http://172.20.0.8:4000
     dns:
       - 172.20.0.5
       - 8.8.8.8

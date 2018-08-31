@@ -39,7 +39,7 @@ const update = (data) => {
     const privateKey = getPrivateKeyFromWif({wif: wif});
     logConfirm('got private key (will not show it here) in order to decrypt Send-dApp host url from value:',ourData.fromHostUrl);
     const ourfromHostUrl = decryptMessage({privateKey: privateKey, message: ourData.fromHostUrl});
-    logConfirm('decrypted fromHostUrl',ourfromHostUrl)
+    logConfirm('decrypted fromHostUrl',ourfromHostUrl);
     const url = ourfromHostUrl+API_PATH+VERSION+"/"+DOI_CONFIRMATION_NOTIFY_ROUTE;
 
 
@@ -52,10 +52,10 @@ const update = (data) => {
         nameId: ourData.nameId,
         signature: signature,
         host: ourData.host
-    }
+    };
 
     try {
-        const txid = nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null); //TODO maybe send this DOI to peter (the user which wants to receive a doi)
+        const txid = nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null); //TODO maybe send this DOI to Peter (the user which wants to receive a doi)
         logConfirm('update transaction txid:',txid);
     }catch(exception){
         if(exception.toString().indexOf("there is already a registration for this doi name")==-1){

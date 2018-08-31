@@ -50,7 +50,7 @@ const fetchDoiMailData = (data) => {
       }
       throw responseData.error;
     }
-    logConfirm('DOI Mail data fetched:',responseData);
+    logConfirm('DOI Mail data fetched.');
 
     const optInId = addOptIn({name: ourData.name});
     const optIn = OptIns.findOne({_id: optInId});

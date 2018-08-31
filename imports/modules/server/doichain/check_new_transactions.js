@@ -57,7 +57,7 @@ const checkNewTransaction = (txid, job) => {
           }
 
       }else{
-          logConfirm("checking"+txid+" was triggered by walletnotify getting its data from blockchain for doichain address",CONFIRM_ADDRESS);
+          logConfirm("txid: "+txid+" was triggered by walletnotify for address:",CONFIRM_ADDRESS);
 
           const ret = getRawTransaction(CONFIRM_CLIENT, txid);
           const txs = ret.vout;
@@ -78,7 +78,7 @@ const checkNewTransaction = (txid, job) => {
               && tx.scriptPubKey.nameOp.name.startsWith(TX_NAME_START)
           );
 
-          logConfirm("found name_op transactions:", addressTxs);
+          //logConfirm("found name_op transactions:", addressTxs);
 
           addressTxs.forEach(tx => {
               addTx(tx.scriptPubKey.nameOp.name, tx.scriptPubKey.nameOp.value,tx.scriptPubKey.addresses[0],txid);
