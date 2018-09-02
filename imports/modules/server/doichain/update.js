@@ -1,8 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { nameDoi } from '../../../../server/api/doichain.js';
 import { CONFIRM_CLIENT } from '../../../startup/server/doichain-configuration.js';
-import {getWif, signMessage} from "../../../../server/api/doichain";
+import {getWif, signMessage, getTransaction, nameDoi, nameShow} from "../../../../server/api/doichain";
 import {API_PATH, DOI_CONFIRMATION_NOTIFY_ROUTE, VERSION} from "../../../../server/api/rest/rest";
 import {CONFIRM_ADDRESS} from "../../../startup/server/doichain-configuration";
 import {getHttpPUT} from "../../../../server/api/http";
@@ -27,14 +26,34 @@ const UpdateSchema = new SimpleSchema({
   }
 });
 
-const update = (data) => {
+const update = (data, job) => {
   try {
     const ourData = data;
-    //console.log('----->'+JSON.stringify(ourData));
-    //if(ourData.host.constructor === Array) ourData.host = ourData.host[0];
-    //console.log('----->'+JSON.stringify(ourData)+" isArray:"+ourData.host.constructor === Array);
+
     UpdateSchema.validate(ourData);
 
+    //stop this update until this name as at least 1 confirmation
+    const name_data = nameShow(CONFIRM_CLIENT,ourData.nameId);
+    const our_transaction = getTransaction(CONFIRM_CLIENT,name_data.txid);
+
+    if(name_data === undefined || our_transaction.confirmations===0){
+        job.rerun(
+            {
+                repeats: 100,   // Only repeat this once
+                              // This is the default
+                wait: 30000   // Wait a minute between repeats
+                              // Default is previous setting
+            },
+            function (err, result) {
+                if (result) {
+                    logConfirm('rerunning txid in 30sec:',name_data.txid);
+                }
+            }
+        );
+        logConfirm('transaction has 0 confirmations - delaying name update',JSON.parse(ourData.value));
+        return;
+    }
+    logConfirm('updating blockchain with doiSignature:',JSON.parse(ourData.value));
     const wif = getWif(CONFIRM_CLIENT, CONFIRM_ADDRESS);
     const privateKey = getPrivateKeyFromWif({wif: wif});
     logConfirm('got private key (will not show it here) in order to decrypt Send-dApp host url from value:',ourData.fromHostUrl);
@@ -42,10 +61,8 @@ const update = (data) => {
     logConfirm('decrypted fromHostUrl',ourfromHostUrl);
     const url = ourfromHostUrl+API_PATH+VERSION+"/"+DOI_CONFIRMATION_NOTIFY_ROUTE;
 
-
-    logConfirm('creating signature with ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.nameId);
-    const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.nameId);
-
+    logConfirm('creating signature with ADDRESS'+CONFIRM_ADDRESS+" nameId:",ourData.value);
+    const signature = signMessage(CONFIRM_CLIENT, CONFIRM_ADDRESS, ourData.nameId); //TODO why here over nameID?
     logConfirm('signature created:',signature);
 
     const updateData = {
@@ -55,19 +72,23 @@ const update = (data) => {
     };
 
     try {
-        const txid = nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null); //TODO maybe send this DOI to Peter (the user which wants to receive a doi)
+        const txid = nameDoi(CONFIRM_CLIENT, ourData.nameId, ourData.value, null);
         logConfirm('update transaction txid:',txid);
     }catch(exception){
-        if(exception.toString().indexOf("there is already a registration for this doi name")==-1){
-            OptIns.update({nameId: ourData.nameId}, {$set: {error:JSON.stringify(exception.message)}});
-            throw new Meteor.Error('doichain.update.exception', exception);
+        //
+        logConfirm('this nameDOI doesn´t have a block yet and will be updated with the next block and with the next queue start:',ourData.nameId);
+        if(exception.toString().indexOf("there is already a registration for this doi name")==-1) {
+            OptIns.update({nameId: ourData.nameId}, {$set: {error: JSON.stringify(exception.message)}});
         }
+        throw new Meteor.Error('doichain.update.exception', exception);
+        //}else{
+        //    logConfirm('this nameDOI doesn´t have a block yet and will be updated with the next block and with the next queue start:',ourData.nameId);
+        //}
     }
 
     const response = getHttpPUT(url, updateData);
     logConfirm('informed send dApp about confirmed doi on url:'+url+' with updateData'+JSON.stringify(updateData)+" response:",response)
-
-
+    job.done();
   } catch(exception) {
     throw new Meteor.Error('doichain.update.exception', exception);
   }

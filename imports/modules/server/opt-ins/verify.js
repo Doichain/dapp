@@ -32,9 +32,6 @@ const verifyOptIn = (data) => {
     const entry = nameShow(VERIFY_CLIENT, ourData.name_id);
     if(entry === undefined) return false;
     const entryData = JSON.parse(entry.value);
-
-    logVerify('opt-ins.verify: entryData:',entryData);
-
     const firstCheck = verifySignature({
       data: ourData.recipient_mail+ourData.sender_mail,
       signature: entryData.signature,
@@ -42,11 +39,11 @@ const verifyOptIn = (data) => {
     })
 
     if(!firstCheck) return {firstCheck: false};
-    const parts = ourData.recipient_mail.split("@");
+    const parts = ourData.recipient_mail.split("@"); //TODO put this into getPublicKeyAndAddress
     const domain = parts[parts.length-1];
     const publicKeyAndAddress = getPublicKeyAndAddress({domain: domain});
 
-      const secondCheck = verifySignature({
+    const secondCheck = verifySignature({
       data: entryData.signature,
       signature: entryData.doiSignature,
       publicKey: publicKeyAndAddress.publicKey

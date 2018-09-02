@@ -34,6 +34,8 @@ const updateOptInStatus = (data) => {
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
     const publicKeyAndAddress = getPublicKeyAndAddress({domain:domain});
+
+    //TODO getting information from Bob that a certain nameId (DOI) got confirmed.
     if(!verifySignature({publicKey: publicKeyAndAddress.publicKey, data: ourData.nameId, signature: ourData.signature})) {
       throw "Access denied";
     }

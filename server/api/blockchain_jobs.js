@@ -25,8 +25,8 @@ BlockchainJobs.processJobs('insert', {workTimeout: 30*1000},function (job, cb) {
 BlockchainJobs.processJobs('update', {workTimeout: 30*1000},function (job, cb) {
   try {
     const entry = job.data;
-    update(entry);
-    job.done();
+    update(entry,job);
+
   } catch(exception) {
     job.fail();
     throw new Meteor.Error('jobs.blockchain.update.exception', exception);

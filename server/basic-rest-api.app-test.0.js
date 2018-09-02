@@ -28,7 +28,7 @@ const recipient_mail = "bob@ci-doichain.org";
 
 
 describe('alice-basic-doi-test', function () {
-    this.timeout(180000);
+    this.timeout(600000);
 
     it('should check if alice is alive', function(done){
 
@@ -133,10 +133,7 @@ describe('alice-basic-doi-test', function () {
             'X-User-Id':userId,
             'X-Auth-Token':authToken
         };
-        //logBlockchain('before timeout:',new Date());
-        // ...
-        //https://docs.meteor.com/api/http.html
-        //curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr1pxZV8m0vKESSUxmRvbEBLAe8FV3' -i 'http://SEND_DAPP_HOST:3000/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org'
+
         const realDataOptin = { data: dataOptIn, headers: headersOptIn };
         const resultOptIn = getHttpPOST(urlOptIn, realDataOptin);
 
@@ -175,9 +172,8 @@ describe('alice-basic-doi-test', function () {
             }
 
             txid = resultGetRawTransaction.data.result.txid;
-            //generatetoaddress(node_url_alice,aliceAddress,1); //generate 1 block to not make the blockchain crash! (very strange in regtest mode - is this norma)
             done();
-            }), 25000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
+            }), 15000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
     });
 
     it('should return raw transactions from alice on bobs node ', function (done) {
@@ -265,27 +261,33 @@ describe('alice-basic-doi-test', function () {
         chai.expect(doiConfirmlinkResult.content).to.have.string('Ihre Anmeldung war erfolgreich.');
         chai.assert.equal(200, doiConfirmlinkResult.statusCode);
 
+
         setTimeout(
             Meteor.bindEnvironment(function () {
-                logBlockchain('we are waiting now a little for the doi request to get saved in the blockchain','');
-                done();
-            }), 30000);
+                logBlockchain('we are waiting a little for the queue doi request to get saved in the blockchain','');
+                generatetoaddress(node_url_alice,aliceAddress,1);  //confirms the SOI not the DOI
+
+                setTimeout(
+                    Meteor.bindEnvironment(function () {
+                        generatetoaddress(node_url_alice,aliceAddress,6); //generate a block so doi signature becomes visible in blockchain
+                        done();
+                    }), 30000);
+            }), 10000);
     });
 
-    it('should check if alice local db has information about a confirmed doi now.', function(done){
+    it('should check if alice local db has information about a confirmed doi already.', function(done){
         logBlockchain('looking for nameId:',nameId.substring(2));
         const our_optIn = OptIns.findOne({nameId: nameId.substring(2)});
         logBlockchain('optIn:',our_optIn);
         chai.expect(our_optIn.confirmedAt).to.not.be.null;
         chai.expect(our_optIn.confirmedBy).to.not.be.null;
         chai.assert.equal("172.20.0.8", our_optIn.confirmedBy);
-        //chai.expect(our_optIn.confirmedBy).beforeDate(new Date());
+       // chai.expect(our_optIn.confirmedAt).withinDate(new Date());
         chai.expect(our_optIn.confirmedAt).to.be.a.dateString();
         done();
     });
 
     it('should check if bobs node has a new name', function(done){
-        generatetoaddress(node_url_alice,aliceAddress,1); //generate a block so name becomes visale
         const data = {"jsonrpc": "1.0", "id":"name_show", "method": "name_show", "params": [nameId] };
         const headers = { 'Content-Type':'text/plain'  };
         const realdata = { auth: auth, data: data, headers: headers };
@@ -296,12 +298,15 @@ describe('alice-basic-doi-test', function () {
         chai.expect(result.data.error).to.be.null;
         chai.expect(result.data.result).to.not.be.null;
         chai.assert.equal(nameId, result.data.result.name);
+        chai.expect(result.data.result.signature).to.not.be.null;
+        chai.expect(result.data.result.doiSignature).to.not.be.null;
         done();
     });
 
     it('should validate the doi verify function of a dApp', function(done){
-        const url = dapp_url_alice+'/api/v1/opt-in/verify';
+        generatetoaddress(node_url_alice,aliceAddress,1); //generate a second block so updated nameId (confirmed doi) becomes visible on blockchain
 
+        const url = dapp_url_alice+'/api/v1/opt-in/verify';
         const recipient_public_key = Recipients.findOne({email: recipient_mail}).publicKey;
 
         const data = {
@@ -325,7 +330,6 @@ describe('alice-basic-doi-test', function () {
         const status = result.statusCode;
         chai.assert.equal(200, status);
         chai.assert.equal(true, result.data.data.val);
-
         done();
     });
 });
