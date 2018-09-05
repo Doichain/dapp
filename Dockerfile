@@ -9,10 +9,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends bsdtar git curl
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER doichain
-ADD . /home/doichain/dapp
+#ADD . /home/doichain/dapp
 WORKDIR /home/doichain/dapp
 
 RUN export tar='bsdtar' && sudo curl https://install.meteor.com/ | sh && \
+git clone https://github.com/Doichain/dapp.git --depth=1 && \
 sudo chown -R doichain:doichain /home/doichain/dapp && meteor npm install && meteor npm install --save bcrypt && \
 sudo rm -rf build .meteor && meteor build build/ --architecture os.linux.x86_64 && \
 cd build/bundle/programs/server && npm install &&  npm install --save bcrypt
