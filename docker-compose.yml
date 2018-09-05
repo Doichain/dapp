@@ -1,7 +1,6 @@
 version: "2"
 
 services:
-
   mongo:
     image: "mongo:3.2"
     ports:
@@ -24,8 +23,7 @@ services:
       - 8.8.8.8
     environment:
       - ROOT_PASSWORD=generated-password
-    command:
-      - /contrib/scripts/docker-compose/update_bind.sh
+    command: /contrib/scripts/docker-compose/update_bind.sh
     #stdin_open: true
     #tty: true
     volumes:
@@ -55,7 +53,7 @@ services:
         ipv4_address: 172.20.0.4
 
   alice:
-    image: "doichain/node-only:latest"
+    image: "doichain/core:0.0.6"
     ports:
       - "18543:18332"
     expose:
@@ -76,7 +74,7 @@ services:
         ipv4_address: 172.20.0.6
 
   bob:
-    image: "doichain/node-only:latest"
+    image: "doichain/core:0.0.6"
     ports:
       - "18544:18332"
     expose:
@@ -97,7 +95,7 @@ services:
         ipv4_address: 172.20.0.7
 
   alicedapp:
-    image: "doichain/dapp-only:latest"
+    image: "doichain/dapp:0.0.6"
     #build: .
     #volumes:
     #  - ".:/home/doichain/dapp" # enable this when changing the code meteor should reload automatically in meteor
@@ -127,4 +125,4 @@ networks:
     driver: bridge
     ipam:
       config:
-      - subnet: 172.20.0.0/16
+        - subnet: 172.20.0.0/16
