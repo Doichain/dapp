@@ -14,5 +14,5 @@ WORKDIR /home/doichain/dapp
 
 RUN export tar='bsdtar' && sudo curl https://install.meteor.com/ | sh && \
 sudo chown -R doichain:doichain /home/doichain/dapp && meteor npm install && meteor npm install --save bcrypt && \
-meteor build build/ --architecture os.linux.x86_64 &&
+meteor build build/ --architecture os.linux.x86_64 && \
 cd build/bundle/programs/server && npm install &&  npm install --save bcrypt
