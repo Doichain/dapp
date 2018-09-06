@@ -15,7 +15,8 @@ node {
         body:  "STARTED: Job ${env.JOB_NAME} Build:[${env.BUILD_NUMBER}]:Check console output at ${env.PROMOTED_URL} ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
         recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
 
-     sh './contrib/scripts/start-docker-compose.sh!' //TODO
+     //sh './contrib/scripts/start-docker-compose.sh!' //TODO
+     sh 'docker-compose up'
 
      emailext attachLog: true,
                           to: emailRecipient,

@@ -1,4 +1,4 @@
-FROM doichain/dapp-base
+FROM doichain/docker:dapp-base
 USER doichain
 WORKDIR /home/doichain/dapp
 RUN sudo chown -R doichain:doichain /home/doichain/dapp && \

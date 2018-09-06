@@ -60,6 +60,7 @@ services:
       - "18332"
     environment:
       - REGTEST=true
+      - DOICHAIN_VER=0.0.6
       - RPC_ALLOW_IP=::/0
       - RPC_PASSWORD=generated-password
       - DAPP_URL=http://172.20.0.8:3000/
@@ -81,6 +82,7 @@ services:
       - "18332"
     environment:
       - REGTEST=true
+      - DOICHAIN_VER=0.0.6
       - RPC_ALLOW_IP=::/0
       - RPC_PASSWORD=generated-password
       - DAPP_URL=http://172.20.0.8:4000
