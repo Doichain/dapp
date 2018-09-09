@@ -9,4 +9,4 @@ echo $METEOR_SETTINGS
 export PORT=4000
 export ROOT_URL=http://localhost:4000
 export MONGO_URL=mongodb://mongo:27017/bob
-nohup node build/bundle/main.js &
+nohup node build/bundle/main.js
