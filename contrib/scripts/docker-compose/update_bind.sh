@@ -60,7 +60,7 @@ apt-get update
 while :
 do
 	echo "Press [CTRL+C] to stop.."
-	sleep 1000000
+	sleep infinity
 done
 
 #ping spiegel.de

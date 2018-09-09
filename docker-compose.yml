@@ -46,7 +46,7 @@ services:
       - bind
     volumes:
       - "./contrib/:/contrib"
-    command: bash -c 'cp /contrib/scripts/sasl/sasldb2 /etc/ && cp -r /contrib/scripts/tequila/* /opt/tequila/domains/ && chown -R tequila:tequila /opt/tequila/domains && mkdir -p /var/spool/virtual/ci-doichain.org && chown tequila:tequila /var/spool/virtual/ci-doichain.org && service postfix reload && sleep 1000000'
+    command: bash -c 'cp /contrib/scripts/sasl/sasldb2 /etc/ && cp -r /contrib/scripts/tequila/* /opt/tequila/domains/ && chown -R tequila:tequila /opt/tequila/domains && mkdir -p /var/spool/virtual/ci-doichain.org && chown tequila:tequila /var/spool/virtual/ci-doichain.org && service postfix reload && sleep infinity'
     networks:
       static-network:
         ipv4_address: 172.20.0.4
@@ -105,7 +105,7 @@ services:
       - 8.8.8.8
     dns_search: ci-doichain.org
     #&& export MONGO_URL=mongodb://mongo:27017/alice && meteor npm cache verify && meteor npm install && meteor npm run test-d-compose-alice-mocha
-    command: bash -c "contrib/scripts/meteor/start_dapp.sh"
+    command: bash -c "contrib/scripts/meteor/start_dapp.sh && sleep infinity"
     ports:
       - "3000:3000"
       - "4000:4000"
