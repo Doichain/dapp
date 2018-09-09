@@ -104,7 +104,8 @@ services:
       - 172.20.0.5
       - 8.8.8.8
     dns_search: ci-doichain.org
-    command: bash -c "/contrib/scripts/meteor/start_dapp.sh & echo 'bobs dapp started - starting alice' && export MONGO_URL=mongodb://mongo:27017/alice && meteor npm cache verify && meteor npm install && meteor npm run test-d-compose-alice-mocha"
+    #&& export MONGO_URL=mongodb://mongo:27017/alice && meteor npm cache verify && meteor npm install && meteor npm run test-d-compose-alice-mocha
+    command: bash -c "/contrib/scripts/meteor/start_dapp.sh & echo 'bobs dapp started - starting alice'"
     ports:
       - "3000:3000"
       - "4000:4000"
