@@ -30,8 +30,12 @@ const writeToBlockchain = (data) => {
     const signature = getSignature({message: recipient.email+sender.email, privateKey: recipient.privateKey});
     logSend("generated signature from email recipient and sender:",signature);
 
-    const dataHash = getDataHash({data: optIn.data});
-    logSend("generated datahash from given data:",dataHash);
+    let dataHash = "";
+
+    if(optIn.data) {
+      getDataHash({data: optIn.data});
+      logSend("generated datahash from given data:",dataHash);
+    }
 
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
