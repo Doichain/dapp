@@ -33,7 +33,7 @@ const writeToBlockchain = (data) => {
     let dataHash = "";
 
     if(optIn.data) {
-      getDataHash({data: optIn.data});
+      dataHash = getDataHash({data: optIn.data});
       logSend("generated datahash from given data:",dataHash);
     }
 
