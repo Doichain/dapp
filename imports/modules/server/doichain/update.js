@@ -36,20 +36,13 @@ const update = (data, job) => {
     const name_data = nameShow(CONFIRM_CLIENT,ourData.nameId);
     const our_transaction = getTransaction(CONFIRM_CLIENT,name_data.txid);
 
-    if(name_data === undefined || our_transaction.confirmations===0){
-        job.rerun(
-            {
-                repeats: 100,   // Only repeat this once
-                              // This is the default
-                wait: 30000   // Wait a minute between repeats
-                              // Default is previous setting
-            },
-            function (err, result) {
-                if (result) {
-                    logConfirm('rerunning txid in 30sec:',name_data.txid);
-                }
-            }
-        );
+    if(name_data === undefined){
+        rerun(job);
+        logConfirm('name not visible - delaying name update',JSON.parse(ourData.nameId));
+        return;
+    }
+    if(our_transaction.confirmations===0){
+        rerun(job);
         logConfirm('transaction has 0 confirmations - delaying name update',JSON.parse(ourData.value));
         return;
     }
@@ -87,11 +80,28 @@ const update = (data, job) => {
     }
 
     const response = getHttpPUT(url, updateData);
-    logConfirm('informed send dApp about confirmed doi on url:'+url+' with updateData'+JSON.stringify(updateData)+" response:",response)
+    logConfirm('informed send dApp about confirmed doi on url:'+url+' with updateData'+JSON.stringify(updateData)+" response:",response);
     job.done();
   } catch(exception) {
     throw new Meteor.Error('doichain.update.exception', exception);
   }
 };
+
+function rerun(job){
+
+    job.rerun(
+        {
+            repeats: 100,   // Only repeat this once
+            // This is the default
+            wait: 30000   // Wait a minute between repeats
+                          // Default is previous setting
+        },
+        function (err, result) {
+            if (result) {
+                logConfirm('rerunning txid in 30sec:',result);
+            }
+        }
+    );
+}
 
 export default update;
