@@ -13,7 +13,7 @@
   "send": {
     "doiMailFetchUrl": "http://localhost:3000/api/v1/debug/mail",
     "doichain": {
-      "host": "172.20.0.7",
+      "host": "not-in-use-here",
       "port": "18332",
       "username": "admin",
       "password": "generated-password"
@@ -21,7 +21,7 @@
   },
   "confirm": {
     "doichain": {
-      "host": "172.20.0.7",
+      "host": "not-in-use-here",
       "port": "18332",
       "username": "admin",
       "password": "generated-password",
@@ -38,7 +38,7 @@
   },
   "verify": {
     "doichain": {
-      "host": "172.20.0.7",
+      "host": "not-in-use-here",
       "port": "18332",
       "username": "admin",
       "password": "generated-password"

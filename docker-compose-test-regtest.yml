@@ -95,7 +95,7 @@ services:
       static-network:
         ipv4_address: 172.20.0.7
 
-  alicedapp:
+  test:
     image: "doichain/dapp"
     #build: .
     #volumes:
