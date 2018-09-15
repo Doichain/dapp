@@ -12,7 +12,7 @@ services:
       static-network:
         ipv4_address: 172.20.0.3
 
-  alicedapp:
+  test:
     image: "doichain/dapp"
     #build: .
     #volumes:
@@ -27,6 +27,8 @@ services:
       - "3000"
     stdin_open: true
     tty: true
+    depends_on:
+      - mongo
     networks:
         static-network:
           ipv4_address: 172.20.0.8
