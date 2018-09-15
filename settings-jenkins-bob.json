@@ -1,0 +1,47 @@
+{
+  app: {
+    debug: "true",
+    regtest: "true",
+    host: "172.20.0.8",
+    port: "4000",
+    types: [
+      "send",
+      "confirm",
+      "verify"
+    ]
+  },
+  send: {
+    doiMailFetchUrl: "http://localhost:3000/api/v1/debug/mail",
+    doichain: {
+      host: "172.20.0.7",
+      port: "18332",
+      username: "admin",
+      password: "generated-password"
+    }
+  },
+  confirm: {
+    doichain: {
+      host: "172.20.0.7",
+      port: "18332",
+      username: "admin",
+      password: "generated-password",
+      address: "mthu4XsqpmMYsrgTore36FV621JWM3Epxj"
+    },
+    smtp: {
+      username: "bob@ci-doichain.org",
+      password: "bob",
+      server: "mail",
+      port: "25",
+      NODE_TLS_REJECT_UNAUTHORIZED: "0",
+      defaultFrom: "info@ci-doichain.org"
+    }
+  },
+  verify: {
+    doichain: {
+      host: "172.20.0.7",
+      port: "18332",
+      username: "admin",
+      password: "generated-password"
+    }
+  }
+}
