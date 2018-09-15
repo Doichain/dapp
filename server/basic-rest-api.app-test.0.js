@@ -160,7 +160,7 @@ describe('alice-basic-doi-test', function () {
             const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headers };
             const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
 
-            logBlockchain('resultGetRawTransaction:',resultGetRawTransaction.indexOf('txId')>0);
+            logBlockchain('resultGetRawTransaction:',resultGetRawTransaction.indexOf(txId)>0);
 
             if(resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp!==undefined){
                 nameId = resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp.name;
@@ -182,7 +182,7 @@ describe('alice-basic-doi-test', function () {
         const auth = "admin:generated-password";
         const realdata = { auth: auth, data: data, headers: headers };
         const result = getHttpPOST(url, realdata);
-        logBlockchain('result:',result);
+        logBlockchain('result:',result.indexOf(txid)>0);
         done();
     });
 
@@ -198,7 +198,7 @@ describe('alice-basic-doi-test', function () {
 
        //TODO refactor this into a separate function
        client.on("connect", function() {
-           logBlockchain("CONNECT success");
+           logBlockchain("CONNECT success",'');
            client.login("bob@ci-doichain.org", "bob");
            client.on("login", function(status, rawdata) {
                if (status) {
