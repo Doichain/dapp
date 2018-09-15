@@ -13,7 +13,7 @@ services:
         ipv4_address: 172.20.0.3
 
   test:
-    image: "doichain/dapp:latest"
+    image: "doichain/dapp-only"
     #build: .
     #volumes:
     #  - ".:/home/doichain/dapp" # enable this when changing the code meteor should reload automatically in meteor
