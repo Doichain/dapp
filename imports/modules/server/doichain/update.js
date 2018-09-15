@@ -34,13 +34,12 @@ const update = (data, job) => {
 
     //stop this update until this name as at least 1 confirmation
     const name_data = nameShow(CONFIRM_CLIENT,ourData.nameId);
-    const our_transaction = getTransaction(CONFIRM_CLIENT,name_data.txid);
-
     if(name_data === undefined){
         rerun(job);
         logConfirm('name not visible - delaying name update',JSON.parse(ourData.nameId));
         return;
     }
+    const our_transaction = getTransaction(CONFIRM_CLIENT,name_data.txid);
     if(our_transaction.confirmations===0){
         rerun(job);
         logConfirm('transaction has 0 confirmations - delaying name update',JSON.parse(ourData.value));
