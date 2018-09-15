@@ -105,7 +105,7 @@ describe('alice-basic-doi-test', function () {
         done();
     });
 
-    it('should request a DOI on alice for peter and should be forwarded to bob (general fallback server)', function (done) {
+    it('should request a DOI on alice for peter and should be forwarded to bob', function (done) {
 
         //https://docs.meteor.com/api/http.html
         //curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
@@ -173,7 +173,7 @@ describe('alice-basic-doi-test', function () {
 
             txid = resultGetRawTransaction.data.result.txid;
             done();
-            }), 15000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
+            }), 25000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
     });
 
     it('should return raw transactions from alice on bobs node ', function (done) {
