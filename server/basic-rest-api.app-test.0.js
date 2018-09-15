@@ -159,8 +159,8 @@ describe('alice-basic-doi-test', function () {
             const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
             const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headers };
             const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
-            //TODO use the txid of this rawTransaction for the next test since listtransactions doesn't show any unconfirmed transactions.
-            logBlockchain('resultGetRawTransaction:',resultGetRawTransaction);
+
+            logBlockchain('resultGetRawTransaction:',resultGetRawTransaction.indexOf('txId')>0);
 
             if(resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp!==undefined){
                 nameId = resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp.name;
@@ -173,7 +173,7 @@ describe('alice-basic-doi-test', function () {
 
             txid = resultGetRawTransaction.data.result.txid;
             done();
-            }), 25000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
+            }), 45000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
     });
 
     it('should return raw transactions from alice on bobs node ', function (done) {
