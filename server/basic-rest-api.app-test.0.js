@@ -202,7 +202,7 @@ describe('alice-basic-doi-test', function () {
            client.login("bob@ci-doichain.org", "bob");
            client.on("login", function(status, rawdata) {
                if (status) {
-                   logBlockchain("LOGIN/PASS success");
+                   logBlockchain("LOGIN/PASS success",'');
                    client.list();
 
                    client.on("list", function(status, msgcount, msgnumber, data, rawdata) {
