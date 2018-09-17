@@ -87,7 +87,7 @@ describe('alice-basic-doi-test', function () {
         chai.expect(resultGetNewAddress.data.error).to.be.null;
         chai.expect(aliceAddress).to.not.be.null;
 
-        generatetoaddress(node_url_alice,aliceAddress,110);  //110 coins new address!
+        generatetoaddress(node_url_alice,aliceAddress,110);  //110 blocke new address! 110 blöcke *25 coins
         //chai.should.exist(resultGenerate.data.result);
         done();
     });
@@ -182,7 +182,7 @@ describe('alice-basic-doi-test', function () {
         const auth = "admin:generated-password";
         const realdata = { auth: auth, data: data, headers: headers };
         const result = getHttpPOST(url, realdata);
-        logBlockchain('result:',result.indexOf(txid)>0);
+        logBlockchain('result:',result.indexOf(txid)>0); //TODO assert missing! please add!
         done();
     });
 
@@ -339,7 +339,6 @@ function generatetoaddress(url,toaddress,amount){
     const headersGenerates = { 'Content-Type':'text/plain'  };
     const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
     const resultGenerate = getHttpPOST(url, realdataGenerate);
-    //logBlockchain('resultGenerate:',resultGenerate);
     const statusResultGenerate = resultGenerate.statusCode;
     chai.assert.equal(200, statusResultGenerate);
     chai.expect(resultGenerate.data.error).to.be.null;
