@@ -87,7 +87,7 @@ describe('alice-basic-doi-test', function () {
         chai.expect(resultGetNewAddress.data.error).to.be.null;
         chai.expect(aliceAddress).to.not.be.null;
 
-        generatetoaddress(node_url_alice,aliceAddress,110);  //110 coins new address!
+        generatetoaddress(node_url_alice,aliceAddress,110);  //110 blocke new address! 110 blöcke *25 coins
         //chai.should.exist(resultGenerate.data.result);
         done();
     });
@@ -105,7 +105,7 @@ describe('alice-basic-doi-test', function () {
         done();
     });
 
-    it('should request a DOI on alice for peter and should be forwarded to bob (general fallback server)', function (done) {
+    it('should request a DOI on alice for peter and should be forwarded to bob', function (done) {
 
         //https://docs.meteor.com/api/http.html
         //curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
@@ -173,7 +173,7 @@ describe('alice-basic-doi-test', function () {
 
             txid = resultGetRawTransaction.data.result.txid;
             done();
-            }), 15000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
+            }), 45000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
     });
 
     it('should return raw transactions from alice on bobs node ', function (done) {
@@ -182,7 +182,7 @@ describe('alice-basic-doi-test', function () {
         const auth = "admin:generated-password";
         const realdata = { auth: auth, data: data, headers: headers };
         const result = getHttpPOST(url, realdata);
-        logBlockchain('result:',result);
+        logBlockchain('result:',result); //TODO assert missing! please add!
         done();
     });
 
@@ -339,7 +339,6 @@ function generatetoaddress(url,toaddress,amount){
     const headersGenerates = { 'Content-Type':'text/plain'  };
     const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
     const resultGenerate = getHttpPOST(url, realdataGenerate);
-    //logBlockchain('resultGenerate:',resultGenerate);
     const statusResultGenerate = resultGenerate.statusCode;
     chai.assert.equal(200, statusResultGenerate);
     chai.expect(resultGenerate.data.error).to.be.null;
