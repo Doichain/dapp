@@ -87,17 +87,19 @@ const update = (data, job) => {
 };
 
 function rerun(job){
-
-    job.rerun(
+    logConfirm('rerunning txid in 10sec - canceling old job','');
+    job.cancel();
+    logConfirm('restart blockchain doi update','');
+    job.restart(
         {
-            repeats: 600,   // Only repeat this once
+            //repeats: 600,   // Only repeat this once
             // This is the default
-            wait: 10000   // Wait 10 sec between repeats
+           // wait: 10000   // Wait 10 sec between repeats
                           // Default is previous setting
         },
         function (err, result) {
             if (result) {
-                logConfirm('rerunning txid in 30sec:',result);
+                logConfirm('rerunning txid in 10sec:',result);
             }
         }
     );

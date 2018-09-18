@@ -173,7 +173,7 @@ describe('alice-basic-doi-test', function () {
 
             txid = resultGetRawTransaction.data.result.txid;
             done();
-            }), 25000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
+            }), 35000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
     });
 
     it('should return raw transactions from alice on bobs node ', function (done) {
@@ -254,6 +254,13 @@ describe('alice-basic-doi-test', function () {
 
     it('should confirm the link of the doi-request-email on bobs dapp', function(done){
 
+
+        setTimeout(
+            Meteor.bindEnvironment(function () {
+                logBlockchain('we are waiting a little for the queue doi request to get saved in the blockchain','');
+                 generatetoaddress(node_url_alice,aliceAddress,1);  //confirms the SOI not the DOI
+            }), 15000);
+
         logBlockchain("clickable link:",doiConfirmlink);
         const doiConfirmlinkResult = getHttpGET(doiConfirmlink,'');
         chai.expect(doiConfirmlinkResult.content).to.have.string('ANMELDUNG ERFOLGREICH');
@@ -261,21 +268,14 @@ describe('alice-basic-doi-test', function () {
         chai.expect(doiConfirmlinkResult.content).to.have.string('Ihre Anmeldung war erfolgreich.');
         chai.assert.equal(200, doiConfirmlinkResult.statusCode);
 
-
         setTimeout(
             Meteor.bindEnvironment(function () {
-                logBlockchain('we are waiting a little for the queue doi request to get saved in the blockchain','');
-                generatetoaddress(node_url_alice,aliceAddress,1);  //confirms the SOI not the DOI
-
-                setTimeout(
-                    Meteor.bindEnvironment(function () {
-                        generatetoaddress(node_url_alice,aliceAddress,6); //generate a block so doi signature becomes visible in blockchain
-                        done();
-                    }), 45000);
-            }), 15000);
+                generatetoaddress(node_url_alice,aliceAddress,6); //generate a block so doi signature becomes visible in blockchain
+                done();
+        }), 45000);
     });
 
-    it('should check if alice local db has information about a confirmed doi already.', function(done){
+    it('should check if alice local db has information about a confirmed doi.', function(done){
         logBlockchain('looking for nameId:',nameId.substring(2));
         const our_optIn = OptIns.findOne({nameId: nameId.substring(2)});
         logBlockchain('optIn:',our_optIn);
