@@ -271,8 +271,8 @@ describe('alice-basic-doi-test', function () {
                     Meteor.bindEnvironment(function () {
                         generatetoaddress(node_url_alice,aliceAddress,6); //generate a block so doi signature becomes visible in blockchain
                         done();
-                    }), 30000);
-            }), 10000);
+                    }), 45000);
+            }), 15000);
     });
 
     it('should check if alice local db has information about a confirmed doi already.', function(done){
