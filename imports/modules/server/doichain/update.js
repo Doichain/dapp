@@ -36,7 +36,7 @@ const update = (data, job) => {
     const name_data = nameShow(CONFIRM_CLIENT,ourData.nameId);
     if(name_data === undefined){
         rerun(job);
-        logConfirm('name not visible - delaying name update',JSON.parse(ourData.nameId));
+        logConfirm('name not visible - delaying name update',ourData.nameId);
         return;
     }
     const our_transaction = getTransaction(CONFIRM_CLIENT,name_data.txid);
