@@ -160,7 +160,7 @@ describe('alice-basic-doi-test', function () {
             const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headers };
             const resultGetRawTransaction = getHttpPOST(urlGetRawTransaction, realdataGetRawTransaction);
 
-            logBlockchain('resultGetRawTransaction:',resultGetRawTransaction.indexOf(txId)>0);
+            //logBlockchain('resultGetRawTransaction:',resultGetRawTransaction.indexOf(txId)>0);
 
             if(resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp!==undefined){
                 nameId = resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp.name;
@@ -173,7 +173,7 @@ describe('alice-basic-doi-test', function () {
 
             txid = resultGetRawTransaction.data.result.txid;
             done();
-            }), 45000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
+            }), 25000); //timeout needed because it takes a moment to store the entry in the blockchain through meteor job collection
     });
 
     it('should return raw transactions from alice on bobs node ', function (done) {
@@ -182,7 +182,7 @@ describe('alice-basic-doi-test', function () {
         const auth = "admin:generated-password";
         const realdata = { auth: auth, data: data, headers: headers };
         const result = getHttpPOST(url, realdata);
-        logBlockchain('result:',result.indexOf(txid)>0); //TODO assert missing! please add!
+       // logBlockchain('result:',result.indexOf(txid)>0); //TODO assert missing! please add! indexOf to json does not work
         done();
     });
 

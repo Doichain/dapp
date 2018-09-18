@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { SEND_APP, CONFIRM_APP, isAppType } from './type-configuration.js';
 import Hashids from 'hashids';
+//const Hashids = require('hashids').default;
 import {logConfirm} from "./log-configuration";
 
 export const HashIds = new Hashids('0xugmLe7Nyee6vk1iF88(6CmwpqoG4hQ*-T74tjYw^O2vOO(Xl-91wA8*nCg_lX$');
