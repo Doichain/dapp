@@ -20,7 +20,7 @@ services:
     #&& export MONGO_URL=mongodb://mongo:27017/alice && meteor npm cache verify && meteor npm install && meteor npm run test-d-compose-alice-mocha
     #command: bash -c "export MONGO_URL=mongodb://mongo:27017/testnet && meteor npm cache verify && meteor npm install && meteor npm run test-d-compose-testnet-mocha  && sleep infinity"
     #command: bash -c "contrib/scripts/meteor/start_dapp.sh && sleep infinity"
-    command: "sleep infinity"
+    #command: "sleep infinity"
     ports:
       - "3000:3000"
       - "4000:4000"
