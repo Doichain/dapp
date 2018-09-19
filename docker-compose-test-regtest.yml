@@ -95,7 +95,7 @@ services:
       static-network:
         ipv4_address: 172.20.0.7
 
-  test:
+  regtest:
     image: "doichain/dapp-only"
     #build: .
     #volumes:
@@ -105,7 +105,7 @@ services:
       - 8.8.8.8
     dns_search: ci-doichain.org
     #&& export MONGO_URL=mongodb://mongo:27017/alice && meteor npm cache verify && meteor npm install && meteor npm run test-d-compose-alice-mocha
-    command: bash -c "./contrib/scripts/meteor/start_dapp.sh && sleep infinity"
+    command: bash -c "./contrib/scripts/meteor/start_dapp.sh"
     ports:
       - "3000:3000"
       - "4000:4000"

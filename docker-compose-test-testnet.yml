@@ -12,7 +12,7 @@ services:
       static-network:
         ipv4_address: 172.20.0.3
 
-  test:
+  testnet:
     image: "doichain/dapp-only"
     #build: .
     #volumes:
