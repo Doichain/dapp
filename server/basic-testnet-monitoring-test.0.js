@@ -27,7 +27,7 @@ const sender_mail = "alice@ci-doichain.org";
 const recipient_mail = "bob@ci-doichain.org";
 
 
-describe('alice-basic-doi-test', function () {
+describe('testnet-monitoring-test', function () {
     this.timeout(600000);
 
     it('should check if alice is alive', function(done){
