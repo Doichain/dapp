@@ -2,8 +2,8 @@ version: "2"
 services:
   mongo:
     image: "mongo:3.2"
-    ports:
-      - "27018:27017"
+ #   ports:
+ #     - "27018:27017"
     expose:
       - "27017"
     dns:
