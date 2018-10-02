@@ -13,7 +13,7 @@
 //const node_url_alice = 'http://172.20.0.6:18332/'; //18543
 //const auth = "admin:generated-password";
 //const headers = { 'Content-Type':'text/plain'  };
-
+/*
 describe('testnet-monitoring-test', function () {
     this.timeout(600000);
 
@@ -26,9 +26,9 @@ describe('testnet-monitoring-test', function () {
         const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
         chai.assert.equal(200, statusGetNetworkInfo);
         //logBlockchain('resultGetNetworkInfo:',resultGetNetworkInfo); // getnetworkinfo | jq '.localaddresses[0].address'
-*/
+
         done();
     });
 
-});
+});*/
 
