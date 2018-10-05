@@ -18,6 +18,9 @@
         - [Confirm Opt-In](#confirm-opt-in)
     * [Calls (Verify - dApp)](#calls--verify---dapp-)
         - [Verify Opt-In](#verify-opt-in)
+    * [Calls (Users)](#calls--users)
+        - [Create user](#create-user)
+        - [Update user](#update-user)
 - [UML](#uml)
     * [Activity diagram](#activity-diagram)
     * [Sequence diagram](#sequence-diagram)
@@ -192,6 +195,35 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
     + ``sender_mail`` - Email of the sender
     + ``name_id`` - Blockchain entry name id
     + ``recipient_public_key`` - Public key of the recipient
+
+### Calls (Users)
+##### Create User
+* Auth required: Yes
+* Role required: ``admin``
+* Url: ``users``
+* Method: ``POST``
+* Parameter:
+    + ``username`` - Username of new user
+    + ``email`` - Email of new user
+    + ``password`` - Password of new user
+    + ``profile`` - Form information as JSON
+        - ``from`` - Email that appears as sender
+        - ``subject`` - Subject of the email
+        - ``redirect`` - Redirect URL
+        - ``returnPath`` - Return Path
+
+##### Update User
+* Auth required: Yes
+* Role required: ``admin``
+* Url: ``users/update``
+* Method: ``PUT``
+* Parameter:
+    + ``username`` - Username of new user
+    + ``profile`` - Form information as JSON
+        - ``from`` - Email that appears as sender
+        - ``subject`` - Subject of the email
+        - ``redirect`` - Redirect URL
+        - ``returnPath`` - Return Path
 
 ## Blockchain entry name id
 The name id is a 256-bit, ECDSA valid, number represanted as a 32 byte (64 characters) string (Same as every Bitcoin privateKey). See also: https://en.bitcoin.it/wiki/Private_key
