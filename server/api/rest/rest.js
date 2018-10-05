@@ -7,6 +7,7 @@ export const DOI_CONFIRMATION_NOTIFY_ROUTE = "opt-in";
 export const DOI_WALLETNOTIFY_ROUTE = "walletnotify";
 export const DOI_FETCH_ROUTE = "doi-mail";
 export const DOI_EXPORT_ROUTE = "export";
+export const USERS_COLLECTION_ROUTE = "users"
 export const API_PATH = "api/";
 export const VERSION = "v1";
 
