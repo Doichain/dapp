@@ -20,6 +20,10 @@ const userProfileSchema = new SimpleSchema({
     returnPath: {
         type: String,
         regEx: SimpleSchema.RegEx.Email
+    },
+    templateURL:{
+        type: String,
+        regEx: SimpleSchema.RegEx.Url
     }
 
 

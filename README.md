@@ -18,7 +18,7 @@
         - [Confirm Opt-In](#confirm-opt-in)
     * [Calls (Verify - dApp)](#calls--verify---dapp-)
         - [Verify Opt-In](#verify-opt-in)
-    * [Calls (Users)](#calls--users)
+    * [Calls (Users)](#calls--users-)
         - [Create user](#create-user)
         - [Update user](#update-user)
 - [UML](#uml)
@@ -211,6 +211,8 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
         - ``subject`` - Subject of the email
         - ``redirect`` - Redirect URL
         - ``returnPath`` - Return Path
+        - ``templateURL`` - Confirm mail template URL
+
 
 ##### Update User
 * Auth required: Yes
@@ -218,12 +220,14 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 * Url: ``users/update``
 * Method: ``PUT``
 * Parameter:
-    + ``username`` - Username of new user
-    + ``profile`` - Form information as JSON
+    + ``username`` - Username of updated user
+    + ``profile`` - Changed form information as JSON
         - ``from`` - Email that appears as sender
         - ``subject`` - Subject of the email
         - ``redirect`` - Redirect URL
         - ``returnPath`` - Return Path
+        - ``templateURL`` - Confirm mail template URL
+        
 
 ## Blockchain entry name id
 The name id is a 256-bit, ECDSA valid, number represanted as a 32 byte (64 characters) string (Same as every Bitcoin privateKey). See also: https://en.bitcoin.it/wiki/Private_key
