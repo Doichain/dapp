@@ -14,8 +14,10 @@ services:
 
   bind:
     image: "sameersbn/bind:9.11.3-20180713"
+    expose:
+      - "53"
     ports:
-      - "53:53"
+     # - "53:53"
       - "10000:10000"
     dns:
       - 172.20.0.5
@@ -33,6 +35,10 @@ services:
 
   mail:
     image: "esminis/mail-server-postfix-vm-pop3d"
+    expose:
+       - "25"
+       - "465"
+       - "995"
     ports:
       - "8443:8443"
       - "25:25"
@@ -99,7 +105,7 @@ services:
     image: "doichain/dapp-only"
     #build: .
     #volumes:
-    #  - ".:/home/doichain/dapp" # enable this when changing the code meteor should reload automatically in meteor
+     # - ".:/home/doichain/dapp" # enable this when changing the code meteor should reload automatically in meteor #maybe don't do this for now this is ot safe for testing(!)
     dns:
       - 172.20.0.5
       - 8.8.8.8
@@ -111,6 +117,7 @@ services:
       - "4000:4000"
     expose:
       - "3000"
+      - "4000"
     stdin_open: true
     tty: true
     depends_on:

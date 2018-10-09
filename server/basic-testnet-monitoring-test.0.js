@@ -1,4 +1,4 @@
-//import {chai} from 'meteor/practicalmeteor:chai';
+import {chai} from 'meteor/practicalmeteor:chai';
 //import {getHttpPOST} from "./api/http";
 //chai.use(require('chai-datetime'));
 //chai.use(require('chai-date-string'));
