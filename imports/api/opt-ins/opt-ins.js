@@ -88,6 +88,10 @@ OptIns.schema = new SimpleSchema({
     optional: true,
     denyUpdate: false
   },
+  ownerID:{
+    type: String,
+    regEx: SimpleSchema.RegEx.Id
+  },
   error:{
       type: String,
       optional: true,
@@ -112,5 +116,6 @@ OptIns.publicFields = {
   createdAt: 1,
   confirmedAt: 1,
   confirmedBy: 1,
+  ownerID: 1,
   error: 1
 };

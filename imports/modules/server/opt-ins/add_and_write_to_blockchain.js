@@ -6,6 +6,7 @@ import { OptIns } from '../../../api/opt-ins/opt-ins.js';
 import writeToBlockchain from '../doichain/write_to_blockchain.js';
 import {logError, logSend} from "../../../startup/server/log-configuration";
 
+
 const AddOptInSchema = new SimpleSchema({
   recipient_mail: {
     type: String,
@@ -26,6 +27,10 @@ const AddOptInSchema = new SimpleSchema({
   index: {
       type: SimpleSchema.Integer,
       optional: true
+  },
+  ownerID: {
+    type: String,
+    regEx: SimpleSchema.RegEx.id
   }
 });
 
@@ -42,7 +47,7 @@ const addOptIn = (optIn) => {
       email: ourOptIn.sender_mail
     }
     const senderId = addSender(sender);
-
+    
     const optIns = OptIns.find({recipient: recipientId, sender: senderId}).fetch();
     if(optIns.length > 0) return optIns[0]._id; //TODO when SOI already exists resend email?
 
@@ -54,13 +59,14 @@ const addOptIn = (optIn) => {
         throw "Invalid data json ";
       }
     }
-
+    
     const optInId = OptIns.insert({
       recipient: recipientId,
       sender: senderId,
       index: ourOptIn.index,
       masterDoi : ourOptIn.master_doi,
-      data: ourOptIn.data
+      data: ourOptIn.data,
+      ownerID: ourOptIn.ownerid
     });
     logSend("optIn (index:"+ourOptIn.index+" added to local db with optInId",optInId);
 
