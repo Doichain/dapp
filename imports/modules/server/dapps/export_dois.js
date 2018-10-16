@@ -20,16 +20,15 @@ const ExportDoisDataSchema = new SimpleSchema({
 const exportDois = (data) => {
   try {
     const ourData = data;
-    console.log(ourData.userid);
     ExportDoisDataSchema.validate(ourData);
 
     let pipeline = [
         { $match: {"confirmedAt":{ $exists: true, $ne: null }} },
         { $redact:{
           $cond: {
-            if: { $gt: [ { $size: { $setIntersection: [ "$ownerID", [ourData.userid] ] } }, 0 ] },
-            then: "$$KEEP",
-            else: "$$PRUNE" }}},
+            if: { $cmp: [ "$ownerID", ourData.userid] },
+            then: "$$PRUNE",
+            else: "$$KEEP" }}},
         { $lookup: { from: "recipients", localField: "recipient", foreignField: "_id", as: "RecipientEmail" } },
         { $lookup: { from: "senders", localField: "sender", foreignField: "_id", as: "SenderEmail" } },
         { $unwind: "$SenderEmail"},
