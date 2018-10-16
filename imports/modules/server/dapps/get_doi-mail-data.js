@@ -76,15 +76,15 @@ const getDoiMailData = (data) => {
     if(!verifySignature({publicKey: publicKey, data: ourData.name_id, signature: ourData.signature})) {
       throw "signature incorrect - access denied";
     }
-
+    
     logSend('signature verified');
 
     //TODO: Query for language
     let doiMailData;
     try {
 
-      let templateURL = DOI_MAIL_FETCH_URL;
-      let owner = Accounts.findOne({_id: optIn.ownerID});
+      doiMailData = getHttpGET(DOI_MAIL_FETCH_URL, "").data;
+      let owner = Accounts.users.findOne({_id: optIn.ownerID});
       let tmpURL = owner.profile.templateURL;
       let returnData = {
         "recipient": recipient.email,
@@ -95,24 +95,22 @@ const getDoiMailData = (data) => {
         "returnPath": doiMailData.data.returnPath
       }
       try {
-        if(tmpURL != undefined){
-          templateURL = tmpURL;
+          let doiUserMailData = getHttpGET(tmpURL, "").data;
+          if(doiUserMailData==null)throw "Unable to fetch template"
           userProfileSchema.validate(owner.profile);
           returnData = {
             "recipient": recipient.email,
-            "content": doiMailData.data,
+            "content": doiUserMailData.data,
             "redirect": owner.profile.redirect,
             "subject": owner.profile.subject,
             "from": owner.profile.from,
             "returnPath": owner.profile.returnPath
           }
         }
-      }
       catch(error) {
         logSend('Owner profile is wrong: '+error+" , using default Template");
       }
 
-      doiMailData = getHttpGET(templateURL, "").data;
 
       logSend('doiMailData and url:', DOI_MAIL_FETCH_URL, returnData);
 
