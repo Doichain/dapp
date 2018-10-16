@@ -153,6 +153,7 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 * Query-Parameter:
     + ``recipient_mail`` - Email of the recipient
     + ``sender_mail`` - Email of the sender
+    + ``ownerid`` - Userid of Opt-In-owner
     + ``data`` - (OPTIONAL) JSON string with recipient/Opt-In data
 ##### Export
 * Auth required: yes
@@ -161,6 +162,7 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 * Method: ``GET``
 * Query-Parameter:
     + ``status`` - not yet working
+    + ``ownerid`` - required, userId of Opt-in owner 
 
 
 ##### Get Double Opt-In mail data
