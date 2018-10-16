@@ -157,12 +157,12 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
     + ``data`` - (OPTIONAL) JSON string with recipient/Opt-In data
 ##### Export
 * Auth required: yes
-* Role required: ``admin``
+* Role required: ``none``
 * Url: ``export``
 * Method: ``GET``
 * Query-Parameter:
     + ``status`` - not yet working
-    + ``ownerid`` - required, userId of Opt-in owner 
+    + ``ownerid`` - (ONLY ADMIN,OPTIONAL) userId of specific Opt-in owner 
 
 
 ##### Get Double Opt-In mail data

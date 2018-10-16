@@ -9,9 +9,13 @@ const ExportDoisDataSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  role:{
+    type:String
+  },
   userid:{
     type: String,
-    regEx: SimpleSchema.RegEx.id 
+    regEx: SimpleSchema.RegEx.id,
+    optional:true 
   }
 });
 
@@ -21,20 +25,22 @@ const exportDois = (data) => {
   try {
     const ourData = data;
     ExportDoisDataSchema.validate(ourData);
-
-    let pipeline = [
-        { $match: {"confirmedAt":{ $exists: true, $ne: null }} },
-        { $redact:{
-          $cond: {
-            if: { $cmp: [ "$ownerID", ourData.userid] },
-            then: "$$PRUNE",
-            else: "$$KEEP" }}},
+    let pipeline=[{ $match: {"confirmedAt":{ $exists: true, $ne: null }} }];
+    
+    if(ourData.role!='admin'||ourData.userid!=undefined){
+      pipeline.push({ $redact:{
+        $cond: {
+          if: { $cmp: [ "$ownerID", ourData.userid ] },
+          then: "$$PRUNE",
+          else: "$$KEEP" }}});
+    }
+    pipeline.concat([
         { $lookup: { from: "recipients", localField: "recipient", foreignField: "_id", as: "RecipientEmail" } },
         { $lookup: { from: "senders", localField: "sender", foreignField: "_id", as: "SenderEmail" } },
         { $unwind: "$SenderEmail"},
         { $unwind: "$RecipientEmail"},
         { $project: {"_id":1,"createdAt":1, "confirmedAt":1,"nameId":1, "SenderEmail.email":1,"RecipientEmail.email":1}}
-    ];
+    ]);
     //if(ourData.status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
 
     let optIns =  OptIns.aggregate(pipeline);

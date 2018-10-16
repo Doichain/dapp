@@ -6,6 +6,7 @@ import {logError, logSend} from "../../../../imports/startup/server/log-configur
 import {DOI_EXPORT_ROUTE} from "../rest";
 import exportDois from "../../../../imports/modules/server/dapps/export_dois";
 import {OptIns} from "../../../../imports/api/opt-ins/opt-ins";
+import {Roles} from "meteor/alanning:roles";
 
 //doku of meteor-restivus https://github.com/kahmali/meteor-restivus
 
@@ -72,9 +73,16 @@ Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
 Api.addRoute(DOI_EXPORT_ROUTE, {
     get: {
         authRequired: true,
-        roleRequired: ['admin'],
+        //roleRequired: ['admin'],
         action: function() {
-            const params = this.queryParams;
+            let params = this.queryParams;
+            const uid = this.userId;
+            if(!Roles.userIsInRole(uid, 'admin')){
+                params = {userid:uid,role:'user'};
+            }
+            else{
+                params = {...params,role:'admin'}
+            }
             try {
                 logSend('rest api - DOI_EXPORT_ROUTE called',JSON.stringify(params));
                 const data = exportDois(params);
@@ -95,13 +103,14 @@ function prepareCoDOI(params){
     const senders = params.sender_mail;
     const recipient_mail = params.recipient_mail;
     const data = params.data;
+    const ownerid = params.ownerid;
 
     let currentOptInId;
     let retResponse = [];
     let master_doi;
     senders.forEach((sender,index) => {
 
-        const ret_response = prepareAdd({sender_mail:sender,recipient_mail:recipient_mail,data:data, master_doi:master_doi, index: index});
+        const ret_response = prepareAdd({sender_mail:sender,recipient_mail:recipient_mail,data:data, master_doi:master_doi, index: index, ownerID:ownerid});
         logSend('CoDOI:',ret_response);
         if(ret_response.status === undefined || ret_response.status==="failed") throw "could not add co-opt-in";
         retResponse.push(ret_response);
