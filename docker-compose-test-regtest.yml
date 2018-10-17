@@ -104,8 +104,8 @@ services:
   regtest:
     image: "doichain/dapp-only"
     #build: .
-    #volumes:
-     # - ".:/home/doichain/dapp" # enable this when changing the code meteor should reload automatically in meteor #maybe don't do this for now this is ot safe for testing(!)
+    volumes:
+      - ".:/home/doichain/dapp" # enable this when changing the code meteor should reload automatically in meteor #maybe don't do this for now this is ot safe for testing(!)
     dns:
       - 172.20.0.5
       - 8.8.8.8

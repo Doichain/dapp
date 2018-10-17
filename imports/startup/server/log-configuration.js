@@ -9,21 +9,21 @@ export const verifyModeTagColor = {msg : 'verify-mode', colors : ['green', 'inve
 export const blockchainModeTagColor = {msg : 'blockchain-mode', colors : ['white', 'inverse']};
 
 export function logSend(message,param) {
-    if(isDebug()) {console.time().tag(sendModeTagColor).log(message,param);}
+    if(isDebug()) {console.time().tag(sendModeTagColor).log(message,param?param:'');}
 }
 
 export function logConfirm(message,param) {
-    if(isDebug()) {console.time().tag(confirmModeTagColor).log(message, param);}
+    if(isDebug()) {console.time().tag(confirmModeTagColor).log(message, param?param:'');}
 }
 
 export function logVerify(message, param) {
-    if(isDebug()) {console.time().tag(verifyModeTagColor).log(message, param);}
+    if(isDebug()) {console.time().tag(verifyModeTagColor).log(message, param?param:'');}
 }
 
 export function logBlockchain(message, param) {
-    if(isDebug()){console.time().tag(blockchainModeTagColor).log(message, param);}
+    if(isDebug()){console.time().tag(blockchainModeTagColor).log(message, param?param:'');}
 }
 
 export function logError(message, param) {
-    if(isDebug()){console.time().tag(blockchainModeTagColor).error(message, param);}
+    if(isDebug()){console.time().tag(blockchainModeTagColor).error(message, param?param:'');}
 }
