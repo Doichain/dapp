@@ -11,9 +11,6 @@ import {
     login,confirmLink,
     requestDOI, verifyDOI
 } from "./test-api/test-api-on-dapp";
-import {logBlockchain} from "../imports/startup/server/log-configuration";
-import {getHttpGET} from "./api/http";
-
 
 const node_url_alice = 'http://172.20.0.6:18332/';
 const node_url_bob =   'http://172.20.0.7:18332/';
@@ -47,8 +44,10 @@ describe('basic-doi-test', function () {
         //login to dApp & request DOI on alice via bob
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
         const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,{'city':'Ekaterinburg'},false);
-        generatetoaddress(node_url_alice,auth, aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
+
         setTimeout(Meteor.bindEnvironment(function () {
+//            generatetoaddress(node_url_alice,auth, aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
+
             const nameId = getNameIdOfOptIn(node_url_alice,auth,resultDataOptIn.data.id,true);
             chai.expect(nameId).to.not.be.null;
 
@@ -56,6 +55,8 @@ describe('basic-doi-test', function () {
                 const link2Confirm= fetchConfirmLinkFromPop3Mail("mail",110,"bob@ci-doichain.org","bob",dappUrlBob,false);
                 chai.expect(link2Confirm).to.not.be.null;
                 confirmLink(link2Confirm);
+
+
                 generatetoaddress(node_url_alice,auth, aliceAddress,2,false);
 
                 setTimeout(Meteor.bindEnvironment(function () {
