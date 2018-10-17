@@ -8,7 +8,7 @@ import {
 import {
     fetchConfirmLinkFromPop3Mail,
     getNameIdOfOptIn,
-    login,
+    login,confirmLink,
     requestDOI, verifyDOI
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
@@ -45,29 +45,26 @@ describe('basic-doi-test', function () {
         chai.assert.isAbove(aliceBalance, 0, 'no funding! ');
 
         //login to dApp & request DOI on alice via bob
-        const dataLogin = login(dappUrlAlice,dAppLogin,false); //log into dApp
-        const resultDataOptIn = requestDOI(dappUrlAlice,dataLogin,recipient_mail,sender_mail,{'city':'Ekaterinburg'},false);
-        generatetoaddress(node_url_alice,auth, aliceAddress,1,false);
+        const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
+        const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,{'city':'Ekaterinburg'},false);
+        generatetoaddress(node_url_alice,auth, aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
         setTimeout(Meteor.bindEnvironment(function () {
-            const nameId = getNameIdOfOptIn(node_url_bob,auth,resultDataOptIn.data.id,true);
+            const nameId = getNameIdOfOptIn(node_url_alice,auth,resultDataOptIn.data.id,true);
             chai.expect(nameId).to.not.be.null;
 
             setTimeout(Meteor.bindEnvironment(function () {
-                const confirmLink = fetchConfirmLinkFromPop3Mail("mail",110,"bob@ci-doichain.org","bob",dappUrlBob,false);
-                chai.expect(confirmLink).to.not.be.null;
-                logBlockchain("clickable link:",confirmLink);
-                const doiConfirmlinkResult = getHttpGET(confirmLink,'');
+                const link2Confirm= fetchConfirmLinkFromPop3Mail("mail",110,"bob@ci-doichain.org","bob",dappUrlBob,false);
+                chai.expect(link2Confirm).to.not.be.null;
+                confirmLink(link2Confirm);
+                generatetoaddress(node_url_alice,auth, aliceAddress,2,false);
 
-                chai.expect(doiConfirmlinkResult.content).to.have.string('ANMELDUNG ERFOLGREICH');
-                chai.expect(doiConfirmlinkResult.content).to.have.string('Vielen Dank für Ihre Anmeldung');
-                chai.expect(doiConfirmlinkResult.content).to.have.string('Ihre Anmeldung war erfolgreich.');
-                chai.assert.equal(200, doiConfirmlinkResult.statusCode);
-
-                generatetoaddress(node_url_alice,auth, aliceAddress,2,false);  //need to generate two blocks to make block visible on alice
-                verifyDOI(dappUrlAlice, sender_mail, recipient_mail,nameId, dataLogin, log );
-                done();
-          }),10000);
-        }),10000);
+                setTimeout(Meteor.bindEnvironment(function () {
+                    //need to generate two blocks to make block visible on alice
+                    verifyDOI(dappUrlAlice, sender_mail, recipient_mail,nameId, dataLoginAlice, log );
+                    done();
+                }),5000); //verify
+          }),5000); //connect to pop3
+        }),5000); //find transaction on bob's node - even the block is not confirmed yet
     });
 
     it('should test if basic Doichain workflow is working without optional data', function (done) {

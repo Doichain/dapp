@@ -1,5 +1,5 @@
 import {logBlockchain} from "../../imports/startup/server/log-configuration";
-import {getHttpGETdata, getHttpPOST} from "../api/http";
+import {getHttpGET, getHttpGETdata, getHttpPOST} from "../api/http";
 import {chai} from 'meteor/practicalmeteor:chai';
 import {OptIns} from "../../imports/api/opt-ins/opt-ins";
 const headers = { 'Content-Type':'text/plain'  };
@@ -162,7 +162,15 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
         });
     });
 }
+export function confirmLink(confirmLink){
+    logBlockchain("clickable link:",confirmLink);
+    const doiConfirmlinkResult = getHttpGET(confirmLink,'');
 
+    chai.expect(doiConfirmlinkResult.content).to.have.string('ANMELDUNG ERFOLGREICH');
+    chai.expect(doiConfirmlinkResult.content).to.have.string('Vielen Dank für Ihre Anmeldung');
+    chai.expect(doiConfirmlinkResult.content).to.have.string('Ihre Anmeldung war erfolgreich.');
+    chai.assert.equal(200, doiConfirmlinkResult.statusCode);
+}
 export function verifyDOI(dAppUrl, sender_mail, recipient_mail,nameId, auth, log ){
     const urlVerify = dAppUrl+'/api/v1/opt-in/verify';
     const recipient_public_key = Recipients.findOne({email: recipient_mail}).publicKey;

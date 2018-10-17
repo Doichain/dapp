@@ -5,7 +5,7 @@
     "start": "meteor run",
     "lint": "eslint .",
     "pretest": "npm run lint --silent",
-    "test-mocha": "export MONGO_URL=mongodb://mongo:27017/alice; export MOCHA_GREP=basic-doi-test; meteor test --once --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
+    "test-mocha":"export MONGO_URL=mongodb://mongo:27017/alice; export MOCHA_GREP=basic-doi-test; meteor test --once --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
     "test-d-compose-regtest-mocha": "export MONGO_URL=mongodb://mongo:27017/alice; export MOCHA_GREP=basic-doi-test; meteor test --once --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
     "test-d-compose-testnet-mocha": "export MOCHA_GREP=testnet-monitoring-test; meteor test --once --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-testnet.json",
     "test-watch-mocha": "TEST_WATCH=1 meteor test --full-app --settings settings-test.json --driver-package meteortesting:mocha",
