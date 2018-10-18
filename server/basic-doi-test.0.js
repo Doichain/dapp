@@ -49,7 +49,7 @@ describe('basic-doi-test', function () {
 
         setTimeout(Meteor.bindEnvironment(function () {
             if(log) logBlockchain('waiting seconds before get NameIdOfOptIn',10);
-//            generatetoaddress(node_url_alice,auth, aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
+            generatetoaddress(node_url_alice,auth, aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
 
             const nameId = getNameIdOfOptIn(node_url_alice,auth,resultDataOptIn.data.id,true);
             chai.expect(nameId).to.not.be.null;
