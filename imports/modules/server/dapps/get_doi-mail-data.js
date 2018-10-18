@@ -88,9 +88,6 @@ const getDoiMailData = (data) => {
     try {
 
       doiMailData = getHttpGET(DOI_MAIL_FETCH_URL, "").data;
-      let owner = Accounts.users.findOne({_id: optIn.ownerID});
-      let mailTemplate = owner.profile.mailTemplate;
-
       let defaultReturnData = {
         "recipient": recipient.email,
         "content": doiMailData.data.content,
@@ -101,7 +98,12 @@ const getDoiMailData = (data) => {
       }
 
     let returnData = defaultReturnData;
+
+
     try{
+      let owner = Accounts.users.findOne({_id: optIn.ownerID});
+      let mailTemplate = owner.profile.mailTemplate;
+
       userProfileSchema.validate(mailTemplate);
       for(let key in Object.getOwnPropertyNames(mailTemplate)){
         if(mailTemplate[key]!==undefined&&key!=="content"&&key!=="recipient"){
