@@ -11,6 +11,7 @@ import {
     login,confirmLink,
     requestDOI, verifyDOI
 } from "./test-api/test-api-on-dapp";
+import {logBlockchain} from "../imports/startup/server/log-configuration";
 
 const node_url_alice = 'http://172.20.0.6:18332/';
 const node_url_bob =   'http://172.20.0.7:18332/';
@@ -45,27 +46,30 @@ describe('basic-doi-test', function () {
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
         const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,{'city':'Ekaterinburg'},false);
 
+
         setTimeout(Meteor.bindEnvironment(function () {
+            if(log) logBlockchain('waiting seconds before get NameIdOfOptIn',10);
 //            generatetoaddress(node_url_alice,auth, aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
 
             const nameId = getNameIdOfOptIn(node_url_alice,auth,resultDataOptIn.data.id,true);
             chai.expect(nameId).to.not.be.null;
 
             setTimeout(Meteor.bindEnvironment(function () {
+                if(log) logBlockchain('waiting seconds before fetching email:',10);
                 const link2Confirm= fetchConfirmLinkFromPop3Mail("mail",110,"bob@ci-doichain.org","bob",dappUrlBob,false);
                 chai.expect(link2Confirm).to.not.be.null;
                 confirmLink(link2Confirm);
 
 
                 generatetoaddress(node_url_alice,auth, aliceAddress,2,false);
-
+                if(log) logBlockchain('waiting seconds before verifying DOI on alice:',10);
                 setTimeout(Meteor.bindEnvironment(function () {
                     //need to generate two blocks to make block visible on alice
                     verifyDOI(dappUrlAlice, sender_mail, recipient_mail,nameId, dataLoginAlice, log );
                     done();
-                }),5000); //verify
-          }),5000); //connect to pop3
-        }),5000); //find transaction on bob's node - even the block is not confirmed yet
+                }),10000); //verify
+          }),10000); //connect to pop3
+        }),10000); //find transaction on bob's node - even the block is not confirmed yet
     });
 
     it('should test if basic Doichain workflow is working without optional data', function (done) {
