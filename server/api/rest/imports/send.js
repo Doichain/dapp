@@ -20,10 +20,14 @@ Api.addRoute(DOI_CONFIRMATION_NOTIFY_ROUTE, {
       let params = {}
       if(qParams !== undefined) params = {...qParams}
       if(bParams !== undefined) params = {...params, ...bParams}
+
       const uid = this.userId;
-      if(!Roles.userIsInRole(uid, 'admin')){
-        params["ownerID"]=uid;
+
+      if(!Roles.userIsInRole(uid, 'admin') || //if its not an admin always use uid as ownerId
+          (Roles.userIsInRole(uid, 'admin') && (params["ownerID"]==null || params["ownerID"]==undefined))) {  //if its an admin only use uid in case no ownerId was given
+          params["ownerID"] = uid;
       }
+
       logSend('params:',params);
       if(params.sender_mail.constructor === Array){ //this is a SOI with co-sponsors first email is main sponsor
           return prepareCoDOI(params);
