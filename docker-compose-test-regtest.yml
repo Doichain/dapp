@@ -105,7 +105,7 @@ services:
     image: "doichain/dapp-only"
     #build: .
     #volumes:
-    #  - ".:/home/doichain/dapp" # enable this when changing the code meteor should reload automatically in meteor #maybe don't do this for now this is ot safe for testing(!)
+    #  - ".:/home/doichain/dapp" #TODO you can enable this durring development but not during testing in CI (permission denided)
     dns:
       - 172.20.0.5
       - 8.8.8.8
