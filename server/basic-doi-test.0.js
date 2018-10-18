@@ -45,13 +45,11 @@ describe('basic-doi-test', function () {
     });
 
     it('should test if basic Doichain workflow is working with data', function (done) {
-        requestConfirmVerifyBasicDoi(null);
-        done();
+        requestConfirmVerifyBasicDoi(null,done);
     });
 
     it('should test if basic Doichain workflow is working without optional data', function (done) {
-        requestConfirmVerifyBasicDoi({'city':'Ekaterinburg'});
-        done();
+        requestConfirmVerifyBasicDoi({'city':'Ekaterinburg'},done);
     });
 ;
     it('should test if Doichain workflow is using different templates for different users', function (done) {
@@ -64,7 +62,7 @@ describe('basic-doi-test', function () {
     });
 
 
-    function requestConfirmVerifyBasicDoi(optionalData){
+    function requestConfirmVerifyBasicDoi(optionalData,done){
         //login to dApp & request DOI on alice via bob
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
         const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,optionalData,false);
