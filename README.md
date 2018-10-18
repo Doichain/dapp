@@ -18,6 +18,9 @@
         - [Confirm Opt-In](#confirm-opt-in)
     * [Calls (Verify - dApp)](#calls--verify---dapp-)
         - [Verify Opt-In](#verify-opt-in)
+    * [Calls (Users)](#calls--users-)
+        - [Create user](#create-user)
+        - [Update user](#update-user)
 - [UML](#uml)
     * [Activity diagram](#activity-diagram)
     * [Sequence diagram](#sequence-diagram)
@@ -144,20 +147,22 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 ### Calls (Send - dApp)
 ##### Create Opt-In
 * Auth required: yes
-* Role required: ``admin``
+* Role required: ``none``
 * Url: ``opt-in``
 * Method: ``POST``
 * Query-Parameter:
     + ``recipient_mail`` - Email of the recipient
     + ``sender_mail`` - Email of the sender
+    + ``ownerid`` - (ADMIN ONLY) Userid of Opt-In-owner
     + ``data`` - (OPTIONAL) JSON string with recipient/Opt-In data
 ##### Export
 * Auth required: yes
-* Role required: ``admin``
+* Role required: ``none``
 * Url: ``export``
 * Method: ``GET``
 * Query-Parameter:
     + ``status`` - not yet working
+    + ``ownerid`` - (ADMIN ONLY,OPTIONAL) userId of specific Opt-in owner 
 
 
 ##### Get Double Opt-In mail data
@@ -192,6 +197,37 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
     + ``sender_mail`` - Email of the sender
     + ``name_id`` - Blockchain entry name id
     + ``recipient_public_key`` - Public key of the recipient
+
+### Calls (Users)
+##### Create User
+* Auth required: Yes
+* Role required: ``admin``
+* Url: ``users``
+* Method: ``POST``
+* Parameter:
+    + ``username`` - Username of new user
+    + ``email`` - Email of new user
+    + ``password`` - Password of new user
+    + ``mailTemplate`` - (OPTIONAL) Form information as JSON
+        - ``subject`` - (OPTIONAL) Subject of the email
+        - ``redirect`` - (OPTIONAL) Redirect URL
+        - ``returnPath`` - (OPTIONAL) Return Path
+        - ``templateURL`` - (OPTIONAL) Confirm mail template URL
+
+
+##### Update User
+* Auth required: Yes
+* Role required: ``admin``
+* Url: ``users/update``
+* Method: ``PUT``
+* Parameter:
+    + ``username`` - Username of updated user
+    + ``mailTemplate`` - Changed form information as JSON
+        - ``subject`` - (OPTIONAL) Subject of the email
+        - ``redirect`` - (OPTIONAL) Redirect URL
+        - ``returnPath`` - (OPTIONAL) Return Path
+        - ``templateURL`` - (OPTIONAL) Confirm mail template URL
+        
 
 ## Blockchain entry name id
 The name id is a 256-bit, ECDSA valid, number represanted as a 32 byte (64 characters) string (Same as every Bitcoin privateKey). See also: https://en.bitcoin.it/wiki/Private_key

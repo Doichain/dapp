@@ -7,7 +7,8 @@ import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../doichain/verify_signature.js';
 import { getHttpGET } from '../../../../server/api/http.js';
 import { DOI_MAIL_FETCH_URL } from '../../../startup/server/email-configuration.js';
-import {logSend} from "../../../startup/server/log-configuration";
+import { logSend } from "../../../startup/server/log-configuration";
+import { Accounts } from 'meteor/accounts-base'
 
 const GetDoiMailDataSchema = new SimpleSchema({
   name_id: {
@@ -18,6 +19,31 @@ const GetDoiMailDataSchema = new SimpleSchema({
   }
 });
 
+const userProfileSchema = new SimpleSchema({
+  /*from: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email
+  },*/
+  subject: {
+    type: String,
+    optional:true
+  },
+  redirect: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Url,
+    optional:true
+  },
+  returnPath: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email,
+    optional:true
+  },
+  templateURL: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Url,
+    optional:true
+  }
+});
 
 const getDoiMailData = (data) => {
   try {
@@ -34,12 +60,12 @@ const getDoiMailData = (data) => {
     const parts = recipient.email.split("@");
     const domain = parts[parts.length-1];
 
-    let publicKey = getOptInKey({domain: domain});
+    let publicKey = getOptInKey({ domain: domain});
 
     if(!publicKey){
-        const provider = getOptInProvider({domain: ourData.domain});
-        logSend("using doichain provider instead of directly configured publicKey:",{provider:provider});
-        publicKey = getOptInKey({domain: provider}); //get public key from provider or fallback if publickey was not set in dns
+      const provider = getOptInProvider({domain: ourData.domain });
+      logSend("using doichain provider instead of directly configured publicKey:", { provider: provider });
+      publicKey = getOptInKey({ domain: provider}); //get public key from provider or fallback if publickey was not set in dns
     }
 
     logSend('queried data: (parts, domain, provider, publicKey)', '('+parts+','+domain+','+publicKey+')');
@@ -52,25 +78,50 @@ const getDoiMailData = (data) => {
     // 4. Send dApp lock the data for this opt in
     logSend('verifying signature...');
     if(!verifySignature({publicKey: publicKey, data: ourData.name_id, signature: ourData.signature})) {
-        throw "signature incorrect - access denied";
+      throw "signature incorrect - access denied";
     }
-
+    
     logSend('signature verified');
 
     //TODO: Query for language
     let doiMailData;
     try {
-      doiMailData = getHttpGET(DOI_MAIL_FETCH_URL, "").data;
 
-      let returnData = {
-          "recipient": recipient.email,
-          "content": doiMailData.data.content,
-          "redirect": doiMailData.data.redirect,
-          "subject": doiMailData.data.subject,
-          "from": doiMailData.data.from,
-          "returnPath": doiMailData.data.returnPath
+      doiMailData = getHttpGET(DOI_MAIL_FETCH_URL, "").data;
+      let owner = Accounts.users.findOne({_id: optIn.ownerID});
+      let mailTemplate = owner.profile.mailTemplate;
+
+      let defaultReturnData = {
+        "recipient": recipient.email,
+        "content": doiMailData.data.content,
+        "redirect": doiMailData.data.redirect,
+        "subject": doiMailData.data.subject,
+        //"from": doiMailData.data.from,
+        "returnPath": doiMailData.data.returnPath
       }
-      logSend('doiMailData and url:',DOI_MAIL_FETCH_URL,returnData);
+
+    let returnData = defaultReturnData;
+    try{
+      userProfileSchema.validate(mailTemplate);
+      for(let key in Object.getOwnPropertyNames(mailTemplate)){
+        if(mailTemplate[key]!==undefined&&key!=="content"&&key!=="recipient"){
+          returnData[key]=mailTemplate[key];
+        }
+      }
+      let doiUserMailData;
+      if(mailTemplate.templateURL!==undefined){
+        doiUserMailData = getHttpGET(mailTemplate.templateURL, "").data;
+      }
+      if(doiUserMailData!==undefined){
+        returnData["content"]=doiMailData;
+      }
+    }
+    catch(error) {
+      logSend('Owner profile is wrong: '+error+" , using default Template");
+      returnData=defaultReturnData;
+    }
+
+      logSend('doiMailData and url:', DOI_MAIL_FETCH_URL, returnData);
 
       return returnData
 
@@ -78,7 +129,7 @@ const getDoiMailData = (data) => {
       throw "Error while fetching mail content: "+error;
     }
 
-  } catch (exception) {
+  } catch(exception) {
     throw new Meteor.Error('dapps.getDoiMailData.exception', exception);
   }
 };
