@@ -42,6 +42,7 @@ describe('basic-doi-test', function () {
 
         const aliceBalance = getBalance(node_url_alice,auth,log);
         chai.assert.isAbove(aliceBalance, 0, 'no funding! ');
+        done();
     });
 
     it('should test if basic Doichain workflow is working with data', function (done) {
