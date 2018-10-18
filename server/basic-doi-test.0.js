@@ -24,32 +24,54 @@ const dAppLogin = {"username":"admin","password":"password"};
 
 const recipient_mail = "bob@ci-doichain.org";
 const sender_mail  = "alice@ci-doichain.org";
+const log = true;
+
+let aliceAddress;
 
 describe('basic-doi-test', function () {
     this.timeout(120000);
 
-    it('should test if basic Doichain workflow is working', function (done) {
-
-        const log = true;
+    it('should create a RegTest Doichain with alice and bob and some Doi - coins', function (done) {
         //connect nodes (alice & bob) and generate DOI
         isNodeAlive(node_url_alice,auth,false);
         isNodeAliveAndConnectedToHost(node_url_bob,auth,'alice',false);
         importPrivKey(node_url_bob,auth,privKeyBob,true,false);
 
-        const aliceAddress = getNewAddress(node_url_alice,auth,false);
+        aliceAddress = getNewAddress(node_url_alice,auth,false);
         generatetoaddress(node_url_alice,auth, aliceAddress,110);  //110 blocks to new address! 110 blöcke *25 coins
 
         const aliceBalance = getBalance(node_url_alice,auth,log);
         chai.assert.isAbove(aliceBalance, 0, 'no funding! ');
+    });
 
+    it('should test if basic Doichain workflow is working with data', function (done) {
+        requestConfirmVerifyBasicDoi(null);
+        done();
+    });
+
+    it('should test if basic Doichain workflow is working without optional data', function (done) {
+        requestConfirmVerifyBasicDoi({'city':'Ekaterinburg'});
+        done();
+    });
+;
+    it('should test if Doichain workflow is using different templates for different users', function (done) {
+
+        //login as admin
+        //create two users alice-a and alice-b with two different template urls
+        //login as user alice-a and request DOI - bob
+
+        done();
+    });
+
+
+    function requestConfirmVerifyBasicDoi(optionalData){
         //login to dApp & request DOI on alice via bob
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
-        const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,{'city':'Ekaterinburg'},false);
+        const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,optionalData,false);
         generatetoaddress(node_url_alice,auth, aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
 
         if(log) logBlockchain('waiting seconds before get NameIdOfOptIn',10);
         setTimeout(Meteor.bindEnvironment(function () {
-
 
             const nameId = getNameIdOfOptIn(node_url_alice,auth,resultDataOptIn.data.id,true);
             chai.expect(nameId).to.not.be.null;
@@ -72,20 +94,7 @@ describe('basic-doi-test', function () {
                         done();
                     }),10000); //verify
                 }),10000); //verify
-          }),10000); //connect to pop3
+            }),10000); //connect to pop3
         }),10000); //find transaction on bob's node - even the block is not confirmed yet
-    });
-
-    it('should test if basic Doichain workflow is working without optional data', function (done) {
-        done();
-    });
-
-    it('should test if Doichain workflow is using different templates for different users', function (done) {
-
-        //login as admin
-        //create two users alice-a and alice-b with two different template urls
-        //login as user alice-a and request DOI - bob
-
-        done();
-    });
+    }
 });
