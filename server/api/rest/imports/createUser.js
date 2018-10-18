@@ -5,25 +5,29 @@ import SimpleSchema from 'simpl-schema';
 
 //TODO Schema separate
 
-const userProfileSchema = new SimpleSchema({
-    from: {
+const mailTemplateSchema = new SimpleSchema({
+ /*   from: {
         type: String,
         regEx: SimpleSchema.RegEx.Email
-    },
+    },*/
     subject: {
-        type: String
+        type: String,
+        optional:true 
     },
     redirect: {
         type: String,
-        regEx: SimpleSchema.RegEx.Url
+        regEx: SimpleSchema.RegEx.Url,
+        optional:true 
     },
     returnPath: {
         type: String,
-        regEx: SimpleSchema.RegEx.Email
+        regEx: SimpleSchema.RegEx.Email,
+        optional:true 
     },
     templateURL:{
         type: String,
-        regEx: SimpleSchema.RegEx.Url
+        regEx: SimpleSchema.RegEx.Url,
+        optional:true 
     }
 
 
@@ -41,8 +45,9 @@ const createUserSchema = new SimpleSchema({
       type: String,
       regEx: "^[A-Z,a-z,0-9,!,_,$,#]{8,24}$" //Only passwords between 8-24 characters from A-Z,a-z,0-9,!,_,$,# allowed
     },
-    profile:{
-        type: JSON
+    mailTemplate:{
+        type: JSON,
+        optional:true 
     }
     //profile: {
     //    type: String,
@@ -57,7 +62,7 @@ const createUserSchema = new SimpleSchema({
       type: String,
       regEx: "^[A-Z,a-z,0-9,!,_,$,#]{4,24}$"
     },
-    profile:{
+    mailTemplate:{
         type: JSON
     }
 });
@@ -84,13 +89,16 @@ const collectionOptions =
                 if(bParams !== undefined) params = {...params, ...bParams}
                 //checkPost(params);
                 try{
+                    var tmp;
                     createUserSchema.validate(params);
-                    const tmpObj=JSON.parse(params.profile);
-                    
-                    userProfileSchema.validate(tmpObj);
-                    
-                    var tmp = Accounts.createUser({username:params.username,email:params.email,password:params.password, profile:tmpObj});
-
+                    if(params.mailTemplate !== undefined){
+                        const tmpObj=JSON.parse(params.mailTemplate);
+                        mailTemplateSchema.validate(tmpObj);
+                        tmp = Accounts.createUser({username:params.username,email:params.email,password:params.password, profile:{mailTemplate:tmpObj}});
+                    }
+                    else{
+                        tmp = Accounts.createUser({username:params.username,email:params.email,password:params.password, profile:{}});
+                    }    
                     return {status: 'success', data: {userid: tmp}};
                 } catch(error) {
                   return {statusCode: 400, body: {status: 'fail', message: error.message}};
@@ -112,11 +120,11 @@ const collectionOptions =
                 if(bParams !== undefined) params = {...params, ...bParams}
                 try{
                     updateUserSchema.validate(params);
-                    const tmpObj=JSON.parse(params.profile);
-                    userProfileSchema.validate(tmpObj);
+                    const tmpObj=JSON.parse(params.mailTemplate);
+                    mailTemplateSchema.validate(tmpObj);
                     var userUpdate = Accounts.findUserByUsername(params.username);
-                    Meteor.users.update({_id: userUpdate._id},{$set:{profile:tmpObj}});
-                    return {status: 'success', data: {userid: userUpdate._id, profile:tmpObj}};
+                    Meteor.users.update({_id: userUpdate._id},{$set:{"profile.mailTemplate":tmpObj}});
+                    return {status: 'success', data: {userid: userUpdate._id, mailTemplate:tmpObj}};
                 } catch(error) {
                   return {statusCode: 400, body: {status: 'fail', message: error.message}};
                 }

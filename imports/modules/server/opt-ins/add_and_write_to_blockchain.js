@@ -66,7 +66,7 @@ const addOptIn = (optIn) => {
       index: ourOptIn.index,
       masterDoi : ourOptIn.master_doi,
       data: ourOptIn.data,
-      ownerID: ourOptIn.ownerid
+      ownerID: ourOptIn.ownerID
     });
     logSend("optIn (index:"+ourOptIn.index+" added to local db with optInId",optInId);
 

@@ -147,13 +147,13 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 ### Calls (Send - dApp)
 ##### Create Opt-In
 * Auth required: yes
-* Role required: ``admin``
+* Role required: ``none``
 * Url: ``opt-in``
 * Method: ``POST``
 * Query-Parameter:
     + ``recipient_mail`` - Email of the recipient
     + ``sender_mail`` - Email of the sender
-    + ``ownerid`` - Userid of Opt-In-owner
+    + ``ownerid`` - (ADMIN ONLY) Userid of Opt-In-owner
     + ``data`` - (OPTIONAL) JSON string with recipient/Opt-In data
 ##### Export
 * Auth required: yes
@@ -162,7 +162,7 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 * Method: ``GET``
 * Query-Parameter:
     + ``status`` - not yet working
-    + ``ownerid`` - (ONLY ADMIN,OPTIONAL) userId of specific Opt-in owner 
+    + ``ownerid`` - (ADMIN ONLY,OPTIONAL) userId of specific Opt-in owner 
 
 
 ##### Get Double Opt-In mail data
@@ -208,12 +208,11 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
     + ``username`` - Username of new user
     + ``email`` - Email of new user
     + ``password`` - Password of new user
-    + ``profile`` - Form information as JSON
-        - ``from`` - Email that appears as sender
-        - ``subject`` - Subject of the email
-        - ``redirect`` - Redirect URL
-        - ``returnPath`` - Return Path
-        - ``templateURL`` - Confirm mail template URL
+    + ``mailTemplate`` - (OPTIONAL) Form information as JSON
+        - ``subject`` - (OPTIONAL) Subject of the email
+        - ``redirect`` - (OPTIONAL) Redirect URL
+        - ``returnPath`` - (OPTIONAL) Return Path
+        - ``templateURL`` - (OPTIONAL) Confirm mail template URL
 
 
 ##### Update User
@@ -223,12 +222,11 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 * Method: ``PUT``
 * Parameter:
     + ``username`` - Username of updated user
-    + ``profile`` - Changed form information as JSON
-        - ``from`` - Email that appears as sender
-        - ``subject`` - Subject of the email
-        - ``redirect`` - Redirect URL
-        - ``returnPath`` - Return Path
-        - ``templateURL`` - Confirm mail template URL
+    + ``mailTemplate`` - Changed form information as JSON
+        - ``subject`` - (OPTIONAL) Subject of the email
+        - ``redirect`` - (OPTIONAL) Redirect URL
+        - ``returnPath`` - (OPTIONAL) Return Path
+        - ``templateURL`` - (OPTIONAL) Confirm mail template URL
         
 
 ## Blockchain entry name id
