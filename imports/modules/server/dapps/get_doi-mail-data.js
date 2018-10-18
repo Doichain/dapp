@@ -20,24 +20,28 @@ const GetDoiMailDataSchema = new SimpleSchema({
 });
 
 const userProfileSchema = new SimpleSchema({
-  from: {
+  /*from: {
     type: String,
     regEx: SimpleSchema.RegEx.Email
-  },
+  },*/
   subject: {
-    type: String
+    type: String,
+    optional:true
   },
   redirect: {
     type: String,
-    regEx: SimpleSchema.RegEx.Url
+    regEx: SimpleSchema.RegEx.Url,
+    optional:true
   },
   returnPath: {
     type: String,
-    regEx: SimpleSchema.RegEx.Email
+    regEx: SimpleSchema.RegEx.Email,
+    optional:true
   },
   templateURL: {
     type: String,
-    regEx: SimpleSchema.RegEx.Url
+    regEx: SimpleSchema.RegEx.Url,
+    optional:true
   }
 });
 
@@ -85,32 +89,37 @@ const getDoiMailData = (data) => {
 
       doiMailData = getHttpGET(DOI_MAIL_FETCH_URL, "").data;
       let owner = Accounts.users.findOne({_id: optIn.ownerID});
-      let tmpURL = owner.profile.templateURL;
-      let returnData = {
+      let mailTemplate = owner.profile.mailTemplate;
+
+      let defaultReturnData = {
         "recipient": recipient.email,
         "content": doiMailData.data.content,
         "redirect": doiMailData.data.redirect,
         "subject": doiMailData.data.subject,
-        "from": doiMailData.data.from,
+        //"from": doiMailData.data.from,
         "returnPath": doiMailData.data.returnPath
       }
-      try {
-          let doiUserMailData = getHttpGET(tmpURL, "").data;
-          if(doiUserMailData==null)throw "Unable to fetch template"
-          userProfileSchema.validate(owner.profile);
-          returnData = {
-            "recipient": recipient.email,
-            "content": doiUserMailData.data,
-            "redirect": owner.profile.redirect,
-            "subject": owner.profile.subject,
-            "from": owner.profile.from,
-            "returnPath": owner.profile.returnPath
-          }
-        }
-      catch(error) {
-        logSend('Owner profile is wrong: '+error+" , using default Template");
-      }
 
+    let returnData = defaultReturnData;
+    try{
+      userProfileSchema.validate(mailTemplate);
+      for(let key in Object.getOwnPropertyNames(mailTemplate)){
+        if(mailTemplate[key]!==undefined&&key!=="content"&&key!=="recipient"){
+          returnData[key]=mailTemplate[key];
+        }
+      }
+      let doiUserMailData;
+      if(mailTemplate.templateURL!==undefined){
+        doiUserMailData = getHttpGET(mailTemplate.templateURL, "").data;
+      }
+      if(doiUserMailData!==undefined){
+        returnData["content"]=doiMailData;
+      }
+    }
+    catch(error) {
+      logSend('Owner profile is wrong: '+error+" , using default Template");
+      returnData=defaultReturnData;
+    }
 
       logSend('doiMailData and url:', DOI_MAIL_FETCH_URL, returnData);
 

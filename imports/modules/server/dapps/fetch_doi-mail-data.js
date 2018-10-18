@@ -72,7 +72,7 @@ const fetchDoiMailData = (data) => {
 
     logConfirm('adding email to endUser for confirmation');
     addSendMailJob({
-      from: responseData.data.from,
+      //from: responseData.data.from,
       to: responseData.data.recipient,
       subject: responseData.data.subject,
       message: template,
