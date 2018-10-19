@@ -99,7 +99,7 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
 
     if(log)logBlockchain("logging bob into pop3 server");
     //https://github.com/ditesh/node-poplib/blob/master/demos/retrieve-all.js
-    var client = new POP3Client(port, hostname, {
+    const client = new POP3Client(port, hostname, {
         tlserrs: false,
         enabletls: false,
         debug: true
@@ -136,8 +136,11 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                     const html  = quotedPrintableDecode(maildata);
                                     const data =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
                                     client.dele(msgnumber);
-                                    client.quit();
-                                    callback(null,data);
+                                    client.on("dele", function(status, msgnumber, data, rawdata) {
+                                        client.quit();
+                                        callback(null,data);
+                                    });
+
                                 } else {
                                     const err = "RETR failed for msgnumber "+ msgnumber;
                                     client.rset();

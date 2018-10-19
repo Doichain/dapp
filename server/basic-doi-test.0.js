@@ -93,7 +93,7 @@ describe('basic-doi-test', function () {
                         done();
                     }),10000); //verify
                 }),10000); //verify
-            }),10000); //connect to pop3
+            }),15000); //connect to pop3
         }),10000); //find transaction on bob's node - even the block is not confirmed yet
     }
 });
