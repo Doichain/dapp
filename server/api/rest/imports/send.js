@@ -24,8 +24,8 @@ Api.addRoute(DOI_CONFIRMATION_NOTIFY_ROUTE, {
       const uid = this.userId;
 
       if(!Roles.userIsInRole(uid, 'admin') || //if its not an admin always use uid as ownerId
-          (Roles.userIsInRole(uid, 'admin') && (params["ownerID"]==null || params["ownerID"]==undefined))) {  //if its an admin only use uid in case no ownerId was given
-          params["ownerID"] = uid;
+          (Roles.userIsInRole(uid, 'admin') && (params["ownerId"]==null || params["ownerId"]==undefined))) {  //if its an admin only use uid in case no ownerId was given
+          params["ownerId"] = uid;
       }
 
       logSend('params:',params);
@@ -109,14 +109,14 @@ function prepareCoDOI(params){
     const senders = params.sender_mail;
     const recipient_mail = params.recipient_mail;
     const data = params.data;
-    const ownerID = params.ownerID;
+    const ownerID = params.ownerId;
 
     let currentOptInId;
     let retResponse = [];
     let master_doi;
     senders.forEach((sender,index) => {
 
-        const ret_response = prepareAdd({sender_mail:sender,recipient_mail:recipient_mail,data:data, master_doi:master_doi, index: index, ownerID:ownerID});
+        const ret_response = prepareAdd({sender_mail:sender,recipient_mail:recipient_mail,data:data, master_doi:master_doi, index: index, ownerId:ownerID});
         logSend('CoDOI:',ret_response);
         if(ret_response.status === undefined || ret_response.status==="failed") throw "could not add co-opt-in";
         retResponse.push(ret_response);

@@ -99,9 +99,8 @@ const getDoiMailData = (data) => {
 
     let returnData = defaultReturnData;
 
-
     try{
-      let owner = Accounts.users.findOne({_id: optIn.ownerID});
+      let owner = Accounts.users.findOne({_id: optIn.ownerId});
       let mailTemplate = owner.profile.mailTemplate;
 
       userProfileSchema.validate(mailTemplate);
@@ -119,7 +118,7 @@ const getDoiMailData = (data) => {
       }
     }
     catch(error) {
-      logSend('Owner profile is wrong: '+error+" , using default Template");
+      //logSend('Owner profile is wrong: '+error+" , using default Template");
       returnData=defaultReturnData;
     }
 
