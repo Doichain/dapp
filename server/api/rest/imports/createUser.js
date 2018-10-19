@@ -2,6 +2,7 @@ import { Api } from '../rest.js';
 import {Meteor} from 'meteor/meteor';
 import {Accounts} from 'meteor/accounts-base'
 import SimpleSchema from 'simpl-schema';
+import {Roles} from "meteor/alanning:roles";
 
 //TODO Schema separate
 
@@ -58,10 +59,10 @@ const createUserSchema = new SimpleSchema({
     //}
   });
   const updateUserSchema = new SimpleSchema({
-    username: {
+    /*username: {
       type: String,
       regEx: "^[A-Z,a-z,0-9,!,_,$,#]{4,24}$"
-    },
+    },*/
     mailTemplate:{
         type: JSON
     }
@@ -76,7 +77,7 @@ const collectionOptions =
         authRequired : true,
         roleRequired : "admin"
     },
-    excludedEndpoints: ['patch'],
+    excludedEndpoints: ['patch','deleteAll'],
     endpoints:
     {
         post:
@@ -89,7 +90,7 @@ const collectionOptions =
                 if(bParams !== undefined) params = {...params, ...bParams}
                 //checkPost(params);
                 try{
-                    var tmp;
+                    let tmp;
                     createUserSchema.validate(params);
                     if(params.mailTemplate !== undefined){
                         const tmpObj=JSON.parse(params.mailTemplate);
@@ -105,30 +106,36 @@ const collectionOptions =
                 }
                 
             }
-        }
-    }
-}
-    Api.addRoute("users/update", {
+        },
         put:
         {
-            roleRequired: ['admin'],
             action: function(){
                 const qParams = this.queryParams;
                 const bParams = this.bodyParams;
                 let params = {};
+                let uid=this.userId;
+                const paramId=this.urlParams.id;
                 if(qParams !== undefined) params = {...qParams}
                 if(bParams !== undefined) params = {...params, ...bParams}
+
                 try{
+                    if(!Roles.userIsInRole(uid, 'admin')){
+                        if(uid!==paramId){
+                            throw Error("No Permission");
+                        }
+                    }
                     updateUserSchema.validate(params);
                     const tmpObj=JSON.parse(params.mailTemplate);
                     mailTemplateSchema.validate(tmpObj);
-                    var userUpdate = Accounts.findUserByUsername(params.username);
-                    Meteor.users.update({_id: userUpdate._id},{$set:{"profile.mailTemplate":tmpObj}});
-                    return {status: 'success', data: {userid: userUpdate._id, mailTemplate:tmpObj}};
+                    if(!Meteor.users.update(this.urlParams.id,{$set:{"profile.mailTemplate":tmpObj}})){
+                        throw Error("Failed to update user");
+                    }
+                    return {status: 'success', data: {userid: this.urlParams.id, mailTemplate:tmpObj}};
                 } catch(error) {
                   return {statusCode: 400, body: {status: 'fail', message: error.message}};
                 }
             }
         }
-    });
+    }
+}
   Api.addCollection(Meteor.users,collectionOptions);
