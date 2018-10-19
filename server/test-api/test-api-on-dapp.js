@@ -87,6 +87,7 @@ export function getNameIdOfOptIn(url, auth, optInId, log){
         chai.assert.equal("e/"+our_optIn.nameId, nameId);
 
         if(log) logBlockchain('nameId:',nameId);
+        chai.expect(nameId).to.not.be.null;
         return nameId;
 }
 
@@ -135,6 +136,7 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                     //https://github.com/emailjs/emailjs-mime-codec
                                     const html  = quotedPrintableDecode(maildata);
                                     const linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
+                                    chai.expect(linkdata).to.not.be.null;
                                     client.dele(msgnumber);
                                     client.on("dele", function(status, msgnumber, data, rawdata) {
                                         client.quit();
