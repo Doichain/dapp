@@ -134,11 +134,11 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
 
                                     //https://github.com/emailjs/emailjs-mime-codec
                                     const html  = quotedPrintableDecode(maildata);
-                                    const data =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
+                                    const linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
                                     client.dele(msgnumber);
                                     client.on("dele", function(status, msgnumber, data, rawdata) {
                                         client.quit();
-                                        callback(null,data);
+                                        callback(null,linkdata);
                                     });
 
                                 } else {
