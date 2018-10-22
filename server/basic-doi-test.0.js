@@ -27,7 +27,7 @@ const log = true;
 let aliceAddress;
 
 describe('basic-doi-test', function () {
-    this.timeout(120000);
+    this.timeout(300000);
 
     it('should create a RegTest Doichain with alice and bob and some Doi - coins', function (done) {
         //connect nodes (alice & bob) and generate DOI
