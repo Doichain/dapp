@@ -205,14 +205,14 @@ export function createUser(url,auth,username,templateURL){
         'X-User-Id':auth.userId,
         'X-Auth-Token':auth.authToken
     };
-    const userProfile ={  
-        subject: "Hello i am "+username,
-        redirect: "http://"+username+".com",
-        returnPath:  username+"@email.com",
-        templateURL: templateURL
+    const mailTemplate ={  
+        "subject": "Hello i am "+username,
+        "redirect": "http://"+username+".com",
+        "returnPath":  username+"@email.com",
+        "templateURL": templateURL
       }
     const urlUsers = url+'/api/v1/users';
-    const paramsUser = {username:username,email:username+"@email.com",password:"password",profile:userProfile}
+    const paramsUser = {"username":username,"email":username+"@email.com","password":"password","mailTemplate":mailTemplate}
     const realDataUser= { params: paramsUser, headers: headersUser};
     let res = getHttpPOST(urlUsers,realDataUser);
     chai.assert.equal(200, res.statusCode);
