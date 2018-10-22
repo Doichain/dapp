@@ -49,23 +49,22 @@ describe('basic-doi-test', function () {
         requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,null,done);
     });
 
- /*   it('should test if basic Doichain workflow is working without optional data', function (done) {
+    it('should test if basic Doichain workflow is working without optional data', function (done) {
         const recipient_mail = "alice@ci-doichain.org";
         const sender_mail  = "bob@ci-doichain.org";
-        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},done);
-    });*/
+        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"alice@ci-doichain.org","alice",done);
+    });
 ;
-    it('should test if Doichain workflow is using different templates for different users', function (done) {
+   /* it('should test if Doichain workflow is using different templates for different users', function (done) {
 
         //login as admin
         //create two users alice-a and alice-b with two different template urls
         //login as user alice-a and request DOI - bob
 
         done();
-    });
+    });*/
 
-
-    function requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,optionalData,done){
+    function requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password,done){
         //login to dApp & request DOI on alice via bob
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
         const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,optionalData,false);
@@ -79,7 +78,7 @@ describe('basic-doi-test', function () {
             if(log) logBlockchain('waiting seconds before fetching email:',10);
             setTimeout(Meteor.bindEnvironment(function () {
 
-                const link2Confirm= fetchConfirmLinkFromPop3Mail("mail",110,"bob@ci-doichain.org","bob",dappUrlBob,false);
+                const link2Confirm= fetchConfirmLinkFromPop3Mail("mail",110,recipient_pop3username,recipient_pop3password,dappUrlBob,false);
                 confirmLink(link2Confirm);
                 generatetoaddress(node_url_alice,rpcAuth, aliceAddress,1,false);
 
