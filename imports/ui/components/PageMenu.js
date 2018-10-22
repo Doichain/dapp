@@ -42,7 +42,6 @@ export default class PageMenu extends BaseComponent {
         id: "opt-ins",
         path: "opt-ins",
         name: i18n.__('components.userMenu.entries.opt-ins.name'),
-        roles: ["admin"]
       }
     ]
 

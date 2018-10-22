@@ -9,7 +9,7 @@ import {
     fetchConfirmLinkFromPop3Mail,
     getNameIdOfOptIn,
     login,confirmLink,
-    requestDOI, verifyDOI
+    requestDOI, verifyDOI, createUser, findUser, findOptIn, exportOptIns
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 
@@ -21,9 +21,11 @@ const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 const dappUrlAlice = "http://localhost:3000";
 const dappUrlBob = "http://172.20.0.8:4000";
 const dAppLogin = {"username":"admin","password":"password"};
+const aliceALogin = {"username":"alice-a","password":"password"};
 
 const log = true;
-
+const templateUrlA="http://templateUrlB.com";
+const templateUrlB="http://templateUrlB.com";
 let aliceAddress;
 
 describe('basic-doi-test', function () {
@@ -44,25 +46,59 @@ describe('basic-doi-test', function () {
     });
 
     it('should test if basic Doichain workflow is working with data', function (done) {
-        const recipient_mail = "bob@ci-doichain.org";
+        const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
         const sender_mail  = "alice@ci-doichain.org";
         requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
     });
 
     it('should test if basic Doichain workflow is working without optional data', function (done) {
-        const recipient_mail = "alice@ci-doichain.org";
+        const recipient_mail = "alice@ci-doichain.org"; //please use this as an alernative when above standard is not possible
         const sender_mail  = "bob@ci-doichain.org";
         requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,null,"alice@ci-doichain.org","alice",done);
     });
-;
-   /* it('should test if Doichain workflow is using different templates for different users', function (done) {
+
+    it('should test if Doichain workflow is using different templates for different users', function (done) {
+        const recipient_mail = "bob@ci-doichain.org"; //
+        const sender_mail_alice_a  = "alice-a@ci-doichain.org";
+        const sender_mail_alice_b  = "alice-b@ci-doichain.org";
+
+        const logAdmin = login(dappUrlAlice,dAppLogin,false);
+
+        let userA = createUser(dappUrlAlice,logAdmin,"alice-a",templateUrlA);
+        chai.expect(findUser(userA)).to.not.be.undefined;
+        let userB = createUser(dappUrlAlice,logAdmin,"alice-b",templateUrlB);
+        chai.expect(findUser(userB)).to.not.be.undefined;
+
+        const logUserA = login(dappUrlAlice,aliceALogin,false);
+        const resultDataOptIn = requestDOI(dappUrlAlice,logUserA,recipient_mail,sender_mail_alice_a,false);
+        chai.expect(findOptIn(resultDataOptIn._id)).to.not.be.undefined;
+        
 
         //login as admin
         //create two users alice-a and alice-b with two different template urls
         //login as user alice-a and request DOI - bob
 
         done();
-    });*/
+    });
+
+    it('should test if users can export OptIns ', function (done) {
+        const logAdmin = login(dappUrlAlice,dAppLogin,false);
+        const logUserA = login(dappUrlAlice,aliceALogin,false);
+        const exportedOptIns = exportOptIns(dappUrlAlice,logAdmin);
+        chai.expect(exportedOptIns).to.not.be.undefined;
+        chai.expect(exportedOptIns[0]).to.not.be.undefined;
+        const exportedOptInsA = exportOptIns(dappUrlAlice,logUserA);
+        for(let optIn in exportedOptInsA){
+            chai.expect(optIn.ownerId).to.be.equal(logUserA.userId);
+        }
+        //chai.expect(findOptIn(resultDataOptIn._id)).to.not.be.undefined;
+
+        //login as admin
+        //create two users alice-a and alice-b with two different template urls
+        //login as user alice-a and request DOI - bob
+
+        done();
+    });
 
     function requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password,done){
         //login to dApp & request DOI on alice via bob
