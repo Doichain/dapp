@@ -31,10 +31,10 @@ export const renderRoutes = () => (
       <Route path="key-generator" component={KeyGeneratorPage} />
       <Route component={requireRole(BalancePage, ['admin'])} path="balance"/>
       <Route component={requireRole(RecipientsPageContainer, ['admin'])} path="recipients"/>
-      <Route component={requireRole(OptInsPageContainer, ['admin'])} path="opt-ins"/>
+      <Route component={OptInsPageContainer} path="opt-ins"/>
       <Route path="/signin" component={() => <Accounts.ui.LoginForm />} />
       <Route path="/signup" component={() => <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />} />
-      <Route path="/change-password" component={requireRole(() => <Accounts.ui.LoginForm formState={STATES.PASSWORD_CHANGE} />,['admin'])} />
+      <Route path="/change-password" component={() => <Accounts.ui.LoginForm formState={STATES.PASSWORD_CHANGE} />} />
 
      
       <Route path="*" component={ NotFoundPage } />

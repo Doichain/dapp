@@ -197,3 +197,50 @@ export function verifyDOI(dAppUrl, sender_mail, recipient_mail,nameId, auth, log
     chai.assert.equal(200, statusVerify);
     chai.assert.equal(true, resultVerify.data.data.val);
 }
+
+export function createUser(url,auth,username,templateURL){
+    
+    const headersUser = {
+        'Content-Type':'application/json',
+        'X-User-Id':auth.userId,
+        'X-Auth-Token':auth.authToken
+    };
+    const userProfile ={  
+        subject: "Hello i am "+username,
+        redirect: "http://"+username+".com",
+        returnPath:  username+"@email.com",
+        templateURL: templateURL
+      }
+    const urlUsers = url+'/api/v1/users';
+    const paramsUser = {username:username,email:username+"@email.com",password:"password",profile:userProfile}
+    const realDataUser= { params: paramsUser, headers: headersUser};
+    let res = getHttpPOST(urlUsers,realDataUser);
+    chai.assert.equal(200, res.statusCode);
+    chai.assert.equal(res.status,"success");
+    return res.data.userId;
+}
+
+export function findUser(userId){
+    const res = Accounts.users.findOne({_id:userId});
+    return res;
+}
+
+export function findOptIn(optInId){
+    const res = OptIns.findOne({_id:optInId});
+    return res;
+}
+
+export function exportOptIns(url,auth){
+    const headersUser = {
+        'Content-Type':'application/json',
+        'X-User-Id':auth.userId,
+        'X-Auth-Token':auth.authToken
+    };
+
+    const urlExport = url+'/api/v1/export';
+    const realDataUser= {headers: headersUser};
+    let res = getHttpGETdata(urlExport,realDataUser);
+    chai.assert.equal(200, res.statusCode);
+    chai.assert.equal(res.status,"success");
+    return res.data;
+}
