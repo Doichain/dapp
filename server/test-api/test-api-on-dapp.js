@@ -87,6 +87,7 @@ export function getNameIdOfOptIn(url, auth, optInId, log){
         chai.assert.equal("e/"+our_optIn.nameId, nameId);
 
         if(log) logBlockchain('nameId:',nameId);
+        chai.expect(nameId).to.not.be.null;
         return nameId;
 }
 
@@ -99,7 +100,7 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
 
     if(log)logBlockchain("logging bob into pop3 server");
     //https://github.com/ditesh/node-poplib/blob/master/demos/retrieve-all.js
-    var client = new POP3Client(port, hostname, {
+    const client = new POP3Client(port, hostname, {
         tlserrs: false,
         enabletls: false,
         debug: true
@@ -134,8 +135,14 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
 
                                     //https://github.com/emailjs/emailjs-mime-codec
                                     const html  = quotedPrintableDecode(maildata);
-                                    const data =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
-                                    callback(null,data);
+                                    const linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
+                                    chai.expect(linkdata).to.not.be.null;
+                                    client.dele(msgnumber);
+                                    client.on("dele", function(status, msgnumber, data, rawdata) {
+                                        client.quit();
+                                        callback(null,linkdata);
+                                    });
+
                                 } else {
                                     const err = "RETR failed for msgnumber "+ msgnumber;
                                     client.rset();

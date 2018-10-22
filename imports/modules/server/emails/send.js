@@ -4,10 +4,10 @@ import {logConfirm} from "../../../startup/server/log-configuration";
 import { DOI_MAIL_DEFAULT_EMAIL_FROM } from '../../../startup/server/email-configuration.js';
 
 const SendMailSchema = new SimpleSchema({
-  /*from: {
+  from: {
     type: String,
     regEx: SimpleSchema.RegEx.Email
-  },*/
+  },
   to: {
     type: String,
     regEx: SimpleSchema.RegEx.Email

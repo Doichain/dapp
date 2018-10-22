@@ -28,7 +28,7 @@ const AddOptInSchema = new SimpleSchema({
       type: SimpleSchema.Integer,
       optional: true
   },
-  ownerID: {
+  ownerId: {
     type: String,
     regEx: SimpleSchema.RegEx.id
   }
@@ -66,7 +66,7 @@ const addOptIn = (optIn) => {
       index: ourOptIn.index,
       masterDoi : ourOptIn.master_doi,
       data: ourOptIn.data,
-      ownerID: ourOptIn.ownerID
+      ownerId: ourOptIn.ownerId
     });
     logSend("optIn (index:"+ourOptIn.index+" added to local db with optInId",optInId);
 
