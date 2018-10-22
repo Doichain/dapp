@@ -46,13 +46,13 @@ describe('basic-doi-test', function () {
     it('should test if basic Doichain workflow is working with data', function (done) {
         const recipient_mail = "bob@ci-doichain.org";
         const sender_mail  = "alice@ci-doichain.org";
-        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,null,done);
+        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
     });
 
     it('should test if basic Doichain workflow is working without optional data', function (done) {
         const recipient_mail = "alice@ci-doichain.org";
         const sender_mail  = "bob@ci-doichain.org";
-        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"alice@ci-doichain.org","alice",done);
+        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,null,"alice@ci-doichain.org","alice",done);
     });
 ;
    /* it('should test if Doichain workflow is using different templates for different users', function (done) {
