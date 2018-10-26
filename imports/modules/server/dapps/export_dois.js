@@ -30,7 +30,7 @@ const exportDois = (data) => {
     if(ourData.role!='admin'||ourData.userid!=undefined){
       pipeline.push({ $redact:{
         $cond: {
-          if: { $cmp: [ "$ownerID", ourData.userid ] },
+          if: { $cmp: [ "$ownerId", ourData.userid ] },
           then: "$$PRUNE",
           else: "$$KEEP" }}});
     }
