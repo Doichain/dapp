@@ -8,8 +8,14 @@ import {
 import {
     fetchConfirmLinkFromPop3Mail,
     getNameIdOfOptIn,
-    login,confirmLink,
-    requestDOI, verifyDOI, createUser, findUser, findOptIn, exportOptIns
+    login,
+    confirmLink,
+    requestDOI,
+    verifyDOI,
+    createUser,
+    findUser,
+    findOptIn,
+    exportOptIns
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 
@@ -45,22 +51,28 @@ describe('basic-doi-test', function () {
         done();
     });
 
+
     it('should test if basic Doichain workflow is working with data', function (done) {
-        const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
-        const sender_mail  = "alice@ci-doichain.org";
-        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
+          const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+          const sender_mail  = "alice@ci-doichain.org";
+          requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
     });
 
     it('should test if basic Doichain workflow is working without optional data', function (done) {
-        const recipient_mail = "alice@ci-doichain.org"; //please use this as an alernative when above standard is not possible
-        const sender_mail  = "bob@ci-doichain.org";
-        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,null,"alice@ci-doichain.org","alice",done);
+          const recipient_mail = "alice@ci-doichain.org"; //please use this as an alernative when above standard is not possible
+          const sender_mail  = "bob@ci-doichain.org";
+          requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,null,"alice@ci-doichain.org","alice",done);
+    });
+
+    it('should test if basic Doichain workflow is working with co-sponsoring', function (done) {
+        const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+        const sender_mail  = "alice-main-sponsor@ci-doichain.org";
+        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
     });
 
     it('should test if Doichain workflow is using different templates for different users', function (done) {
         const recipient_mail = "bob@ci-doichain.org"; //
         const sender_mail_alice_a  = "alice-a@ci-doichain.org";
-        const sender_mail_alice_b  = "alice-b@ci-doichain.org";
 
         const logAdmin = login(dappUrlAlice,dAppLogin,false);
 

@@ -69,6 +69,7 @@
     "chai-date-string": "^0.1.0",
     "chai-datetime": "^1.5.0",
     "chromedriver": "^2.40.0",
+    "docker-cli-js": "^2.5.1",
     "emailjs-mime-codec": "^2.0.7",
     "eslint": "^5.2.0",
     "eslint-config-airbnb": "^17.0.0",
@@ -78,6 +79,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-meteor": "^5.0.0",
     "eslint-plugin-react": "^7.10.0",
+    "execa": "^1.0.0",
     "poplib": "^0.1.7",
     "selenium-webdriver": "^4.0.0-alpha.1"
   }

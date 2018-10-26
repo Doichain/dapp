@@ -106,7 +106,6 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
         debug: true
     });
 
-    //TODO refactor this into a separate function
     client.on("connect", function() {
         if(log) logBlockchain("CONNECT success",'');
         client.login(username, password);
