@@ -83,7 +83,7 @@ describe('basic-doi-test', function () {
         //login to dApp & request DOI on alice via bob
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
         const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,optionalData,false);
-        generatetoaddress(node_url_alice,rpcAuth, global.aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
+        //generatetoaddress(node_url_alice,rpcAuth, global.aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
 
         if(log) logBlockchain('waiting seconds before get NameIdOfOptIn',10);
         setTimeout(Meteor.bindEnvironment(function () {
