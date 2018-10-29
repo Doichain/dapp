@@ -39,15 +39,15 @@ describe('basic-doi-test', function () {
         const sender_mail  = "bob@ci-doichain.org";
         requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,null,"alice@ci-doichain.org","alice",done);
     });
-
     /*
+
          it('should test if basic Doichain workflow is working with co-sponsoring', function (done) {
              const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
              const sender_mail  = "alice-main-sponsor@ci-doichain.org";
              requestDOI(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
          });
 
-
+*/
        it('should test if Doichain workflow is using different templates for different users', function (done) {
            const recipient_mail = "bob@ci-doichain.org"; //
            const sender_mail_alice_a  = "alice-a@ci-doichain.org";
@@ -77,7 +77,7 @@ describe('basic-doi-test', function () {
            }
            //chai.expect(findOptIn(resultDataOptIn._id)).to.not.be.undefined;
            done();
-       });     */
+       });
 
     function requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password,done){
         //login to dApp & request DOI on alice via bob
