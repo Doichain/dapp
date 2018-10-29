@@ -51,24 +51,25 @@ describe('basic-doi-test', function () {
         done();
     });
 
-
     it('should test if basic Doichain workflow is working with data', function (done) {
           const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
           const sender_mail  = "alice@ci-doichain.org";
-          requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
+        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
     });
 
     it('should test if basic Doichain workflow is working without optional data', function (done) {
           const recipient_mail = "alice@ci-doichain.org"; //please use this as an alernative when above standard is not possible
           const sender_mail  = "bob@ci-doichain.org";
-          requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,null,"alice@ci-doichain.org","alice",done);
+        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,null,"alice@ci-doichain.org","alice",done);
     });
 
+  /*
     it('should test if basic Doichain workflow is working with co-sponsoring', function (done) {
         const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
         const sender_mail  = "alice-main-sponsor@ci-doichain.org";
-        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
+        requestDOI(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
     });
+    */
 
     it('should test if Doichain workflow is using different templates for different users', function (done) {
         const recipient_mail = "bob@ci-doichain.org"; //
@@ -76,39 +77,28 @@ describe('basic-doi-test', function () {
 
         const logAdmin = login(dappUrlAlice,dAppLogin,false);
 
-        let userA = createUser(dappUrlAlice,logAdmin,"alice-a",templateUrlA);
+        let userA = createUser(dappUrlAlice,logAdmin,"alice-a",templateUrlA,true);
         chai.expect(findUser(userA)).to.not.be.undefined;
-        let userB = createUser(dappUrlAlice,logAdmin,"alice-b",templateUrlB);
+        let userB = createUser(dappUrlAlice,logAdmin,"alice-b",templateUrlB,true);
         chai.expect(findUser(userB)).to.not.be.undefined;
 
-        const logUserA = login(dappUrlAlice,aliceALogin,false);
-        const resultDataOptIn = requestDOI(dappUrlAlice,logUserA,recipient_mail,sender_mail_alice_a,false);
-        chai.expect(findOptIn(resultDataOptIn._id)).to.not.be.undefined;
-        
-
-        //login as admin
-        //create two users alice-a and alice-b with two different template urls
-        //login as user alice-a and request DOI - bob
-
+        const logUserA = login(dappUrlAlice,aliceALogin,true);
+        const resultDataOptIn = requestDOI(dappUrlAlice,logUserA,recipient_mail,sender_mail_alice_a,null,true);
+        chai.expect(findOptIn(resultDataOptIn.id,true)).to.not.be.undefined;
         done();
     });
 
     it('should test if users can export OptIns ', function (done) {
-        const logAdmin = login(dappUrlAlice,dAppLogin,false);
-        const logUserA = login(dappUrlAlice,aliceALogin,false);
-        const exportedOptIns = exportOptIns(dappUrlAlice,logAdmin);
+        const logAdmin = login(dappUrlAlice,dAppLogin,true);
+        const logUserA = login(dappUrlAlice,aliceALogin,true);
+        const exportedOptIns = exportOptIns(dappUrlAlice,logAdmin,true);
         chai.expect(exportedOptIns).to.not.be.undefined;
         chai.expect(exportedOptIns[0]).to.not.be.undefined;
-        const exportedOptInsA = exportOptIns(dappUrlAlice,logUserA);
+        const exportedOptInsA = exportOptIns(dappUrlAlice,logUserA,true);
         for(let optIn in exportedOptInsA){
             chai.expect(optIn.ownerId).to.be.equal(logUserA.userId);
         }
         //chai.expect(findOptIn(resultDataOptIn._id)).to.not.be.undefined;
-
-        //login as admin
-        //create two users alice-a and alice-b with two different template urls
-        //login as user alice-a and request DOI - bob
-
         done();
     });
 
