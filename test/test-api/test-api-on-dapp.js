@@ -58,7 +58,7 @@ export function requestDOI(url, auth, recipient_mail, sender_mail, data,  log) {
     if(log) logBlockchain("resultOptIn",resultOptIn);
     chai.assert.equal(200, resultOptIn.statusCode);
     chai.assert.equal('success',  resultOptIn.data.status);
-    return resultOptIn.data.data;
+    return resultOptIn.data;
 }
 
 export function getNameIdOfRawTransaction(url, auth, txId){

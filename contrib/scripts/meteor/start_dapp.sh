@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #build dApp for bob
-printf "build/\\nserver/*test*.js" > .meteorignore #don't include tests into build
+printf "build/\\ntest/" > .meteorignore #don't include tests into build
 meteor npm install --save-exact @babel/runtime@7.0.0-beta.55
 rm -rf build && meteor build build/ --architecture os.linux.x86_64 --directory #this takes a long and could be excluded when not needed.
 cd build/bundle/programs/server && npm install

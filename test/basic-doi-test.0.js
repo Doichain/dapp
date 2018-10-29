@@ -84,7 +84,7 @@ describe('basic-doi-test', function () {
 
         const logUserA = login(dappUrlAlice,aliceALogin,true);
         const resultDataOptIn = requestDOI(dappUrlAlice,logUserA,recipient_mail,sender_mail_alice_a,null,true);
-        chai.expect(findOptIn(resultDataOptIn.id,true)).to.not.be.undefined;
+        chai.expect(findOptIn(resultDataOptIn.data.id,true)).to.not.be.undefined;
         done();
     });
 
