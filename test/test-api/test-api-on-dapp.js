@@ -1,5 +1,5 @@
 import {logBlockchain} from "../../imports/startup/server/log-configuration";
-import {getHttpGET, getHttpGETdata, getHttpPOST} from "../api/http";
+import {getHttpGET, getHttpGETdata, getHttpPOST} from "../../server/api/http";
 import {chai} from 'meteor/practicalmeteor:chai';
 import {OptIns} from "../../imports/api/opt-ins/opt-ins";
 const headers = { 'Content-Type':'text/plain'  };
@@ -58,7 +58,7 @@ export function requestDOI(url, auth, recipient_mail, sender_mail, data,  log) {
     if(log) logBlockchain("resultOptIn",resultOptIn);
     chai.assert.equal(200, resultOptIn.statusCode);
     chai.assert.equal('success',  resultOptIn.data.status);
-    return resultOptIn.data;
+    return resultOptIn.data.data;
 }
 
 export function getNameIdOfRawTransaction(url, auth, txId){
@@ -205,39 +205,45 @@ export function verifyDOI(dAppUrl, sender_mail, recipient_mail,nameId, auth, log
     chai.assert.equal(true, resultVerify.data.data.val);
 }
 
-export function createUser(url,auth,username,templateURL){
+export function createUser(url,auth,username,templateURL,log){
     
     const headersUser = {
         'Content-Type':'application/json',
         'X-User-Id':auth.userId,
         'X-Auth-Token':auth.authToken
-    };
-    const mailTemplate ={  
+    }
+    const mailTemplate = {
         "subject": "Hello i am "+username,
         "redirect": "http://"+username+".com",
         "returnPath":  username+"@email.com",
         "templateURL": templateURL
-      }
+    }
     const urlUsers = url+'/api/v1/users';
-    const paramsUser = {"username":username,"email":username+"@email.com","password":"password","mailTemplate":mailTemplate}
-    const realDataUser= { params: paramsUser, headers: headersUser};
+    const dataUser = {"username":username,"email":username+"@email.com","password":"password","mailTemplate":mailTemplate}
+
+    const realDataUser= { data: dataUser, headers: headersUser};
+    if(log) logBlockchain('createUser:', realDataUser);
     let res = getHttpPOST(urlUsers,realDataUser);
+    if(log) logBlockchain("response",res);
     chai.assert.equal(200, res.statusCode);
-    chai.assert.equal(res.status,"success");
-    return res.data.userId;
+    chai.assert.equal(res.data.status,"success");
+    return res.data.data.userid;
 }
 
 export function findUser(userId){
     const res = Accounts.users.findOne({_id:userId});
+    chai.expect(res).to.not.be.undefined;
     return res;
 }
 
-export function findOptIn(optInId){
+export function findOptIn(optInId,log){
     const res = OptIns.findOne({_id:optInId});
+    if(log)logBlockchain(res,optInId);
+    chai.expect(res).to.not.be.undefined;
     return res;
 }
 
-export function exportOptIns(url,auth){
+export function exportOptIns(url,auth,log){
     const headersUser = {
         'Content-Type':'application/json',
         'X-User-Id':auth.userId,
@@ -247,7 +253,8 @@ export function exportOptIns(url,auth){
     const urlExport = url+'/api/v1/export';
     const realDataUser= {headers: headersUser};
     let res = getHttpGETdata(urlExport,realDataUser);
+    if(log) logBlockchain(res,log);
     chai.assert.equal(200, res.statusCode);
-    chai.assert.equal(res.status,"success");
-    return res.data;
+    chai.assert.equal(res.data.status,"success");
+    return res.data.data;
 }

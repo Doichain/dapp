@@ -3,8 +3,7 @@ import {Meteor} from 'meteor/meteor';
 import {Accounts} from 'meteor/accounts-base'
 import SimpleSchema from 'simpl-schema';
 import {Roles} from "meteor/alanning:roles";
-
-//TODO Schema separate
+import {logMain, logSend} from "../../../../imports/startup/server/log-configuration";
 
 const mailTemplateSchema = new SimpleSchema({
  /*   from: {
@@ -47,7 +46,7 @@ const createUserSchema = new SimpleSchema({
       regEx: "^[A-Z,a-z,0-9,!,_,$,#]{8,24}$" //Only passwords between 8-24 characters from A-Z,a-z,0-9,!,_,$,# allowed
     },
     mailTemplate:{
-        type: JSON,
+        type: mailTemplateSchema,
         optional:true 
     }
     //profile: {
@@ -88,19 +87,20 @@ const collectionOptions =
                 let params = {};
                 if(qParams !== undefined) params = {...qParams}
                 if(bParams !== undefined) params = {...params, ...bParams}
-                //checkPost(params);
                 try{
-                    let tmp;
+                    let userId;
                     createUserSchema.validate(params);
+                    logMain('validated',params);
                     if(params.mailTemplate !== undefined){
-                        const tmpObj=JSON.parse(params.mailTemplate);
-                        mailTemplateSchema.validate(tmpObj);
-                        tmp = Accounts.createUser({username:params.username,email:params.email,password:params.password, profile:{mailTemplate:tmpObj}});
+                        userId = Accounts.createUser({username:params.username,
+                            email:params.email,
+                            password:params.password,
+                            profile:{mailTemplate:params.mailTemplate}});
                     }
                     else{
-                        tmp = Accounts.createUser({username:params.username,email:params.email,password:params.password, profile:{}});
+                        userId = Accounts.createUser({username:params.username,email:params.email,password:params.password, profile:{}});
                     }    
-                    return {status: 'success', data: {userid: tmp}};
+                    return {status: 'success', data: {userid: userId}};
                 } catch(error) {
                   return {statusCode: 400, body: {status: 'fail', message: error.message}};
                 }
