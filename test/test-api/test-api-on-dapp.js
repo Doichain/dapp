@@ -80,7 +80,7 @@ export function getNameIdOfRawTransaction(url, auth, txId){
     return nameId;
 }
 
-export function getNameIdOfOptIn(url, auth, optInId, log){
+export function getNameIdOfOptInFromRawTx(url, auth, optInId, log){
 
         const our_optIn = OptIns.findOne({_id: optInId});
         chai.assert.equal(our_optIn._id,optInId);
@@ -276,12 +276,10 @@ export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUr
 
 function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice, dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log, callback){
     const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,optionalData,false);
-    //generatetoaddress(node_url_alice,rpcAuth, global.aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
-
     if(log) logBlockchain('waiting seconds before get NameIdOfOptIn',10);
     setTimeout(Meteor.bindEnvironment(function () {
 
-        const nameId = getNameIdOfOptIn(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
+        const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
 
         if(log) logBlockchain('waiting seconds before fetching email:',10);
         setTimeout(Meteor.bindEnvironment(function () {
@@ -301,6 +299,6 @@ function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAl
                     callback(null, {optIn:resultDataOptIn,nameId:nameId});
                 }),10000); //verify
             }),10000); //verify
-        }),15000); //connect to pop3
+        }),16000); //connect to pop3
     }),10000); //find transaction on bob's node - even the block is not confirmed yet
 }

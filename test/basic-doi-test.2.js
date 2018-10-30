@@ -5,12 +5,12 @@ import {chai} from 'meteor/practicalmeteor:chai';
 import {
     confirmLink,
     fetchConfirmLinkFromPop3Mail,
-    getNameIdOfOptIn,
+    getNameIdOfOptInFromRawTx,
     login,
     requestDOI, verifyDOI
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain, logError} from "../imports/startup/server/log-configuration";
-import {generatetoaddress, getNewAddress} from "./test-api/test-api-on-node";
+import {generatetoaddress} from "./test-api/test-api-on-node";
 
 const execFile = require('child_process').execFile;
 const exec = require('child_process').exec;
@@ -23,25 +23,28 @@ const dappUrlBob = "http://172.20.0.8:4000";
 const dAppLogin = {"username":"admin","password":"password"};
 const log = true;
 
-describe('basic-disabled-doi-test-with-offline-node', function () {
+describe('basic-doi-test-with-offline-node', function () {
     this.timeout(600000);
+
+    before(function(){
+            exec('sudo docker rm 3rd_node', (e, stdout2, stderr2)=> {
+                logBlockchain('deleted 3rd_node:',{stdout:stdout2,stderr:stderr2});
+            });
+    });
 
     after(function(){
         exec('sudo docker stop 3rd_node', (e, stdout, stderr)=> {
             logBlockchain('stopped 3rd_node:',{stdout:stdout,stderr:stderr});
-            exec('sudo docker rm 3rd_node', (e, stdout2, stderr2)=> {
-                logBlockchain('stopped 3rd_node:',{stdout:stdout2,stderr:stderr2});
-            });
         });
     });
 
-    /*it('should test if basic Doichain workflow is working when Bobs node is temporarily offline', function(done) {
+    it('should test if basic Doichain workflow is working when Bobs node is temporarily offline', function(done) {
         //aliceAddress = getNewAddress(node_url_alice,rpcAuth,false);
         //shutdown Bob
         start3rdNode();
         stopDockerBob();
         const recipient_mail = "bob@ci-doichain.org";
-        const sender_mail  = "alice-to-offline-node@ci-doichain.org";
+        const sender_mail  = "alice-to-offline-node2@ci-doichain.org";
         const recipient_pop3username = "bob@ci-doichain.org";
         const recipient_pop3password = "bob";
 
@@ -53,16 +56,16 @@ describe('basic-disabled-doi-test-with-offline-node', function () {
         dataLoginAlice = login(dappUrlAlice, dAppLogin, false); //log into dApp
         resultDataOptIn = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, null, false);
 
-        generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
 
         if(log) logBlockchain('waiting seconds before get NameIdOfOptIn',10);
         Meteor.setTimeout(function () {
-            const nameId = getNameIdOfOptIn(node_url_alice,rpcAuth,resultDataOptIn.data.id,true);
+            generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, false); //need to generate a block because bob is not in the current mempool when offline
+            const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuth,resultDataOptIn.data.id,true);
             startDockerBob();
             if(log) logBlockchain('waiting seconds before connecting nodes again:');
             connectDockerBob();
             //generating a block so transaction gets confirmed and delivered to bob.
-            if(log) logBlockchain('waiting seconds before fetching email:');
+            if(log) logBlockchain('waiting seconds before fetching email:',16);
             Meteor.setTimeout(function () {
                 const link2Confirm = fetchConfirmLinkFromPop3Mail("mail", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
                 confirmLink(link2Confirm);
@@ -70,16 +73,15 @@ describe('basic-disabled-doi-test-with-offline-node', function () {
                 if (log) logBlockchain('waiting 10 seconds to update blockchain before generating another block:');
                 Meteor.setTimeout(function () {
                     generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, false);
-
                     if (log) logBlockchain('waiting 10 seconds before verifying DOI on alice:');
                     Meteor.setTimeout(function () {
                         verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
                         done();
                     }, 10000); //verify
                 }, 10000); //generatetoaddress
-            },10000); //connect to pop3
+            },16000); //connect to pop3
         },10000); //find transaction on bob
-    }); //it*/
+    }); //it
 });
 
 
@@ -138,21 +140,6 @@ function start_docker_bob(callback) {
     });
 }
 
-
-export function sleepDockerBob(client) {
-    const syncFunc = Meteor.wrapAsync(sleep_docker_bob);
-    return syncFunc(client);
-}
-
-function sleep_docker_bob(callback) {
-    execFile('sleep', ['3'], (error, stdout, stderr) => {
-        if (error) {
-            logError('docker_sleep_bob:',stderr);
-            callback(stderr, stdout);
-        }
-        callback(null, stdout);
-    });
-}
 
 export function connectDockerBob(client) {
     const syncFunc = Meteor.wrapAsync(connect_docker_bob);
