@@ -6,6 +6,7 @@ const headers = { 'Content-Type':'text/plain'  };
 import {quotedPrintableDecode} from "emailjs-mime-codec";
 import {Meteor} from "meteor/meteor";
 import {Recipients} from "../../imports/api/recipients/recipients";
+import {generatetoaddress} from "./test-api-on-node";
 var POP3Client = require("poplib");
 
 export function login(url, paramsLogin, log) {
@@ -61,6 +62,8 @@ export function requestDOI(url, auth, recipient_mail, sender_mail, data,  log) {
     return resultOptIn.data;
 }
 
+
+
 export function getNameIdOfRawTransaction(url, auth, txId){
 
     const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
@@ -100,7 +103,7 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
 
     if(log)logBlockchain("logging bob into pop3 server");
     //https://github.com/ditesh/node-poplib/blob/master/demos/retrieve-all.js
-    const client = new POP3Client(port, hostname, {
+    var client = new POP3Client(port, hostname, {
         tlserrs: false,
         enabletls: false,
         debug: true
@@ -139,12 +142,16 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                     client.dele(msgnumber);
                                     client.on("dele", function(status, msgnumber, data, rawdata) {
                                         client.quit();
+                                        client.end();
+                                        client = null;
                                         callback(null,linkdata);
                                     });
 
                                 } else {
                                     const err = "RETR failed for msgnumber "+ msgnumber;
                                     client.rset();
+                                    client.end();
+                                    client = null;
                                     callback(err, null);
                                     return;
                                 }
@@ -154,6 +161,8 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                             const err = "empty mailbox";
                             callback(err, null);
                             client.quit();
+                            client.end();
+                            client = null;
                             return;
                         }
                     }
@@ -163,6 +172,8 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                 const err = "LOGIN/PASS failed";
                 callback(err, null);
                 client.quit();
+                client.end();
+                client = null;
                 return;
             }
         });
@@ -256,4 +267,40 @@ export function exportOptIns(url,auth,log){
     chai.assert.equal(200, res.statusCode);
     chai.assert.equal(res.data.status,"success");
     return res.data.data;
+}
+
+export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob,recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log) {
+    const syncFunc = Meteor.wrapAsync(request_confirm_verify_basic_doi);
+    return syncFunc(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log);
+}
+
+function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice, dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log, callback){
+    const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,optionalData,false);
+    //generatetoaddress(node_url_alice,rpcAuth, global.aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
+
+    if(log) logBlockchain('waiting seconds before get NameIdOfOptIn',10);
+    setTimeout(Meteor.bindEnvironment(function () {
+
+        const nameId = getNameIdOfOptIn(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
+
+        if(log) logBlockchain('waiting seconds before fetching email:',10);
+        setTimeout(Meteor.bindEnvironment(function () {
+
+            const link2Confirm= fetchConfirmLinkFromPop3Mail("mail",110,recipient_pop3username,recipient_pop3password,dappUrlBob,false);
+            confirmLink(link2Confirm);
+            generatetoaddress(node_url_alice,rpcAuthAlice, global.aliceAddress,1,false);
+
+            if(log) logBlockchain('waiting 10 seconds to update blockchain before generating another block:');
+            setTimeout(Meteor.bindEnvironment(function () {
+                generatetoaddress(node_url_alice,rpcAuthAlice, global.aliceAddress,1,false);
+
+                if(log) logBlockchain('waiting 10 seconds before verifying DOI on alice:');
+                setTimeout(Meteor.bindEnvironment(function () {
+                    verifyDOI(dappUrlAlice, sender_mail, recipient_mail,nameId, dataLoginAlice, log ); //need to generate two blocks to make block visible on alice
+                    // done();
+                    callback(null, {optIn:resultDataOptIn,nameId:nameId});
+                }),10000); //verify
+            }),10000); //verify
+        }),15000); //connect to pop3
+    }),10000); //find transaction on bob's node - even the block is not confirmed yet
 }

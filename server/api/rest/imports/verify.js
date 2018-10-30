@@ -3,7 +3,7 @@ import verifyOptIn from '../../../../imports/modules/server/opt-ins/verify.js';
 
 Api.addRoute('opt-in/verify', {authRequired: true}, {
   get: {
-    roleRequired: [`admin`],
+    authRequired: false,
     action: function() {
         const qParams = this.queryParams;
         const bParams = this.bodyParams;

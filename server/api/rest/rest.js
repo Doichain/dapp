@@ -22,4 +22,4 @@ if(isDebug()) require('./imports/debug.js');
 if(isAppType(SEND_APP)) require('./imports/send.js');
 if(isAppType(CONFIRM_APP)) require('./imports/confirm.js');
 if(isAppType(VERIFY_APP)) require('./imports/verify.js');
-require('./imports/createUser.js');
+require('./imports/user.js');

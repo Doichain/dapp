@@ -3,13 +3,9 @@ import {Meteor} from 'meteor/meteor';
 import {Accounts} from 'meteor/accounts-base'
 import SimpleSchema from 'simpl-schema';
 import {Roles} from "meteor/alanning:roles";
-import {logMain, logSend} from "../../../../imports/startup/server/log-configuration";
+import {logMain} from "../../../../imports/startup/server/log-configuration";
 
 const mailTemplateSchema = new SimpleSchema({
- /*   from: {
-        type: String,
-        regEx: SimpleSchema.RegEx.Email
-    },*/
     subject: {
         type: String,
         optional:true 
@@ -29,9 +25,8 @@ const mailTemplateSchema = new SimpleSchema({
         regEx: SimpleSchema.RegEx.Url,
         optional:true 
     }
-
-
 });
+
 const createUserSchema = new SimpleSchema({
     username: {
       type: String,
@@ -49,19 +44,8 @@ const createUserSchema = new SimpleSchema({
         type: mailTemplateSchema,
         optional:true 
     }
-    //profile: {
-    //    type: String,
-    //    optional: true
-    //},
-    //'profile.$': {
-    //    type: String
-    //}
   });
   const updateUserSchema = new SimpleSchema({
-    /*username: {
-      type: String,
-      regEx: "^[A-Z,a-z,0-9,!,_,$,#]{4,24}$"
-    },*/
     mailTemplate:{
         type: JSON
     }
@@ -118,7 +102,7 @@ const collectionOptions =
                 if(qParams !== undefined) params = {...qParams}
                 if(bParams !== undefined) params = {...params, ...bParams}
 
-                try{
+                try{ //TODO this is not necessary here and can probably go right into the definition of the REST METHOD next to put (!?!)
                     if(!Roles.userIsInRole(uid, 'admin')){
                         if(uid!==paramId){
                             throw Error("No Permission");
