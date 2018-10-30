@@ -35,7 +35,7 @@ describe('basic-disabled-doi-test-with-offline-node', function () {
         });
     });
 
-    it('should test if basic Doichain workflow is working when Bobs node is temporarily offline', function(done) {
+    /*it('should test if basic Doichain workflow is working when Bobs node is temporarily offline', function(done) {
         //aliceAddress = getNewAddress(node_url_alice,rpcAuth,false);
         //shutdown Bob
         start3rdNode();
@@ -79,7 +79,7 @@ describe('basic-disabled-doi-test-with-offline-node', function () {
                 }, 10000); //generatetoaddress
             },10000); //connect to pop3
         },10000); //find transaction on bob
-    }); //it
+    }); //it*/
 });
 
 
