@@ -59,7 +59,7 @@ describe('basic-doi-test-with-offline-node', function () {
             generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, false); //need to generate a block because bob is not in the current mempool when offline
             const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuth,resultDataOptIn.data.id,true);
             startDockerBob();
-            if(log) logBlockchain('waiting seconds before connecting nodes again:');
+            if(log) logBlockchain('connecting nodes again:');
             connectDockerBob();
             //generating a block so transaction gets confirmed and delivered to bob.
             if(log) logBlockchain('waiting seconds before fetching email:',20);
@@ -113,6 +113,7 @@ export function startDockerBob(client) {
 function start_docker_bob(callback) {
 
     exec('sudo docker start '+bobsContainerId, (e, stdout, stderr)=> {
+        logBlockchain('started bobs node again: '+bobsContainerId,{stdout:stdout,stderr:stderr});
         callback(stderr, stdout);
     });
 }
@@ -125,6 +126,7 @@ export function connectDockerBob(client) {
 function connect_docker_bob(callback) {
 
     exec('sudo docker exec -d '+bobsContainerId+' doichaind -regtest -reindex -addnode=alice', (e, stdout, stderr)=> {
+        logBlockchain('restarting doichaind on bobs node and connecting with alice: ',{stdout:stdout,stderr:stderr});
         callback(stderr, stdout);
     });
 }
