@@ -62,7 +62,7 @@ describe('basic-doi-test-with-offline-node', function () {
             if(log) logBlockchain('waiting seconds before connecting nodes again:');
             connectDockerBob();
             //generating a block so transaction gets confirmed and delivered to bob.
-            if(log) logBlockchain('waiting seconds before fetching email:',16);
+            if(log) logBlockchain('waiting seconds before fetching email:',20);
             Meteor.setTimeout(function () {
                 const link2Confirm = fetchConfirmLinkFromPop3Mail("mail", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
                 confirmLink(link2Confirm);
@@ -76,7 +76,7 @@ describe('basic-doi-test-with-offline-node', function () {
                         done();
                     }, 10000); //verify
                 }, 10000); //generatetoaddress
-            },16000); //connect to pop3
+            },20000); //connect to pop3
         },10000); //find transaction on bob
     }); //it
 });
