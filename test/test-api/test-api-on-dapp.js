@@ -1,5 +1,5 @@
 import {logBlockchain} from "../../imports/startup/server/log-configuration";
-import {getHttpGET, getHttpGETdata, getHttpPOST} from "../../server/api/http";
+import {getHttpGET, getHttpGETdata, getHttpPOST, getHttpPUT} from "../../server/api/http";
 import {chai} from 'meteor/practicalmeteor:chai';
 import {OptIns} from "../../imports/api/opt-ins/opt-ins";
 const headers = { 'Content-Type':'text/plain'  };
@@ -256,4 +256,39 @@ export function exportOptIns(url,auth,log){
     chai.assert.equal(200, res.statusCode);
     chai.assert.equal(res.data.status,"success");
     return res.data.data;
+}
+
+export function updateUser(url,auth,updateId,templateURL,log){
+    
+    const headersUser = {
+        'Content-Type':'application/json',
+        'X-User-Id':auth.userId,
+        'X-Auth-Token':auth.authToken
+    }
+
+    const mailTemplate = {'templateURL': templateURL};
+    const dataUser = {"mailTemplate":mailTemplate};
+    if(log) logBlockchain('url:', url);
+    const urlUsers = url+'/api/v1/users/'+updateId;
+    const realDataUser= { data: dataUser, headers: headersUser};
+    if(log) logBlockchain('updateUser:', realDataUser);
+    let res = HTTP.put(urlUsers,realDataUser);
+    if(log) logBlockchain("response",res);
+    chai.assert.equal(200, res.statusCode);
+    chai.assert.equal(res.data.status,"success");
+    const usDat = Accounts.users.findOne({_id:updateId}).profile.mailTemplate;
+    if(log) logBlockchain("InputTemplate",dataUser.mailTemplate);
+    if(log) logBlockchain("ResultTemplate",usDat);
+    chai.expect(usDat).to.not.be.undefined;
+    chai.assert.equal(dataUser.mailTemplate.templateURL,usDat.templateURL);
+    return usDat;
+}
+
+export function resetUsers(){
+
+    Accounts.users.remove(
+        {"username":
+        {"$ne":"admin"}
+        }
+    );
 }
