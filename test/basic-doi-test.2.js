@@ -56,7 +56,6 @@ describe('basic-doi-test-with-offline-node', function () {
         dataLoginAlice = login(dappUrlAlice, dAppLogin, false); //log into dApp
         resultDataOptIn = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, null, false);
 
-
         if(log) logBlockchain('waiting seconds before get NameIdOfOptIn',10);
         Meteor.setTimeout(function () {
             generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, false); //need to generate a block because bob is not in the current mempool when offline
@@ -108,19 +107,24 @@ export function start3rdNode(client) {
 
 function start_3rd_node(callback) {
 
-    exec('sudo docker run --expose=18332 ' +
-        '-e REGTEST=true ' +
-        '-e DOICHAIN_VER=0.0.6 ' +
-        '-e RPC_ALLOW_IP=::/0 ' +
-        '-e CONNECTION_NODE=alice '+
-        '-e RPC_PASSWORD=generated-password ' +
-        '--name=3rd_node '+
-        '--dns=172.20.0.5  ' +
-        '--dns=8.8.8.8 ' +
-        '--dns-search=ci-doichain.org ' +
-        '--ip=172.20.0.9 ' +
-        '--network=doichain-dapp_static-network -d doichain/core:0.0.6', (e, stdout, stderr)=> {
-        callback(stderr, stdout);
+    exec('sudo docker network ls |grep doichain | cut -f9 -d" "', (e, stdout, stderr)=> {
+        const network = stdout.toString().substring(0,stdout.toString().length-1);
+        logBlockchain('connecting 3rd node to docker network: '+network);
+
+        exec('sudo docker run --expose=18332 ' +
+            '-e REGTEST=true ' +
+            '-e DOICHAIN_VER=0.0.6 ' +
+            '-e RPC_ALLOW_IP=::/0 ' +
+            '-e CONNECTION_NODE=alice '+
+            '-e RPC_PASSWORD=generated-password ' +
+            '--name=3rd_node '+
+            '--dns=172.20.0.5  ' +
+            '--dns=8.8.8.8 ' +
+            '--dns-search=ci-doichain.org ' +
+            '--ip=172.20.0.9 ' +
+            '--network='+network+' -d doichain/core:0.0.6', (e, stdout, stderr)=> {
+            callback(stderr, stdout);
+        });
     });
 }
 
@@ -139,7 +143,6 @@ function start_docker_bob(callback) {
         callback(null, stdout);
     });
 }
-
 
 export function connectDockerBob(client) {
     const syncFunc = Meteor.wrapAsync(connect_docker_bob);
