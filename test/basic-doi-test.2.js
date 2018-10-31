@@ -11,10 +11,7 @@ import {
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain, logError} from "../imports/startup/server/log-configuration";
 import {generatetoaddress} from "./test-api/test-api-on-node";
-
-const execFile = require('child_process').execFile;
 const exec = require('child_process').exec;
-
 
 const node_url_alice = 'http://172.20.0.6:18332/';
 const rpcAuth = "admin:generated-password";
@@ -22,6 +19,7 @@ const dappUrlAlice = "http://localhost:3000";
 const dappUrlBob = "http://172.20.0.8:4000";
 const dAppLogin = {"username":"admin","password":"password"};
 const log = true;
+var bobsContainerId;
 
 describe('basic-doi-test-with-offline-node', function () {
     this.timeout(600000);
@@ -44,7 +42,7 @@ describe('basic-doi-test-with-offline-node', function () {
         start3rdNode();
         stopDockerBob();
         const recipient_mail = "bob@ci-doichain.org";
-        const sender_mail  = "alice-to-offline-node2@ci-doichain.org";
+        const sender_mail  = "alice-to-offline-node@ci-doichain.org";
         const recipient_pop3username = "bob@ci-doichain.org";
         const recipient_pop3password = "bob";
 
@@ -90,19 +88,45 @@ export function stopDockerBob(client) {
 }
 
 function stop_docker_bob(callback) {
-    execFile('sudo', ['docker','stop','doichain-dapp_bob_1'], (error, stdout, stderr) => {
-        if (error) {
-            logError('docker_stop_bob:',stderr);
+
+    exec('sudo docker ps --filter "name=bob" | cut -f1 -d" " | sed \'1d\'', (e, stdout, stderr)=> {
+        bobsContainerId = stdout.toString().substring(0,stdout.toString().length-1);
+        logBlockchain('stopping Bob with container-id: '+bobsContainerId);
+
+        exec('sudo docker stop '+bobsContainerId, (e, stdout, stderr)=> {
             callback(stderr, stdout);
-        }
-        logBlockchain('stopped bobs node:',stdout);
-        callback(null, stdout);
+        });
     });
+
 }
 
 export function start3rdNode(client) {
     const syncFunc = Meteor.wrapAsync(start_3rd_node);
     return syncFunc(client);
+}
+
+export function startDockerBob(client) {
+    const syncFunc = Meteor.wrapAsync(start_docker_bob);
+    return syncFunc(client);
+}
+
+function start_docker_bob(callback) {
+
+    exec('sudo docker start '+bobsContainerId, (e, stdout, stderr)=> {
+        callback(stderr, stdout);
+    });
+}
+
+export function connectDockerBob(client) {
+    const syncFunc = Meteor.wrapAsync(connect_docker_bob);
+    return syncFunc(client);
+}
+
+function connect_docker_bob(callback) {
+
+    exec('sudo docker exec -d '+bobsContainerId+' doichaind -regtest -reindex -addnode=alice', (e, stdout, stderr)=> {
+        callback(stderr, stdout);
+    });
 }
 
 function start_3rd_node(callback) {
@@ -125,32 +149,5 @@ function start_3rd_node(callback) {
             '--network='+network+' -d doichain/core:0.0.6', (e, stdout, stderr)=> {
             callback(stderr, stdout);
         });
-    });
-}
-
-export function startDockerBob(client) {
-    const syncFunc = Meteor.wrapAsync(start_docker_bob);
-    return syncFunc(client);
-}
-
-function start_docker_bob(callback) {
-    execFile('sudo', ['docker','start','doichain-dapp_bob_1'], (error, stdout, stderr) => {
-        if (error) {
-            logError('docker_start_bob:',stderr);
-            callback(stderr, stdout);
-        }
-        logBlockchain('started bobs node:',stdout);
-        callback(null, stdout);
-    });
-}
-
-export function connectDockerBob(client) {
-    const syncFunc = Meteor.wrapAsync(connect_docker_bob);
-    return syncFunc(client);
-}
-
-function connect_docker_bob(callback) {
-    exec('sudo docker exec -d doichain-dapp_bob_1 doichaind -regtest -reindex -addnode=alice', (e, stdout, stderr)=> {
-        callback(stderr, stdout);
     });
 }

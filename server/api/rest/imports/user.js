@@ -122,4 +122,4 @@ const collectionOptions =
         }
     }
 }
-  Api.addCollection(Meteor.users,collectionOptions);
+Api.addCollection(Meteor.users,collectionOptions);
