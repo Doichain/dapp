@@ -127,12 +127,9 @@ function connect_docker_bob(callback) {
 
     exec('sudo docker exec '+bobsContainerId+' doichaind -regtest -daemon -reindex -addnode=alice', (e, stdout, stderr)=> {
         logBlockchain('restarting doichaind on bobs node and connecting with alice: ',{stdout:stdout,stderr:stderr});
-        Meteor.setTimeout(function () {
             exec('sudo docker exec '+bobsContainerId+' doichain-cli -getinfo', (e, stdout, stderr)=> {
                 logBlockchain('checked if bob is connected.',{stdout:stdout,stderr:stderr});
             });
-        }, 10000); //verify
-
         callback(stderr, stdout);
     });
 }
