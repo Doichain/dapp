@@ -102,20 +102,13 @@ const getDoiMailData = (data) => {
     try{
       let owner = Accounts.users.findOne({_id: optIn.ownerId});
       let mailTemplate = owner.profile.mailTemplate;
-
       userProfileSchema.validate(mailTemplate);
-      for(let key in Object.getOwnPropertyNames(mailTemplate)){
-        if(mailTemplate[key]!==undefined&&key!=="content"&&key!=="recipient"){
-          returnData[key]=mailTemplate[key];
-        }
-      }
-      let doiUserMailData;
-      if(mailTemplate.templateURL!==undefined){
-        doiUserMailData = getHttpGET(mailTemplate.templateURL, "").data;
-      }
-      if(doiUserMailData!==undefined){
-        returnData["content"]=doiMailData;
-      }
+
+      returnData["redirect"] = mailTemplate["redirect"] || defaultReturnData["redirect"];
+      returnData["subject"] = mailTemplate["subject"] || defaultReturnData["subject"];
+      returnData["returnPath"] = mailTemplate["returnPath"] || defaultReturnData["returnPath"];
+      returnData["content"] = mailTemplate["templateURL"] ? (getHttpGET(mailTemplate["templateURL"], "").data || defaultReturnData["content"]) : defaultReturnData["content"];
+      
     }
     catch(error) {
       //logSend('Owner profile is wrong: '+error+" , using default Template");
