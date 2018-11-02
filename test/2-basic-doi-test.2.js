@@ -9,6 +9,7 @@ import {
     login,
     requestDOI, verifyDOI
 } from "./test-api/test-api-on-dapp";
+
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 import {generatetoaddress} from "./test-api/test-api-on-node";
 const exec = require('child_process').exec;
@@ -90,6 +91,7 @@ describe('basic-doi-test-with-offline-node', function () {
                 counter++;
             }
             //generating a block so transaction gets confirmed and delivered to bob.
+            generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, false);
             if(log) logBlockchain('waiting seconds before fetching email:',20);
             Meteor.setTimeout(function () {
                 const link2Confirm = fetchConfirmLinkFromPop3Mail("mail", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
@@ -100,10 +102,11 @@ describe('basic-doi-test-with-offline-node', function () {
                     generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, false);
                     if (log) logBlockchain('waiting seconds before verifying DOI on alice:',15);
                     Meteor.setTimeout(function () {
+                        generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, false);
                         verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
                         done();
                     }, 15000); //verify
-                }, 10000); //generatetoaddress
+                }, 15000); //generatetoaddress
             },20000); //connect to pop3
         },10000); //find transaction on bob
     }); //it

@@ -7,13 +7,15 @@ import {
     exportOptIns,
     requestConfirmVerifyBasicDoi, resetUsers, requestDOI, updateUser
 } from "./test-api/test-api-on-dapp";
+import {OptIns} from "../imports/api/opt-ins/opt-ins";
+import {Senders} from "../imports/api/senders/senders";
+import {Recipients} from "../imports/api/recipients/recipients";
 
 const node_url_alice = 'http://172.20.0.6:18332/';
 const rpcAuthAlice = "admin:generated-password";
 const dappUrlAlice = "http://localhost:3000";
 const dappUrlBob = "http://172.20.0.8:4000";
 const dAppLogin = {"username":"admin","password":"password"};
-const log = true;
 
 const templateUrlA="http://templateUrlB.com";
 const templateUrlB="http://templateUrlB.com";
@@ -21,6 +23,12 @@ const aliceALogin = {"username":"alice-a","password":"password"};
 
 describe('basic-doi-test', function () {
     this.timeout(300000);
+
+    before(function(){
+        OptIns.remove({});
+        Recipients.remove({});
+        Senders.remove({});
+    });
 
     it('should test if basic Doichain workflow is working with optional data', function (done) {
         const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
