@@ -64,13 +64,15 @@ describe('basic-doi-test-with-offline-node', function () {
 
             let running = true;
             let counter = 0;
+
+            //here we make sure bob gets started and connected again in probably all possible sitautions
             while(running){
                 try{
                     const statusDocker = JSON.parse(getDockerStatus(startedContainerId));
                     logBlockchain("getinfo",statusDocker);
                     logBlockchain("version:"+statusDocker.version);
                     logBlockchain("balance:"+statusDocker.balance);
-                    logBlockchain("balance:"+statusDocker.connections);
+                    logBlockchain("connections:"+statusDocker.connections);
                     if(statusDocker.connections===0){
                         doichainAddNode(startedContainerId);
                     }
@@ -81,14 +83,12 @@ describe('basic-doi-test-with-offline-node', function () {
                     try{
                         connectDockerBob(startedContainerId);
                     }catch(error2){
-                        logBlockchain("could start bob:",error2);
+                        logBlockchain("could not start bob:",error2);
                     }
                     if(counter==50)running=false;
                 }
                 counter++;
             }
-            //if(log) logBlockchain('connecting nodes again:');
-            //connectDockerBob();
             //generating a block so transaction gets confirmed and delivered to bob.
             if(log) logBlockchain('waiting seconds before fetching email:',20);
             Meteor.setTimeout(function () {

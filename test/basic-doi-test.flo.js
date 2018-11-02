@@ -55,8 +55,7 @@ describe('basic-flo-doi-test', function () {
        });
 
        it('should test if admin can update user profiles',function(){
-        
-        resetUsers();
+           resetUsers();
        
        let logAdmin = login(dappUrlAlice,dAppLogin,true);
        const userUp = createUser(dappUrlAlice,logAdmin,"updateUser",templateUrlA,true);
