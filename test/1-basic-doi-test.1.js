@@ -21,7 +21,7 @@ const templateUrlA="http://templateUrlB.com";
 const templateUrlB="http://templateUrlB.com";
 const aliceALogin = {"username":"alice-a","password":"password"};
 
-describe('basic-doi-test', function () {
+describe('basic-disabled-doi-test', function () {
     this.timeout(300000);
 
     it('should test if basic Doichain workflow is working with optional data', function (done) {

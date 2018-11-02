@@ -14,7 +14,7 @@ const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 const log = true;
 
 
-describe('basic-doi-test-setup', function () {
+describe('basic-doi-test', function () {
     this.timeout(300000);
 
     it('should create a RegTest Doichain with alice and bob and some Doi - coins', function (done) {

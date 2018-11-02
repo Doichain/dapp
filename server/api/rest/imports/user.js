@@ -47,7 +47,7 @@ const createUserSchema = new SimpleSchema({
   });
   const updateUserSchema = new SimpleSchema({
     mailTemplate:{
-        type: JSON
+        type: mailTemplateSchema
     }
 });
 
@@ -57,14 +57,16 @@ const collectionOptions =
     path:"users",
     routeOptions:
     {
-        authRequired : true,
-        roleRequired : "admin"
+        authRequired : true
+        //,roleRequired : "admin"
     },
     excludedEndpoints: ['patch','deleteAll'],
     endpoints:
     {
+        delete:{roleRequired : "admin"},
         post:
         {
+            roleRequired : "admin",
             action: function(){
                 const qParams = this.queryParams;
                 const bParams = this.bodyParams;
@@ -93,7 +95,7 @@ const collectionOptions =
         },
         put:
         {
-            action: function(){
+            action: function(){      
                 const qParams = this.queryParams;
                 const bParams = this.bodyParams;
                 let params = {};
@@ -109,12 +111,10 @@ const collectionOptions =
                         }
                     }
                     updateUserSchema.validate(params);
-                    const tmpObj=JSON.parse(params.mailTemplate);
-                    mailTemplateSchema.validate(tmpObj);
-                    if(!Meteor.users.update(this.urlParams.id,{$set:{"profile.mailTemplate":tmpObj}})){
+                    if(!Meteor.users.update(this.urlParams.id,{$set:{"profile.mailTemplate":params.mailTemplate}})){
                         throw Error("Failed to update user");
                     }
-                    return {status: 'success', data: {userid: this.urlParams.id, mailTemplate:tmpObj}};
+                    return {status: 'success', data: {userid: this.urlParams.id, mailTemplate:params.mailTemplate}};
                 } catch(error) {
                   return {statusCode: 400, body: {status: 'fail', message: error.message}};
                 }

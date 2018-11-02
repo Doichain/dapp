@@ -1,5 +1,5 @@
 import {logBlockchain} from "../../imports/startup/server/log-configuration";
-import {getHttpGET, getHttpGETdata, getHttpPOST} from "../../server/api/http";
+import {getHttpGET, getHttpGETdata, getHttpPOST, getHttpPUT} from "../../server/api/http";
 import {chai} from 'meteor/practicalmeteor:chai';
 import {OptIns} from "../../imports/api/opt-ins/opt-ins";
 const headers = { 'Content-Type':'text/plain'  };
@@ -179,6 +179,7 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
         });
     });
 }
+
 export function confirmLink(confirmLink){
     logBlockchain("clickable link:",confirmLink);
     const doiConfirmlinkResult = getHttpGET(confirmLink,'');
@@ -188,6 +189,7 @@ export function confirmLink(confirmLink){
     chai.expect(doiConfirmlinkResult.content).to.have.string('Ihre Anmeldung war erfolgreich.');
     chai.assert.equal(200, doiConfirmlinkResult.statusCode);
 }
+
 export function verifyDOI(dAppUrl, sender_mail, recipient_mail,nameId, auth, log ){
     const urlVerify = dAppUrl+'/api/v1/opt-in/verify';
     const recipient_public_key = Recipients.findOne({email: recipient_mail}).publicKey;
@@ -216,7 +218,6 @@ export function verifyDOI(dAppUrl, sender_mail, recipient_mail,nameId, auth, log
 }
 
 export function createUser(url,auth,username,templateURL,log){
-    
     const headersUser = {
         'Content-Type':'application/json',
         'X-User-Id':auth.userId,
@@ -274,31 +275,65 @@ export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUr
     return syncFunc(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log);
 }
 
-function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice, dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log, callback){
-    const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,optionalData,false);
-    if(log) logBlockchain('waiting seconds before get NameIdOfOptIn',10);
+function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice, dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log, callback) {
+    const resultDataOptIn = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, optionalData, false);
+    if (log) logBlockchain('waiting seconds before get NameIdOfOptIn', 10);
     setTimeout(Meteor.bindEnvironment(function () {
 
-        const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
+        const nameId = getNameIdOfOptInFromRawTx(node_url_alice, rpcAuthAlice, resultDataOptIn.data.id, true);
 
-        if(log) logBlockchain('waiting seconds before fetching email:',10);
+        if (log) logBlockchain('waiting seconds before fetching email:', 10);
         setTimeout(Meteor.bindEnvironment(function () {
 
-            const link2Confirm= fetchConfirmLinkFromPop3Mail("mail",110,recipient_pop3username,recipient_pop3password,dappUrlBob,false);
+            const link2Confirm = fetchConfirmLinkFromPop3Mail("mail", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
             confirmLink(link2Confirm);
-            generatetoaddress(node_url_alice,rpcAuthAlice, global.aliceAddress,1,false);
+            generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, false);
 
-            if(log) logBlockchain('waiting 10 seconds to update blockchain before generating another block:');
+            if (log) logBlockchain('waiting 10 seconds to update blockchain before generating another block:');
             setTimeout(Meteor.bindEnvironment(function () {
-                generatetoaddress(node_url_alice,rpcAuthAlice, global.aliceAddress,1,false);
+                generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, false);
 
-                if(log) logBlockchain('waiting 10 seconds before verifying DOI on alice:');
+                if (log) logBlockchain('waiting 10 seconds before verifying DOI on alice:');
                 setTimeout(Meteor.bindEnvironment(function () {
-                    verifyDOI(dappUrlAlice, sender_mail, recipient_mail,nameId, dataLoginAlice, log ); //need to generate two blocks to make block visible on alice
+                    verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
                     // done();
-                    callback(null, {optIn:resultDataOptIn,nameId:nameId});
-                }),10000); //verify
-            }),10000); //verify
-        }),16000); //connect to pop3
-    }),10000); //find transaction on bob's node - even the block is not confirmed yet
+                    callback(null, {optIn: resultDataOptIn, nameId: nameId});
+                }), 10000); //verify
+            }), 10000); //verify
+        }), 16000); //connect to pop3
+    }), 10000); //find transaction on bob's node - even the block is not confirmed yet
+}
+
+export function updateUser(url,auth,updateId,templateURL,log){
+    
+    const headersUser = {
+        'Content-Type':'application/json',
+        'X-User-Id':auth.userId,
+        'X-Auth-Token':auth.authToken
+    }
+
+    const mailTemplate = {'templateURL': templateURL};
+    const dataUser = {"mailTemplate":mailTemplate};
+    if(log) logBlockchain('url:', url);
+    const urlUsers = url+'/api/v1/users/'+updateId;
+    const realDataUser= { data: dataUser, headers: headersUser};
+    if(log) logBlockchain('updateUser:', realDataUser);
+    let res = HTTP.put(urlUsers,realDataUser);
+    if(log) logBlockchain("response",res);
+    chai.assert.equal(200, res.statusCode);
+    chai.assert.equal(res.data.status,"success");
+    const usDat = Accounts.users.findOne({_id:updateId}).profile.mailTemplate;
+    if(log) logBlockchain("InputTemplate",dataUser.mailTemplate);
+    if(log) logBlockchain("ResultTemplate",usDat);
+    chai.expect(usDat).to.not.be.undefined;
+    chai.assert.equal(dataUser.mailTemplate.templateURL,usDat.templateURL);
+    return usDat;
+}
+
+export function resetUsers(){
+    Accounts.users.remove(
+        {"username":
+        {"$ne":"admin"}
+        }
+    );
 }

@@ -9,7 +9,7 @@ import {
     login,
     requestDOI, verifyDOI
 } from "./test-api/test-api-on-dapp";
-import {logBlockchain, logError} from "../imports/startup/server/log-configuration";
+import {logBlockchain} from "../imports/startup/server/log-configuration";
 import {generatetoaddress} from "./test-api/test-api-on-node";
 const exec = require('child_process').exec;
 
@@ -40,7 +40,7 @@ describe('basic-doi-test-with-offline-node', function () {
         //aliceAddress = getNewAddress(node_url_alice,rpcAuth,false);
         //shutdown Bob
         start3rdNode();
-        stopDockerBob();
+        var containerId = stopDockerBob();
         const recipient_mail = "bob@ci-doichain.org";
         const sender_mail  = "alice-to-offline-node@ci-doichain.org";
         const recipient_pop3username = "bob@ci-doichain.org";
@@ -58,9 +58,37 @@ describe('basic-doi-test-with-offline-node', function () {
         Meteor.setTimeout(function () {
             generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, false); //need to generate a block because bob is not in the current mempool when offline
             const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuth,resultDataOptIn.data.id,true);
-            startDockerBob();
-            if(log) logBlockchain('connecting nodes again:');
-            connectDockerBob();
+            var startedContainerId = startDockerBob(containerId);
+            logBlockchain("started bob's node with containerId",startedContainerId);
+            chai.expect(startedContainerId).to.not.be.null;
+
+            let running = true;
+            let counter = 0;
+            while(running){
+                try{
+                    const statusDocker = JSON.parse(getDockerStatus(startedContainerId));
+                    logBlockchain("getinfo",statusDocker);
+                    logBlockchain("version:"+statusDocker.version);
+                    logBlockchain("balance:"+statusDocker.balance);
+                    logBlockchain("balance:"+statusDocker.connections);
+                    if(statusDocker.connections===0){
+                        doichainAddNode(startedContainerId);
+                    }
+                    running = false;
+                }
+                catch(error){
+                    logBlockchain("statusDocker problem trying to start Bobs node inside docker container:",error);
+                    try{
+                        connectDockerBob(startedContainerId);
+                    }catch(error2){
+                        logBlockchain("could start bob:",error2);
+                    }
+                    if(counter==50)running=false;
+                }
+                counter++;
+            }
+            //if(log) logBlockchain('connecting nodes again:');
+            //connectDockerBob();
             //generating a block so transaction gets confirmed and delivered to bob.
             if(log) logBlockchain('waiting seconds before fetching email:',20);
             Meteor.setTimeout(function () {
@@ -70,11 +98,11 @@ describe('basic-doi-test-with-offline-node', function () {
                 if (log) logBlockchain('waiting 10 seconds to update blockchain before generating another block:');
                 Meteor.setTimeout(function () {
                     generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, false);
-                    if (log) logBlockchain('waiting 10 seconds before verifying DOI on alice:');
+                    if (log) logBlockchain('waiting seconds before verifying DOI on alice:',15);
                     Meteor.setTimeout(function () {
                         verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
                         done();
-                    }, 10000); //verify
+                    }, 15000); //verify
                 }, 10000); //generatetoaddress
             },20000); //connect to pop3
         },10000); //find transaction on bob
@@ -82,55 +110,51 @@ describe('basic-doi-test-with-offline-node', function () {
 });
 
 
-export function stopDockerBob(client) {
-    const syncFunc = Meteor.wrapAsync(stop_docker_bob);
-    return syncFunc(client);
-}
-
 function stop_docker_bob(callback) {
-
     exec('sudo docker ps --filter "name=bob" | cut -f1 -d" " | sed \'1d\'', (e, stdout, stderr)=> {
-        bobsContainerId = stdout.toString().substring(0,stdout.toString().length-1);
+        if(e!=null){
+            logBlockchain('cannot find bob node'+stdout,stderr);
+            return null;
+        }
+        bobsContainerId = stdout.toString().trim(); //.substring(0,stdout.toString().length-1); //remove last char since ins a line break
         logBlockchain('stopping Bob with container-id: '+bobsContainerId);
-
         exec('sudo docker stop '+bobsContainerId, (e, stdout, stderr)=> {
-            callback(stderr, stdout);
+            callback(stderr, bobsContainerId);
         });
     });
-
 }
 
-export function start3rdNode(client) {
-    const syncFunc = Meteor.wrapAsync(start_3rd_node);
-    return syncFunc(client);
-}
-
-export function startDockerBob(client) {
-    const syncFunc = Meteor.wrapAsync(start_docker_bob);
-    return syncFunc(client);
-}
-
-function start_docker_bob(callback) {
-
-    exec('sudo docker start '+bobsContainerId, (e, stdout, stderr)=> {
-        logBlockchain('started bobs node again: '+bobsContainerId,{stdout:stdout,stderr:stderr});
+function doichain_add_node(containerId,callback) {
+    exec('sudo docker exec '+containerId+' doichain-cli addnode alice onetry', (e, stdout, stderr)=> {
+        logBlockchain('bob '+containerId+' connected? ',{stdout:stdout,stderr:stderr});
         callback(stderr, stdout);
     });
 }
 
-export function connectDockerBob(client) {
-    const syncFunc = Meteor.wrapAsync(connect_docker_bob);
-    return syncFunc(client);
+function get_docker_status(containerId,callback) {
+    logBlockchain('bob '+containerId+' running? ');
+    exec('sudo docker exec '+containerId+' doichain-cli -getinfo', (e, stdout, stderr)=> {
+        logBlockchain('bob '+containerId+' status: ',{stdout:stdout,stderr:stderr});
+        callback(stderr, stdout);
+    });
 }
 
-function connect_docker_bob(callback) {
+function start_docker_bob(bobsContainerId,callback) {
+    exec('sudo docker start '+bobsContainerId, (e, stdout, stderr)=> {
+        logBlockchain('started bobs node again: '+bobsContainerId,{stdout:stdout,stderr:stderr});
+        callback(stderr, stdout.toString().trim()); //remove line break from the end
+    });
+}
+
+function connect_docker_bob(bobsContainerId, callback) {
 
     exec('sudo docker exec '+bobsContainerId+' doichaind -regtest -daemon -reindex -addnode=alice', (e, stdout, stderr)=> {
         logBlockchain('restarting doichaind on bobs node and connecting with alice: ',{stdout:stdout,stderr:stderr});
-            exec('sudo docker exec '+bobsContainerId+' doichain-cli -getinfo', (e, stdout, stderr)=> {
-                logBlockchain('checked if bob is connected.',{stdout:stdout,stderr:stderr});
-            });
         callback(stderr, stdout);
+          /*  exec('sudo docker exec '+bobsContainerId+' doichain-cli -getinfo', (e, stdout, stderr)=> {
+                logBlockchain('checked if bob is connected.',{stdout:stdout,stderr:stderr});
+                callback(stderr, stdout);
+            });*/
     });
 }
 
@@ -155,4 +179,32 @@ function start_3rd_node(callback) {
             callback(stderr, stdout);
         });
     });
+}
+
+export function start3rdNode() {
+    const syncFunc = Meteor.wrapAsync(start_3rd_node);
+    return syncFunc();
+}
+export function stopDockerBob() {
+    const syncFunc = Meteor.wrapAsync(stop_docker_bob);
+    return syncFunc();
+}
+
+export function startDockerBob(containerId) {
+    const syncFunc = Meteor.wrapAsync(start_docker_bob);
+    return syncFunc(containerId);
+}
+export function doichainAddNode(containerId) {
+    const syncFunc = Meteor.wrapAsync(doichain_add_node);
+    return syncFunc(containerId);
+}
+
+export function getDockerStatus(containerId) {
+    const syncFunc = Meteor.wrapAsync(get_docker_status);
+    return syncFunc(containerId);
+}
+
+export function connectDockerBob(containerId) {
+    const syncFunc = Meteor.wrapAsync(connect_docker_bob);
+    return syncFunc(containerId);
 }
