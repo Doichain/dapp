@@ -19,6 +19,7 @@ describe('basic-doi-test', function () {
 
     it('should create a RegTest Doichain with alice and bob and some Doi - coins', function (done) {
         //connect nodes (alice & bob) and generate DOI
+
         isNodeAlive(node_url_alice,rpcAuth,false);
         isNodeAliveAndConnectedToHost(node_url_bob,rpcAuth,'alice',false);
         importPrivKey(node_url_bob,rpcAuth,privKeyBob,true,false);

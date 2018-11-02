@@ -103,8 +103,10 @@ describe('basic-doi-test-with-offline-node', function () {
                     if (log) logBlockchain('waiting seconds before verifying DOI on alice:',15);
                     Meteor.setTimeout(function () {
                         generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, false);
-                        verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
-                        done();
+                        Meteor.setTimeout(function () {
+                            verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
+                            done();
+                        }, 5000);
                     }, 15000); //verify
                 }, 15000); //generatetoaddress
             },20000); //connect to pop3
