@@ -84,7 +84,6 @@ export function getNameIdOfRawTransaction(url, auth, txId){
 }
 
 export function getNameIdOfOptInFromRawTx(url, auth, optInId, log){
-
         const our_optIn = OptIns.findOne({_id: optInId});
         chai.assert.equal(our_optIn._id,optInId);
 
@@ -290,19 +289,19 @@ function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAl
 
             const link2Confirm = fetchConfirmLinkFromPop3Mail("mail", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
             confirmLink(link2Confirm);
-            generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, false);
+            generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
 
             if (log) logBlockchain('waiting 10 seconds to update blockchain before generating another block:');
             setTimeout(Meteor.bindEnvironment(function () {
-                generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, false);
+                generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
 
-                if (log) logBlockchain('waiting 10 seconds before verifying DOI on alice:');
+                if (log) logBlockchain('waiting seconds before verifying DOI on alice:');
                 setTimeout(Meteor.bindEnvironment(function () {
                     verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
                     // done();
                     callback(null, {optIn: resultDataOptIn, nameId: nameId});
-                }), 10000); //verify
-            }), 10000); //verify
+                }), 15000); //verify
+            }), 15000); //geeratetoaddress
         }), 16000); //connect to pop3
     }), 10000); //find transaction on bob's node - even the block is not confirmed yet
 }

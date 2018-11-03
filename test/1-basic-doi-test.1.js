@@ -10,6 +10,7 @@ import {
 import {OptIns} from "../imports/api/opt-ins/opt-ins";
 import {Senders} from "../imports/api/senders/senders";
 import {Recipients} from "../imports/api/recipients/recipients";
+import {logBlockchain} from "../imports/startup/server/log-configuration";
 
 const node_url_alice = 'http://172.20.0.6:18332/';
 const rpcAuthAlice = "admin:generated-password";
@@ -25,6 +26,7 @@ describe('basic-doi-test', function () {
     this.timeout(300000);
 
     before(function(){
+        logBlockchain("removing OptIns,Recipients,Senders");
         OptIns.remove({});
         Recipients.remove({});
         Senders.remove({});
@@ -51,9 +53,7 @@ describe('basic-doi-test', function () {
         resetUsers();
         const recipient_mail = "bob@ci-doichain.org"; //
         const sender_mail_alice_a  = "alice-a@ci-doichain.org";
-
         const logAdmin = login(dappUrlAlice,dAppLogin,false);
-
         let userA = createUser(dappUrlAlice,logAdmin,"alice-a",templateUrlA,true);
         chai.expect(findUser(userA)).to.not.be.undefined;
         let userB = createUser(dappUrlAlice,logAdmin,"alice-b",templateUrlB,true);
