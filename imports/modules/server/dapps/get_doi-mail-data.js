@@ -107,11 +107,10 @@ const getDoiMailData = (data) => {
       returnData["redirect"] = mailTemplate["redirect"] || defaultReturnData["redirect"];
       returnData["subject"] = mailTemplate["subject"] || defaultReturnData["subject"];
       returnData["returnPath"] = mailTemplate["returnPath"] || defaultReturnData["returnPath"];
-      returnData["content"] = mailTemplate["templateURL"] ? (getHttpGET(mailTemplate["templateURL"], "").data || defaultReturnData["content"]) : defaultReturnData["content"];
+      returnData["content"] = mailTemplate["templateURL"] ? (getHttpGET(mailTemplate["templateURL"], "").content || defaultReturnData["content"]) : defaultReturnData["content"];
       
     }
     catch(error) {
-      //logSend('Owner profile is wrong: '+error+" , using default Template");
       returnData=defaultReturnData;
     }
 

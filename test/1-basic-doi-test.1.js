@@ -83,7 +83,7 @@ describe('basic-doi-test', function () {
         resetUsers();
         let logAdmin = login(dappUrlAlice,dAppLogin,true);
         const userUp = createUser(dappUrlAlice,logAdmin,"updateUser",templateUrlA,true);
-        const changedData = updateUser(dappUrlAlice,logAdmin,userUp,templateUrlB,true);
+        const changedData = updateUser(dappUrlAlice,logAdmin,userUp,{"templateURL":templateUrlB},true);
         chai.expect(changedData).not.undefined;
 
     });
@@ -93,7 +93,7 @@ describe('basic-doi-test', function () {
         let logAdmin = login(dappUrlAlice,dAppLogin,true);
         const userUp = createUser(dappUrlAlice,logAdmin,"updateUser",templateUrlA,true);
         const logUserUp = login(dappUrlAlice,{"username":"updateUser","password":"password"},true);
-        const changedData = updateUser(dappUrlAlice,logUserUp,userUp,templateUrlB,true);
+        const changedData = updateUser(dappUrlAlice,logUserUp,userUp,{"templateURL":templateUrlB},true);
         chai.expect(changedData).not.undefined;
 
     });

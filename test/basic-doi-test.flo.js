@@ -14,6 +14,7 @@ import {
     exportOptIns,
     updateUser,
     resetUsers,
+    requestConfirmVerifyBasicDoi,
     
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
@@ -24,9 +25,9 @@ const dappUrlAlice = "http://localhost:3000";
 const dappUrlBob = "http://172.20.0.8:4000";
 const dAppLogin = {"username":"admin","password":"password"};
 const log = true;
-
-const templateUrlA="http://templateUrlA.com";
-const templateUrlB="http://templateUrlB.com";
+const rpcAuthAlice = "admin:generated-password";
+const templateUrlA="http://172.20.0.8:4000/templates/emails/doichain-anmeldung-final-DE.html";
+const templateUrlB="http://172.20.0.8:4000/templates/emails/doichain-anmeldung-final-EN.html";
 const aliceALogin = {"username":"alice-a","password":"password"};
 const coDoiList = ["alice1@doichain-ci.com","alice2@doichain-ci.com","alice3@doichain-ci.com"];
 
@@ -96,50 +97,15 @@ describe('basic-doi-test-flo', function () {
         let logAdmin = login(dappUrlAlice,dAppLogin,true);
         const coDois = requestDOI(dappUrlAlice, logAdmin, rec, coDoiList,"" , true);
        });
+
        it('should find updated Data in email',function(done){
         const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
         const sender_mail  = "alice@ci-doichain.org";
         const adLog = login(dappUrlAlice,dAppLogin,false);
-        updateUser(dappUrlAlice,adLog,adLog.userId,{"subject":"updateTest","redirect":"http://localhost:80"})
-        requestConfirmVerifyUserDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
-       });
+        updateUser(dappUrlAlice,adLog,adLog.userId,{"subject":"updateTest","templateURL":templateUrlB});
+        requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,adLog,dappUrlBob,recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",true);
+       done();
+    });
 
     });
 
-    function requestConfirmVerifyUserDoi(recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password,updateData,done){
-        //login to dApp & request DOI on alice via bob
-        const dataLoginAlice = login(dappUrlAlice,dAppLogin,true); //log into dApp
-        logBlockchain("user updated: ",updateUser(dappUrlAlice,dataLoginAlice,dataLoginAlice.userId,updateData));
-        const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,optionalData,true);
-        //generatetoaddress(node_url_alice,rpcAuth, global.aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
-
-        if(log) logBlockchain('waiting seconds before get NameIdOfOptIn',10);
-        setTimeout(Meteor.bindEnvironment(function () {
-
-            const nameId = getNameIdOfOptIn(node_url_alice,rpcAuth,resultDataOptIn.data.id,true);
-
-            if(log) logBlockchain('waiting seconds before fetching email:',10);
-            setTimeout(Meteor.bindEnvironment(function () {
-
-                const htmlInfo= fetchConfirmLinkFromPop3Mail("mail",110,recipient_pop3username,recipient_pop3password,dappUrlBob,false);
-                chai.expect(htmlInfo.html).to.not.be.undefined;
-                for(let field in updateData){
-                    if(field!="templateURL")
-                    logBlockchain("Fields found in email:",htmlInfo.html.match("/"+updateData[field]+"/gm"));
-                }
-                confirmLink(htmlInfo.linkdata);
-                generatetoaddress(node_url_alice,rpcAuth, global.aliceAddress,1,false);
-
-                if(log) logBlockchain('waiting 10 seconds to update blockchain before generating another block:');
-                setTimeout(Meteor.bindEnvironment(function () {
-                    generatetoaddress(node_url_alice,rpcAuth, global.aliceAddress,1,false);
-
-                    if(log) logBlockchain('waiting 10 seconds before verifying DOI on alice:');
-                    setTimeout(Meteor.bindEnvironment(function () {
-                        verifyDOI(dappUrlAlice, sender_mail, recipient_mail,nameId, dataLoginAlice, log ); //need to generate two blocks to make block visible on alice
-                        done();
-                    }),10000); //verify
-                }),10000); //verify
-            }),15000); //connect to pop3
-        }),10000); //find transaction on bob's node - even the block is not confirmed yet
-    }
