@@ -57,7 +57,18 @@ export function requestDOI(url, auth, recipient_mail, sender_mail, data,  log) {
 
     if(log) logBlockchain("resultOptIn",resultOptIn);
     chai.assert.equal(200, resultOptIn.statusCode);
+
+    if(Array.isArray(resultOptIn.data)){
+        if(log) logBlockchain('adding coDOIs');
+        resultOptIn.data.forEach(element => {
+            chai.assert.equal('success', element.status);
+        });
+    }
+
+    else{
+        if(log) logBlockchain('adding DOI');
     chai.assert.equal('success',  resultOptIn.data.status);
+    }
     return resultOptIn.data;
 }
 
@@ -136,10 +147,11 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                     const html  = quotedPrintableDecode(maildata);
                                     const linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
                                     chai.expect(linkdata).to.not.be.null;
+                                    const requestData = {"linkdata":linkdata,"html":html}
                                     client.dele(msgnumber);
                                     client.on("dele", function(status, msgnumber, data, rawdata) {
                                         client.quit();
-                                        callback(null,linkdata);
+                                        callback(null,requestData);
                                     });
 
                                 } else {
@@ -258,7 +270,7 @@ export function exportOptIns(url,auth,log){
     return res.data.data;
 }
 
-export function updateUser(url,auth,updateId,templateURL,log){
+export function updateUser(url,auth,updateId,mailTemplate,log){
     
     const headersUser = {
         'Content-Type':'application/json',
@@ -266,7 +278,6 @@ export function updateUser(url,auth,updateId,templateURL,log){
         'X-Auth-Token':auth.authToken
     }
 
-    const mailTemplate = {'templateURL': templateURL};
     const dataUser = {"mailTemplate":mailTemplate};
     if(log) logBlockchain('url:', url);
     const urlUsers = url+'/api/v1/users/'+updateId;

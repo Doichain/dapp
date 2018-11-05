@@ -1,33 +1,35 @@
 import {chai} from 'meteor/practicalmeteor:chai';
 
-//import {generatetoaddress} from "./test-api/test-api-on-node";
+import {generatetoaddress} from "./test-api/test-api-on-node";
 import {
- //   fetchConfirmLinkFromPop3Mail,
- //   getNameIdOfOptIn,
+   fetchConfirmLinkFromPop3Mail,
+    getNameIdOfOptIn,
     login,
- //   confirmLink,
+    confirmLink,
     requestDOI,
- //   verifyDOI,
+    verifyDOI,
     createUser,
     findUser,
     findOptIn,
     exportOptIns,
     updateUser,
-    resetUsers
+    resetUsers,
+    
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 
 
-//const node_url_alice = 'http://172.20.0.6:18332/';
-//const rpcAuth = "admin:generated-password";
+const node_url_alice = 'http://172.20.0.6:18332/';
+const rpcAuth = "admin:generated-password";
 const dappUrlAlice = "http://localhost:3000";
-//const dappUrlBob = "http://172.20.0.8:4000";
+const dappUrlBob = "http://172.20.0.8:4000";
 const dAppLogin = {"username":"admin","password":"password"};
 const log = true;
 
 const templateUrlA="http://templateUrlA.com";
 const templateUrlB="http://templateUrlB.com";
 const aliceALogin = {"username":"alice-a","password":"password"};
+const coDoiList = ["alice1@doichain-ci.com","alice2@doichain-ci.com","alice3@doichain-ci.com"];
 
 describe('basic-doi-test-flo', function () {
     this.timeout(300000);
@@ -73,7 +75,7 @@ describe('basic-doi-test-flo', function () {
        
        let logAdmin = login(dappUrlAlice,dAppLogin,true);
        const userUp = createUser(dappUrlAlice,logAdmin,"updateUser",templateUrlA,true);
-       const changedData = updateUser(dappUrlAlice,logAdmin,userUp,templateUrlB,true);
+       const changedData = updateUser(dappUrlAlice,logAdmin,userUp,{"templateURL":templateUrlB},true);
        chai.expect(changedData).not.undefined;
        
         });
@@ -85,8 +87,60 @@ describe('basic-doi-test-flo', function () {
            let logAdmin = login(dappUrlAlice,dAppLogin,true);
            const userUp = createUser(dappUrlAlice,logAdmin,"updateUser",templateUrlA,true);
            const logUserUp = login(dappUrlAlice,{"username":"updateUser","password":"password"},true);
-           const changedData = updateUser(dappUrlAlice,logUserUp,userUp,templateUrlB,true);
+           const changedData = updateUser(dappUrlAlice,logUserUp,userUp,{"templateURL":templateUrlB},true);
            chai.expect(changedData).not.undefined;
            
        });
+
+       it('should test if coDoi works',function(){
+        const rec = "bob@ci-doichain.org";
+        let logAdmin = login(dappUrlAlice,dAppLogin,true);
+        const coDois = requestDOI(dappUrlAlice, logAdmin, rec, coDoiList,"" , true);
+       });
+       it('should find updated Data in email',function(done){
+        const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+        const sender_mail  = "alice@ci-doichain.org";
+        const adLog = login(dappUrlAlice,dAppLogin,false);
+        updateUser(dappUrlAlice,adLog,adLog.userId,{"subject":"updateTest","redirect":"http://localhost:80"})
+        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
+       });
+
     });
+
+    function requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password,updateData,done){
+        //login to dApp & request DOI on alice via bob
+        const dataLoginAlice = login(dappUrlAlice,dAppLogin,true); //log into dApp
+        logBlockchain("user updated: ",updateUser(dappUrlAlice,dataLoginAlice,dataLoginAlice.userId,updateData));
+        const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,optionalData,true);
+        //generatetoaddress(node_url_alice,rpcAuth, global.aliceAddress,1,false); //TODO this should be not necessary(!) but with out we have an error when fetching the transaction
+
+        if(log) logBlockchain('waiting seconds before get NameIdOfOptIn',10);
+        setTimeout(Meteor.bindEnvironment(function () {
+
+            const nameId = getNameIdOfOptIn(node_url_alice,rpcAuth,resultDataOptIn.data.id,true);
+
+            if(log) logBlockchain('waiting seconds before fetching email:',10);
+            setTimeout(Meteor.bindEnvironment(function () {
+
+                const htmlInfo= fetchConfirmLinkFromPop3Mail("mail",110,recipient_pop3username,recipient_pop3password,dappUrlBob,false);
+                chai.expect(htmlInfo.html).to.not.be.undefined;
+                for(let field in updateData){
+                    if(field!="templateURL")
+                    logBlockchain("Fields found in email:",htmlInfo.html.match("/"+updateData[field]+"/gm"));
+                }
+                confirmLink(htmlInfo.linkdata);
+                generatetoaddress(node_url_alice,rpcAuth, global.aliceAddress,1,false);
+
+                if(log) logBlockchain('waiting 10 seconds to update blockchain before generating another block:');
+                setTimeout(Meteor.bindEnvironment(function () {
+                    generatetoaddress(node_url_alice,rpcAuth, global.aliceAddress,1,false);
+
+                    if(log) logBlockchain('waiting 10 seconds before verifying DOI on alice:');
+                    setTimeout(Meteor.bindEnvironment(function () {
+                        verifyDOI(dappUrlAlice, sender_mail, recipient_mail,nameId, dataLoginAlice, log ); //need to generate two blocks to make block visible on alice
+                        done();
+                    }),10000); //verify
+                }),10000); //verify
+            }),15000); //connect to pop3
+        }),10000); //find transaction on bob's node - even the block is not confirmed yet
+    }
