@@ -1,9 +1,10 @@
 import {getHttpPOST} from "../../server/api/http";
 import {logBlockchain} from "../../imports/startup/server/log-configuration";
 import {chai} from 'meteor/practicalmeteor:chai';
+import {Meteor} from "meteor/meteor";
 
 const headers = { 'Content-Type':'text/plain'  };
-
+const exec = require('child_process').exec;
 
 export function isNodeAlive(url, auth, log) {
     if(log) logBlockchain('isNodeAlive called');
@@ -77,4 +78,104 @@ export function getBalance(url,auth,log){
     const resultGetBalance = getHttpPOST(url, realdataGetBalance);
     if(log)logBlockchain('resultGetBalance:',resultGetBalance);
     return resultGetBalance.data.result;
+}
+
+function get_container_id_of_name(name,callback) {
+    exec('sudo docker ps --filter "name='+name+'" | cut -f1 -d" " | sed \'1d\'', (e, stdout, stderr)=> {
+        if(e!=null){
+            logBlockchain('cannot find '+name+' node '+stdout,stderr);
+            return null;
+        }
+        const bobsContainerId = stdout.toString().trim(); //.substring(0,stdout.toString().length-1); //remove last char since ins a line break
+        callback(stderr, bobsContainerId);
+    });
+}
+
+function stop_docker_bob(callback) {
+    const bobsContainerId = getContainerIdOfName('bob');
+    logBlockchain('stopping Bob with container-id: '+bobsContainerId);
+    exec('sudo docker stop '+bobsContainerId, (e, stdout, stderr)=> {
+        callback(stderr, bobsContainerId);
+    });
+}
+
+function doichain_add_node(containerId,callback) {
+    exec('sudo docker exec '+containerId+' doichain-cli addnode alice onetry', (e, stdout, stderr)=> {
+        logBlockchain('bob '+containerId+' connected? ',{stdout:stdout,stderr:stderr});
+        callback(stderr, stdout);
+    });
+}
+
+function get_docker_status(containerId,callback) {
+    logBlockchain('bob '+containerId+' running? ');
+    exec('sudo docker exec '+containerId+' doichain-cli -getinfo', (e, stdout, stderr)=> {
+        logBlockchain('bob '+containerId+' status: ',{stdout:stdout,stderr:stderr});
+        callback(stderr, stdout);
+    });
+}
+
+function start_docker_bob(bobsContainerId,callback) {
+    exec('sudo docker start '+bobsContainerId, (e, stdout, stderr)=> {
+        logBlockchain('started bobs node again: '+bobsContainerId,{stdout:stdout,stderr:stderr});
+        callback(stderr, stdout.toString().trim()); //remove line break from the end
+    });
+}
+
+function connect_docker_bob(bobsContainerId, callback) {
+    exec('sudo docker exec '+bobsContainerId+' doichaind -regtest -daemon -reindex -addnode=alice', (e, stdout, stderr)=> {
+        logBlockchain('restarting doichaind on bobs node and connecting with alice: ',{stdout:stdout,stderr:stderr});
+        callback(stderr, stdout);
+    });
+}
+
+function start_3rd_node(callback) {
+
+    exec('sudo docker network ls |grep doichain | cut -f9 -d" "', (e, stdout, stderr)=> {
+        const network = stdout.toString().substring(0,stdout.toString().length-1);
+        logBlockchain('connecting 3rd node to docker network: '+network);
+
+        exec('sudo docker run --expose=18332 ' +
+            '-e REGTEST=true ' +
+            '-e DOICHAIN_VER=0.0.6 ' +
+            '-e RPC_ALLOW_IP=::/0 ' +
+            '-e CONNECTION_NODE=alice '+
+            '-e RPC_PASSWORD=generated-password ' +
+            '--name=3rd_node '+
+            '--dns=172.20.0.5  ' +
+            '--dns=8.8.8.8 ' +
+            '--dns-search=ci-doichain.org ' +
+            '--ip=172.20.0.9 ' +
+            '--network='+network+' -d doichain/core:0.0.6', (e, stdout, stderr)=> {
+            callback(stderr, stdout);
+        });
+    });
+}
+
+export function start3rdNode() {
+    const syncFunc = Meteor.wrapAsync(start_3rd_node);
+    return syncFunc();
+}
+export function stopDockerBob() {
+    const syncFunc = Meteor.wrapAsync(stop_docker_bob);
+    return syncFunc();
+}
+export function getContainerIdOfName(name) {
+    const syncFunc = Meteor.wrapAsync(get_container_id_of_name);
+    return syncFunc(name);
+}
+export function startDockerBob(containerId) {
+    const syncFunc = Meteor.wrapAsync(start_docker_bob);
+    return syncFunc(containerId);
+}
+export function doichainAddNode(containerId) {
+    const syncFunc = Meteor.wrapAsync(doichain_add_node);
+    return syncFunc(containerId);
+}
+export function getDockerStatus(containerId) {
+    const syncFunc = Meteor.wrapAsync(get_docker_status);
+    return syncFunc(containerId);
+}
+export function connectDockerBob(containerId) {
+    const syncFunc = Meteor.wrapAsync(connect_docker_bob);
+    return syncFunc(containerId);
 }

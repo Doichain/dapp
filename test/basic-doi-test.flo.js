@@ -18,7 +18,6 @@ import {
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 
-
 const node_url_alice = 'http://172.20.0.6:18332/';
 const rpcAuth = "admin:generated-password";
 const dappUrlAlice = "http://localhost:3000";
@@ -102,12 +101,12 @@ describe('basic-doi-test-flo', function () {
         const sender_mail  = "alice@ci-doichain.org";
         const adLog = login(dappUrlAlice,dAppLogin,false);
         updateUser(dappUrlAlice,adLog,adLog.userId,{"subject":"updateTest","redirect":"http://localhost:80"})
-        requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
+        requestConfirmVerifyUserDoi(recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",done);
        });
 
     });
 
-    function requestConfirmVerifyBasicDoi(recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password,updateData,done){
+    function requestConfirmVerifyUserDoi(recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password,updateData,done){
         //login to dApp & request DOI on alice via bob
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,true); //log into dApp
         logBlockchain("user updated: ",updateUser(dappUrlAlice,dataLoginAlice,dataLoginAlice.userId,updateData));
