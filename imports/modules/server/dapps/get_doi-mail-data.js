@@ -30,7 +30,7 @@ const userProfileSchema = new SimpleSchema({
   },
   redirect: {
     type: String,
-    regEx: SimpleSchema.RegEx.Url,
+    regEx: "@(https?|ftp)://(-\\.)?([^\\s/?\\.#-]+\\.?)+(/[^\\s]*)?$@",
     optional:true
   },
   returnPath: {
@@ -40,7 +40,7 @@ const userProfileSchema = new SimpleSchema({
   },
   templateURL: {
     type: String,
-    regEx: SimpleSchema.RegEx.Url,
+    regEx: "@(https?|ftp)://(-\\.)?([^\\s/?\\.#-]+\\.?)+(/[^\\s]*)?$@",
     optional:true
   }
 });
