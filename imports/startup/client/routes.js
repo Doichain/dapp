@@ -14,7 +14,7 @@ import requireRole from './require_role.js';
 import { Accounts, STATES } from 'meteor/std:accounts-ui';
 
 Accounts.ui.config({
-    passwordSignupFields: 'EMAIL_ONLY',
+    passwordSignupFields: 'USERNAME_AND_EMAIL',
     loginPath: '/signin',
     signUpPath: '/signup',
     changePasswordPath: '/change-password',

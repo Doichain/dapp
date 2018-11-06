@@ -70,7 +70,8 @@
       "nameId": "NameId",
       "createdAt": "Created At",
       "confirmedAt": "Confirmed At",
-      "confirmedBy": "Confirmed By"
+      "confirmedBy": "Confirmed By",
+      "error": "Error"
     },
     "authPageSignIn": {
      "emailRequired": "Email required",

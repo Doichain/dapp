@@ -73,7 +73,8 @@
       "nameId": "NameId",
       "createdAt": "Erstellt am",
       "confirmedAt": "Bestätigt am",
-      "confirmedBy": "Bestätigt von"
+      "confirmedBy": "Bestätigt von",
+      "error": "Fehler"
     },
     "authPageSignIn": {
      "emailRequired": "Email benötigt",
