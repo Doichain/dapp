@@ -12,7 +12,7 @@ import {
 
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 import {
-    connectDockerBob,
+    connectDockerBob, deleteOptInsFromAliceAndBob,
     doichainAddNode,
     generatetoaddress,
     getDockerStatus, getNewAddress,
@@ -20,9 +20,6 @@ import {
     startDockerBob,
     stopDockerBob
 } from "./test-api/test-api-on-node";
-import {OptIns} from "../imports/api/opt-ins/opt-ins";
-import {Recipients} from "../imports/api/recipients/recipients";
-import {Senders} from "../imports/api/senders/senders";
 const exec = require('child_process').exec;
 
 const node_url_alice = 'http://172.20.0.6:18332/';
@@ -33,15 +30,11 @@ const dAppLogin = {"username":"admin","password":"password"};
 const log = true;
 
 describe('basic-doi-test-with-offline-node', function () {
-    this.timeout(600000);
-
     before(function(){
             exec('sudo docker rm 3rd_node', (e, stdout2, stderr2)=> {
                 logBlockchain('deleted 3rd_node:',{stdout:stdout2,stderr:stderr2});
             });
-            OptIns.remove({});
-            Recipients.remove({});
-            Senders.remove({});
+            deleteOptInsFromAliceAndBob();
     });
 
     after(function(){
@@ -51,8 +44,9 @@ describe('basic-doi-test-with-offline-node', function () {
     });
 
     it('should test if basic Doichain workflow is working when Bobs node is temporarily offline', function(done) {
+        this.timeout(0);
         global.aliceAddress = getNewAddress(node_url_alice,rpcAuth,false);
-        //shutdown Bob
+        //start another 3rd node before shutdown Bob
         start3rdNode();
         var containerId = stopDockerBob();
         const recipient_mail = "bob@ci-doichain.org";
@@ -117,11 +111,12 @@ describe('basic-doi-test-with-offline-node', function () {
                         generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, true);
                         Meteor.setTimeout(function () {
                             verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
+
                             done();
                         }, 15000);
                     }, 15000); //verify
                 }, 15000); //generatetoaddress
-            },20000); //connect to pop3
+            },25000); //connect to pop3
         },10000); //find transaction on bob
     }); //it
 });

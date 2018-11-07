@@ -66,7 +66,7 @@ Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
       try {
           logSend('rest api - DOI_FETCH_ROUTE called',JSON.stringify(params));
           const data = getDoiMailData(params);
-          logSend('got doi mail data',data);
+          logSend('got doi mail data',{subject:data.subject, recipient:data.recipient});
         return {status: 'success', data};
       } catch(error) {
         logError('error while getting DoiMailData',error);
@@ -136,6 +136,7 @@ function prepareCoDOI(params){
 
     return retResponse;
 }
+
 function prepareAdd(params){
 
     try {
@@ -145,5 +146,4 @@ function prepareAdd(params){
     } catch(error) {
         return {statusCode: 500, body: {status: 'fail', message: error.message}};
     }
-
 }

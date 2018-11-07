@@ -20,10 +20,6 @@ const GetDoiMailDataSchema = new SimpleSchema({
 });
 
 const userProfileSchema = new SimpleSchema({
-  /*from: {
-    type: String,
-    regEx: SimpleSchema.RegEx.Email
-  },*/
   subject: {
     type: String,
     optional:true
@@ -93,7 +89,6 @@ const getDoiMailData = (data) => {
         "content": doiMailData.data.content,
         "redirect": doiMailData.data.redirect,
         "subject": doiMailData.data.subject,
-        //"from": doiMailData.data.from,
         "returnPath": doiMailData.data.returnPath
       }
 

@@ -7,10 +7,8 @@ import {
     exportOptIns,
     requestConfirmVerifyBasicDoi, resetUsers, requestDOI, updateUser
 } from "./test-api/test-api-on-dapp";
-import {OptIns} from "../imports/api/opt-ins/opt-ins";
-import {Senders} from "../imports/api/senders/senders";
-import {Recipients} from "../imports/api/recipients/recipients";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
+import {deleteOptInsFromAliceAndBob} from "./test-api/test-api-on-node";
 
 const node_url_alice = 'http://172.20.0.6:18332/';
 const rpcAuthAlice = "admin:generated-password";
@@ -23,13 +21,11 @@ const templateUrlB="http://templateUrlB.com";
 const aliceALogin = {"username":"alice-a","password":"password"};
 
 describe('basic-doi-test', function () {
-    this.timeout(300000);
+    this.timeout(0);
 
     before(function(){
         logBlockchain("removing OptIns,Recipients,Senders");
-        OptIns.remove({});
-        Recipients.remove({});
-        Senders.remove({});
+        deleteOptInsFromAliceAndBob();
     });
 
     it('should test if basic Doichain workflow is working with optional data', function (done) {
@@ -75,7 +71,6 @@ describe('basic-doi-test', function () {
         for(let optIn in exportedOptInsA){
             chai.expect(optIn.ownerId).to.be.equal(logUserA.userId);
         }
-        //chai.expect(findOptIn(resultDataOptIn._id)).to.not.be.undefined;
         done();
     });
 

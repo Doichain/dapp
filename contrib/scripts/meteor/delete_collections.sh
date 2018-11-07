@@ -1,0 +1,18 @@
+use alice;
+db.recipients.remove({});
+db.sender.remove({});
+db.getCollection('opt-ins').remove({});
+db.getCollection('doichain-entries').remove({});
+db.getCollection('blockchain.jobs').remove({});
+db.getCollection('dapp.jobs').remove({});
+db.getCollection('emails.job').remove({});
+db.getCollection('meta').remove({});
+use bob;
+db.recipients.remove({});
+db.sender.remove({});
+db.getCollection('opt-ins').remove({});
+db.getCollection('doichain-entries').remove({});
+db.getCollection('blockchain.jobs').remove({});
+db.getCollection('dapp.jobs').remove({});
+db.getCollection('emails.job').remove({});
+db.getCollection('meta').remove({});

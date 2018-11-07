@@ -1,6 +1,6 @@
 import {chai} from 'meteor/practicalmeteor:chai';
-const exec = require('child_process').exec;
 import {
+    deleteOptInsFromAliceAndBob,
     generatetoaddress, getBalance, getContainerIdOfName, getDockerStatus, getNewAddress,
     importPrivKey,
     isNodeAlive,
@@ -19,15 +19,11 @@ const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 
 const log = true;
 
-
 describe('basic-doi-test', function () {
-    this.timeout(300000);
 
     before(function(){
         logBlockchain("removing OptIns,Recipients,Senders");
-        OptIns.remove({});
-        Recipients.remove({});
-        Senders.remove({});
+        deleteOptInsFromAliceAndBob();
     });
 
     it('should create a RegTest Doichain with alice and bob and some Doi - coins', function (done) {

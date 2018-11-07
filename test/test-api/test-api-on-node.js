@@ -6,6 +6,18 @@ import {Meteor} from "meteor/meteor";
 const headers = { 'Content-Type':'text/plain'  };
 const exec = require('child_process').exec;
 
+export function delete_optins_from_alice_and_bob(callback){
+    const containerId = getContainerIdOfName('mongo');
+    exec('sudo docker cp /home/doichain/dapp/contrib/scripts/meteor/delete_collections.sh '+containerId+':/tmp/', (e, stdout, stderr)=> {
+        logBlockchain('copied delete_collections into mongo docker container',{stderr:stderr,stdout:stdout});
+        exec('sudo docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"', (e, stdout, stderr)=> {
+            logBlockchain('sudo docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"',{stderr:stderr,stdout:stdout});
+            callback(stderr, stdout);
+        });
+
+    });
+}
+
 export function isNodeAlive(url, auth, log) {
     if(log) logBlockchain('isNodeAlive called');
     const dataGetNetworkInfo = {"jsonrpc": "1.0", "id": "getnetworkinfo", "method": "getnetworkinfo", "params": []};
@@ -133,10 +145,9 @@ function start_3rd_node(callback) {
     exec('sudo docker network ls |grep doichain | cut -f9 -d" "', (e, stdout, stderr)=> {
         const network = stdout.toString().substring(0,stdout.toString().length-1);
         logBlockchain('connecting 3rd node to docker network: '+network);
-
         exec('sudo docker run --expose=18332 ' +
             '-e REGTEST=true ' +
-            '-e DOICHAIN_VER=0.0.6 ' +
+            '-e DOICHAIN_VER=0.16.3.1 ' +
             '-e RPC_ALLOW_IP=::/0 ' +
             '-e CONNECTION_NODE=alice '+
             '-e RPC_PASSWORD=generated-password ' +
@@ -145,10 +156,15 @@ function start_3rd_node(callback) {
             '--dns=8.8.8.8 ' +
             '--dns-search=ci-doichain.org ' +
             '--ip=172.20.0.9 ' +
-            '--network='+network+' -d doichain/core:0.0.6', (e, stdout, stderr)=> {
+            '--network='+network+' -d doichain/core:0.16.3.1', (e, stdout, stderr)=> {
             callback(stderr, stdout);
         });
     });
+}
+
+export function deleteOptInsFromAliceAndBob() {
+    const syncFunc = Meteor.wrapAsync(delete_optins_from_alice_and_bob);
+    return syncFunc();
 }
 
 export function start3rdNode() {

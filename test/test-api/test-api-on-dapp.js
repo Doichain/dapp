@@ -7,7 +7,6 @@ import {getHttpGET, getHttpGETdata, getHttpPOST} from "../../server/api/http";
 import {OptIns} from "../../imports/api/opt-ins/opt-ins";
 import {Recipients} from "../../imports/api/recipients/recipients";
 
-
 import {generatetoaddress} from "./test-api-on-node";
 const headers = { 'Content-Type':'text/plain'  };
 var POP3Client = require("poplib");
@@ -108,7 +107,7 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
     var client = new POP3Client(port, hostname, {
         tlserrs: false,
         enabletls: false,
-        debug: true
+        debug: false
     });
 
     client.on("connect", function() {
@@ -278,31 +277,33 @@ export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUr
 }
 
 function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice, dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log, callback) {
+
+    generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
     const resultDataOptIn = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, optionalData, false);
     if (log) logBlockchain('waiting seconds before get NameIdOfOptIn', 10);
     setTimeout(Meteor.bindEnvironment(function () {
 
         const nameId = getNameIdOfOptInFromRawTx(node_url_alice, rpcAuthAlice, resultDataOptIn.data.id, true);
-
-        if (log) logBlockchain('waiting seconds before fetching email:', 10);
+        if (log) logBlockchain('waiting seconds before fetching email:', 35);
         setTimeout(Meteor.bindEnvironment(function () {
 
             const link2Confirm = fetchConfirmLinkFromPop3Mail("mail", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
             confirmLink(link2Confirm);
             generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
 
-            if (log) logBlockchain('waiting 10 seconds to update blockchain before generating another block:');
-            setTimeout(Meteor.bindEnvironment(function () {
+            if (log) logBlockchain('waiting 10 seconds to update blockchain before generating another block:',20);
+            Meteor.setTimeout(function () {
                 generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
-
-                if (log) logBlockchain('waiting seconds before verifying DOI on alice:');
-                setTimeout(Meteor.bindEnvironment(function () {
-                    verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
-                    // done();
-                    callback(null, {optIn: resultDataOptIn, nameId: nameId});
-                }), 15000); //verify
-            }), 15000); //geeratetoaddress
-        }), 16000); //connect to pop3
+                if (log) logBlockchain('waiting seconds before verifying DOI on alice:',15);
+                Meteor.setTimeout(function () {
+                    generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
+                    Meteor.setTimeout(function () {
+                        verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
+                        callback(null, {optIn: resultDataOptIn, nameId: nameId});
+                    }, 15000);
+                }, 15000); //verify
+            }, 15000); //generatetoaddress
+        }), 35000); //connect to pop3
     }), 10000); //find transaction on bob's node - even the block is not confirmed yet
 }
 
