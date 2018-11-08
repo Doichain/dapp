@@ -43,8 +43,14 @@ export default class OptInsPage extends BaseComponent {
               {
                 key: "data",
                 name: i18n.__('pages.optInsPage.data'),
-                value: optIn.data,
+                value: subJson(optIn.data),
                 json: true
+              },
+              {
+                key: "screenshot",
+                name: i18n.__('pages.optInsPage.screenshot'),
+                value: JSON.parse(optIn.data).screenshot ? JSON.parse(optIn.data).screenshot:"",
+                image: true
               },
               {
                 key: "nameId",
@@ -89,6 +95,13 @@ export default class OptInsPage extends BaseComponent {
       </div>
     );
   }
+}
+
+function subJson(json){
+  let tmp = json;
+  let rD = JSON.parse(tmp); 
+  delete rD.screenshot;
+  return JSON.stringify(rD);
 }
 
 OptInsPage.propTypes = {

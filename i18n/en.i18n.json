@@ -36,6 +36,9 @@
     },
     "mobileMenu": {
       "showMenu": "Show Menu"
+    },
+    "ImageElement": {
+      "toggle": "Display"
     }
   },
   "pages": {
@@ -67,6 +70,7 @@
       "recipient": "Recipient",
       "sender": "Sender",
       "data": "Data",
+      "screenshot": "Screenshot",
       "nameId": "NameId",
       "createdAt": "Created At",
       "confirmedAt": "Confirmed At",

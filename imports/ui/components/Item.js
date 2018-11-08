@@ -1,6 +1,6 @@
 import React from 'react';
 import BaseComponent from './BaseComponent.js';
-
+import ImageElement from './ImageElement.js';
 export default class Item extends BaseComponent {
   constructor(props) {
     super(props);
@@ -13,7 +13,12 @@ export default class Item extends BaseComponent {
       <div className="key-wrapper" key={key.key}>
         <div className="key">
           <span className="name">{key.name}</span>
-          <span className="value">{key.json?this.renderJson(key.value):key.value}</span>
+          <span className="value">{
+            key.json?this.renderJson(key.value):(key.image? <ImageElement src={key.value}/>:key.value)
+            }
+
+            </span>
+          
         </div>
       </div>
     ))
