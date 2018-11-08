@@ -60,7 +60,18 @@ export function requestDOI(url, auth, recipient_mail, sender_mail, data,  log) {
 
     if(log) logBlockchain("resultOptIn",resultOptIn);
     chai.assert.equal(200, resultOptIn.statusCode);
+
+    if(Array.isArray(resultOptIn.data)){
+        if(log) logBlockchain('adding coDOIs');
+        resultOptIn.data.forEach(element => {
+            chai.assert.equal('success', element.status);
+        });
+    }
+
+    else{
+        if(log) logBlockchain('adding DOI');
     chai.assert.equal('success',  resultOptIn.data.status);
+    }
     return resultOptIn.data;
 }
 
@@ -140,12 +151,15 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                     const html  = quotedPrintableDecode(maildata);
                                     const linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
                                     chai.expect(linkdata).to.not.be.null;
+                                    const requestData = {"linkdata":linkdata,"html":html}
                                     client.dele(msgnumber);
                                     client.on("dele", function(status, msgnumber, data, rawdata) {
                                         client.quit();
+
                                         client.end();
                                         client = null;
                                         callback(null,linkdata);
+                                        //callback(null,requestData);
                                     });
 
                                 } else {
@@ -271,6 +285,7 @@ export function exportOptIns(url,auth,log){
     return res.data.data;
 }
 
+
 export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob,recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log) {
     const syncFunc = Meteor.wrapAsync(request_confirm_verify_basic_doi);
     return syncFunc(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log);
@@ -307,15 +322,14 @@ function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAl
     }), 10000); //find transaction on bob's node - even the block is not confirmed yet
 }
 
-export function updateUser(url,auth,updateId,templateURL,log){
-    
+//export function updateUser(url,auth,updateId,templateURL,log){
+export function updateUser(url,auth,updateId,mailTemplate,log){    
     const headersUser = {
         'Content-Type':'application/json',
         'X-User-Id':auth.userId,
         'X-Auth-Token':auth.authToken
     }
 
-    const mailTemplate = {'templateURL': templateURL};
     const dataUser = {"mailTemplate":mailTemplate};
     if(log) logBlockchain('url:', url);
     const urlUsers = url+'/api/v1/users/'+updateId;
