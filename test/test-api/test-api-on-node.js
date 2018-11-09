@@ -1,17 +1,48 @@
 import {getHttpPOST} from "../../server/api/http";
-import {logBlockchain} from "../../imports/startup/server/log-configuration";
+import {logBlockchain, testLogging} from "../../imports/startup/server/log-configuration";
 import {chai} from 'meteor/practicalmeteor:chai';
 import {Meteor} from "meteor/meteor";
 
 const headers = { 'Content-Type':'text/plain'  };
 const exec = require('child_process').exec;
 
+function wait_to_start_container(startedContainerId,callback){
+    let running = true;
+    let counter = 0;
+
+    //here we make sure bob gets started and connected again in probably all possible sitautions
+    while(running){
+        try{
+            const statusDocker = JSON.parse(getDockerStatus(startedContainerId));
+            testLogging("getinfo",statusDocker);
+            testLogging("version:"+statusDocker.version);
+            testLogging("balance:"+statusDocker.balance);
+            testLogging("connections:"+statusDocker.connections);
+            if(statusDocker.connections===0){
+                doichainAddNode(startedContainerId);
+            }
+            running = false;
+        }
+        catch(error){
+            testLogging("statusDocker problem trying to start Bobs node inside docker container:",error);
+            try{
+                connectDockerBob(startedContainerId);
+            }catch(error2){
+                testLogging("could not start bob:",error2);
+            }
+            if(counter==50)running=false;
+        }
+        counter++;
+    }
+    callback(null, startedContainerId);
+}
+
 export function delete_optins_from_alice_and_bob(callback){
     const containerId = getContainerIdOfName('mongo');
     exec('sudo docker cp /home/doichain/dapp/contrib/scripts/meteor/delete_collections.sh '+containerId+':/tmp/', (e, stdout, stderr)=> {
-        logBlockchain('copied delete_collections into mongo docker container',{stderr:stderr,stdout:stdout});
+        testLogging('copied delete_collections into mongo docker container',{stderr:stderr,stdout:stdout});
         exec('sudo docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"', (e, stdout, stderr)=> {
-            logBlockchain('sudo docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"',{stderr:stderr,stdout:stdout});
+            testLogging('sudo docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"',{stderr:stderr,stdout:stdout});
             callback(stderr, stdout);
         });
 
@@ -19,18 +50,18 @@ export function delete_optins_from_alice_and_bob(callback){
 }
 
 export function isNodeAlive(url, auth, log) {
-    if(log) logBlockchain('isNodeAlive called');
+    if(log) testLogging('isNodeAlive called');
     const dataGetNetworkInfo = {"jsonrpc": "1.0", "id": "getnetworkinfo", "method": "getnetworkinfo", "params": []};
     const realdataGetNetworkInfo = {auth: auth, data: dataGetNetworkInfo, headers: headers};
     const resultGetNetworkInfo = getHttpPOST(url, realdataGetNetworkInfo);
     const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
     chai.assert.equal(200, statusGetNetworkInfo);
     if(log)
-    logBlockchain('resultGetNetworkInfo:',resultGetNetworkInfo); // getnetworkinfo | jq '.localaddresses[0].address'
+        testLogging('resultGetNetworkInfo:',resultGetNetworkInfo); // getnetworkinfo | jq '.localaddresses[0].address'
 }
 
 export function isNodeAliveAndConnectedToHost(url, auth, host, log) {
-    if(log) logBlockchain('isNodeAliveAndConnectedToHost called');
+    if(log) testLogging('isNodeAliveAndConnectedToHost called');
     isNodeAlive(url, auth, log);
 
     const dataGetNetworkInfo = {"jsonrpc": "1.0", "id":"addnode", "method": "addnode", "params": ['alice','onetry'] };
@@ -38,7 +69,7 @@ export function isNodeAliveAndConnectedToHost(url, auth, host, log) {
     const resultGetNetworkInfo = getHttpPOST(url, realdataGetNetworkInfo);
     const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
     chai.assert.equal(200, statusGetNetworkInfo);
-    if(log) logBlockchain('resultGetNetworkInfo:',resultGetNetworkInfo);
+    if(log) testLogging('resultGetNetworkInfo:',resultGetNetworkInfo);
 
     const dataGetPeerInfo = {"jsonrpc": "1.0", "id":"getpeerinfo", "method": "getpeerinfo", "params": [] };
     const realdataGetPeerInfo = { auth: auth, data: dataGetPeerInfo, headers: headers };
@@ -46,20 +77,20 @@ export function isNodeAliveAndConnectedToHost(url, auth, host, log) {
     const statusGetPeerInfo = resultGetPeerInfo.statusCode;
     chai.assert.equal(200, statusGetPeerInfo);
     chai.expect(resultGetPeerInfo.data.result).to.have.lengthOf(1);
-    if(log) logBlockchain('resultGetPeerInfo:',resultGetPeerInfo);
+    if(log) testLogging('resultGetPeerInfo:',resultGetPeerInfo);
 }
 
 export function importPrivKey(url, auth, privKey, rescan, log) {
-        if(log) logBlockchain('importPrivKey called','');
+        if(log) testLogging('importPrivKey called','');
         const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": [privKey] };
         const realdata_importprivkey = { auth: auth, data: data_importprivkey, headers: headers };
         const result = getHttpPOST(url, realdata_importprivkey);
-        if(log) logBlockchain('result:',result);
+        if(log) testLogging('result:',result);
 }
 
 export function getNewAddress(url, auth, log) {
 
-    if(log) logBlockchain('getNewAddress called');
+    if(log) testLogging('getNewAddress called');
     const dataGetNewAddress = {"jsonrpc": "1.0", "id":"getnewaddress", "method": "getnewaddress", "params": [] };
     const realdataGetNewAddress = { auth: auth, data: dataGetNewAddress, headers: headers };
     const resultGetNewAddress = getHttpPOST(url, realdataGetNewAddress);
@@ -68,7 +99,7 @@ export function getNewAddress(url, auth, log) {
     chai.assert.equal(200, statusOptInGetNewAddress);
     chai.expect(resultGetNewAddress.data.error).to.be.null;
     chai.expect(newAddress).to.not.be.null;
-    if(log) logBlockchain(newAddress);
+    if(log) testLogging(newAddress);
     return newAddress;
 }
 
@@ -78,7 +109,7 @@ export function generatetoaddress(url,auth,toaddress,amount,log){
     const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
     const resultGenerate = getHttpPOST(url, realdataGenerate);
     const statusResultGenerate = resultGenerate.statusCode;
-    if(log)logBlockchain('statusResultGenerate:',statusResultGenerate);
+    if(log)testLogging('statusResultGenerate:',statusResultGenerate);
     chai.assert.equal(200, statusResultGenerate);
     chai.expect(resultGenerate.data.error).to.be.null;
     chai.expect(resultGenerate.data.result).to.not.be.null;
@@ -88,14 +119,14 @@ export function getBalance(url,auth,log){
     const dataGetBalance = {"jsonrpc": "1.0", "id":"getbalance", "method": "getbalance", "params": [] };
     const realdataGetBalance = { auth: auth, data: dataGetBalance, headers: headers };
     const resultGetBalance = getHttpPOST(url, realdataGetBalance);
-    if(log)logBlockchain('resultGetBalance:',resultGetBalance);
+    if(log)testLogging('resultGetBalance:',resultGetBalance);
     return resultGetBalance.data.result;
 }
 
 function get_container_id_of_name(name,callback) {
     exec('sudo docker ps --filter "name='+name+'" | cut -f1 -d" " | sed \'1d\'', (e, stdout, stderr)=> {
         if(e!=null){
-            logBlockchain('cannot find '+name+' node '+stdout,stderr);
+            testLogging('cannot find '+name+' node '+stdout,stderr);
             return null;
         }
         const bobsContainerId = stdout.toString().trim(); //.substring(0,stdout.toString().length-1); //remove last char since ins a line break
@@ -105,15 +136,20 @@ function get_container_id_of_name(name,callback) {
 
 function stop_docker_bob(callback) {
     const bobsContainerId = getContainerIdOfName('bob');
-    logBlockchain('stopping Bob with container-id: '+bobsContainerId);
-    exec('sudo docker stop '+bobsContainerId, (e, stdout, stderr)=> {
-        callback(stderr, bobsContainerId);
-    });
+    testLogging('stopping Bob with container-id: '+bobsContainerId);
+    try{
+        exec('sudo docker stop '+bobsContainerId, (e, stdout, stderr)=> {
+            testLogging('stopping Bob with container-id: ',{stdout:stdout,stderr:stderr});
+            callback(null, bobsContainerId);
+        });
+    }catch (e) {
+        testLogging('couldnt stop bobs node',e);
+    }
 }
 
 function doichain_add_node(containerId,callback) {
     exec('sudo docker exec '+containerId+' doichain-cli addnode alice onetry', (e, stdout, stderr)=> {
-        logBlockchain('bob '+containerId+' connected? ',{stdout:stdout,stderr:stderr});
+        testLogging('bob '+containerId+' connected? ',{stdout:stdout,stderr:stderr});
         callback(stderr, stdout);
     });
 }
@@ -121,21 +157,21 @@ function doichain_add_node(containerId,callback) {
 function get_docker_status(containerId,callback) {
     logBlockchain('bob '+containerId+' running? ');
     exec('sudo docker exec '+containerId+' doichain-cli -getinfo', (e, stdout, stderr)=> {
-        logBlockchain('bob '+containerId+' status: ',{stdout:stdout,stderr:stderr});
+        testLogging('bob '+containerId+' status: ',{stdout:stdout,stderr:stderr});
         callback(stderr, stdout);
     });
 }
 
 function start_docker_bob(bobsContainerId,callback) {
     exec('sudo docker start '+bobsContainerId, (e, stdout, stderr)=> {
-        logBlockchain('started bobs node again: '+bobsContainerId,{stdout:stdout,stderr:stderr});
+        testLogging('started bobs node again: '+bobsContainerId,{stdout:stdout,stderr:stderr});
         callback(stderr, stdout.toString().trim()); //remove line break from the end
     });
 }
 
 function connect_docker_bob(bobsContainerId, callback) {
     exec('sudo docker exec '+bobsContainerId+' doichaind -regtest -daemon -reindex -addnode=alice', (e, stdout, stderr)=> {
-        logBlockchain('restarting doichaind on bobs node and connecting with alice: ',{stdout:stdout,stderr:stderr});
+        testLogging('restarting doichaind on bobs node and connecting with alice: ',{stdout:stdout,stderr:stderr});
         callback(stderr, stdout);
     });
 }
@@ -144,7 +180,7 @@ function start_3rd_node(callback) {
 
     exec('sudo docker network ls |grep doichain | cut -f9 -d" "', (e, stdout, stderr)=> {
         const network = stdout.toString().substring(0,stdout.toString().length-1);
-        logBlockchain('connecting 3rd node to docker network: '+network);
+        testLogging('connecting 3rd node to docker network: '+network);
         exec('sudo docker run --expose=18332 ' +
             '-e REGTEST=true ' +
             '-e DOICHAIN_VER=0.16.3.1 ' +
@@ -160,6 +196,11 @@ function start_3rd_node(callback) {
             callback(stderr, stdout);
         });
     });
+}
+
+export function waitToStartContainer(containerId) {
+    const syncFunc = Meteor.wrapAsync(wait_to_start_container);
+    return syncFunc(containerId);
 }
 
 export function deleteOptInsFromAliceAndBob() {

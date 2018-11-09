@@ -79,7 +79,7 @@ const update = (data, job) => {
     }
 
     const response = getHttpPUT(url, updateData);
-    logConfirm('informed send dApp about confirmed doi on url:'+url+' with updateData'+JSON.stringify(updateData)+" response:",response);
+    logConfirm('informed send dApp about confirmed doi on url:'+url+' with updateData'+JSON.stringify(updateData)+" response:",response.data);
     job.done();
   } catch(exception) {
     throw new Meteor.Error('doichain.update.exception', exception);

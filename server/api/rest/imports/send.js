@@ -28,7 +28,7 @@ Api.addRoute(DOI_CONFIRMATION_NOTIFY_ROUTE, {
           params["ownerId"] = uid;
       }
 
-      logSend('params:',params);
+      logSend('parameter received from browser:',params);
       if(params.sender_mail.constructor === Array){ //this is a SOI with co-sponsors first email is main sponsor
           return prepareCoDOI(params);
       }else{
@@ -64,9 +64,9 @@ Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
     action: function() {
       const params = this.queryParams;
       try {
-          logSend('rest api - DOI_FETCH_ROUTE called',JSON.stringify(params));
+          logSend('rest api - DOI_FETCH_ROUTE called by bob to request email template',JSON.stringify(params));
           const data = getDoiMailData(params);
-          logSend('got doi mail data',{subject:data.subject, recipient:data.recipient});
+          logSend('got doi-mail-data (including templalte) returning to bob',{subject:data.subject, recipient:data.recipient});
         return {status: 'success', data};
       } catch(error) {
         logError('error while getting DoiMailData',error);

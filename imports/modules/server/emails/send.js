@@ -30,7 +30,7 @@ const sendMail = (mail) => {
     mail.from = DOI_MAIL_DEFAULT_EMAIL_FROM;
 
     const ourMail = mail;
-    logConfirm('sending email with data:',mail);
+    logConfirm('sending email with data:',{to:mail.to, subject:mail.subject});
     SendMailSchema.validate(ourMail);
     //TODO: Text fallback
     Email.send({

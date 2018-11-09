@@ -1,13 +1,8 @@
 import {chai} from 'meteor/practicalmeteor:chai';
-
-import {generatetoaddress} from "./test-api/test-api-on-node";
 import {
-   fetchConfirmLinkFromPop3Mail,
     getNameIdOfOptIn,
     login,
-    confirmLink,
     requestDOI,
-    verifyDOI,
     createUser,
     findUser,
     findOptIn,
@@ -17,26 +12,22 @@ import {
     requestConfirmVerifyBasicDoi,
     
 } from "./test-api/test-api-on-dapp";
-import {logBlockchain} from "../imports/startup/server/log-configuration";
-
 const node_url_alice = 'http://172.20.0.6:18332/';
-const rpcAuth = "admin:generated-password";
 const dappUrlAlice = "http://localhost:3000";
 const dappUrlBob = "http://172.20.0.8:4000";
 const dAppLogin = {"username":"admin","password":"password"};
-const log = true;
 const rpcAuthAlice = "admin:generated-password";
 const templateUrlA="http://172.20.0.8:4000/templates/emails/doichain-anmeldung-final-DE.html";
 const templateUrlB="http://172.20.0.8:4000/templates/emails/doichain-anmeldung-final-EN.html";
 const aliceALogin = {"username":"alice-a","password":"password"};
 const coDoiList = ["alice1@doichain-ci.com","alice2@doichain-ci.com","alice3@doichain-ci.com"];
 
-describe('basic-doi-test-flo', function () {
+xdescribe('basic-doi-test-flo', function () {
     this.timeout(300000);
 
        it('should test if Doichain workflow is using different templates for different users', function (done) {
            
-            resetUsers();
+           resetUsers();
            
            const recipient_mail = "bob@ci-doichain.org"; //
            const sender_mail_alice_a  = "alice-a@ci-doichain.org";
@@ -70,26 +61,21 @@ describe('basic-doi-test-flo', function () {
        });
 
        it('should test if admin can update user profiles',function(){
-        
-        resetUsers();
-       
-       let logAdmin = login(dappUrlAlice,dAppLogin,true);
-       const userUp = createUser(dappUrlAlice,logAdmin,"updateUser",templateUrlA,true);
-       const changedData = updateUser(dappUrlAlice,logAdmin,userUp,{"templateURL":templateUrlB},true);
-       chai.expect(changedData).not.undefined;
-       
+           resetUsers();
+           let logAdmin = login(dappUrlAlice,dAppLogin,true);
+           const userUp = createUser(dappUrlAlice,logAdmin,"updateUser",templateUrlA,true);
+           const changedData = updateUser(dappUrlAlice,logAdmin,userUp,{"templateURL":templateUrlB},true);
+           chai.expect(changedData).not.undefined;
         });
 
        it('should test if user can update own profile',function(){
-        
-            resetUsers();
-           
+
+           resetUsers();
            let logAdmin = login(dappUrlAlice,dAppLogin,true);
            const userUp = createUser(dappUrlAlice,logAdmin,"updateUser",templateUrlA,true);
            const logUserUp = login(dappUrlAlice,{"username":"updateUser","password":"password"},true);
            const changedData = updateUser(dappUrlAlice,logUserUp,userUp,{"templateURL":templateUrlB},true);
            chai.expect(changedData).not.undefined;
-           
        });
 
        it('should test if coDoi works',function(){

@@ -2,7 +2,7 @@ import {doichainAddNode, getDockerStatus, startDockerBob, stopDockerBob} from ".
 import {chai} from 'meteor/practicalmeteor:chai';
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 
-describe('basic-disabled-doi-test-nico', function () {
+xdescribe('basic-doi-test-nico', function () {
     this.timeout(600000);
 
     it('should safely stop and start bobs doichain node container', function (done) {

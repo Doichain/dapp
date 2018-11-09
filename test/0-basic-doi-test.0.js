@@ -7,10 +7,6 @@ import {
     isNodeAliveAndConnectedToHost
 } from "./test-api/test-api-on-node";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
-import {OptIns} from "../imports/api/opt-ins/opt-ins";
-import {Recipients} from "../imports/api/recipients/recipients";
-import {Senders} from "../imports/api/senders/senders";
-
 
 const node_url_alice = 'http://172.20.0.6:18332/';
 const node_url_bob =   'http://172.20.0.7:18332/';
@@ -20,7 +16,7 @@ const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 const log = true;
 
 describe('basic-doi-test', function () {
-
+    this.timeout(0);
     before(function(){
         logBlockchain("removing OptIns,Recipients,Senders");
         deleteOptInsFromAliceAndBob();

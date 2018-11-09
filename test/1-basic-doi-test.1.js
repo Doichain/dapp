@@ -8,7 +8,6 @@ import {
     requestConfirmVerifyBasicDoi, resetUsers, requestDOI, updateUser
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
-import {deleteOptInsFromAliceAndBob} from "./test-api/test-api-on-node";
 
 const node_url_alice = 'http://172.20.0.6:18332/';
 const rpcAuthAlice = "admin:generated-password";
@@ -25,7 +24,6 @@ describe('basic-doi-test', function () {
 
     before(function(){
         logBlockchain("removing OptIns,Recipients,Senders");
-        deleteOptInsFromAliceAndBob();
     });
 
     it('should test if basic Doichain workflow is working with optional data', function (done) {
@@ -80,7 +78,6 @@ describe('basic-doi-test', function () {
         const userUp = createUser(dappUrlAlice,logAdmin,"updateUser",templateUrlA,true);
         const changedData = updateUser(dappUrlAlice,logAdmin,userUp,{"templateURL":templateUrlB},true);
         chai.expect(changedData).not.undefined;
-
     });
 
     it('should test if user can update own profile',function(){
@@ -90,6 +87,5 @@ describe('basic-doi-test', function () {
         const logUserUp = login(dappUrlAlice,{"username":"updateUser","password":"password"},true);
         const changedData = updateUser(dappUrlAlice,logUserUp,userUp,{"templateURL":templateUrlB},true);
         chai.expect(changedData).not.undefined;
-
     });
 });
