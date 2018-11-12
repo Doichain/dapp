@@ -42,7 +42,7 @@ describe('basic-doi-test', function () {
         isNodeAliveAndConnectedToHost(node_url_bob, rpcAuth, 'alice', false);
         importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, false);
         global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, false);
-        generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 110);  //110 blocks to new address! 110 blöcke *25 coins
+        generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 210);  //110 blocks to new address! 110 blöcke *25 coins
         const aliceBalance = getBalance(node_url_alice, rpcAuth, log);
         chai.assert.isAbove(aliceBalance, 0, 'no funding! ');
         done();
