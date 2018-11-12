@@ -75,61 +75,87 @@ export function requestDOI(url, auth, recipient_mail, sender_mail, data,  log) {
     return resultOptIn.data;
 }
 
-export function getNameIdOfRawTransaction(url, auth, txId){
-    let nameId;
-    let running = true;
-    let counter = 0;
-
-    while(running && ++counter<1500){ //trying 50x to get email from bobs mailbox
-        var end = Date.now() + 5000
-        while (Date.now() < end) ;
-            try{
-                testLogging('trying to get transaction',txId);
-                const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
-                const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headers };
-                const resultGetRawTransaction = getHttpPOST(url, realdataGetRawTransaction);
-
-                if(resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp!==undefined){
-                    nameId = resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp.name;
-                }
-                else{
-                    nameId = resultGetRawTransaction.data.result.vout[0].scriptPubKey.nameOp.name;
-                }
-
-                if(resultGetRawTransaction.data.result.txid!==undefined){
-                    testLogging('confirmed txid:'+resultGetRawTransaction.data.result.txid);
-                    running=false;
-                }
-                //chai.assert.equal(txId, resultGetRawTransaction.data.result.txid);
-            }catch(ex) {
-                testLogging('no transaction - so far:'+counter, ex);
-            }
-    }
-    return nameId;
-
+export function getNameIdOfRawTransaction(url, auth, txId) {
+    testLogging('pre-start of getNameIdOfRawTransaction',txId);
+    const syncFunc = Meteor.wrapAsync(get_nameid_of_raw_transaction);
+    return syncFunc(url, auth, txId);
 }
 
-export function getNameIdOfOptInFromRawTx(url, auth, optInId, log){
+function get_nameid_of_raw_transaction(url, auth, txId, callback){
+
+    let nameId = '';
+    let running = true;
+    let counter = 0;
+    testLogging('start getNameIdOfRawTransaction',txId);
+    (async function loop() {
+        while(running && ++counter<1500){ //trying 50x to get email from bobs mailbox
+            try{
+                    testLogging('trying to get transaction',txId);
+                    const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
+                    const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headers };
+                    const resultGetRawTransaction = getHttpPOST(url, realdataGetRawTransaction);
+
+                    if(resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp!==undefined){
+                        nameId = resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp.name;
+                    }
+                    else{
+                        nameId = resultGetRawTransaction.data.result.vout[0].scriptPubKey.nameOp.name;
+                    }
+
+                    if(resultGetRawTransaction.data.result.txid!==undefined){
+                        testLogging('confirmed txid:'+resultGetRawTransaction.data.result.txid);
+                        running=false;
+                    }
+                    //chai.assert.equal(txId, resultGetRawTransaction.data.result.txid);
+            }catch(ex){
+                testLogging('trying to get email - so far no success:',counter);
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
+        }
+        testLogging('end of getNameIdOfRawTransaction returning nameId',nameId);
+        callback(null,nameId);
+    })();
+}
+
+export function getNameIdOfOptInFromRawTx(url, auth, optInId,log) {
+    const syncFunc = Meteor.wrapAsync(get_nameid_of_optin_from_rawtx);
+    return syncFunc(url, auth, optInId,log);
+}
+
+
+export function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback){
     testLogging('step 2 - getting nameId of raw transaction from blockchain');
     if(log) testLogging('the txId will be added a bit later as soon as the schedule picks up the job and inserts it into the blockchain. it does not happen immediately. waiting...');
     let running = true;
     let counter = 0;
-    let our_optIn;
-    while(running && ++counter<1500) { //trying 50x to get email from bobs mailbox
-        var end = Date.now() + 5000
-        while (Date.now() < end) ;
-        our_optIn = OptIns.findOne({_id: optInId});
-        if(our_optIn.txId!==undefined) running = false;
-    }
-    chai.assert.equal(our_optIn._id,optInId);
+    let our_optIn = null;
+    testLogging('before async loop');
+    (async function loop() {
+        while(running && ++counter<50){ //trying 50x to get opt-in
 
-    if(log) testLogging('optIn:',our_optIn);
-    const nameId = getNameIdOfRawTransaction(url,auth,our_optIn.txId);
-    chai.assert.equal("e/"+our_optIn.nameId, nameId);
+            testLogging('find opt-In',optInId);
+            our_optIn = OptIns.findOne({_id: optInId});
+            if(our_optIn.txId!==undefined){
+                testLogging('found txId of opt-In',our_optIn.txId);
+                running = false;
+            }
+            else{
+                testLogging('did not find txId yet for opt-In-Id',our_optIn._id);
+            }
 
-    if(log) testLogging('nameId:',nameId);
-    chai.expect(nameId).to.not.be.null;
-    return nameId;
+            await new Promise(resolve => setTimeout(resolve, 3000));
+        }
+        testLogging('after async loop');
+        chai.assert.equal(our_optIn._id,optInId);
+
+        if(log) testLogging('optIn:',our_optIn);
+        const nameId = getNameIdOfRawTransaction(url,auth,our_optIn.txId);
+        chai.assert.equal("e/"+our_optIn.nameId, nameId);
+
+        if(log) testLogging('nameId:',nameId);
+        chai.expect(nameId).to.not.be.null;
+        callback(null,nameId);
+    })();
 }
 
 export function fetchConfirmLinkFromPop3Mail(hostname,port,username,password,alicedapp_url,log) {
@@ -268,7 +294,6 @@ function delete_all_emails_from_pop3(hostname,port,username,password,log,callbac
                                    }
                                 });
                             }
-
                         }
                         else{
                             const err = "empty mailbox";
@@ -301,13 +326,23 @@ export function confirmLink(confirmLink){
     chai.expect(doiConfirmlinkResult.content).to.have.string('Vielen Dank für Ihre Anmeldung');
     chai.expect(doiConfirmlinkResult.content).to.have.string('Ihre Anmeldung war erfolgreich.');
     chai.assert.equal(200, doiConfirmlinkResult.statusCode);
+    return true;
 }
 
-export function verifyDOI(dAppUrl, sender_mail, recipient_mail,nameId, auth, log ){
+export function verifyDOI(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log ){
+    const syncFunc = Meteor.wrapAsync(verify_doi);
+    return syncFunc(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log );
+}
+
+
+function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log, callback){
+    testLogging('verify_doi called...');
+
     const urlVerify = dAppUrl+'/api/v1/opt-in/verify';
     const recipient_public_key = Recipients.findOne({email: recipient_mail}).publicKey;
-    let resultVerify;
-    let statusVerify;
+    let resultVerify ={};
+    let statusVerify ={};
+
     const dataVerify = {
         recipient_mail: recipient_mail,
         sender_mail: sender_mail,
@@ -317,31 +352,32 @@ export function verifyDOI(dAppUrl, sender_mail, recipient_mail,nameId, auth, log
 
     const headersVerify = {
         'Content-Type':'application/json',
-        'X-User-Id':auth.userId,
-        'X-Auth-Token':auth.authToken
+        'X-User-Id':dAppUrlAuth.userId,
+        'X-Auth-Token':dAppUrlAuth.authToken
     };
     let running = true;
     let counter = 0;
 
-    while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
-        try{
-            if(log) testLogging('Step 5: verifying opt-in:', {auth:auth, data:dataVerify,url:urlVerify});
-            const realdataVerify = { data: dataVerify, headers: headersVerify };
-            resultVerify = getHttpGETdata(urlVerify, realdataVerify);
-            if(log) testLogging('result /opt-in/verify:',{status:resultVerify.data.status,val:resultVerify.data.data.val} );
-            statusVerify = resultVerify.statusCode;
-            if(resultVerify.data.data.val===true) running = false;
+    (async function loop() {
+        while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
+            try{
+                testLogging('Step 5: verifying opt-in:', {data:dataVerify});
+                const realdataVerify = { data: dataVerify, headers: headersVerify };
+                resultVerify = getHttpGETdata(urlVerify, realdataVerify);
+                testLogging('result /opt-in/verify:',{status:resultVerify.data.status,val:resultVerify.data.data.val} );
+                statusVerify = resultVerify.statusCode;
+                if(resultVerify.data.data.val===true) running = false;
 
-            let end = Date.now() + 5000;
-            while (Date.now() < end) ;
-        }catch(ex) {
-            testLogging('trying to verify opt-in - so far no success:',resultVerify.data.data.val);
-            let end = Date.now() + 5000;
-            while (Date.now() < end) ;
+            }catch(ex) {
+                testLogging('trying to verify opt-in - so far no success:',ex);
+                generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
         }
-    }
-    chai.assert.equal(200, statusVerify);
-    chai.assert.equal(true, resultVerify.data.data.val);
+        chai.assert.equal(200, statusVerify);
+        chai.assert.equal(true, resultVerify.data.data.val);
+        callback(null,true);
+    })();
 }
 
 export function createUser(url,auth,username,templateURL,log){
@@ -415,50 +451,26 @@ function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAl
     generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
     let running = true;
     let counter = 0;
-    while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
-        try{
-            testLogging('step 3: getting email!');
-            const link2Confirm = fetchConfirmLinkFromPop3Mail("mail", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
-            testLogging('step 4: confirming link',link2Confirm);
-            if(link2Confirm!=null) running=false;
-            confirmLink(link2Confirm);
-            testLogging('confirmed');
-        }catch(ex){
-            testLogging('trying to get email - so far no success:',ex);
-            var end = Date.now() + 5000;
-            while (Date.now() < end) ;
+    (async function loop() {
+        while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
+            try{
+                testLogging('step 3: getting email!');
+                const link2Confirm = fetchConfirmLinkFromPop3Mail("mail", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
+                testLogging('step 4: confirming link',link2Confirm);
+                if(link2Confirm!=null) running=false;
+                confirmLink(link2Confirm);
+                testLogging('confirmed')
+            }catch(ex){
+                testLogging('trying to get email - so far no success:',ex);
+                await new Promise(resolve => setTimeout(resolve, 3000));
+            }
         }
-    }
-    generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
-    verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
-
-    /*generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
-    const resultDataOptIn = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, optionalData, false);
-    if (log) testLogging('waiting seconds before get NameIdOfOptIn', 10);
-    setTimeout(Meteor.bindEnvironment(function () {
-
-        const nameId = getNameIdOfOptInFromRawTx(node_url_alice, rpcAuthAlice, resultDataOptIn.data.id, true);
-        if (log) testLogging('waiting seconds before fetching email:', 35);
-        setTimeout(Meteor.bindEnvironment(function () {
-
-            const link2Confirm = fetchConfirmLinkFromPop3Mail("mail", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
-            confirmLink(link2Confirm);
-            generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
-
-            if (log) testLogging('waiting 10 seconds to update blockchain before generating another block:',20);
-            Meteor.setTimeout(function () {
-                generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
-                if (log) testLogging('waiting seconds before verifying DOI on alice:',15);
-                Meteor.setTimeout(function () {
-                    generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
-                    Meteor.setTimeout(function () {
-                        verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
-                        callback(null, {optIn: resultDataOptIn, nameId: nameId});
-                    }, 15000);
-                }, 15000); //verify
-            }, 15000); //generatetoaddress
-        }), 35000); //connect to pop3
-    }), 10000); //find transaction on bob's node - even the block is not confirmed yet*/
+        generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
+        testLogging('before verification');
+        verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, nameId, true); //need to generate two blocks to make block visible on alice
+        testLogging('after verification');
+        callback(null, {optIn: resultDataOptIn, nameId: nameId});
+    })();
 }
 
 //export function updateUser(url,auth,updateId,templateURL,log){

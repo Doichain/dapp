@@ -1,6 +1,5 @@
 import {chai} from 'meteor/practicalmeteor:chai';
 import {
-    getNameIdOfOptIn,
     login,
     requestDOI,
     createUser,

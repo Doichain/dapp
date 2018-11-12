@@ -28,7 +28,7 @@ const dappUrlBob = "http://172.20.0.8:4000";
 const dAppLogin = {"username":"admin","password":"password"};
 const log = true;
 
-describe('basic-doi-test-with-offline-node', function () {
+xdescribe('basic-doi-test-with-offline-node', function () {
 
     before(function(){
         deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password,true);
@@ -83,7 +83,7 @@ describe('basic-doi-test-with-offline-node', function () {
             }
         }
         generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, true);
-        verifyDOI(dappUrlAlice, sender_mail, recipient_mail, nameId, dataLoginAlice, log); //need to generate two blocks to make block visible on alice
+        verifyDOI(dappUrlAlice, dataLoginAlice, sender_mail, recipient_mail, nameId, log); //need to generate two blocks to make block visible on alice
 
         done();
     }); //it

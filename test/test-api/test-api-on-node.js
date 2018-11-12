@@ -198,6 +198,13 @@ function start_3rd_node(callback) {
     });
 }
 
+function run_and_wait(runfunction,seconds, callback){
+    Meteor.setTimeout(function () {
+        runfunction();
+        callback(null,true);
+    }, seconds+1000);
+}
+
 export function waitToStartContainer(containerId) {
     const syncFunc = Meteor.wrapAsync(wait_to_start_container);
     return syncFunc(containerId);
@@ -235,4 +242,9 @@ export function getDockerStatus(containerId) {
 export function connectDockerBob(containerId) {
     const syncFunc = Meteor.wrapAsync(connect_docker_bob);
     return syncFunc(containerId);
+}
+
+export function runAndWait(runfunction, seconds) {
+    const syncFunc = Meteor.wrapAsync(run_and_wait);
+    return syncFunc(seconds);
 }
