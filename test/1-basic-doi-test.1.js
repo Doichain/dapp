@@ -19,7 +19,7 @@ const templateUrlA="http://templateUrlB.com";
 const templateUrlB="http://templateUrlB.com";
 const aliceALogin = {"username":"alice-a","password":"password"};
 
-xdescribe('basic-doi-test', function () {
+describe('basic-doi-test', function () {
     this.timeout(0);
 
     before(function(){

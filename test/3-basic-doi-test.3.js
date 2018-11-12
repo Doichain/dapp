@@ -5,7 +5,7 @@ import {
     requestConfirmVerifyBasicDoi, requestDOI
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
-import {getNewAddress} from "./test-api/test-api-on-node";
+import {generatetoaddress, getNewAddress} from "./test-api/test-api-on-node";
 
 const node_url_alice = 'http://172.20.0.6:18332/';
 const rpcAuthAlice = "admin:generated-password";
@@ -37,16 +37,31 @@ describe('basic-doi-test', function () {
         done();
     });
 
-    it('should test if basic Doichain workflow running 5 times without confirmation and verification', function (done) {
+    it('should test if basic Doichain workflow running 1000 times without confirmation and verification', function (done) {
         this.timeout(0);
 
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
         global.aliceAddress = getNewAddress(node_url_alice, rpcAuthAlice, false);
-        for(let i=0;i<1000;i++){
+        for(let i=0;i<100;i++){
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail  = "alice_"+i+"@ci-doichain.org";
             const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,null,true);
             chai.expect(findOptIn(resultDataOptIn.data.id,true)).to.not.be.undefined;
+        }
+        done();
+    });
+
+    it('should test if basic Doichain workflow running 50 times with without confirmation and verification', function (done) {
+        this.timeout(0);
+
+        const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
+        global.aliceAddress = getNewAddress(node_url_alice, rpcAuthAlice, false);
+        for(let i=0;i<100;i++){
+            const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+            const sender_mail  = "alice_"+i+"@ci-doichain.org";
+            const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,null,true);
+            chai.expect(findOptIn(resultDataOptIn.data.id,true)).to.not.be.undefined;
+            if(i%100===0)  generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
         }
         done();
     });
