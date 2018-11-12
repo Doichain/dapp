@@ -23,7 +23,7 @@ describe('basic-doi-test', function () {
         deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password,true);
     });
 
-    it('should test if basic Doichain workflow running 5 times', function (done) {
+    xit('should test if basic Doichain workflow running 5 times', function (done) {
         this.timeout(0);
 
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp

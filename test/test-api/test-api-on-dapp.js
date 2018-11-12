@@ -129,7 +129,7 @@ export function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback
     let running = true;
     let counter = 0;
     let our_optIn = null;
-    testLogging('before async loop');
+
     (async function loop() {
         while(running && ++counter<50){ //trying 50x to get opt-in
 
@@ -145,7 +145,7 @@ export function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback
 
             await new Promise(resolve => setTimeout(resolve, 3000));
         }
-        testLogging('after async loop');
+
         chai.assert.equal(our_optIn._id,optInId);
 
         if(log) testLogging('optIn:',our_optIn);

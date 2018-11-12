@@ -19,7 +19,7 @@ const templateUrlA="http://templateUrlB.com";
 const templateUrlB="http://templateUrlB.com";
 const aliceALogin = {"username":"alice-a","password":"password"};
 
-xdescribe('basic-doi-test', function () {
+describe('basic-doi-test', function () {
     this.timeout(0);
 
     before(function(){
@@ -43,16 +43,21 @@ xdescribe('basic-doi-test', function () {
         done();
     });
 
-    xit('should test if Doichain workflow is using different templates for different users', function (done) {
+    it('should create two more users', function (done) {
         resetUsers();
-        const recipient_mail = "bob@ci-doichain.org"; //
-        const sender_mail_alice_a  = "alice-a@ci-doichain.org";
         const logAdmin = login(dappUrlAlice,dAppLogin,false);
         let userA = createUser(dappUrlAlice,logAdmin,"alice-a",templateUrlA,true);
         chai.expect(findUser(userA)).to.not.be.undefined;
         let userB = createUser(dappUrlAlice,logAdmin,"alice-b",templateUrlB,true);
         chai.expect(findUser(userB)).to.not.be.undefined;
 
+        done();
+    });
+
+    xit('should test if Doichain workflow is using different templates for different users', function (done) {
+        resetUsers();
+        const recipient_mail = "bob@ci-doichain.org"; //
+        const sender_mail_alice_a  = "alice-a@ci-doichain.org";
         const logUserA = login(dappUrlAlice,aliceALogin,true);
         const resultDataOptIn = requestDOI(dappUrlAlice,logUserA,recipient_mail,sender_mail_alice_a,null,true);
         chai.expect(findOptIn(resultDataOptIn.data.id,true)).to.not.be.undefined;
