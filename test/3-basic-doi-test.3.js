@@ -1,7 +1,8 @@
+import {chai} from 'meteor/practicalmeteor:chai';
 import {
-    deleteAllEmailsFromPop3,
+    deleteAllEmailsFromPop3, findOptIn,
     login,
-    requestConfirmVerifyBasicDoi
+    requestConfirmVerifyBasicDoi, requestDOI
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 import {getNewAddress} from "./test-api/test-api-on-node";
@@ -32,6 +33,20 @@ describe('basic-doi-test', function () {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail  = "alice_"+i+"@ci-doichain.org";
             requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,dataLoginAlice,dappUrlBob,recipient_mail,sender_mail,{'city':'Ekaterinburg_'+i},"bob@ci-doichain.org","bob",true);
+        }
+        done();
+    });
+
+    it('should test if basic Doichain workflow running 5 times without confirmation and verification', function (done) {
+        this.timeout(0);
+
+        const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
+        global.aliceAddress = getNewAddress(node_url_alice, rpcAuthAlice, false);
+        for(let i=0;i<1000;i++){
+            const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+            const sender_mail  = "alice_"+i+"@ci-doichain.org";
+            const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,null,true);
+            chai.expect(findOptIn(resultDataOptIn.data.id,true)).to.not.be.undefined;
         }
         done();
     });
