@@ -15,7 +15,7 @@ const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 
 const log = true;
 
-describe('basic-doi-test', function () {
+describe('basic-doi-test-0', function () {
     this.timeout(0);
     before(function(){
         logBlockchain("removing OptIns,Recipients,Senders");

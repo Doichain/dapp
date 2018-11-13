@@ -16,7 +16,7 @@ const dAppLogin = {"username":"admin","password":"password"};
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
 
-xdescribe('basic-doi-test', function () {
+describe('basic-doi-test-03', function () {
 
     before(function(){
         logBlockchain("removing OptIns,Recipients,Senders");
@@ -24,7 +24,7 @@ xdescribe('basic-doi-test', function () {
         deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password,true);
     });
 
-    xit('should test if basic Doichain workflow running 5 times', function (done) {
+    it('should test if basic Doichain workflow running 5 times', function (done) {
         this.timeout(0);
 
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
@@ -37,12 +37,12 @@ xdescribe('basic-doi-test', function () {
         done();
     });
 
-    it('should test if basic Doichain workflow running 1000 times without confirmation and verification', function (done) {
+    xit('should test if basic Doichain workflow running 1000 times without confirmation and verification', function (done) {
         this.timeout(0);
 
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
         global.aliceAddress = getNewAddress(node_url_alice, rpcAuthAlice, false);
-        for(let i=0;i<100;i++){
+        for(let i=0;i<20;i++){
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail  = "alice_"+i+"@ci-doichain.org";
             const resultDataOptIn = requestDOI(dappUrlAlice,dataLoginAlice,recipient_mail,sender_mail,null,true);
@@ -51,7 +51,7 @@ xdescribe('basic-doi-test', function () {
         done();
     });
 
-    it('should test if basic Doichain workflow running 50 times with without confirmation and verification', function (done) {
+    xit('should test if basic Doichain workflow running 50 times with without confirmation and verification', function (done) {
         this.timeout(0);
 
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp

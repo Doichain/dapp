@@ -28,7 +28,7 @@ const dappUrlBob = "http://172.20.0.8:4000";
 const dAppLogin = {"username":"admin","password":"password"};
 const log = true;
 
-describe('basic-doi-test-with-offline-node', function () {
+describe('basic-doi-test-with-offline-node-02', function () {
 
     before(function(){
         deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password,true);
