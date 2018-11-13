@@ -37,9 +37,9 @@ describe('basic-doi-test-03', function () {
         done();
     });
 
-    xit('should test if basic Doichain workflow running 1000 times without confirmation and verification', function (done) {
+    it('should test if basic Doichain workflow running 1000 times without confirmation and verification', function (done) {
         this.timeout(0);
-
+        deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password,true);
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
         global.aliceAddress = getNewAddress(node_url_alice, rpcAuthAlice, false);
         for(let i=0;i<20;i++){
@@ -51,9 +51,9 @@ describe('basic-doi-test-03', function () {
         done();
     });
 
-    xit('should test if basic Doichain workflow running 50 times with without confirmation and verification', function (done) {
+    it('should test if basic Doichain workflow running 50 times with without confirmation and verification', function (done) {
         this.timeout(0);
-
+        deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password,true);
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
         global.aliceAddress = getNewAddress(node_url_alice, rpcAuthAlice, false);
         for(let i=0;i<100;i++){
