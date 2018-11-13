@@ -16,7 +16,7 @@ const dAppLogin = {"username":"admin","password":"password"};
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
 
-describe('basic-doi-test', function () {
+xdescribe('basic-doi-test', function () {
 
     before(function(){
         logBlockchain("removing OptIns,Recipients,Senders");

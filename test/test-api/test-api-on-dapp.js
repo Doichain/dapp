@@ -336,7 +336,6 @@ export function verifyDOI(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
 
 
 function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log, callback){
-    testLogging('verify_doi called...');
 
     const urlVerify = dAppUrl+'/api/v1/opt-in/verify';
     const recipient_public_key = Recipients.findOne({email: recipient_mail}).publicKey;
