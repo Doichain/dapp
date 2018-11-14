@@ -9,7 +9,10 @@ import {
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 
-const node_url_alice = 'http://172.20.0.6:18332/';
+//const node_url_alice = 'http://172.20.0.6:18332/';
+const node_url_alice = 'http://le-space.de:18332/';
+const node_url_bob =   'http://explorer.doichain.org:18332/';
+
 const rpcAuthAlice = "admin:generated-password";
 const dappUrlAlice = "http://localhost:3000";
 const dappUrlBob = "http://172.20.0.8:4000";
@@ -54,7 +57,7 @@ describe('basic-doi-test-01', function () {
         done();
     });
 
-    xit('should test if Doichain workflow is using different templates for different users', function (done) {
+    it('should test if Doichain workflow is using different templates for different users', function (done) {
         resetUsers();
         const recipient_mail = "bob@ci-doichain.org"; //
         const sender_mail_alice_a  = "alice-a@ci-doichain.org";

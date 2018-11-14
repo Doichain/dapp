@@ -8,8 +8,12 @@ import {
 } from "./test-api/test-api-on-node";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 
-const node_url_alice = 'http://172.20.0.6:18332/';
-const node_url_bob =   'http://172.20.0.7:18332/';
+//const node_url_alice = 'http://172.20.0.6:18332/';
+//const node_url_bob =   'http://172.20.0.7:18332/';
+
+const node_url_alice = 'http://le-space.de:18332/';
+const node_url_bob =   'http://explorer.doichain.org:18332/';
+
 const rpcAuth = "admin:generated-password";
 const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 
