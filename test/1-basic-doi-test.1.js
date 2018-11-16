@@ -20,6 +20,8 @@ const dAppLogin = {"username":"admin","password":"password"};
 const templateUrlA="http://templateUrlB.com";
 const templateUrlB="http://templateUrlB.com";
 const aliceALogin = {"username":"alice-a","password":"password"};
+const recipient_pop3username = "bob@ci-doichain.org";
+const recipient_pop3password = "bob";
 
 describe('basic-doi-test-01', function () {
     this.timeout(0);
