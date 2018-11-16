@@ -60,7 +60,7 @@ describe('basic-doi-test-01', function () {
         done();
     });
 
-    it('should test if Doichain workflow is using different templates for different users', function (done) {
+    xit('should test if Doichain workflow is using different templates for different users', function (done) {
         const recipient_mail = "bob@ci-doichain.org"; //
         const sender_mail_alice_a  = "alice-a@ci-doichain.org";
         const logUserA = login(dappUrlAlice,aliceALogin,true);
@@ -69,7 +69,7 @@ describe('basic-doi-test-01', function () {
         done();
     });
 
-    it('should test if users can export OptIns ', function (done) {
+    xit('should test if users can export OptIns ', function (done) {
         const logAdmin = login(dappUrlAlice,dAppLogin,true);
         const logUserA = login(dappUrlAlice,aliceALogin,true);
         const exportedOptIns = exportOptIns(dappUrlAlice,logAdmin,true);
