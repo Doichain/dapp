@@ -5,11 +5,13 @@ import {
     findUser,
     findOptIn,
     exportOptIns,
-    requestConfirmVerifyBasicDoi, resetUsers, requestDOI, updateUser
+    requestConfirmVerifyBasicDoi, resetUsers, requestDOI, updateUser, deleteAllEmailsFromPop3
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
+import {deleteOptInsFromAliceAndBob} from "./test-api/test-api-on-node";
 
 const node_url_alice = 'http://172.20.0.6:18332/';
+
 const rpcAuthAlice = "admin:generated-password";
 const dappUrlAlice = "http://localhost:3000";
 const dappUrlBob = "http://172.20.0.8:4000";
@@ -18,12 +20,16 @@ const dAppLogin = {"username":"admin","password":"password"};
 const templateUrlA="http://templateUrlB.com";
 const templateUrlB="http://templateUrlB.com";
 const aliceALogin = {"username":"alice-a","password":"password"};
+const recipient_pop3username = "bob@ci-doichain.org";
+const recipient_pop3password = "bob";
 
 describe('basic-doi-test-01', function () {
     this.timeout(0);
 
     before(function(){
         logBlockchain("removing OptIns,Recipients,Senders");
+        deleteOptInsFromAliceAndBob();
+        deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password,true);
     });
 
     it('should test if basic Doichain workflow is working with optional data', function (done) {
@@ -54,8 +60,7 @@ describe('basic-doi-test-01', function () {
         done();
     });
 
-    xit('should test if Doichain workflow is using different templates for different users', function (done) {
-        resetUsers();
+    it('should test if Doichain workflow is using different templates for different users', function (done) {
         const recipient_mail = "bob@ci-doichain.org"; //
         const sender_mail_alice_a  = "alice-a@ci-doichain.org";
         const logUserA = login(dappUrlAlice,aliceALogin,true);

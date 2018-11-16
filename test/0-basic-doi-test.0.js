@@ -27,13 +27,13 @@ describe('basic-doi-test-0', function () {
         try{
             const aliceContainerId = getContainerIdOfName('alice');
             const statusDocker = JSON.parse(getDockerStatus(aliceContainerId));
-            logBlockchain("balance:"+statusDocker.balance);
+            logBlockchain("real balance :"+statusDocker.balance,(Number(statusDocker.balance)>0));
             logBlockchain("connections:"+statusDocker.connections);
-            if(statusDocker.balance>0){
-                logBlockchain("enough founding for alice - blockchain already connected");
-                global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, false);
-                done();
-                return;
+            if(Number(statusDocker.balance)>0){
+                    logBlockchain("enough founding for alice - blockchain already connected");
+                    global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, false);
+                    done();
+                    return;
             }
         }catch(exception) {
             logBlockchain("connecting blockchain and mining some coins");
