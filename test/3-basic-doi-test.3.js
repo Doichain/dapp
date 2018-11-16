@@ -16,7 +16,7 @@ const dAppLogin = {"username":"admin","password":"password"};
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
 
-xdescribe('basic-doi-test-03', function () {
+describe('basic-doi-test-03', function () {
 
     before(function(){
         logBlockchain("removing OptIns,Recipients,Senders");
@@ -37,7 +37,7 @@ xdescribe('basic-doi-test-03', function () {
         done();
     });
 
-    it('should test if basic Doichain workflow running 1000 times without confirmation and verification', function (done) {
+    it('should test if basic Doichain workflow running 20 times without confirmation and verification', function (done) {
         this.timeout(0);
         deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password,true);
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp
@@ -51,7 +51,7 @@ xdescribe('basic-doi-test-03', function () {
         done();
     });
 
-    it('should test if basic Doichain workflow running 50 times with without confirmation and verification', function (done) {
+    it('should test if basic Doichain workflow running 100 times with without confirmation and verification', function (done) {
         this.timeout(0);
         deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password,true);
         const dataLoginAlice = login(dappUrlAlice,dAppLogin,false); //log into dApp

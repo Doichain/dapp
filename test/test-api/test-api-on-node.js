@@ -37,7 +37,7 @@ function wait_to_start_container(startedContainerId,callback){
     callback(null, startedContainerId);
 }
 
-export function delete_optins_from_alice_and_bob(callback){
+function delete_options_from_alice_and_bob(callback){
     const containerId = getContainerIdOfName('mongo');
     exec('sudo docker cp /home/doichain/dapp/contrib/scripts/meteor/delete_collections.sh '+containerId+':/tmp/', (e, stdout, stderr)=> {
         testLogging('copied delete_collections into mongo docker container',{stderr:stderr,stdout:stdout});
@@ -67,17 +67,20 @@ export function isNodeAliveAndConnectedToHost(url, auth, host, log) {
     const dataGetNetworkInfo = {"jsonrpc": "1.0", "id":"addnode", "method": "addnode", "params": ['alice','onetry'] };
     const realdataGetNetworkInfo = { auth: auth, data: dataGetNetworkInfo, headers: headers };
     const resultGetNetworkInfo = getHttpPOST(url, realdataGetNetworkInfo);
-    const statusGetNetworkInfo = resultGetNetworkInfo.statusCode;
-    chai.assert.equal(200, statusGetNetworkInfo);
-    if(log) testLogging('resultGetNetworkInfo:',resultGetNetworkInfo);
+    const statusAddNode = resultGetNetworkInfo.statusCode;
+    if(log) testLogging('addnode:',statusAddNode);
+    chai.assert.equal(200, statusAddNode);
+
 
     const dataGetPeerInfo = {"jsonrpc": "1.0", "id":"getpeerinfo", "method": "getpeerinfo", "params": [] };
     const realdataGetPeerInfo = { auth: auth, data: dataGetPeerInfo, headers: headers };
     const resultGetPeerInfo = getHttpPOST(url, realdataGetPeerInfo);
     const statusGetPeerInfo = resultGetPeerInfo.statusCode;
-    chai.assert.equal(200, statusGetPeerInfo);
-    chai.expect(resultGetPeerInfo.data.result).to.have.lengthOf(1);
     if(log) testLogging('resultGetPeerInfo:',resultGetPeerInfo);
+    chai.assert.equal(200, statusGetPeerInfo);
+    chai.assert.isAbove(resultGetPeerInfo.data.result.length, 0, 'no connection to other nodes! ');
+    //chai.expect(resultGetPeerInfo.data.result).to.have.lengthOf.at.least(1);
+
 }
 
 export function importPrivKey(url, auth, privKey, rescan, log) {
@@ -211,7 +214,7 @@ export function waitToStartContainer(containerId) {
 }
 
 export function deleteOptInsFromAliceAndBob() {
-    const syncFunc = Meteor.wrapAsync(delete_optins_from_alice_and_bob);
+    const syncFunc = Meteor.wrapAsync(delete_options_from_alice_and_bob);
     return syncFunc();
 }
 

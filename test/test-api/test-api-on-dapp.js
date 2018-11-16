@@ -367,7 +367,7 @@ function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_m
                 if(resultVerify.data.data.val===true) running = false;
 
             }catch(ex) {
-                testLogging('trying to verify opt-in - so far no success:',ex);
+                testLogging('trying to verify opt-in - so far no success:');
                 generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
@@ -459,7 +459,7 @@ function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAl
                 confirmLink(link2Confirm);
                 testLogging('confirmed')
             }catch(ex){
-                testLogging('trying to get email - so far no success:',ex);
+                testLogging('trying to get email - so far no success:');
                 await new Promise(resolve => setTimeout(resolve, 3000));
             }
         }

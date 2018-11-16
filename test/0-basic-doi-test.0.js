@@ -8,12 +8,8 @@ import {
 } from "./test-api/test-api-on-node";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 
-//const node_url_alice = 'http://172.20.0.6:18332/';
-//const node_url_bob =   'http://172.20.0.7:18332/';
-
-const node_url_alice = 'http://le-space.de:18332/';
-const node_url_bob =   'http://explorer.doichain.org:18332/';
-
+const node_url_alice = 'http://172.20.0.6:18332/';
+const node_url_bob =   'http://172.20.0.7:18332/';
 const rpcAuth = "admin:generated-password";
 const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 
@@ -31,13 +27,13 @@ describe('basic-doi-test-0', function () {
         try{
             const aliceContainerId = getContainerIdOfName('alice');
             const statusDocker = JSON.parse(getDockerStatus(aliceContainerId));
-            logBlockchain("balance:"+statusDocker.balance);
+            logBlockchain("real balance :"+statusDocker.balance,(Number(statusDocker.balance)>0));
             logBlockchain("connections:"+statusDocker.connections);
-            if(statusDocker.balance>0){
-                logBlockchain("enough founding for alice - blockchain already connected");
-                global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, false);
-                done();
-                return;
+            if(Number(statusDocker.balance)>0){
+                    logBlockchain("enough founding for alice - blockchain already connected");
+                    global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, false);
+                    done();
+                    return;
             }
         }catch(exception) {
             logBlockchain("connecting blockchain and mining some coins");

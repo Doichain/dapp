@@ -19,8 +19,7 @@ import {
 } from "./test-api/test-api-on-node";
 const exec = require('child_process').exec;
 
-const node_url_alice = 'http://le-space.de:18332/';
-//const node_url_alice = 'http://172.20.0.6:18332/';
+const node_url_alice = 'http://172.20.0.6:18332/';
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
 
