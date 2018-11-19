@@ -150,8 +150,10 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
 
                                     //https://github.com/emailjs/emailjs-mime-codec
                                     const html  = quotedPrintableDecode(maildata);
+                                    chai.expect(html.indexOf(alicedapp_url)).to.not.equal(-1);
                                     const linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
                                     chai.expect(linkdata).to.not.be.null;
+                                    if(log && !(log===true))chai.expect(html.indexOf(log)).to.not.equal(-1);
                                     const requestData = {"linkdata":linkdata,"html":html}
                                     client.dele(msgnumber);
                                     client.on("dele", function(status, msgnumber, data, rawdata) {
@@ -241,7 +243,7 @@ export function createUser(url,auth,username,templateURL,log){
     }
     const mailTemplate = {
         "subject": "Hello i am "+username,
-        "redirect": "http://"+username+".com",
+        "redirect": "https://www.doichain.org/vielen-dank/",
         "returnPath":  username+"@email.com",
         "templateURL": templateURL
     }
@@ -280,7 +282,7 @@ export function exportOptIns(url,auth,log){
     const urlExport = url+'/api/v1/export';
     const realDataUser= {headers: headersUser};
     let res = getHttpGETdata(urlExport,realDataUser);
-    if(log) logBlockchain(res,log);
+    if(log) logBlockchain("Exporting dois: ",res);
     chai.assert.equal(200, res.statusCode);
     chai.assert.equal(res.data.status,"success");
     return res.data.data;
