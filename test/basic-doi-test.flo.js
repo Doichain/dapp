@@ -9,8 +9,11 @@ import {
     updateUser,
     resetUsers,
     requestConfirmVerifyBasicDoi,
+    deleteAllEmailsFromPop3,
     
 } from "./test-api/test-api-on-dapp";
+import { logBlockchain } from '../imports/startup/server/log-configuration';
+import { deleteOptInsFromAliceAndBob } from './test-api/test-api-on-node';
 const node_url_alice = 'http://172.20.0.6:18332/';
 const dappUrlAlice = "http://localhost:3000";
 const dappUrlBob = "http://172.20.0.8:4000";
@@ -19,46 +22,58 @@ const rpcAuthAlice = "admin:generated-password";
 const templateUrlA="http://172.20.0.8:4000/templates/emails/doichain-anmeldung-final-DE.html";
 const templateUrlB="http://172.20.0.8:4000/templates/emails/doichain-anmeldung-final-EN.html";
 const aliceALogin = {"username":"alice-a","password":"password"};
+const aliceBLogin = {"username":"alice-b","password":"password"};
 const coDoiList = ["alice1@doichain-ci.com","alice2@doichain-ci.com","alice3@doichain-ci.com"];
+const recipient_pop3username = "bob@ci-doichain.org";
+const recipient_pop3password = "bob";
 
-xdescribe('basic-doi-test-flo', function () {
+describe('basic-doi-test-flo', function () {
     this.timeout(300000);
+    before(function(){
+        logBlockchain("removing OptIns,Recipients,Senders");
+        deleteOptInsFromAliceAndBob();
+        deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password,true);
+    });
 
-       it('should test if Doichain workflow is using different templates for different users', function (done) {
+
+    it('should test if Doichain workflow is using different templates for different users', function (done) {
            
-           resetUsers();
-           
-           const recipient_mail = "bob@ci-doichain.org"; //
-           const sender_mail_alice_a  = "alice-a@ci-doichain.org";
+        resetUsers();
+       const recipient_mail = "bob@ci-doichain.org"; //
+       const sender_mail_alice_a  = "alice-a@ci-doichain.org";
+       const sender_mail_alice_b  = "alice-b@ci-doichain.org";
+       const logAdmin = login(dappUrlAlice,dAppLogin,false);
 
-           const logAdmin = login(dappUrlAlice,dAppLogin,false);
+       let userA = createUser(dappUrlAlice,logAdmin,"alice-a",templateUrlA,true);
+       chai.expect(findUser(userA)).to.not.be.undefined;
+       let userB = createUser(dappUrlAlice,logAdmin,"alice-b",templateUrlB,true);
+       chai.expect(findUser(userB)).to.not.be.undefined;
 
-           let userA = createUser(dappUrlAlice,logAdmin,"alice-a",templateUrlA,true);
-           chai.expect(findUser(userA)).to.not.be.undefined;
-           let userB = createUser(dappUrlAlice,logAdmin,"alice-b",templateUrlB,true);
-           chai.expect(findUser(userB)).to.not.be.undefined;
+       const logUserA = login(dappUrlAlice,aliceALogin,true);
+       const logUserB = login(dappUrlAlice,aliceBLogin,true);
+       requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,logUserA,dappUrlBob,recipient_mail,sender_mail_alice_a,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob","kostenlose Anmeldung");
+       requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,logUserB,dappUrlBob,recipient_mail,sender_mail_alice_b,{'city':'Simbach'},"bob@ci-doichain.org","bob","free registration");
 
-           const logUserA = login(dappUrlAlice,aliceALogin,true);
-           const resultDataOptIn = requestDOI(dappUrlAlice,logUserA,recipient_mail,sender_mail_alice_a,null,true);
-           chai.expect(findOptIn(resultDataOptIn.data.id,true)).to.not.be.undefined;
-           done();
-       });
+       done();
+   });
 
-       it('should test if users can export OptIns ', function (done) {
-           
+       it('should test if users can export OptIns ',function (done) {
+            const recipient_mail = "bob@ci-doichain.org"; //
+            const sender_mail_alice_a  = "alice-a@ci-doichain.org";
            const logAdmin = login(dappUrlAlice,dAppLogin,true);
            const logUserA = login(dappUrlAlice,aliceALogin,true);
+           requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,logUserA,dappUrlBob,recipient_mail,sender_mail_alice_a,{'city':'München'},"bob@ci-doichain.org","bob",true);
            const exportedOptIns = exportOptIns(dappUrlAlice,logAdmin,true);
            chai.expect(exportedOptIns).to.not.be.undefined;
-           //chai.expect(exportedOptIns[0]).to.not.be.undefined;
+           chai.expect(exportedOptIns[0]).to.not.be.undefined;
            const exportedOptInsA = exportOptIns(dappUrlAlice,logUserA,true);
-           for(let optIn in exportedOptInsA){
-               chai.expect(optIn.ownerId).to.be.equal(logUserA.userId);
-           }
+           exportedOptInsA.forEach(element => {
+            chai.expect(element.ownerId).to.be.equal(logUserA.userId);
+           });
            //chai.expect(findOptIn(resultDataOptIn._id)).to.not.be.undefined;
            done();
        });
-
+     
        it('should test if admin can update user profiles',function(){
            resetUsers();
            let logAdmin = login(dappUrlAlice,dAppLogin,true);
@@ -78,9 +93,10 @@ xdescribe('basic-doi-test-flo', function () {
        });
 
        it('should test if coDoi works',function(){
-        const rec = "bob@ci-doichain.org";
+        const recipient_mail = "bob@ci-doichain.org";
+        const sender_mail = coDoiList;
         let logAdmin = login(dappUrlAlice,dAppLogin,true);
-        const coDois = requestDOI(dappUrlAlice, logAdmin, rec, coDoiList,"" , true);
+        const coDois = requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,logAdmin,dappUrlBob,recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",true);
        });
 
        it('should find updated Data in email',function(done){

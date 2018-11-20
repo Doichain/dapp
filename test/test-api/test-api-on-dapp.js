@@ -60,7 +60,7 @@ export function requestDOI(url, auth, recipient_mail, sender_mail, data,  log) {
 
     //logBlockchain("resultOptIn",resultOptIn);
     chai.assert.equal(200, resultOptIn.statusCode);
-
+    testLogging("RETURNED VALUES: ",resultOptIn);
     if(Array.isArray(resultOptIn.data)){
         testLogging('adding coDOIs');
         resultOptIn.data.forEach(element => {
@@ -201,7 +201,9 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
 
                                     //https://github.com/emailjs/emailjs-mime-codec
                                     const html  = quotedPrintableDecode(maildata);
+                                    chai.expect(html.indexOf(alicedapp_url)).to.not.equal(-1);
                                     const linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
+                                    if(log && !(log===true))chai.expect(html.indexOf(log)).to.not.equal(-1);
 
                                     client.dele(msgnumber);
                                     client.on("dele", function(status, msgnumber, data, rawdata) {
@@ -335,14 +337,17 @@ export function verifyDOI(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
 }
 
 function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log, callback){
-
+    let our_recipient_mail =recipient_mail;
+    if(Array.isArray(recipient_mail)){
+        our_recipient_mail=recipient_mail[0];
+    }
     const urlVerify = dAppUrl+'/api/v1/opt-in/verify';
-    const recipient_public_key = Recipients.findOne({email: recipient_mail}).publicKey;
+    const recipient_public_key = Recipients.findOne({email: our_recipient_mail}).publicKey;
     let resultVerify ={};
     let statusVerify ={};
 
     const dataVerify = {
-        recipient_mail: recipient_mail,
+        recipient_mail: our_recipient_mail,
         sender_mail: sender_mail,
         name_id: nameId,
         recipient_public_key: recipient_public_key
@@ -386,12 +391,12 @@ export function createUser(url,auth,username,templateURL,log){
     }
     const mailTemplate = {
         "subject": "Hello i am "+username,
-        "redirect": "http://"+username+".com",
-        "returnPath":  username+"@email.com",
+        "redirect": "https://www.doichain.org/vielen-dank/",
+        "returnPath":  username+"-test@doichain.org",
         "templateURL": templateURL
     }
     const urlUsers = url+'/api/v1/users';
-    const dataUser = {"username":username,"email":username+"@email.com","password":"password","mailTemplate":mailTemplate}
+    const dataUser = {"username":username,"email":username+"-test@doichain.org","password":"password","mailTemplate":mailTemplate}
 
     const realDataUser= { data: dataUser, headers: headersUser};
     if(log) testLogging('createUser:', realDataUser);
@@ -437,10 +442,20 @@ export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUr
     return syncFunc(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log);
 }
 
-function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice, dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log, callback) {
-
+function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice, dappUrlBob, recipient_mail,sender_mail_in,optionalData,recipient_pop3username, recipient_pop3password, log, callback) {
+    let sender_mail = sender_mail_in;
     if(log) testLogging('log into alice and request DOI');
-    let resultDataOptIn = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, null, true);
+    let resultDataOptInTmp = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, null, true);
+    let resultDataOptIn = resultDataOptInTmp;
+    let nameIds=[];
+    if(Array.isArray(sender_mail_in)){              //Select master doi from senders and result
+        if(log) testLogging('MASTER DOI: ',resultDataOptInTmp[0]);
+        resultDataOptIn = resultDataOptInTmp[0];
+        sender_mail = sender_mail_in[0];
+        //resultDataOptInTmp.forEach(codoi =>{
+        //nameIds.push(getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,codoi.data.id));
+        //});
+    }
 
     const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
     if(log) testLogging('got nameId',nameId);
@@ -465,7 +480,17 @@ function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAl
         }
         generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
         testLogging('before verification');
-        verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, nameId, true); //need to generate two blocks to make block visible on alice
+
+        if(Array.isArray(sender_mail_in)){
+            for (let index = 0; index < sender_mail_in.length; index++) {
+                let tmpId = index==0 ? nameId : nameId+"-"+(index); //get nameid of coDOIs based on master
+                testLogging("NameId of coDoi: ",tmpId);
+                verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail_in[index], recipient_mail, tmpId, true);
+            }
+        }
+        else{
+            verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, nameId, true); //need to generate two blocks to make block visible on alice
+        }
         testLogging('after verification');
         callback(null, {optIn: resultDataOptIn, nameId: nameId});
     })();
