@@ -1,0 +1,231 @@
+{
+  "format": "web-program-pre1",
+  "manifest": [
+    {
+      "path": "86d5892c1a850c4311b6cbca80f60c809f11f782.js",
+      "where": "client",
+      "type": "js",
+      "cacheable": true,
+      "url": "/86d5892c1a850c4311b6cbca80f60c809f11f782.js?meteor_js_resource=true",
+      "size": 1922684,
+      "hash": "86d5892c1a850c4311b6cbca80f60c809f11f782",
+      "sri": "g6BSVajyVF1QPM3f/B1Az1ZaoalS+tFvncTHOSXSll8HaMKeIEYRa8a3vjfh/N3dyj1js2HzJyNv5G3bBaobJg=="
+    },
+    {
+      "path": "86d5892c1a850c4311b6cbca80f60c809f11f782.stats.json",
+      "where": "client",
+      "type": "json",
+      "cacheable": true,
+      "url": "/86d5892c1a850c4311b6cbca80f60c809f11f782.stats.json?meteor_js_resource=true",
+      "size": 61400,
+      "hash": "6478e7de783fcb0d5e0c6b78fe9aa3042ce7af78",
+      "sri": "V02twmYEVaFCTXtN/rFHHUzxiA7m7NUAS2w2Ue4ITiCR3M2ApozsSQ00/oGhGAYRypr0EEalzCooa+HBwSQcyA=="
+    },
+    {
+      "path": "82323be056b06ac87cbe81cdd1a929875e74b71c.css",
+      "where": "client",
+      "type": "css",
+      "cacheable": true,
+      "url": "/82323be056b06ac87cbe81cdd1a929875e74b71c.css?meteor_css_resource=true",
+      "size": 17995,
+      "hash": "82323be056b06ac87cbe81cdd1a929875e74b71c",
+      "sri": "MzZi/79tfvcdYLIOwJtM9K7FtwwkIDRqT5vIiHfGxHb/hZ1xcu9j2vA31x1xBf9QKwvEGaFFbgQglriSC2a9DQ=="
+    },
+    {
+      "path": "packages/planettraining_material-design-icons-font/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.eot",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/planettraining_material-design-icons-font/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.eot",
+      "size": 143258,
+      "hash": "7d1d213beec372be793472aba16e6c42606b2567",
+      "sri": "UCKXaBe4k0mnHgQ4tXP1PcW3Q6zIZRYxAtbWV8w/vv/e+5G+BXEW62f4IhXv3i7Vwx68zGqQYacT4QSmTg8ZLg=="
+    },
+    {
+      "path": "packages/planettraining_material-design-icons-font/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.ttf",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/planettraining_material-design-icons-font/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.ttf",
+      "size": 128180,
+      "hash": "70548fca4d9b14153402074eeb8e0724faea1f40",
+      "sri": "zYeEoWLtQoylp25eh3NJ1QYgdz46PSAtUZn++11pqbh7ksXelFXcPDc/77Bl8GoY8XGZpWAYh/wfiA0UvSI3aQ=="
+    },
+    {
+      "path": "packages/planettraining_material-design-icons-font/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.woff",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/planettraining_material-design-icons-font/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.woff",
+      "size": 57620,
+      "hash": "b4b3d37afcdc23d4e960d7fe474e9525bd0f9d6d",
+      "sri": "CrXhjuOXL81Znq0YPYHNONjFWaXofKhu68tqLPriB4onSV47WCSqxuvdwI9X1ZSyz2koExNKHgArKFBet8NBcg=="
+    },
+    {
+      "path": "packages/planettraining_material-design-icons-font/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.woff2",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/planettraining_material-design-icons-font/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.woff2",
+      "size": 44300,
+      "hash": "a345f34807683ccfb9f339327a7180a502ef9a12",
+      "sri": "uqFxhb7dHwSxOKHeN0G3pgUqAsHUhI1TWa4+zIAGHFTfYzdGhFcbtQsTkq9EWPHfel32NHFv1fsmnsf2Pz9l0Q=="
+    },
+    {
+      "path": "app/logo_todos.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/logo_todos.svg",
+      "size": 4015,
+      "hash": "f0a3d65e1b05c5cad8296f593f5ec2d38ca199d8",
+      "sri": "Oi8nP+t4ctvbOGyEjiGpaOm1UvkPhBLK/bLZW67tCTGLk+3wsVxZq+ia1mAtt+JPPguaV7iVp/Iu+j6q10/iRA=="
+    },
+    {
+      "path": "app/font/OpenSans-Light-webfont.eot",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/font/OpenSans-Light-webfont.eot",
+      "size": 29794,
+      "hash": "42e58bc3b21e8333cff3e23dd8f19f8dccb8e77c",
+      "sri": "G0+S4ogYNGB36mGzRPuhW161AvGHBoWm/v14iXU08HcRfyCsUupuQuTIWJLnX24Tv1SbUrkINR6Wxw6HcoNyAQ=="
+    },
+    {
+      "path": "app/font/OpenSans-Light-webfont.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/font/OpenSans-Light-webfont.svg",
+      "size": 56196,
+      "hash": "3673bfc8e394e227bd5c0beccdf05caff3ca9d49",
+      "sri": "JyJ3pIrpej2MUYAusgHxxr9R/Yyz7nK1rxMClxrt7LYaby8OfJJQ8NtPl1VCRUxmLZYnwODaeWrgJZ48yHpcLA=="
+    },
+    {
+      "path": "app/font/OpenSans-Light-webfont.ttf",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/font/OpenSans-Light-webfont.ttf",
+      "size": 29612,
+      "hash": "9b5493606718bbe997fbc052311df1a017f6c5c8",
+      "sri": "k/4y0V0CtPm2wg53RHemzndhIrNqPA186bNVBVKXOSnn/nj18UreDSP6V0RXR+VDbCMvHw8X4B+WmDjPXUT29w=="
+    },
+    {
+      "path": "app/font/OpenSans-Light-webfont.woff",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/font/OpenSans-Light-webfont.woff",
+      "size": 19396,
+      "hash": "778bc5a7fda28f9be58cbfcacd36f3170938813c",
+      "sri": "0pklOTz0XQEgHXfKHjrzOWuoIJ5wLSR2HnaDy2yjTk9YS3b4yBUTTfKfrcErq1A0PAod0GM2IUX45hMfwjb6Gw=="
+    },
+    {
+      "path": "app/font/OpenSans-Regular-webfont.eot",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/font/OpenSans-Regular-webfont.eot",
+      "size": 29934,
+      "hash": "8cf0aed944db6411263523819282db24fca60f7a",
+      "sri": "/mbLNLYTL0cdbaUoJe+gAQOj14puzW7oJqEuzIt+vgczl7YTICa3DL6TmnCk5W9O/6E5k2ODiLjLK2AE8SFQ6A=="
+    },
+    {
+      "path": "app/font/OpenSans-Regular-webfont.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/font/OpenSans-Regular-webfont.svg",
+      "size": 58244,
+      "hash": "452ae3caf3d528ea7d5fe156b7f7b2e50487a923",
+      "sri": "2WqhGoVvDHLDbP85XJcztVl7ktq19aNMhzwDb2BxiLeiNjxEKxP/FROC9Kf6JSk7C7xNyUed3zCY9ABjMW/HYA=="
+    },
+    {
+      "path": "app/font/OpenSans-Regular-webfont.ttf",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/font/OpenSans-Regular-webfont.ttf",
+      "size": 29744,
+      "hash": "513c65d4578a07fa3829de0d06c325e46dbca205",
+      "sri": "XCXB+ET/kDZ5zr1TXEw7AZKsqk9Kb+eLRiJPWFmvtsKnTyNdEqR1CljTV9PbKrxOpXoF4U+XYDhk7/9y8rVcww=="
+    },
+    {
+      "path": "app/font/OpenSans-Regular-webfont.woff",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/font/OpenSans-Regular-webfont.woff",
+      "size": 19624,
+      "hash": "4cbce640c58b49cb3eb744d098486d173fc31c0a",
+      "sri": "ysdL7roTim8S16eiDKQTy89f3dYjJFuOsM8BkBB0OcCjNEHDBlmN1zxqgKfIJgqRxn8ZX2YtJvwc/gZge/ersg=="
+    },
+    {
+      "path": "app/icon/todos.eot",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/icon/todos.eot",
+      "size": 6000,
+      "hash": "b6e0be1cb5213d87b9f98e163171c7cafae3e47f",
+      "sri": "ogINS9y7/fXgCaha32rR/7RKIcKbW43gZE2cmKujwiNSduM7+yj6gRu24t9J2/4B7T6A6w90OPDVqMoYXYHJ8w=="
+    },
+    {
+      "path": "app/icon/todos.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/icon/todos.svg",
+      "size": 17411,
+      "hash": "310b1d0cb3f3c0ca9961c36b1a7fd852d1067a7f",
+      "sri": "lm6M1gSjo172gM7LeTpPbkyzkUvkm7zUeCwrNbxuJngq6CwCVTV24qabEf8CZKQARoJBHb3qdQlDeZwX60ZNkA=="
+    },
+    {
+      "path": "app/icon/todos.ttf",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/icon/todos.ttf",
+      "size": 5844,
+      "hash": "2a467f9aa81200ae62f22ccd17abfeb53b0e07ff",
+      "sri": "VQjU0cDsmkRnuJx8rzcZxYWSvll4ZRvu2fwQ3niEFYE7bbQ/N9PdYctm+TPcL/ezYba8JWhd+UeUtuweOaSBvg=="
+    },
+    {
+      "path": "app/icon/todos.woff",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/icon/todos.woff",
+      "size": 5920,
+      "hash": "8e84f290ba0526d1cd59124c2deccf47646da627",
+      "sri": "45wVXNOaGr83yz+KWjR43i1T+C8OdR7HyN4Dp45Y5Xz1V5bks9LJu9gyoD/+rrbxY4DNttgTXpo3ZQ3ID1UBzA=="
+    },
+    {
+      "path": "app/templates/emails/doichain-anmeldung-final-DE.html",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/templates/emails/doichain-anmeldung-final-DE.html",
+      "size": 21618,
+      "hash": "dd7db31b8af8700e32eadf78a54062947e914988",
+      "sri": "FCFTiIaRb82BjfaFO5P0zr2w1ZMF5xfyS5Nyt0EaUPNRfOuqyBKCVqCEPTPcjaWtNNoHTGOYKyhi9OzIQ+BEbQ=="
+    },
+    {
+      "path": "app/templates/emails/doichain-anmeldung-final-EN.html",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/templates/emails/doichain-anmeldung-final-EN.html",
+      "size": 21429,
+      "hash": "3a20ae45e071bd0517f5e61ca862000ad597a0a0",
+      "sri": "F1zj7ze+TOP6ZS7hWEatlwKkysNZyuX/xIq8VNSioGE4SZCSxqHzSQwWB5CUr4oWAwy2iBRBD4faZpfNMKzy2g=="
+    },
+    {
+      "path": "head.html",
+      "where": "internal",
+      "type": "head",
+      "hash": "89dfd83a3cfaf972d24ac7e1b337ca2541ee0f03"
+    }
+  ]
+}
