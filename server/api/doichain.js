@@ -150,7 +150,7 @@ export function getRawTransaction(client, txid) {
 }
 
 function doichain_getrawtransaction(client, txid, callback) {
-    logConfirm('doichain_getrawtransaction:',txid);
+    logBlockchain('doichain_getrawtransaction:',txid);
     client.cmd('getrawtransaction', txid, 1, function(err, data) {
         if(err)  logError('doichain_getrawtransaction:',err);
         callback(err, data);

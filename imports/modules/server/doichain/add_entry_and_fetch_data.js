@@ -6,7 +6,7 @@ import { DoichainEntries } from '../../../api/doichain/entries.js';
 import addFetchDoiMailDataJob from '../jobs/add_fetch-doi-mail-data.js';
 import getPrivateKeyFromWif from './get_private-key_from_wif.js';
 import decryptMessage from './decrypt_message.js';
-import {logSend} from "../../../startup/server/log-configuration";
+import {logConfirm, logSend} from "../../../startup/server/log-configuration";
 
 const AddDoichainEntrySchema = new SimpleSchema({
   name: {
@@ -33,7 +33,7 @@ const addDoichainEntry = (entry) => {
   try {
 
     const ourEntry = entry;
-    logSend('adding DoichainEntry locally...',ourEntry.name);
+    logConfirm('adding DoichainEntry on Bob...',ourEntry.name);
     AddDoichainEntrySchema.validate(ourEntry);
 
     const ety = DoichainEntries.findOne({name: ourEntry.name});
@@ -70,7 +70,7 @@ const addDoichainEntry = (entry) => {
         expired: ourEntry.expired
     });
 
-    logSend('DoichainEntries added:', {id:id,name:ourEntry.name,masterDoi:masterDoi,index:index});
+    logSend('DoichainEntry added on Bob:', {id:id,name:ourEntry.name,masterDoi:masterDoi,index:index});
 
     if(!masterDoi){
         addFetchDoiMailDataJob({

@@ -39,7 +39,7 @@ const fetchDoiMailData = (data) => {
     const response = getHttpGET(url, query);
     if(response === undefined || response.data === undefined) throw "Bad response";
     const responseData = response.data;
-    logConfirm('response data from Send-dApp:',response);
+    logConfirm('response while getting getting email template from URL:',response.data.status);
 
     if(responseData.status !== "success") {
       if(responseData.error === undefined) throw "Bad response";
@@ -68,11 +68,10 @@ const fetchDoiMailData = (data) => {
       confirmation_url: confirmationUrl
     }});
 
-    logConfirm('we are using this template:',template);
+    //logConfirm('we are using this template:',template);
 
-    logConfirm('adding email to endUser for confirmation');
+    logConfirm('sending email to peter for confirmation over bobs dApp');
     addSendMailJob({
-      //from: responseData.data.from,
       to: responseData.data.recipient,
       subject: responseData.data.subject,
       message: template,
