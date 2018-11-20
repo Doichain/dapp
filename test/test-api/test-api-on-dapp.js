@@ -443,18 +443,16 @@ export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUr
 }
 
 function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice, dappUrlBob, recipient_mail,sender_mail_in,optionalData,recipient_pop3username, recipient_pop3password, log, callback) {
+
     let sender_mail = sender_mail_in;
     if(log) testLogging('log into alice and request DOI');
     let resultDataOptInTmp = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, null, true);
     let resultDataOptIn = resultDataOptInTmp;
-    let nameIds=[];
+
     if(Array.isArray(sender_mail_in)){              //Select master doi from senders and result
         if(log) testLogging('MASTER DOI: ',resultDataOptInTmp[0]);
         resultDataOptIn = resultDataOptInTmp[0];
         sender_mail = sender_mail_in[0];
-        //resultDataOptInTmp.forEach(codoi =>{
-        //nameIds.push(getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,codoi.data.id));
-        //});
     }
 
     const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
