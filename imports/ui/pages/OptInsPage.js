@@ -4,14 +4,19 @@ import BaseComponent from '../components/BaseComponent.js';
 import Header from '../components/Header.js';
 import Message from '../components/Message.js';
 import Item from '../components/Item.js';
+import RecipientElement from '../components/RecipientElement.js';
 
 export default class OptInsPage extends BaseComponent {
   constructor(props) {
     super(props);
   }
-
+  
   render() {
-    const { optIns, loading } = this.props;
+    const { optIns,recipients, loading } = this.props;
+    let recById={};
+    recipients.forEach(element => {
+      recById[element._id]=element;
+    });
 
     let OptIns;
     if(!optIns || !optIns.length) {
@@ -33,7 +38,7 @@ export default class OptInsPage extends BaseComponent {
               {
                 key: "recipient",
                 name: i18n.__('pages.optInsPage.recipient'),
-                value: optIn.recipient
+                value: <RecipientElement {...recById[optIn.recipient]}/>
               },
               {
                 key: "sender",
