@@ -53,9 +53,9 @@ export default class UserMenu extends BaseComponent {
         <Link to="/signin" className="btn-secondary">
           {i18n.__('components.userMenu.login')}
         </Link>
-        <Link to="/signup" className="btn-secondary">
+        {/*<Link to="/signup" className="btn-secondary">
           {i18n.__('components.userMenu.join')}
-        </Link>
+    </Link>*/}
 
       </div>
     );
