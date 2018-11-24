@@ -182,7 +182,7 @@ function connect_docker_bob(bobsContainerId, callback) {
 function start_3rd_node(callback) {
     exec('sudo docker start 3rd_node', (e, stdout, stderr)=> {
         testLogging('trying to start 3rd_node',{stdout:stdout,stderr:stderr});
-        if(stderr!=null){
+        if(stderr){
             exec('sudo docker network ls |grep doichain | cut -f9 -d" "', (e, stdout, stderr)=> {
                 const network = stdout.toString().substring(0,stdout.toString().length-1);
                 testLogging('connecting 3rd node to docker network: '+network);
@@ -201,6 +201,8 @@ function start_3rd_node(callback) {
                     callback(stderr, stdout);
                 });
             });
+        }else{
+            callback(stderr, stdout);
         }
     });
 
