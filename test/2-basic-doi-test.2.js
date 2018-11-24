@@ -38,12 +38,6 @@ describe('basic-doi-test-with-offline-node-02', function () {
             });
     });
 
-    after(function(){
-        exec('sudo docker stop 3rd_node', (e, stdout, stderr)=> {
-            testLogging('stopped 3rd_node:',{stdout:stdout,stderr:stderr});
-        });
-    });
-
     it('should test if basic Doichain workflow is working when Bobs node is temporarily offline', function(done) {
         this.timeout(0);
         global.aliceAddress = getNewAddress(node_url_alice,rpcAuth,false);
@@ -86,6 +80,9 @@ describe('basic-doi-test-with-offline-node-02', function () {
             generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, true);
             verifyDOI(dappUrlAlice, dataLoginAlice, sender_mail, recipient_mail, nameId, log); //need to generate two blocks to make block visible on alice
             testLogging('end of getNameIdOfRawTransaction returning nameId',nameId);
+            exec('sudo docker stop 3rd_node', (e, stdout, stderr)=> {
+                testLogging('stopped 3rd_node:',{stdout:stdout,stderr:stderr});
+            });
         })();
         done();
     }); //it
