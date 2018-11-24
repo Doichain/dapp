@@ -186,7 +186,7 @@ function start_3rd_node(callback) {
         testLogging('connecting 3rd node to docker network: '+network);
         exec('sudo docker run --expose=18332 ' +
             '-e REGTEST=true ' +
-            '-e DOICHAIN_VER=0.16.3.1 ' +
+            '-e DOICHAIN_VER=0.16.3.2 ' +
             '-e RPC_ALLOW_IP=::/0 ' +
             '-e CONNECTION_NODE=alice '+
             '-e RPC_PASSWORD=generated-password ' +
