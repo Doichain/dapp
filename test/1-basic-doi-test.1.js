@@ -3,9 +3,8 @@ import {
     login,
     createUser,
     findUser,
-    findOptIn,
     exportOptIns,
-    requestConfirmVerifyBasicDoi, resetUsers, requestDOI, updateUser, deleteAllEmailsFromPop3
+    requestConfirmVerifyBasicDoi, resetUsers, updateUser, deleteAllEmailsFromPop3
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
 import {deleteOptInsFromAliceAndBob} from "./test-api/test-api-on-node";

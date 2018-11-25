@@ -1,7 +1,5 @@
 import {doichainAddNode, getDockerStatus, startDockerBob, stopDockerBob} from "./2-basic-doi-test.2";
 import {chai} from 'meteor/practicalmeteor:chai';
-import {logBlockchain} from "../imports/startup/server/log-configuration";
-import {runAndWait} from "./test-api/test-api-on-node";
 
 xdescribe('basic-doi-test-nico', function () {
     this.timeout(600000);
@@ -19,7 +17,7 @@ xdescribe('basic-doi-test-nico', function () {
      * Asynchronous loops with mocha:
      * - https://whitfin.io/asynchronous-test-loops-with-mocha/
      */
-    it('should test a timeout with a promise', function (done) {
+  /*  it('should test a timeout with a promise', function (done) {
         logBlockchain("truying a promise");
         for (let i = 0; i < 10; i++) {
             const promise = new Promise((resolve, reject) => {
@@ -75,5 +73,5 @@ xdescribe('basic-doi-test-nico', function () {
         }
 
         done();
-    });
+    });*/
 });

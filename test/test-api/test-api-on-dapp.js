@@ -337,7 +337,8 @@ export function verifyDOI(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
 }
 
 function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log, callback){
-    let our_recipient_mail =recipient_mail;
+    let our_recipient_mail=recipient_mail;
+    testLogging('our_recipient_mail:', our_recipient_mail);
     if(Array.isArray(recipient_mail)){
         our_recipient_mail=recipient_mail[0];
     }

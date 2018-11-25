@@ -5,7 +5,7 @@ import {
     requestConfirmVerifyBasicDoi, requestDOI
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../imports/startup/server/log-configuration";
-import {generatetoaddress, getNewAddress} from "./test-api/test-api-on-node";
+import {deleteOptInsFromAliceAndBob, generatetoaddress, getNewAddress} from "./test-api/test-api-on-node";
 
 const node_url_alice = 'http://172.20.0.6:18332/';
 const rpcAuthAlice = "admin:generated-password";
@@ -16,11 +16,11 @@ const dAppLogin = {"username":"admin","password":"password"};
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
 
-describe('basic-doi-test-03', function () {
+xdescribe('03-basic-doi-test-03', function () {
 
     before(function(){
         logBlockchain("removing OptIns,Recipients,Senders");
-       // deleteOptInsFromAliceAndBob();
+        deleteOptInsFromAliceAndBob();
         deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password,true);
     });
 

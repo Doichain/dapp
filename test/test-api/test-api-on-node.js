@@ -158,9 +158,9 @@ function doichain_add_node(containerId,callback) {
 }
 
 function get_docker_status(containerId,callback) {
-    logBlockchain('bob '+containerId+' running? ');
+    logBlockchain('containerId '+containerId+' running? ');
     exec('sudo docker exec '+containerId+' doichain-cli -getinfo', (e, stdout, stderr)=> {
-        testLogging('bob '+containerId+' status: ',{stdout:stdout,stderr:stderr});
+        testLogging('containerId '+containerId+' status: ',{stdout:stdout,stderr:stderr});
         callback(stderr, stdout);
     });
 }
