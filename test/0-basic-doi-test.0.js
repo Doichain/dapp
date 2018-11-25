@@ -24,6 +24,7 @@ describe('basic-doi-test-0', function () {
 
     it('should create a RegTest Doichain with alice and bob and some Doi - coins', function (done) {
         //connect nodes (alice & bob) and generate DOI (only if not connected)
+        importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, false);
         try{
             const aliceContainerId = getContainerIdOfName('alice');
             const statusDocker = JSON.parse(getDockerStatus(aliceContainerId));
@@ -32,7 +33,6 @@ describe('basic-doi-test-0', function () {
             if(Number(statusDocker.balance)>0){
                     logBlockchain("enough founding for alice - blockchain already connected");
                     global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, false);
-                    importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, false);
                     done();
                     return;
             }
