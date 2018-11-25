@@ -55,6 +55,19 @@ describe('02-basic-doi-test-with-offline-node-02', function () {
         //importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, false);
     });
 
+    before(function(){
+        try{
+            exec('sudo docker stop 3rd_node', (e, stdout, stderr)=> {
+                testLogging('stopped 3rd_node:',{stdout:stdout,stderr:stderr});
+                exec('sudo docker rm 3rd_node', (e, stdout, stderr)=> {
+                    testLogging('removed 3rd_node:',{stdout:stdout,stderr:stderr});
+                });
+            });
+        }catch(ex){
+            testLogging('could not stop 3rd_node',);
+        }
+    });
+
     it('should test if basic Doichain workflow is working when Bobs node is temporarily offline', function(done) {
         this.timeout(0);
         global.aliceAddress = getNewAddress(node_url_alice,rpcAuth,false);

@@ -32,6 +32,7 @@ describe('basic-doi-test-0', function () {
             if(Number(statusDocker.balance)>0){
                     logBlockchain("enough founding for alice - blockchain already connected");
                     global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, false);
+                    importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, false);
                     done();
                     return;
             }
@@ -40,7 +41,6 @@ describe('basic-doi-test-0', function () {
         }
         isNodeAlive(node_url_alice, rpcAuth, false);
         isNodeAliveAndConnectedToHost(node_url_bob, rpcAuth, 'alice', false);
-        importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, false);
         global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, false);
         generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 210);  //110 blocks to new address! 110 blöcke *25 coins
         const aliceBalance = getBalance(node_url_alice, rpcAuth, log);
