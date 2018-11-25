@@ -82,6 +82,9 @@ describe('02-basic-doi-test-with-offline-node-02', function () {
             testLogging('end of getNameIdOfRawTransaction returning nameId',nameId);
             exec('sudo docker stop 3rd_node', (e, stdout, stderr)=> {
                 testLogging('stopped 3rd_node:',{stdout:stdout,stderr:stderr});
+                exec('sudo docker rm 3rd_node', (e, stdout, stderr)=> {
+                    testLogging('removed 3rd_node:',{stdout:stdout,stderr:stderr});
+                });
             });
         })();
         done();
