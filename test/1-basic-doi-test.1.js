@@ -63,7 +63,7 @@ describe('basic-doi-test-01', function () {
 
     it('should test if Doichain workflow is using different templates for different users', function (done) {
 
-        resetUsers();
+       resetUsers();
        const recipient_mail = "bob@ci-doichain.org"; //
        const sender_mail_alice_a  = "alice-a@ci-doichain.org";
        const sender_mail_alice_b  = "alice-b@ci-doichain.org";
