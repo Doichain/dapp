@@ -218,10 +218,9 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 ##### Update User
 * Auth required: Yes
 * Role required: ``admin``
-* Url: ``users/update``
+* Url: ``users``
 * Method: ``PUT``
 * Parameter:
-    + ``username`` - Username of updated user
     + ``mailTemplate`` - Changed form information as JSON
         - ``subject`` - (OPTIONAL) Subject of the email
         - ``redirect`` - (OPTIONAL) Redirect URL
