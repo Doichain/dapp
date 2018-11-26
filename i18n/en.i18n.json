@@ -75,6 +75,7 @@
       "createdAt": "Created At",
       "confirmedAt": "Confirmed At",
       "confirmedBy": "Confirmed By",
+      "txId": "Transaction-Id",
       "error": "Error"
     },
     "authPageSignIn": {

@@ -78,6 +78,7 @@
       "createdAt": "Erstellt am",
       "confirmedAt": "Bestätigt am",
       "confirmedBy": "Bestätigt von",
+      "txId": "Transaktions-Id",
       "error": "Fehler"
     },
     "authPageSignIn": {

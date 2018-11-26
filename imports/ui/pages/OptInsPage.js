@@ -78,6 +78,11 @@ export default class OptInsPage extends BaseComponent {
                 value: optIn.confirmedBy
               },
               {
+                key: "txId",
+                name: i18n.__('pages.optInsPage.txId'),
+                value: optIn.txId
+              },
+              {
                 key: "error",
                 name: i18n.__('pages.optInsPage.error'),
                 value: optIn.error
