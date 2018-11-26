@@ -203,7 +203,10 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                     const html  = quotedPrintableDecode(maildata);
                                     chai.expect(html.indexOf(alicedapp_url)).to.not.equal(-1);
                                     const linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
+
+                                    chai.expect(linkdata).to.not.be.null;
                                     if(log && !(log===true))chai.expect(html.indexOf(log)).to.not.equal(-1);
+                                    const requestData = {"linkdata":linkdata,"html":html}
 
                                     client.dele(msgnumber);
                                     client.on("dele", function(status, msgnumber, data, rawdata) {

@@ -37,6 +37,9 @@
     },
     "mobileMenu": {
       "showMenu": "Zeige Menü"
+    },
+    "ImageElement": {
+      "toggle": "Anzeigen"
     }
   },
   "pages": {
@@ -70,10 +73,12 @@
       "recipient": "Empfänger",
       "sender": "Versender",
       "data": "Daten",
+      "screenshot": "Screenshot",
       "nameId": "NameId",
       "createdAt": "Erstellt am",
       "confirmedAt": "Bestätigt am",
       "confirmedBy": "Bestätigt von",
+      "txId": "Transaktions-Id",
       "error": "Fehler"
     },
     "authPageSignIn": {

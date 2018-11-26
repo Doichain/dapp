@@ -15,7 +15,6 @@ import {
 import { logBlockchain } from '../imports/startup/server/log-configuration';
 import { deleteOptInsFromAliceAndBob } from './test-api/test-api-on-node';
 
-
 describe('basic-doi-test-flo', function () {
     });
 

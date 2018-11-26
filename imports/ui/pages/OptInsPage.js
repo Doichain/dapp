@@ -4,14 +4,19 @@ import BaseComponent from '../components/BaseComponent.js';
 import Header from '../components/Header.js';
 import Message from '../components/Message.js';
 import Item from '../components/Item.js';
+import RecipientElement from '../components/RecipientElement.js';
 
 export default class OptInsPage extends BaseComponent {
   constructor(props) {
     super(props);
   }
-
+  
   render() {
-    const { optIns, loading } = this.props;
+    const { optIns,recipients, loading } = this.props;
+    let recById={};
+    recipients.forEach(element => {
+      recById[element._id]=element;
+    });
 
     let OptIns;
     if(!optIns || !optIns.length) {
@@ -33,7 +38,7 @@ export default class OptInsPage extends BaseComponent {
               {
                 key: "recipient",
                 name: i18n.__('pages.optInsPage.recipient'),
-                value: optIn.recipient
+                value: <RecipientElement {...recById[optIn.recipient]}/>
               },
               {
                 key: "sender",
@@ -43,8 +48,14 @@ export default class OptInsPage extends BaseComponent {
               {
                 key: "data",
                 name: i18n.__('pages.optInsPage.data'),
-                value: optIn.data,
+                value: subJson(optIn.data),
                 json: true
+              },
+              {
+                key: "screenshot",
+                name: i18n.__('pages.optInsPage.screenshot'),
+                value: JSON.parse(optIn.data).screenshot ? JSON.parse(optIn.data).screenshot:"",
+                image: true
               },
               {
                 key: "nameId",
@@ -65,6 +76,11 @@ export default class OptInsPage extends BaseComponent {
                 key: "confirmedBy",
                 name: i18n.__('pages.optInsPage.confirmedBy'),
                 value: optIn.confirmedBy
+              },
+              {
+                key: "txId",
+                name: i18n.__('pages.optInsPage.txId'),
+                value: optIn.txId
               },
               {
                 key: "error",
@@ -89,6 +105,13 @@ export default class OptInsPage extends BaseComponent {
       </div>
     );
   }
+}
+
+function subJson(json){
+  let tmp = json;
+  let rD = JSON.parse(tmp); 
+  delete rD.screenshot;
+  return JSON.stringify(rD);
 }
 
 OptInsPage.propTypes = {

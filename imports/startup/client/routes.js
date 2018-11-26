@@ -16,11 +16,12 @@ import { Accounts, STATES } from 'meteor/std:accounts-ui';
 Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_EMAIL',
     loginPath: '/signin',
-    signUpPath: '/signup',
+    //signUpPath: '/signup',
     changePasswordPath: '/change-password',
     resetPasswordPath: '/reset-password',
     profilePath: '/profile',
-    minimumPasswordLength: 8
+    minimumPasswordLength: 8,
+    forbidClientAccountCreation : true
 });
 i18n.setLocale('en');
 
@@ -33,7 +34,7 @@ export const renderRoutes = () => (
       <Route component={requireRole(RecipientsPageContainer, ['admin'])} path="recipients"/>
       <Route component={OptInsPageContainer} path="opt-ins"/>
       <Route path="/signin" component={() => <Accounts.ui.LoginForm />} />
-      <Route path="/signup" component={() => <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />} />
+      {/*<Route path="/signup" component={() => <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />} />*/}
       <Route path="/change-password" component={() => <Accounts.ui.LoginForm formState={STATES.PASSWORD_CHANGE} />} />
 
      
