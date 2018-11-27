@@ -69,7 +69,7 @@ getBranch()
     .then(function(){
         var fileContent = JSON.stringify(result,null,2);
 
-        var pathToFile = path.normalize(__dirname.replace(/\//g,"\\")+"\\..\\private\\version.json");
+        var pathToFile = path.normalize(__dirname+"/../private/version.json");
         console.log("path normalized: "+ path.normalize(pathToFile));
         if (fs.existsSync(pathToFile)) {
             fs.writeFile(pathToFile, fileContent , function(err) {
