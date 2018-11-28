@@ -54,7 +54,7 @@ export default class OptInsPage extends BaseComponent {
               {
                 key: "screenshot",
                 name: i18n.__('pages.optInsPage.screenshot'),
-                value: JSON.parse(optIn.data).screenshot ? JSON.parse(optIn.data).screenshot:"",
+                value: parseScreenshot(optIn.data),
                 image: true
               },
               {
@@ -108,10 +108,22 @@ export default class OptInsPage extends BaseComponent {
 }
 
 function subJson(json){
+  if(!json){
+    return "";
+  }
   let tmp = json;
-  let rD = JSON.parse(tmp); 
-  delete rD.screenshot;
+  let rD = JSON.parse(tmp);
+  if(rD.screenshot){ 
+    delete rD.screenshot;
+  }
   return JSON.stringify(rD);
+}
+
+function parseScreenshot(json){
+  if(!json){
+    return "";
+  }
+  return JSON.parse(json).screenshot ? JSON.parse(json).screenshot:""
 }
 
 OptInsPage.propTypes = {

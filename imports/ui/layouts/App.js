@@ -11,6 +11,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import Item from '../components/Item.js';
 
 const CONNECTION_ISSUE_TIMEOUT = 5000;
 
@@ -48,6 +49,7 @@ export default class App extends React.Component {
       menuOpen,
       children,
       location,
+      version
     } = this.props;
 
     // eslint-disable-next-line react/jsx-no-bind
@@ -58,7 +60,7 @@ export default class App extends React.Component {
     const clonedChildren = children && React.cloneElement(children, {
       key: location.pathname
     });
-
+    let versionInfo = version ? JSON.parse(version): null;
     return (
         <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
           <div id="container" className={menuOpen ? 'menu-open' : ''}>
@@ -66,6 +68,22 @@ export default class App extends React.Component {
               <LanguageToggle />
               <UserMenu user={user} logout={this.logout} />
               <PageMenu user={user}/>
+              {version ? <Item
+               keys={[
+                 {
+                   key: "branch",
+                   name: "version",
+                   value: versionInfo.branch},
+                   {
+                    key: "id",
+                    name: "time",
+                    value: versionInfo.timestamp},
+                    {
+                      key: "commit",
+                      name: "commit",
+                      value: versionInfo.commit}
+                    ]}
+              />:null}
             </section>
             {showConnectionIssue && !connected
               ? <ConnectionNotification />
