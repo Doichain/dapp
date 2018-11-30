@@ -17,7 +17,7 @@ describe("meteor-1.8.1-selenium-mocha", function() {
             name
         } = await
             import ("../package.json");
-        assert.strictEqual(name, "doichain");
+        assert.strictEqual(name, "doichain  ");
     });
 
 

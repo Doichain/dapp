@@ -13,15 +13,12 @@ import {testLogging} from "../imports/startup/server/log-configuration";
 import {
     deleteOptInsFromAliceAndBob,
     generatetoaddress,
-    getNewAddress, importPrivKey,
+    getNewAddress,
     start3rdNode,
     startDockerBob,
     stopDockerBob, waitToStartContainer
 } from "./test-api/test-api-on-node";
 const exec = require('child_process').exec;
-
-const node_url_bob =   'http://172.20.0.7:18332/';
-const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 
 const node_url_alice = 'http://172.20.0.6:18332/';
 const recipient_pop3username = "bob@ci-doichain.org";
