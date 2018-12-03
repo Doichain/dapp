@@ -25,7 +25,7 @@ const aliceBLogin = {"username":"alice-a","password":"password"};
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
 
-xdescribe('basic-doi-test-01', function () {
+describe('basic-doi-test-01', function () {
     this.timeout(0);
 
     before(function(){
@@ -87,7 +87,7 @@ xdescribe('basic-doi-test-01', function () {
 
        it('should test if users can export OptIns ',function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //
-            const sender_mail_alice_a  = "alice-a@ci-doichain.org";
+            const sender_mail_alice_a  = "alice-export@ci-doichain.org";
            const logAdmin = login(dappUrlAlice,dAppLogin,true);
            const logUserA = login(dappUrlAlice,aliceALogin,true);
            requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,logUserA,dappUrlBob,recipient_mail,sender_mail_alice_a,{'city':'München'},"bob@ci-doichain.org","bob",true);
@@ -130,7 +130,7 @@ xdescribe('basic-doi-test-01', function () {
 
        it('should find updated Data in email',function(done){
         const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
-        const sender_mail  = "alice@ci-doichain.org";
+        const sender_mail  = "alice-update@ci-doichain.org";
         const adLog = login(dappUrlAlice,dAppLogin,false);
         updateUser(dappUrlAlice,adLog,adLog.userId,{"subject":"updateTest","templateURL":templateUrlB});
         requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,adLog,dappUrlBob,recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",true);

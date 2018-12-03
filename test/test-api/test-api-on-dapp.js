@@ -8,6 +8,7 @@ import {OptIns} from "../../imports/api/opt-ins/opt-ins";
 import {Recipients} from "../../imports/api/recipients/recipients";
 
 import {generatetoaddress} from "./test-api-on-node";
+import { AssertionError } from "assert";
 const headers = { 'Content-Type':'text/plain'  };
 var POP3Client = require("poplib");
 
@@ -123,14 +124,14 @@ export function getNameIdOfOptInFromRawTx(url, auth, optInId,log) {
 }
 
 
-export function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback){
+async function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback){
     testLogging('step 2 - getting nameId of raw transaction from blockchain');
     if(log) testLogging('the txId will be added a bit later as soon as the schedule picks up the job and inserts it into the blockchain. it does not happen immediately. waiting...');
     let running = true;
     let counter = 0;
     let our_optIn = null;
-
-    (async function loop() {
+    let nameId = null;
+    await (async function loop() {
         while(running && ++counter<50){ //trying 50x to get opt-in
 
             testLogging('find opt-In',optInId);
@@ -145,17 +146,23 @@ export function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback
 
             await new Promise(resolve => setTimeout(resolve, 3000));
         }
+    })();
+       
+    try{
 
-        chai.assert.equal(our_optIn._id,optInId);
-
+        if(our_optIn._id != optInId) throw new Error("OptInId wrong",our_optIn._id,optInId);
         if(log) testLogging('optIn:',our_optIn);
-        const nameId = getNameIdOfRawTransaction(url,auth,our_optIn.txId);
-        chai.assert.equal("e/"+our_optIn.nameId, nameId);
+        nameId = getNameIdOfRawTransaction(url,auth,our_optIn.txId);
+        if("e/"+our_optIn.nameId != nameId) throw new AssertionError("NameId wrong","e/"+our_optIn.nameId,nameId);
 
         if(log) testLogging('nameId:',nameId);
-        chai.expect(nameId).to.not.be.null;
+        if(nameId == null) throw new Error("NameId null");
+        if(counter >= 50) throw new Error("OptIn not found after retries");
         callback(null,nameId);
-    })();
+    }
+    catch(error){
+        callback(error,nameId);
+    }
 }
 
 export function fetchConfirmLinkFromPop3Mail(hostname,port,username,password,alicedapp_url,log) {
@@ -339,7 +346,7 @@ export function verifyDOI(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
     return syncFunc(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log );
 }
 
-function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log, callback){
+async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log, callback){
     let our_recipient_mail =recipient_mail;
     if(Array.isArray(recipient_mail)){
         our_recipient_mail=recipient_mail[0];
@@ -364,7 +371,7 @@ function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_m
     let running = true;
     let counter = 0;
 
-    (async function loop() {
+    await (async function loop() {
         while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
             try{
                 testLogging('Step 5: verifying opt-in:', {data:dataVerify});
@@ -380,10 +387,17 @@ function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_m
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
         }
-        chai.assert.equal(200, statusVerify);
-        chai.assert.equal(true, resultVerify.data.data.val);
-        callback(null,true);
+        
     })();
+    try{
+        if(statusVerify!=200) throw new AssertionError("Bad verify response",statusVerify,200);
+        if(resultVerify.data.data.val != true) throw new Error("Verification did not return true");
+        if(counter >= 50) throw new Error("could not verify DOI after retries");
+        callback(null,true);
+    }
+    catch(error){
+        callback(error,false);
+    }
 }
 
 export function createUser(url,auth,username,templateURL,log){
@@ -445,7 +459,7 @@ export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUr
     return syncFunc(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log);
 }
 
-function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice, dappUrlBob, recipient_mail,sender_mail_in,optionalData,recipient_pop3username, recipient_pop3password, log, callback) {
+async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice, dappUrlBob, recipient_mail,sender_mail_in,optionalData,recipient_pop3username, recipient_pop3password, log, callback) {
     let sender_mail = sender_mail_in;
     if(log) testLogging('log into alice and request DOI');
     let resultDataOptInTmp = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, null, true);
@@ -460,14 +474,12 @@ function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAl
         //});
     }
 
-    const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
-    if(log) testLogging('got nameId',nameId);
 
     //generating a block so transaction gets confirmed and delivered to bob.
     generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
     let running = true;
     let counter = 0;
-    (async function loop() {
+    await (async function loop() {
         while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
             try{
                 testLogging('step 3: getting email!');
@@ -481,14 +493,22 @@ function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAl
                 await new Promise(resolve => setTimeout(resolve, 3000));
             }
         }
+    })();
+    let nameId=null;
+    try{
+        const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
+        if(log) testLogging('got nameId',nameId);
+    if(counter >= 50){
+        throw new Error("email not found after retries");
+    }
         generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
         testLogging('before verification');
-
+        
         if(Array.isArray(sender_mail_in)){
             for (let index = 0; index < sender_mail_in.length; index++) {
                 let tmpId = index==0 ? nameId : nameId+"-"+(index); //get nameid of coDOIs based on master
                 testLogging("NameId of coDoi: ",tmpId);
-                verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail_in[index], recipient_mail, tmpId, true);
+            verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail_in[index], recipient_mail, tmpId, true);
             }
         }
         else{
@@ -496,7 +516,11 @@ function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAl
         }
         testLogging('after verification');
         callback(null, {optIn: resultDataOptIn, nameId: nameId});
-    })();
+    }
+    catch(error){
+        callback(error, {optIn: resultDataOptIn, nameId: nameId});
+    }
+
 }
 
 //export function updateUser(url,auth,updateId,templateURL,log){
