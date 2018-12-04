@@ -7,7 +7,6 @@ export const DOI_CONFIRMATION_NOTIFY_ROUTE = "opt-in";
 export const DOI_WALLETNOTIFY_ROUTE = "walletnotify";
 export const DOI_FETCH_ROUTE = "doi-mail";
 export const DOI_EXPORT_ROUTE = "export";
-export const USERS_COLLECTION_ROUTE = "users"
 export const API_PATH = "api/";
 export const VERSION = "v1";
 
@@ -23,3 +22,4 @@ if(isAppType(SEND_APP)) require('./imports/send.js');
 if(isAppType(CONFIRM_APP)) require('./imports/confirm.js');
 if(isAppType(VERIFY_APP)) require('./imports/verify.js');
 require('./imports/user.js');
+require('./imports/status.js');
