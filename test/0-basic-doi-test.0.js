@@ -1,4 +1,5 @@
 import {chai} from 'meteor/practicalmeteor:chai';
+import {describe,it,before} from 'mocha';
 import {
     deleteOptInsFromAliceAndBob,
     generatetoaddress, getBalance, getContainerIdOfName, getDockerStatus, getNewAddress,
@@ -12,11 +13,14 @@ const node_url_alice = 'http://172.20.0.6:18332/';
 const node_url_bob =   'http://172.20.0.7:18332/';
 const rpcAuth = "admin:generated-password";
 const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
-
 const log = true;
+//var mocha = require('mocha')
+//var describe = mocha.describe
+//var it = mocha.it
 
 describe('basic-doi-test-0', function () {
     this.timeout(0);
+
     before(function(){
         logBlockchain("removing OptIns,Recipients,Senders");
         deleteOptInsFromAliceAndBob();

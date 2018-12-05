@@ -156,6 +156,7 @@ function doichain_getrawtransaction(client, txid, callback) {
         callback(err, data);
     });
 }
+
 export function getBalance(client) {
     const syncFunc = Meteor.wrapAsync(doichain_getbalance);
     return syncFunc(client);
@@ -164,6 +165,18 @@ export function getBalance(client) {
 function doichain_getbalance(client, callback) {
     client.cmd('getbalance', function(err, data) {
         if(err) { logError('doichain_getbalance:',err);}
+        callback(err, data);
+    });
+}
+
+export function getInfo(client) {
+    const syncFunc = Meteor.wrapAsync(doichain_getinfo);
+    return syncFunc(client);
+}
+
+function doichain_getinfo(client, callback) {
+    client.cmd('-getinfo', function(err, data) {
+        if(err) { logError('doichain-getinfo:',err);}
         callback(err, data);
     });
 }

@@ -272,7 +272,7 @@ HTTP.patch = function (/* varargs */) {
                                                                                                                     //
 module.exports = {
   "name": "request",
-  "version": "2.83.0",
+  "version": "2.88.0",
   "main": "index.js"
 };
 
