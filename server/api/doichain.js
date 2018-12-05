@@ -175,7 +175,7 @@ export function getInfo(client) {
 }
 
 function doichain_getinfo(client, callback) {
-    client.cmd('-getinfo', function(err, data) {
+    client.cmd('getblockchaininfo', function(err, data) {
         if(err) { logError('doichain-getinfo:',err);}
         callback(err, data);
     });
