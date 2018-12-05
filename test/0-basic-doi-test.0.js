@@ -1,5 +1,4 @@
 import {chai} from 'meteor/practicalmeteor:chai';
-import {describe,it,before} from 'mocha';
 import {
     deleteOptInsFromAliceAndBob,
     generatetoaddress, getBalance, getContainerIdOfName, getDockerStatus, getNewAddress,
