@@ -1,6 +1,6 @@
 #!/bin/sh
 #git config core.hooksPath .githooks 
-    node `pwd`/pre-commit-version
+    node `pwd`/.githooks/pre-commit-version
     RETVAL=$?
     
     if [ $RETVAL -ne 0 ]
