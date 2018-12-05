@@ -4,7 +4,7 @@
     "version": "2.4.0"
   },
   "totalMinifiedBytes": 2043588,
-  "totalMinifiedGzipBytes": 540456,
+  "totalMinifiedGzipBytes": 540460,
   "minifiedBytesByPackage": {
     "packages/meteor.js": 9433,
     "packages/meteor-base.js": 31,

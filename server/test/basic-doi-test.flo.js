@@ -12,7 +12,7 @@ import {
     deleteAllEmailsFromPop3,
     
 } from "./test-api/test-api-on-dapp";
-import { logBlockchain } from '../imports/startup/server/log-configuration';
+import { logBlockchain } from '../../imports/startup/server/log-configuration';
 import { deleteOptInsFromAliceAndBob } from './test-api/test-api-on-node';
 if(Meteor.isTest) {
 

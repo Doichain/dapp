@@ -1,14 +1,13 @@
 import {Meteor} from "meteor/meteor";
 import {chai} from 'meteor/practicalmeteor:chai';
 import {quotedPrintableDecode} from "emailjs-mime-codec";
-
-import {testLogging} from "../../imports/startup/server/log-configuration";
-import {getHttpGET, getHttpGETdata, getHttpPOST} from "../../server/api/http";
-import {OptIns} from "../../imports/api/opt-ins/opt-ins";
-import {Recipients} from "../../imports/api/recipients/recipients";
-
+import {OptIns} from "../../../imports/api/opt-ins/opt-ins";
+import {Recipients} from "../../../imports/api/recipients/recipients";
+import {getHttpGET, getHttpGETdata, getHttpPOST} from "../../../server/api/http";
+import {testLogging} from "../../../imports/startup/server/log-configuration";
 import {generatetoaddress} from "./test-api-on-node";
 import { AssertionError } from "assert";
+
 const headers = { 'Content-Type':'text/plain'  };
 var POP3Client = require("poplib");
 
@@ -147,7 +146,7 @@ async function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback)
             await new Promise(resolve => setTimeout(resolve, 3000));
         }
     })();
-       
+
     try{
 
         if(our_optIn._id != optInId) throw new Error("OptInId wrong",our_optIn._id,optInId);
@@ -388,7 +387,7 @@ async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
         }
-        
+
     })();
     try{
         if(statusVerify!=200) throw new AssertionError("Bad verify response",statusVerify,200);
@@ -502,7 +501,7 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     }
         generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
         testLogging('before verification');
-        
+
         if(Array.isArray(sender_mail_in)){
             for (let index = 0; index < sender_mail_in.length; index++) {
                 let tmpId = index==0 ? nameId : nameId+"-"+(index); //get nameid of coDOIs based on master
@@ -519,11 +518,9 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     catch(error){
         callback(error, {optIn: resultDataOptIn, nameId: nameId});
     }
-
 }
 
-//export function updateUser(url,auth,updateId,templateURL,log){
-export function updateUser(url,auth,updateId,mailTemplate,log){    
+export function updateUser(url,auth,updateId,mailTemplate,log){
     const headersUser = {
         'Content-Type':'application/json',
         'X-User-Id':auth.userId,

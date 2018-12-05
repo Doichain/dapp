@@ -1,5 +1,5 @@
-import {getHttpPOST} from "../../server/api/http";
-import {logBlockchain, testLogging} from "../../imports/startup/server/log-configuration";
+import {getHttpPOST} from "../../../server/api/http";
+import {logBlockchain, testLogging} from "../../../imports/startup/server/log-configuration";
 import {chai} from 'meteor/practicalmeteor:chai';
 import {Meteor} from "meteor/meteor";
 
