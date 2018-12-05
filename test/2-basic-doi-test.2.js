@@ -16,8 +16,8 @@ import {
     startDockerBob,
     stopDockerBob, waitToStartContainer
 } from "./test-api/test-api-on-node";
-chai.use(require('chai-datetime'));
-chai.use(require('chai-date-string'));
+//chai.use(require('chai-datetime'));
+//chai.use(require('chai-date-string'));
 
 if(Meteor.isTest){
     const exec = require('child_process').exec;
