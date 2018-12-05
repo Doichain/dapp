@@ -82,20 +82,23 @@ describe('basic-doi-test-01', function () {
        requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,logUserB,dappUrlBob,recipient_mail,sender_mail_alice_b,{'city':'Simbach'},"bob@ci-doichain.org","bob","free registration");
 
        done();
-    });
+   });
 
-    it('should test if users can export OptIns ',function (done) { //TODO for some reason it doesn't send out the email (transaction is not arriving)
-        const recipient_mail = "bob@ci-doichain.org"; //
-        const sender_mail_alice_a  = "alice-a@ci-doichain.org";
-       const logAdmin = login(dappUrlAlice,dAppLogin,true);
-       const logUserA = login(dappUrlAlice,aliceALogin,true);
-       requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,logUserA,dappUrlBob,recipient_mail,sender_mail_alice_a,{'city':'München'},"bob@ci-doichain.org","bob",true);
-       const exportedOptIns = exportOptIns(dappUrlAlice,logAdmin,true);
-       chai.expect(exportedOptIns).to.not.be.undefined;
-       chai.expect(exportedOptIns[0]).to.not.be.undefined;
-       const exportedOptInsA = exportOptIns(dappUrlAlice,logUserA,true);
-       exportedOptInsA.forEach(element => {
-        chai.expect(element.ownerId).to.be.equal(logUserA.userId);
+       it('should test if users can export OptIns ',function (done) {
+            const recipient_mail = "bob@ci-doichain.org"; //
+            const sender_mail_alice_a  = "alice-export@ci-doichain.org";
+           const logAdmin = login(dappUrlAlice,dAppLogin,true);
+           const logUserA = login(dappUrlAlice,aliceALogin,true);
+           requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,logUserA,dappUrlBob,recipient_mail,sender_mail_alice_a,{'city':'München'},"bob@ci-doichain.org","bob",true);
+           const exportedOptIns = exportOptIns(dappUrlAlice,logAdmin,true);
+           chai.expect(exportedOptIns).to.not.be.undefined;
+           chai.expect(exportedOptIns[0]).to.not.be.undefined;
+           const exportedOptInsA = exportOptIns(dappUrlAlice,logUserA,true);
+           exportedOptInsA.forEach(element => {
+            chai.expect(element.ownerId).to.be.equal(logUserA.userId);
+           });
+           //chai.expect(findOptIn(resultDataOptIn._id)).to.not.be.undefined;
+           done();
        });
        //chai.expect(findOptIn(resultDataOptIn._id)).to.not.be.undefined;
        done();
@@ -128,7 +131,7 @@ describe('basic-doi-test-01', function () {
 
     it('should find updated Data in email',function(done){
         const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
-        const sender_mail  = "alice@ci-doichain.org";
+        const sender_mail  = "alice-update@ci-doichain.org";
         const adLog = login(dappUrlAlice,dAppLogin,false);
         updateUser(dappUrlAlice,adLog,adLog.userId,{"subject":"updateTest","templateURL":templateUrlB});
         requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice,dappUrlAlice,adLog,dappUrlBob,recipient_mail,sender_mail,{'city':'Ekaterinburg'},"bob@ci-doichain.org","bob",true);
