@@ -472,7 +472,6 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
         sender_mail = sender_mail_in[0];
     }
 
-
     //generating a block so transaction gets confirmed and delivered to bob.
     generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
     let running = true;
