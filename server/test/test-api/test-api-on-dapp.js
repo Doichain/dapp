@@ -487,7 +487,7 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
                 confirmLink(link2Confirm);
                 testLogging('confirmed')
             }catch(ex){
-                testLogging('trying to get email - so far no success:');
+                testLogging('trying to get email - so far no success:',counter);
                 await new Promise(resolve => setTimeout(resolve, 3000));
             }
         }

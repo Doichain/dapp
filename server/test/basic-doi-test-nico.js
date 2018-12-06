@@ -1,4 +1,3 @@
-import {doichainAddNode, getDockerStatus, startDockerBob, stopDockerBob} from "./2-basic-doi-test.2";
 import {chai} from 'meteor/practicalmeteor:chai';
 
 if(Meteor.isTest) {

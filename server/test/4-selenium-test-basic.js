@@ -11,10 +11,10 @@ var By = require('selenium-webdriver').By,
 
 const mochaTimeOut = 30000;
 
+if(Meteor.isAppTest) {
+    describe("meteor-1.8.1-selenium-mocha", function () {
 
-    describe("meteor-1.8.1-selenium-mocha", function() {
-
-        it("package.json has correct name", async function() {
+        it("package.json has correct name", async function () {
             const {
                 name
             } = await
@@ -22,7 +22,7 @@ const mochaTimeOut = 30000;
             assert.strictEqual(name, "doichain  ");
         });
 
-        it('should append query to title', async function() {
+        it('should append query to title', async function () {
             var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
             this.timeout(mochaTimeOut);
             await driver.get('http://www.google.com/ncr');
@@ -33,14 +33,15 @@ const mochaTimeOut = 30000;
         });
 
         if (Meteor.isClient) {
-            it("client is not server", function() {
+            it("client is not server", function () {
                 assert.strictEqual(Meteor.isServer, false);
             });
         }
 
         if (Meteor.isServer) {
-            it("server is not client", function() {
+            it("server is not client", function () {
                 assert.strictEqual(Meteor.isClient, false);
             });
         }
     });
+}
