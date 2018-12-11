@@ -27,7 +27,7 @@ export default class Balance extends BaseComponent {
   render() {
     return (
       <div className="balance">
-        <label>{this.state.balance}</label>
+        <label id="balanceAmount">{this.state.balance}</label>
       </div>
     )
   }
