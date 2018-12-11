@@ -1,6 +1,7 @@
 import assert from "assert";
 import {chai} from 'meteor/practicalmeteor:chai';
-import {generatetoaddress, getBalance, getNewAddress} from "./test-api/test-api-on-node";
+import {generatetoaddress, getBalance, getNewAddress, importPrivKey} from "./test-api/test-api-on-node";
+import {login, requestConfirmVerifyBasicDoi} from "./test-api/test-api-on-dapp";
 var webdriver = require('selenium-webdriver');
 
 var By = require('selenium-webdriver').By,
@@ -9,13 +10,20 @@ var By = require('selenium-webdriver').By,
     chrome = require('selenium-webdriver/chrome');
 
 let driver;
-const mochaTimeOut = 30000;
+const mochaTimeOut = 50000;
 const doichainLoginURL="http://localhost:3001"; //use from outside and inside docker!
 
+//Node URL
 //const node_url_alice = 'http://localhost:18543/'; //use from outside docker!
 //const node_url_bob =   'http://localhost:18544/'; //use from outside docker!
 const node_url_alice = 'http://alice:18332/'; //use from inside docker!
 const node_url_bob =   'http://bob:18332/'; //use from inside docker!
+
+//dApp URL
+const dappUrlAlice = "http://localhost:3001";
+const dappUrlBob = "http://172.20.0.8:4000";
+const dAppLogin = {"username":"admin","password":"password"};
+const rpcAuthAlice = "admin:generated-password";
 
 const rpcAuth = "admin:generated-password";
 
@@ -27,6 +35,8 @@ if(Meteor.isAppTest || Meteor.isTest) {
 
             let options = new chrome.Options();
             options.addArguments('--headless');
+            options.addArguments('--no-sandbox');
+            options.addArguments('--disable-dev-shm-usage');
             const chromeCapabilities = webdriver.Capabilities.chrome();
             chromeCapabilities.set('chromeOptions', {
                 'args': ['--headless', '--disable-gpu', '--no-sandbox','--disable-dev-shm-usage']
@@ -77,7 +87,11 @@ if(Meteor.isAppTest || Meteor.isTest) {
 
         it("should request a doi and check if it appears in opt-ins", async function (done) {
             this.timeout(mochaTimeOut);
-            assert(true,false);
+            const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+            const sender_mail = "alice@ci-doichain.org";
+            importPrivKey(node_url_bob, rpcAuth, global.privKeyBob, true, false);
+            const dataLoginAlice = login(dappUrlAlice, dAppLogin, false); //log into dApp
+            requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, dataLoginAlice, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
             done();
         });
 

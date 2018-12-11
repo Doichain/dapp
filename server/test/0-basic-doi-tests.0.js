@@ -11,7 +11,7 @@ import {logBlockchain} from "../../imports/startup/server/log-configuration";
 const node_url_alice = 'http://172.20.0.6:18332/';
 const node_url_bob =   'http://172.20.0.7:18332/';
 const rpcAuth = "admin:generated-password";
-const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
+global.privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 const log = true;
 
 if(Meteor.isAppTest) {
