@@ -66,7 +66,6 @@ const checkNewTransaction = (txid, job) => {
               logConfirm("txid "+txid+' does not contain transaction details or transaction not found.');
               return;
           }
-
          // logConfirm('now checking raw transactions with filter:',txs);
 
           const addressTxs = txs.filter(tx =>
@@ -79,14 +78,10 @@ const checkNewTransaction = (txid, job) => {
           );
 
           //logConfirm("found name_op transactions:", addressTxs);
-
           addressTxs.forEach(tx => {
               addTx(tx.scriptPubKey.nameOp.name, tx.scriptPubKey.nameOp.value,tx.scriptPubKey.addresses[0],txid);
           });
       }
-
-
-
   } catch(exception) {
     throw new Meteor.Error('doichain.checkNewTransactions.exception', exception);
   }

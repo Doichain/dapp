@@ -122,7 +122,7 @@ export function getBalance(url,auth,log){
     const dataGetBalance = {"jsonrpc": "1.0", "id":"getbalance", "method": "getbalance", "params": [] };
     const realdataGetBalance = { auth: auth, data: dataGetBalance, headers: headers };
     const resultGetBalance = getHttpPOST(url, realdataGetBalance);
-    if(log)testLogging('resultGetBalance:',resultGetBalance);
+    if(log)testLogging('resultGetBalance:',resultGetBalance.data.result);
     return resultGetBalance.data.result;
 }
 

@@ -1,5 +1,6 @@
 import assert from "assert";
 import {chai} from 'meteor/practicalmeteor:chai';
+import {generatetoaddress, getBalance, getNewAddress} from "./test-api/test-api-on-node";
 var webdriver = require('selenium-webdriver');
 
 var By = require('selenium-webdriver').By,
@@ -9,7 +10,14 @@ var By = require('selenium-webdriver').By,
 
 let driver;
 const mochaTimeOut = 30000;
-const doichainLoginURL="http://localhost:3001";
+const doichainLoginURL="http://localhost:3001"; //use from outside and inside docker!
+
+//const node_url_alice = 'http://localhost:18543/'; //use from outside docker!
+//const node_url_bob =   'http://localhost:18544/'; //use from outside docker!
+const node_url_alice = 'http://alice:18332/'; //use from inside docker!
+const node_url_bob =   'http://bob:18332/'; //use from inside docker!
+
+const rpcAuth = "admin:generated-password";
 
 if(Meteor.isAppTest || Meteor.isTest) {
 
@@ -18,16 +26,16 @@ if(Meteor.isAppTest || Meteor.isTest) {
             this.timeout(10000);
 
             let options = new chrome.Options();
-           // options.addArguments('--headless');
+            options.addArguments('--headless');
             const chromeCapabilities = webdriver.Capabilities.chrome();
-            //chromeCapabilities.set('chromeOptions', {
-              //  'args': ['--headless', '--disable-gpu', '--no-sandbox','--disable-dev-shm-usage']
-            //});
+            chromeCapabilities.set('chromeOptions', {
+                'args': ['--headless', '--disable-gpu', '--no-sandbox','--disable-dev-shm-usage']
+            });
            driver = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
         });
 
         after(async function () {
-            driver.quit();
+           // driver.quit();
         });
 
         it("should login", async function () {
@@ -35,24 +43,45 @@ if(Meteor.isAppTest || Meteor.isTest) {
             await logIn("admin", "password");
         });
 
-        it("should should click on balance and show balance 0", async function (done) {
+        it("should should click on balance and show current balance", async function (done) {
             this.timeout(mochaTimeOut);
-            //await driver.findElement(By.xpath('/html/body/div#app/div#container/section#menu/div.page-menu/a[2]')).click();
+            const aliceBalance = getBalance(node_url_alice, rpcAuth, true);
+            console.log('balance:'+aliceBalance);
             await driver.findElement(By.linkText("Balance")).click();
             await driver.wait(until.urlContains("/balance"));
             await driver.wait(until.elementLocated(By.id("balanceAmount")));
-           // await driver.wait(until.elementTextIs(driver.wait(until.elementLocated(buttonLogin)), 'Sign Up'), 80000);
+            //await driver.wait(until.elementTextIs(driver.findElement(By.id("balanceAmount")), '0'));
+            chai.expect(await driver.findElement(By.id("balanceAmount")).getText()).to.be.equal(aliceBalance.toString());
+            done();
+        });
 
-            await driver.wait(until.elementTextIs(driver.findElement(By.id("balanceAmount")), '0'));
-            chai.expect(await driver.findElement(By.id("balanceAmount")).getText()).to.be.equal('0');
-            //console.log(await driver.findElement(By.id("balanceAmount")).getText());
-           // chai.expect(By.xpath('//*[@id="content-container"]/span/div/div/div/label').value).to.be.equal(0);
+        it("should generate some coins and should check updated balance ", async function (done) {
+            this.timeout(mochaTimeOut);
 
+            global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, true);
+            await generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1,true);
+
+            await driver.findElement(By.linkText("Home")).click(); //click to another menu
+            await driver.wait(until.elementTextIs(driver.findElement(By.className("title")), 'doichain'));
+           // await driver.wait(until.elementLocated(By.id("balanceAmount")));
+            const aliceBalance = await getBalance(node_url_alice, rpcAuth, true);
+            console.log('balance:'+aliceBalance);
+
+            await driver.findElement(By.linkText("Balance")).click(); //so balance gets updated
+            await driver.wait(until.urlContains("/balance"));
+            //await driver.wait(until.elementTextIs(driver.findElement(By.className("title")), 'Balance'));
+
+            chai.expect(await driver.findElement(By.id("balanceAmount")).getText()).to.be.equal(aliceBalance.toString());
+            done();
+        });
+
+        it("should request a doi and check if it appears in opt-ins", async function (done) {
+            this.timeout(mochaTimeOut);
+            assert(true,false);
             done();
         });
 
         async function logIn(username, password) {
-
             await driver.get(doichainLoginURL);
             await driver.wait(until.elementLocated(By.css("a.btn-secondary")));
             await driver.findElement(By.css("a.btn-secondary")).click();
