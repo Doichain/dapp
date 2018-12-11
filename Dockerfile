@@ -1,9 +1,8 @@
 FROM doichain/docker:dapp-base
 USER root
 RUN  apt-get update && \
-  apt-get install --no-install-recommends -y python python-dev python-distribute python-pip && \
+  apt-get install --no-install-recommends -y python python-dev python-distribute python-pip xvfb wget curl && \
   rm -rf /var/lib/apt/lists/* && \
-  xvfb wget curl && \
   curl -sSL https://get.docker.com/ | sh && \
   chown -R doichain:doichain /home/doichain/dapp && \
   git submodule init && git submodule update && \
