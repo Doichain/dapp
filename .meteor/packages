@@ -41,7 +41,7 @@ std:accounts-ui
 rwatts:uuid
 accounts-password@1.5.1
 zetoff:accounts-material-ui
-meteortesting:mocha
+meteortesting:mocha@1.1.1
 xolvio:cleaner
 practicalmeteor:chai
 

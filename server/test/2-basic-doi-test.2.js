@@ -6,7 +6,6 @@ import {
     login,
     requestDOI, verifyDOI
 } from "./test-api/test-api-on-dapp";
-
 import {testLogging} from "../../imports/startup/server/log-configuration";
 import {
     deleteOptInsFromAliceAndBob,
@@ -16,9 +15,6 @@ import {
     startDockerBob,
     stopDockerBob, waitToStartContainer
 } from "./test-api/test-api-on-node";
-//chai.use(require('chai-datetime'));
-//chai.use(require('chai-date-string'));
-
 const exec = require('child_process').exec;
 const node_url_alice = 'http://172.20.0.6:18332/';
 const recipient_pop3username = "bob@ci-doichain.org";

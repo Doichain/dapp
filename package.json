@@ -5,10 +5,10 @@
     "start": "meteor run",
     "lint": "eslint .",
     "pretest": "npm run lint --silent",
-    "selenium": "TEST_WATCH=1 MOCHA_GREP=selenium TEST_BROWSER_DRIVER=chrome meteor test --once --full-app --driver-package meteortesting:mocha --port 3001 --settings settings-jenkins-regtest.json",
+    "selenium": "MONGO_URL=mongodb://mongo:27017/alice MOCHA_GREP=selenium TEST_BROWSER_DRIVER=chrome meteor test --once --full-app --driver-package meteortesting:mocha --port 3001 --settings settings-jenkins-regtest.json",
     "mocha": "MONGO_URL=mongodb://mongo:27017/alice MOCHA_GREP=basic-doi-test TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
     "test-mocha": "export MONGO_URL=mongodb://mongo:27017/alice;export  MOCHA_GREP=basic-doi-test;meteor test --full-app --once --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
-    "test-nico": "export MONGO_URL=mongodb://mongo:27017/alice; export MOCHA_GREP=basic-doi-test-nico; meteor test --once --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
+    "test-nico": "MONGO_URL=mongodb://mongo:27017/alice MOCHA_GREP=basic-doi-test-nico TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
     "test-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha --port 3100",
     "test-app-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --full-app --once --driver-package meteortesting:mocha --port 3100",
     "test-phantom": "TEST_BROWSER_DRIVER=phantomjs meteor test --once --driver-package meteortesting:mocha",
@@ -69,6 +69,7 @@
     "babel-eslint": "^8.2.6",
     "chai-date-string": "^0.1.0",
     "chai-datetime": "^1.5.0",
+    "chromedriver": "^2.44.1",
     "emailjs-mime-codec": "^2.0.7",
     "eslint": "^5.2.0",
     "eslint-config-airbnb": "^17.0.0",
@@ -79,8 +80,8 @@
     "eslint-plugin-meteor": "^5.0.0",
     "eslint-plugin-react": "^7.10.0",
     "execa": "^1.0.0",
+    "geckodriver": "^1.14.1",
     "poplib": "^0.1.7",
-    "selenium-webdriver": "^3.6.0",
-    "chromedriver": "^2.44.0"
+    "selenium-webdriver": "^3.6.0"
   }
 }
