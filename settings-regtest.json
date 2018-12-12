@@ -1,9 +1,9 @@
 {
   "app": {
     "debug": "true",
-    "testnet":"true",
-    "host": "host-behind-nat",
-    "port": "84",
+    "regtest":"true",
+    "host": "localhost",
+    "port": "3001",
     "types": [
       "send",
       "confirm",
@@ -30,7 +30,7 @@
     "smtp": {
       "username": "alice@ci-doichain.org",
       "password": "alice",
-      "server": "mail",
+      "server": "localhost",
       "port": "25",
       "NODE_TLS_REJECT_UNAUTHORIZED":"0",
       "defaultFrom":"info@ci-doichain.org"

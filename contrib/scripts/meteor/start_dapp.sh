@@ -20,4 +20,3 @@ nohup node build/bundle/main.js &
 
 #overwrite .meteorignore back to normal
 sudo echo "build/" > .meteorignore
-

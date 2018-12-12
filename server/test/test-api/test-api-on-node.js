@@ -2,10 +2,33 @@ import {getHttpPOST} from "../../../server/api/http";
 import {logBlockchain, testLogging} from "../../../imports/startup/server/log-configuration";
 import {chai} from 'meteor/practicalmeteor:chai';
 import {Meteor} from "meteor/meteor";
-
+const os = require('os');
+let sudo = (os.hostname()=='regtest')?'sudo ':''
 const headers = { 'Content-Type':'text/plain'  };
 const exec = require('child_process').exec;
 
+
+export function initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyBob,log) {            //connect nodes (alice & bob) and generate DOI (only if not connected)
+    importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, log);
+    try {
+
+        const aliceContainerId = getContainerIdOfName('alice');
+        const statusDocker = JSON.parse(getDockerStatus(aliceContainerId));
+        logBlockchain("real balance :" + statusDocker.balance, (Number(statusDocker.balance) > 0));
+        logBlockchain("connections:" + statusDocker.connections);
+        if (Number(statusDocker.balance) > 0) {
+            logBlockchain("enough founding for alice - blockchain already connected");
+            global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, log);
+            return;
+        }
+    } catch (exception) {
+        logBlockchain("connecting blockchain and mining some coins");
+    }
+    isNodeAlive(node_url_alice, rpcAuth, log);
+    isNodeAliveAndConnectedToHost(node_url_bob, rpcAuth, 'alice', log);
+    global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, log);
+    generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 210);  //110 blocks to new address! 110 blöcke *25 coins}
+}
 function wait_to_start_container(startedContainerId,callback){
     let running = true;
     let counter = 0;
@@ -50,7 +73,7 @@ function delete_options_from_alice_and_bob(callback){
 }
 
 export function isNodeAlive(url, auth, log) {
-    if(log) testLogging('isNodeAlive called');
+    if(log) testLogging('isNodeAlive called to url',url);
     const dataGetNetworkInfo = {"jsonrpc": "1.0", "id": "getnetworkinfo", "method": "getnetworkinfo", "params": []};
     const realdataGetNetworkInfo = {auth: auth, data: dataGetNetworkInfo, headers: headers};
     const resultGetNetworkInfo = getHttpPOST(url, realdataGetNetworkInfo);
@@ -127,7 +150,7 @@ export function getBalance(url,auth,log){
 }
 
 function get_container_id_of_name(name,callback) {
-    exec('sudo docker ps --filter "name='+name+'" | cut -f1 -d" " | sed \'1d\'', (e, stdout, stderr)=> {
+    exec(sudo+'docker ps --filter "name='+name+'" | cut -f1 -d" " | sed \'1d\'', (e, stdout, stderr)=> {
         if(e!=null){
             testLogging('cannot find '+name+' node '+stdout,stderr);
             return null;
@@ -141,7 +164,7 @@ function stop_docker_bob(callback) {
     const bobsContainerId = getContainerIdOfName('bob');
     testLogging('stopping Bob with container-id: '+bobsContainerId);
     try{
-        exec('sudo docker stop '+bobsContainerId, (e, stdout, stderr)=> {
+        exec(sudo+'docker stop '+bobsContainerId, (e, stdout, stderr)=> {
             testLogging('stopping Bob with container-id: ',{stdout:stdout,stderr:stderr});
             callback(null, bobsContainerId);
         });
@@ -151,7 +174,7 @@ function stop_docker_bob(callback) {
 }
 
 function doichain_add_node(containerId,callback) {
-    exec('sudo docker exec '+containerId+' doichain-cli addnode alice onetry', (e, stdout, stderr)=> {
+    exec(sudo+'docker exec '+containerId+' doichain-cli addnode alice onetry', (e, stdout, stderr)=> {
         testLogging('bob '+containerId+' connected? ',{stdout:stdout,stderr:stderr});
         callback(stderr, stdout);
     });
@@ -159,34 +182,34 @@ function doichain_add_node(containerId,callback) {
 
 function get_docker_status(containerId,callback) {
     logBlockchain('containerId '+containerId+' running? ');
-    exec('sudo docker exec '+containerId+' doichain-cli -getinfo', (e, stdout, stderr)=> {
+    exec(sudo+'docker exec '+containerId+' doichain-cli -getinfo', (e, stdout, stderr)=> {
         testLogging('containerId '+containerId+' status: ',{stdout:stdout,stderr:stderr});
         callback(stderr, stdout);
     });
 }
 
 function start_docker_bob(bobsContainerId,callback) {
-    exec('sudo docker start '+bobsContainerId, (e, stdout, stderr)=> {
+    exec(sudo+'docker start '+bobsContainerId, (e, stdout, stderr)=> {
         testLogging('started bobs node again: '+bobsContainerId,{stdout:stdout,stderr:stderr});
         callback(stderr, stdout.toString().trim()); //remove line break from the end
     });
 }
 
 function connect_docker_bob(bobsContainerId, callback) {
-    exec('sudo docker exec '+bobsContainerId+' doichaind -regtest -daemon -reindex -addnode=alice', (e, stdout, stderr)=> {
+    exec(sudo+'docker exec '+bobsContainerId+' doichaind -regtest -daemon -reindex -addnode=alice', (e, stdout, stderr)=> {
         testLogging('restarting doichaind on bobs node and connecting with alice: ',{stdout:stdout,stderr:stderr});
         callback(stderr, stdout);
     });
 }
 
 function start_3rd_node(callback) {
-    exec('sudo docker start 3rd_node', (e, stdout, stderr)=> {
+    exec(sudo+'docker start 3rd_node', (e, stdout, stderr)=> {
         testLogging('trying to start 3rd_node',{stdout:stdout,stderr:stderr});
         if(stderr){
-            exec('sudo docker network ls |grep doichain | cut -f9 -d" "', (e, stdout, stderr)=> {
+            exec(sudo+'docker network ls |grep doichain | cut -f9 -d" "', (e, stdout, stderr)=> {
                 const network = stdout.toString().substring(0,stdout.toString().length-1);
                 testLogging('connecting 3rd node to docker network: '+network);
-                exec('sudo docker run --expose=18332 ' +
+                exec(sudo+'docker run --expose=18332 ' +
                     '-e REGTEST=true ' +
                     '-e DOICHAIN_VER=0.16.3.2 ' +
                     '-e RPC_ALLOW_IP=::/0 ' +

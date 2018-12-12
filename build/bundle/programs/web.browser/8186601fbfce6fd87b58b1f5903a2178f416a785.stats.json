@@ -3,8 +3,8 @@
     "name": "standard-minifier-js",
     "version": "2.4.0"
   },
-  "totalMinifiedBytes": 1880618,
-  "totalMinifiedGzipBytes": 500029,
+  "totalMinifiedBytes": 1880634,
+  "totalMinifiedGzipBytes": 500037,
   "minifiedBytesByPackage": {
     "packages/meteor.js": 9433,
     "packages/meteor-base.js": 31,
@@ -2015,7 +2015,7 @@
       {}
     ],
     "app/app.js": [
-      28083,
+      28099,
       {
         "client": {
           "template.main.js": 147,
@@ -2042,7 +2042,7 @@
           },
           "ui": {
             "components": {
-              "Balance.js": 582,
+              "Balance.js": 598,
               "BaseComponent.js": 445,
               "ConnectionNotification.js": 612,
               "Header.js": 595,
