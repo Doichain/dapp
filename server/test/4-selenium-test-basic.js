@@ -37,7 +37,7 @@ if(Meteor.isAppTest || Meteor.isTest) {
         before(async  function () {
             this.timeout(mochaTimeOut);
             (os.hostname()=='regtest')?dns.setServers(['172.20.0.5']):dns.setServers(['127.0.0.1']);
-            let headless = false;
+            let headless = true;
             let options = new chrome.Options();
             const chromeCapabilities = webdriver.Capabilities.chrome();
             if(headless){
