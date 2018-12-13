@@ -20,7 +20,7 @@ const node_url_bob =   'http://localhost:18544/'; //use from outside docker!
 //const node_url_bob =   'http://bob:18332/'; //use from inside docker! (inside docker doesn't work right)
 
 //dApp URL
-const dappUrlAlice = "http://localhost:3000";
+const dappUrlAlice = "http://localhost:3100";
 const dappUrlBob = "http://localhost:4000";
 const dAppLogin = {"username":"admin","password":"password"};
 const rpcAuthAlice = "admin:generated-password";
