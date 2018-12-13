@@ -98,9 +98,8 @@ if(Meteor.isAppTest || Meteor.isTest) {
             //await driver.manage().setTimeouts({implicit: 3000});
             await driver.sleep(3000);
 
-            await driver.findElement(By.linkText("Home")).click(); //click to another menu
+            await driver.findElement(By.linkText("Home")).click(); //click to another menu in order to refresh the amount.
             await driver.wait(until.elementTextIs(driver.findElement(By.className("title")), 'doichain'));
-           // await driver.wait(until.elementLocated(By.id("balanceAmount")));
             const aliceBalance = await getBalance(node_url_alice, rpcAuth, true);
             console.log('balance:'+aliceBalance);
             //await driver.manage().setTimeouts({implicit: 3000});
@@ -108,8 +107,6 @@ if(Meteor.isAppTest || Meteor.isTest) {
 
             await driver.findElement(By.linkText("Balance")).click(); //so balance gets updated
             await driver.wait(until.urlContains("/balance"));
-            //await driver.wait(until.elementTextIs(driver.findElement(By.id("balanceAmount")), aliceBalance.toString()));
-            //await driver.wait(until.elementTextIs(driver.findElement(By.className("title")), 'Balance'));
 
             chai.expect(await driver.findElement(By.id("balanceAmount")).getText()).to.be.equal(aliceBalance.toString());
             done();

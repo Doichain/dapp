@@ -6,7 +6,7 @@
     "lint": "eslint .",
     "pretest": "npm run lint --silent",
     "selenium": "MOCHA_GREP=selenium TEST_BROWSER_DRIVER=chrome meteor test --once --full-app --driver-package meteortesting:mocha --port 3001 --settings settings-regtest.json",
-    "selenium-regtest": "MOCHA_GREP=selenium TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha --port 3001 --settings settings qq-regtest.json",
+    "selenium-regtest": "MOCHA_GREP=selenium TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha --port 3001 --settings settings-regtest.json",
     "mocha": "MONGO_URL=mongodb://mongo:27017/alice MOCHA_GREP=basic-doi-test TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
     "test-mocha": "export MONGO_URL=mongodb://mongo:27017/alice;export  MOCHA_GREP=basic-doi-test;meteor test --full-app --once --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
     "test-nico": "MONGO_URL=mongodb://mongo:27017/alice MOCHA_GREP=basic-doi-test-nico TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
@@ -84,6 +84,6 @@
     "execa": "^1.0.0",
     "geckodriver": "^1.14.1",
     "poplib": "^0.1.7",
-    "selenium-webdriver": "^4.0.0-alpha.1"
+    "selenium-webdriver": "^3.6.0"
   }
 }
