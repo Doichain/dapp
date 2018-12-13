@@ -31,6 +31,7 @@ export default class Item extends BaseComponent {
   }
 
   renderJson(jkey) {
+    console.log(jkey);
     if(jkey === undefined) return null;
     const json = JSON.parse(jkey);
     return (

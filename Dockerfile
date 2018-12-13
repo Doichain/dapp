@@ -1,7 +1,7 @@
 FROM doichain/docker:dapp-base
 USER root
 RUN  apt-get update && \
-  apt-get install --no-install-recommends -y apt-utils python python-dev python-distribute python-pip wget curl \
+  apt-get install --no-install-recommends -y apt-utils python python-dev python-distribute python-pip wget curl && \
 #  xvfb xdg-utils libxtst6 libxss1 libxrender1 libxrandr2 libxi6 libxcursor1 libxcomposite1  libpango-1.0-0 libpangocairo-1.0-0 \
 #  libpango-1.0-0 libnss3 libnspr4 libgtk-3-0 libglib2.0-0 libgdk-pixbuf2.0-0 libdbus-1-3 libcups2 fonts-liberation  \
 #  libcairo2 libatspi2.0-0 libcups2 libdbus-1-3 libgdk-pixbuf2.0-0 libglib2.0-0 libnss3 libnspr4 libgtk-3-0 libatk1.0-0 \
