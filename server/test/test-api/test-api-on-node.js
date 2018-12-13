@@ -7,15 +7,20 @@ let sudo = (os.hostname()=='regtest')?'sudo ':''
 const headers = { 'Content-Type':'text/plain'  };
 const exec = require('child_process').exec;
 
-
 export function initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyBob,log) {            //connect nodes (alice & bob) and generate DOI (only if not connected)
+
+    console.log("importing private key:"+privKeyBob);
     importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, log);
     try {
-
         const aliceContainerId = getContainerIdOfName('alice');
         const statusDocker = JSON.parse(getDockerStatus(aliceContainerId));
         logBlockchain("real balance :" + statusDocker.balance, (Number(statusDocker.balance) > 0));
         logBlockchain("connections:" + statusDocker.connections);
+        if (Number(statusDocker.connections) == 0) {
+            isNodeAlive(node_url_alice, rpcAuth, log);
+            isNodeAliveAndConnectedToHost(node_url_bob, rpcAuth, 'alice', log);
+        }
+
         if (Number(statusDocker.balance) > 0) {
             logBlockchain("enough founding for alice - blockchain already connected");
             global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, log);
@@ -24,10 +29,9 @@ export function initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyBob,lo
     } catch (exception) {
         logBlockchain("connecting blockchain and mining some coins");
     }
-    isNodeAlive(node_url_alice, rpcAuth, log);
-    isNodeAliveAndConnectedToHost(node_url_bob, rpcAuth, 'alice', log);
     global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, log);
-    generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 210);  //110 blocks to new address! 110 blöcke *25 coins}
+    generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 210);  //110 blocks to new address! 110 blöcke *25 coins
+
 }
 function wait_to_start_container(startedContainerId,callback){
     let running = true;

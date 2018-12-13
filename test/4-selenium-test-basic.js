@@ -11,7 +11,7 @@ var By = require('selenium-webdriver').By,
 
 let driver;
 const mochaTimeOut = 80000;
-const doichainLoginURL="http://localhost:3001"; //use from outside and inside docker!
+const doichainLoginURL="http://localhost:3000"; //use from outside and inside docker!
 
 //Node URL
 const node_url_alice = 'http://localhost:18543/'; //use from outside docker!
@@ -20,7 +20,7 @@ const node_url_bob =   'http://localhost:18544/'; //use from outside docker!
 //const node_url_bob =   'http://bob:18332/'; //use from inside docker! (inside docker doesn't work right)
 
 //dApp URL
-const dappUrlAlice = "http://localhost:3001";
+const dappUrlAlice = "http://localhost:3000";
 const dappUrlBob = "http://localhost:4000";
 const dAppLogin = {"username":"admin","password":"password"};
 const rpcAuthAlice = "admin:generated-password";
@@ -109,7 +109,7 @@ if(Meteor.isAppTest || Meteor.isTest) {
             done();
         });
 
-        xit("should request a doi and check if it appears in opt-ins", async function (done) {
+        it("should request a doi and check if it appears in opt-ins", async function (done) {
             this.timeout(mochaTimeOut);
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice-over-selenium"+Date.now()+"@ci-doichain.org";
