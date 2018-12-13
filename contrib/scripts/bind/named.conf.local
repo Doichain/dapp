@@ -14,3 +14,10 @@ zone "x.0.17.172.in-addr.arpa" {
 	type master;
 	file "/var/lib/bind/172.17.0.x.rev";
 	};
+
+forwarders {
+    5.9.154.226;
+    78.46.188.241;
+    91.217.137.37;
+    51.15.98.97;
+};
