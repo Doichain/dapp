@@ -7,8 +7,9 @@ let sudo = (os.hostname()=='regtest')?'sudo ':''
 const headers = { 'Content-Type':'text/plain'  };
 const exec = require('child_process').exec;
 
-
 export function initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyBob,log) {            //connect nodes (alice & bob) and generate DOI (only if not connected)
+
+    console.log("importing private key:"+privKeyBob);
     importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, log);
     try {
         const aliceContainerId = getContainerIdOfName('alice');
@@ -30,6 +31,7 @@ export function initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyBob,lo
     }
     global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, log);
     generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 210);  //110 blocks to new address! 110 blöcke *25 coins
+
 }
 function wait_to_start_container(startedContainerId,callback){
     let running = true;
@@ -255,26 +257,32 @@ export function start3rdNode() {
     const syncFunc = Meteor.wrapAsync(start_3rd_node);
     return syncFunc();
 }
+
 export function stopDockerBob() {
     const syncFunc = Meteor.wrapAsync(stop_docker_bob);
     return syncFunc();
 }
+
 export function getContainerIdOfName(name) {
     const syncFunc = Meteor.wrapAsync(get_container_id_of_name);
     return syncFunc(name);
 }
+
 export function startDockerBob(containerId) {
     const syncFunc = Meteor.wrapAsync(start_docker_bob);
     return syncFunc(containerId);
 }
+
 export function doichainAddNode(containerId) {
     const syncFunc = Meteor.wrapAsync(doichain_add_node);
     return syncFunc(containerId);
 }
+
 export function getDockerStatus(containerId) {
     const syncFunc = Meteor.wrapAsync(get_docker_status);
     return syncFunc(containerId);
 }
+
 export function connectDockerBob(containerId) {
     const syncFunc = Meteor.wrapAsync(connect_docker_bob);
     return syncFunc(containerId);
