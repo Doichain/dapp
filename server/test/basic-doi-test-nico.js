@@ -25,13 +25,13 @@ if(Meteor.isTest || Meteor.isAppTest) {
             deleteOptInsFromAliceAndBob();
         });
 
-        it('should create a RegTest Doichain with alice and bob and some Doi - coins', function () {
+        xit('should create a RegTest Doichain with alice and bob and some Doi - coins', function () {
             initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyBob,true);
             const aliceBalance = getBalance(node_url_alice, rpcAuth, log);
             chai.assert.isAbove(aliceBalance, 0, 'no funding! ');
         });
 
-        it('should test if basic Doichain workflow is working with optional data', function (done) {
+        xit('should test if basic Doichain workflow is working with optional data', function (done) {
             const recipient_mail = "bob+1@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice@ci-doichain.org";
             const dataLoginAlice = login(dappUrlAlice, dAppLogin, false); //log into dApp
