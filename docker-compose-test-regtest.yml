@@ -5,6 +5,8 @@ services:
     hostname: mongo
     expose:
       - "27017"
+    ports:
+      - "28017:27017"
     dns:
       - 172.20.0.5
     networks:
