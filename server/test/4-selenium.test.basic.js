@@ -11,7 +11,7 @@ var By = require('selenium-webdriver').By,
 
 let driver;
 const mochaTimeOut = 80000;
-const doichainLoginURL="http://localhost:3000"; //use from outside and inside docker!
+const doichainLoginURL="http://localhost:3100"; //use from outside and inside docker!
 
 //Node URL
 const node_url_alice = 'http://localhost:18543/'; //use from outside docker!

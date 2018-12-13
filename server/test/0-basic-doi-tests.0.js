@@ -7,7 +7,7 @@ import {logBlockchain} from "../../imports/startup/server/log-configuration";
 const node_url_alice = 'http://172.20.0.6:18332/';
 const node_url_bob =   'http://172.20.0.7:18332/';
 const rpcAuth = "admin:generated-password";
-global.privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
+const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 const log = true;
 
 if(Meteor.isAppTest) {
@@ -20,7 +20,7 @@ if(Meteor.isAppTest) {
         });
 
         it('should create a RegTest Doichain with alice and bob and some Doi - coins', function () {
-            initBlockchain(node_url_alice,node_url_bob,rpcAuth,global.privKeyBob,true);
+            initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyBob,true);
             const aliceBalance = getBalance(node_url_alice, rpcAuth, log);
             chai.assert.isAbove(aliceBalance, 0, 'no funding! ');
         });
