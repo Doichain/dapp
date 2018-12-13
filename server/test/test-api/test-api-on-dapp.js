@@ -209,7 +209,10 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                     if(log) testLogging("RETR success " + msgnumber);
 
                                     //https://github.com/emailjs/emailjs-mime-codec
-                                    const html  = quotedPrintableDecode(maildata);
+                                    let html  = quotedPrintableDecode(maildata);
+                                    if(os.hostname()!=='regtest'){
+                                            html = replaceAll(html,'http://172.20.0.8','http://localhost');  //TODO put this IP inside a config
+                                    }
                                     chai.expect(html.indexOf(alicedapp_url)).to.not.equal(-1);
                                     const linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
 
@@ -258,7 +261,9 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
         });
     });
 }
-
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
 export function deleteAllEmailsFromPop3(hostname,port,username,password,log) {
     const syncFunc = Meteor.wrapAsync(delete_all_emails_from_pop3);
     return syncFunc(hostname,port,username,password,log);

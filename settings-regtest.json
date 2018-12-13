@@ -11,7 +11,7 @@
     ]
   },
   "send": {
-    "doiMailFetchUrl": "http://localhost:3000/api/v1/debug/mail",
+    "doiMailFetchUrl": "http://localhost:3001/api/v1/debug/mail",
     "doichain": {
       "host": "localhost",
       "port": "18543",
