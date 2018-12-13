@@ -73,7 +73,20 @@ if(Meteor.isAppTest || Meteor.isTest) {
             await logIn("admin", "password");
         });
 
-        it("should should click on balance and show current balance", async function (done) {
+        it("should request a doi and check if it appears in opt-ins", async function (done) {
+            this.timeout(mochaTimeOut);
+            const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+            const sender_mail = "alice-over-selenium"+Date.now()+"@ci-doichain.org";
+            const dataLoginAlice = login(dappUrlAlice, dAppLogin, true); //log into dApp
+            console.log("current DNS-Servers:"+dns.getServers());
+            requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, dataLoginAlice, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
+
+            await driver.findElement(By.linkText("Opt-Ins")).click(); //so balance gets updated
+            await driver.wait(until.urlContains("/opt-ins"));
+            done();
+        });
+
+        xit("should should click on balance and show current balance", async function (done) {
             this.timeout(mochaTimeOut);
             const aliceBalance = await getBalance(node_url_alice, rpcAuth, true);
             console.log('aliceBalance:'+aliceBalance);
@@ -85,7 +98,7 @@ if(Meteor.isAppTest || Meteor.isTest) {
             done();
         });
 
-        it("should generate some coins and should check updated balance ", async function (done) {
+        xit("should generate some coins and should check updated balance ", async function (done) {
             this.timeout(mochaTimeOut);
 
             global.aliceAddress = await getNewAddress(node_url_alice, rpcAuth, true);
@@ -104,17 +117,6 @@ if(Meteor.isAppTest || Meteor.isTest) {
             chai.expect(await driver.findElement(By.id("balanceAmount")).getText()).to.be.equal(aliceBalance.toString());
             done();
         });
-
-        it("should request a doi and check if it appears in opt-ins", async function (done) {
-            this.timeout(mochaTimeOut);
-            const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
-            const sender_mail = "alice-over-selenium"+Date.now()+"@ci-doichain.org";
-            const dataLoginAlice = login(dappUrlAlice, dAppLogin, true); //log into dApp
-            console.log("current DNS-Servers:"+dns.getServers());
-            requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, dataLoginAlice, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
-            done();
-        });
-
         async function logIn(username, password) {
             await driver.get(doichainLoginURL);
             await driver.wait(until.elementLocated(By.css("a.btn-secondary")));
@@ -127,21 +129,6 @@ if(Meteor.isAppTest || Meteor.isTest) {
             return;
         }
 
-        xit('should append query to title', async function () {
-            this.timeout(mochaTimeOut);
-            await driver.get('http://www.google.com/ncr');
-            await driver.findElement(By.name('q')).sendKeys('webdriver');
-            await driver.findElement(By.name('q')).sendKeys(webdriver.Key.ENTER);
-            await driver.wait(until.titleIs('webdriver - Google Search'), 3000);
-        });
-
-        xit("package.json has correct name", async function () {
-            const {
-                name
-            } = await
-                import ("../../package.json");
-            assert.strictEqual(name, "doichain");
-        });
 
     });
 }
