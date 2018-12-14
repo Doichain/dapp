@@ -223,7 +223,7 @@ function start_3rd_node(callback) {
                     '--dns=172.20.0.5  ' +
                     '--dns=8.8.8.8 ' +
                     '--dns-search=ci-doichain.org ' +
-                    '--ip=172.20.0.9 ' +
+                    '--ip=172.20.0.10 ' +
                     '--network='+network+' -d doichain/core:0.16.3.2', (e, stdout, stderr)=> {
                     callback(stderr, stdout);
                 });
