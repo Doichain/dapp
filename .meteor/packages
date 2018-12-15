@@ -37,12 +37,12 @@ http@1.4.1
 underscore@1.0.10
 mongo-livedata@1.0.12
 sakulstra:aggregate
-std:accounts-ui
 rwatts:uuid
 accounts-password@1.5.1
 zetoff:accounts-material-ui
-meteortesting:mocha
+meteortesting:mocha@1.1.1
 xolvio:cleaner
 practicalmeteor:chai
 
 babel-runtime@1.3.0
+std:accounts-ui

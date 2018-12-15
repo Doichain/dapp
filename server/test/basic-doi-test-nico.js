@@ -1,8 +1,47 @@
 import {chai} from 'meteor/practicalmeteor:chai';
+import {logBlockchain} from "../../imports/startup/server/log-configuration";
+import {deleteOptInsFromAliceAndBob, getBalance, initBlockchain} from "./test-api/test-api-on-node";
+import {login, requestConfirmVerifyBasicDoi} from "./test-api/test-api-on-dapp";
+const node_url_alice = 'http://172.20.0.6:18332/';
+const node_url_bob =   'http://172.20.0.7:18332/';
+const rpcAuth = "admin:generated-password";
+const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
+const log = true;
 
-if(Meteor.isTest) {
-    xdescribe('basic-doi-test-nico', function () {
+
+const rpcAuthAlice = "admin:generated-password";
+const dappUrlAlice = "http://localhost:3000";
+const dappUrlBob = "http://172.20.0.8:4000";
+const dAppLogin = {"username":"admin","password":"password"};
+
+
+if(Meteor.isTest || Meteor.isAppTest) {
+
+    describe('basic-doi-test-nico', function () {
         this.timeout(600000);
+
+        before(function () {
+            logBlockchain("removing OptIns,Recipients,Senders");
+            deleteOptInsFromAliceAndBob();
+        });
+
+        xit('should create a RegTest Doichain with alice and bob and some Doi - coins', function () {
+            initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyBob,true);
+            const aliceBalance = getBalance(node_url_alice, rpcAuth, log);
+            chai.assert.isAbove(aliceBalance, 0, 'no funding! ');
+        });
+
+        xit('should test if basic Doichain workflow is working with optional data', function (done) {
+            const recipient_mail = "bob+1@ci-doichain.org"; //please use this as standard to not confuse people!
+            const sender_mail = "alice@ci-doichain.org";
+            const dataLoginAlice = login(dappUrlAlice, dAppLogin, false); //log into dApp
+            requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, dataLoginAlice, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
+            done();
+        });
+    });
+
+    xdescribe('basic-doi-test-nico', function () {
+
 
         /**
          * Information regarding to event loop node.js

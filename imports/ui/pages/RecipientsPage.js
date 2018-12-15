@@ -4,6 +4,7 @@ import BaseComponent from '../components/BaseComponent.js';
 import Header from '../components/Header.js';
 import Message from '../components/Message.js';
 import Item from '../components/Item.js';
+import PropTypes from 'prop-types';
 
 export default class RecipientsPage extends BaseComponent {
   constructor(props) {
@@ -66,6 +67,6 @@ export default class RecipientsPage extends BaseComponent {
 }
 
 RecipientsPage.propTypes = {
-  recipients: React.PropTypes.array,
-  loading: React.PropTypes.bool
+  recipients: PropTypes.array,
+  loading: PropTypes.bool
 };

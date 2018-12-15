@@ -17,6 +17,7 @@ export function resolveTxt(key, domain) {
     });
     return value;
   } catch(error) {
+    logSend("error while asking dns servers from ",dns.getServers());
     if(error.message.startsWith("queryTxt ENODATA") ||
         error.message.startsWith("queryTxt ENOTFOUND")) return undefined;
     else throw error;

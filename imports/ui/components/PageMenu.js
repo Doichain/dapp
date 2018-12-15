@@ -3,6 +3,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { Link, IndexLink } from 'react-router';
 import i18n from 'meteor/universe:i18n';
 import BaseComponent from './BaseComponent.js';
+import PropTypes from 'prop-types';
 
 export default class PageMenu extends BaseComponent {
   constructor(props) {
@@ -71,5 +72,5 @@ export default class PageMenu extends BaseComponent {
 }
 
 PageMenu.contextTypes = {
-  router: React.PropTypes.object,
+  router:  PropTypes.object,
 };

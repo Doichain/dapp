@@ -5,6 +5,8 @@ services:
     hostname: mongo
     expose:
       - "27017"
+    ports:
+      - "28017:27017"
     dns:
       - 172.20.0.5
     networks:
@@ -17,7 +19,7 @@ services:
     expose:
       - "53"
     ports:
-     # - "53:53"
+      - "53:53/udp"
       - "10000:10000"
     dns:
       - 172.20.0.5
@@ -43,6 +45,7 @@ services:
     ports:
       - "8443:8443"
       - "25:25"
+      - "110:110"
       - "465:465"
       - "995:995"
     dns:
@@ -123,6 +126,7 @@ services:
       - "4000"
     stdin_open: true
     tty: true
+    privileged: true
     depends_on:
       - alice
       - bob
@@ -132,9 +136,18 @@ services:
         static-network:
           ipv4_address: 172.20.0.8
 
+  dockerhost:
+    image: qoomon/docker-host
+    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    restart: on-failure
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.9
+
 networks:
   static-network:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
