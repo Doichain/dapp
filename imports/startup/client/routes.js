@@ -9,10 +9,10 @@ import NotFoundPage from '../../ui/pages/NotFoundPage.js';
 import RecipientsPageContainer from '../../ui/containers/RecipientsPageContainer.js';
 import OptInsPageContainer from '../../ui/containers/OptInsPageContainer.js';
 import requireRole from './require_role.js';
-
-
 import { Accounts, STATES } from 'meteor/std:accounts-ui';
 Meteor.subscribe("version");
+
+
 Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_EMAIL',
     loginPath: '/signin',

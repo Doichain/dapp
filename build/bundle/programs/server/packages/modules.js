@@ -141,10 +141,10 @@ install("url", "meteor/url/url_server.js");
 install("http", "meteor/http/httpcall_server.js");
 install("mongo-livedata");
 install("sakulstra:aggregate");
+install("rwatts:uuid");
 install("deps");
 install("softwarerero:accounts-t9n");
 install("std:accounts-ui", "meteor/std:accounts-ui/main_server.js");
-install("rwatts:uuid");
 install("zetoff:accounts-material-ui", "meteor/zetoff:accounts-material-ui/main.jsx");
 install("practicalmeteor:chai");
 install("livedata");
@@ -604,17 +604,17 @@ module.useNode();
                                                                                                     //
 module.exports = {
   "name": "react",
-  "version": "15.6.2",
-  "main": "react.js"
+  "version": "16.6.3",
+  "main": "index.js"
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-},"react.js":function(require,exports,module){
+},"index.js":function(require,exports,module){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                  //
-// node_modules/react/react.js                                                                      //
+// node_modules/react/index.js                                                                      //
 //                                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////////////////////
                                                                                                     //
@@ -658,7 +658,7 @@ module.useNode();
                                                                                                     //
 module.exports = {
   "name": "react-dom",
-  "version": "15.6.2",
+  "version": "16.6.3",
   "main": "index.js"
 };
 
@@ -675,34 +675,7 @@ module.exports = {
 module.useNode();
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}},"react-tap-event-plugin":{"package.json":function(require,exports,module){
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                  //
-// node_modules/react-tap-event-plugin/package.json                                                 //
-//                                                                                                  //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-                                                                                                    //
-module.exports = {
-  "name": "react-tap-event-plugin",
-  "version": "2.0.1",
-  "main": "src/injectTapEventPlugin.js"
-};
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
-},"src":{"injectTapEventPlugin.js":function(require,exports,module){
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                  //
-// node_modules/react-tap-event-plugin/src/injectTapEventPlugin.js                                  //
-//                                                                                                  //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-                                                                                                    //
-module.useNode();
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}}},"material-ui":{"package.json":function(require,exports,module){
+}},"material-ui":{"package.json":function(require,exports,module){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                  //

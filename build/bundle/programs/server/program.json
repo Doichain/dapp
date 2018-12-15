@@ -318,6 +318,9 @@
       "path": "packages/sakulstra_aggregate.js"
     },
     {
+      "path": "packages/rwatts_uuid.js"
+    },
+    {
       "path": "packages/deps.js"
     },
     {
@@ -327,9 +330,6 @@
       "node_modules": "npm/node_modules/meteor/std_accounts-ui/node_modules",
       "sourceMap": "packages/std_accounts-ui.js.map",
       "path": "packages/std_accounts-ui.js"
-    },
-    {
-      "path": "packages/rwatts_uuid.js"
     },
     {
       "node_modules": "npm/node_modules/meteor/zetoff_accounts-material-ui/node_modules",

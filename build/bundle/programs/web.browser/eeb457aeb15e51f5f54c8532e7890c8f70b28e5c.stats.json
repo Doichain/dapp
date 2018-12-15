@@ -3,15 +3,15 @@
     "name": "standard-minifier-js",
     "version": "2.4.0"
   },
-  "totalMinifiedBytes": 1864462,
-  "totalMinifiedGzipBytes": 495542,
+  "totalMinifiedBytes": 1813392,
+  "totalMinifiedGzipBytes": 483844,
   "minifiedBytesByPackage": {
     "packages/meteor.js": 9433,
     "packages/meteor-base.js": 31,
     "packages/mobile-experience.js": 37,
     "packages/modules-runtime.js": 4199,
     "packages/modules.js": [
-      889408,
+      838426,
       {
         "node_modules": {
           "meteor": {
@@ -36,216 +36,45 @@
             }
           },
           "react-dom": {
-            "package.json": 78,
-            "index.js": 59,
-            "lib": {
-              "ReactDOM.js": 869,
-              "ReactDOMComponentTree.js": 1447,
-              "reactProdInvariant.js": 441,
-              "DOMProperty.js": 1796,
-              "ReactDOMComponentFlags.js": 71,
-              "ReactDefaultInjection.js": 1392,
-              "ARIADOMPropertyConfig.js": 976,
-              "BeforeInputEventPlugin.js": 3033,
-              "EventPropagators.js": 1180,
-              "EventPluginHub.js": 1916,
-              "EventPluginRegistry.js": 1709,
-              "EventPluginUtils.js": 2039,
-              "ReactErrorUtils.js": 233,
-              "accumulateInto.js": 256,
-              "forEachAccumulated.js": 106,
-              "FallbackCompositionState.js": 687,
-              "PooledClass.js": 993,
-              "getTextContentAccessor.js": 198,
-              "SyntheticCompositionEvent.js": 151,
-              "SyntheticEvent.js": 2204,
-              "SyntheticInputEvent.js": 151,
-              "ChangeEventPlugin.js": 2397,
-              "ReactUpdates.js": 2594,
-              "CallbackQueue.js": 1052,
-              "ReactFeatureFlags.js": 71,
-              "ReactReconciler.js": 830,
-              "ReactRef.js": 654,
-              "ReactOwner.js": 404,
-              "ReactInstrumentation.js": 66,
-              "ReactDebugTool.js": 3722,
-              "ReactInvalidSetStateWarningHook.js": 196,
-              "ReactHostOperationHistoryHook.js": 177,
-              "Transaction.js": 1224,
-              "inputValueTracking.js": 1184,
-              "getEventTarget.js": 186,
-              "isEventSupported.js": 502,
-              "isTextInputElement.js": 300,
-              "DefaultEventPluginOrder.js": 198,
-              "EnterLeaveEventPlugin.js": 1024,
-              "SyntheticMouseEvent.js": 663,
-              "SyntheticUIEvent.js": 350,
-              "ViewportMetrics.js": 168,
-              "getEventModifierState.js": 259,
-              "HTMLDOMPropertyConfig.js": 2246,
-              "ReactComponentBrowserEnvironment.js": 224,
-              "DOMChildrenOperations.js": 1271,
-              "DOMLazyTree.js": 1136,
-              "DOMNamespaces.js": 162,
-              "setInnerHTML.js": 763,
-              "createMicrosoftUnsafeLocalFunction.js": 205,
-              "setTextContent.js": 379,
-              "escapeTextContentForBrowser.js": 463,
-              "Danger.js": 441,
-              "ReactDOMIDOperations.js": 213,
-              "ReactDOMComponent.js": 11140,
-              "AutoFocusUtils.js": 167,
-              "CSSPropertyOperations.js": 998,
-              "CSSProperty.js": 1590,
-              "dangerousStyleValue.js": 314,
-              "DOMPropertyOperations.js": 2155,
-              "quoteAttributeValueForBrowser.js": 115,
-              "ReactBrowserEventEmitter.js": 3775,
-              "ReactEventEmitterMixin.js": 202,
-              "getVendorPrefixedEventName.js": 833,
-              "ReactDOMInput.js": 2339,
-              "LinkedValueUtils.js": 1770,
-              "ReactPropTypesSecret.js": 94,
-              "ReactDOMOption.js": 985,
-              "ReactDOMSelect.js": 2000,
-              "ReactDOMTextarea.js": 1227,
-              "ReactMultiChild.js": 2833,
-              "ReactComponentEnvironment.js": 321,
-              "ReactInstanceMap.js": 254,
-              "ReactChildReconciler.js": 964,
-              "instantiateReactComponent.js": 1078,
-              "ReactCompositeComponent.js": 8101,
-              "ReactNodeTypes.js": 286,
-              "checkReactTypeSpec.js": 478,
-              "ReactPropTypeLocationNames.js": 50,
-              "shouldUpdateReactComponent.js": 251,
-              "ReactEmptyComponent.js": 146,
-              "ReactHostComponent.js": 405,
-              "KeyEscapeUtils.js": 329,
-              "traverseAllChildren.js": 1033,
-              "ReactElementSymbol.js": 121,
-              "getIteratorFn.js": 177,
-              "flattenChildren.js": 322,
-              "ReactServerRenderingTransaction.js": 581,
-              "ReactServerUpdateQueue.js": 811,
-              "ReactUpdateQueue.js": 1465,
-              "validateDOMNesting.js": 144,
-              "ReactDOMEmptyComponent.js": 706,
-              "ReactDOMTreeTraversal.js": 1038,
-              "ReactDOMTextComponent.js": 1631,
-              "ReactDefaultBatchingStrategy.js": 537,
-              "ReactEventListener.js": 1488,
-              "ReactInjection.js": 468,
-              "ReactReconcileTransaction.js": 1056,
-              "ReactInputSelection.js": 1415,
-              "ReactDOMSelection.js": 1756,
-              "getNodeForCharacterOffset.js": 320,
-              "SVGDOMPropertyConfig.js": 5406,
-              "SelectEventPlugin.js": 1695,
-              "SimpleEventPlugin.js": 3230,
-              "SyntheticAnimationEvent.js": 196,
-              "SyntheticClipboardEvent.js": 231,
-              "SyntheticFocusEvent.js": 162,
-              "SyntheticKeyboardEvent.js": 562,
-              "getEventCharCode.js": 151,
-              "getEventKey.js": 916,
-              "SyntheticDragEvent.js": 164,
-              "SyntheticTouchEvent.js": 295,
-              "SyntheticTransitionEvent.js": 195,
-              "SyntheticWheelEvent.js": 370,
-              "ReactMount.js": 4441,
-              "ReactDOMContainerInfo.js": 278,
-              "ReactDOMFeatureFlags.js": 81,
-              "ReactMarkupChecksum.js": 354,
-              "adler32.js": 311,
-              "ReactVersion.js": 48,
-              "findDOMNode.js": 448,
-              "getHostComponentFromComposite.js": 218,
-              "renderSubtreeIntoContainer.js": 92,
-              "ReactDOMUnknownPropertyHook.js": 514,
-              "ReactDOMNullInputValuePropHook.js": 345,
-              "ReactDOMInvalidARIAHook.js": 764,
-              "EventConstants.js": 1246
+            "package.json": 124,
+            "index.js": 287,
+            "cjs": {
+              "react-dom.production.min.js": 97892,
+              "react-dom.development.js": 29
             }
           },
-          "fbjs": {
-            "lib": {
-              "invariant.js": 403,
-              "warning.js": 72,
-              "emptyFunction.js": 281,
-              "ExecutionEnvironment.js": 305,
-              "performanceNow.js": 137,
-              "performance.js": 163,
-              "createNodesFromMarkup.js": 568,
-              "createArrayFromMixed.js": 607,
-              "getMarkupWrap.js": 1009,
-              "focusNode.js": 80,
-              "camelizeStyleName.js": 116,
-              "camelize.js": 127,
-              "hyphenateStyleName.js": 117,
-              "hyphenate.js": 112,
-              "memoizeStringOnly.js": 139,
-              "emptyObject.js": 50,
-              "shallowEqual.js": 403,
-              "EventListener.js": 477,
-              "getUnboundedScrollPosition.js": 236,
-              "containsNode.js": 233,
-              "isTextNode.js": 102,
-              "isNode.js": 254,
-              "getActiveElement.js": 192,
-              "keyOf.js": 123
+          "react": {
+            "package.json": 74,
+            "index.js": 74,
+            "cjs": {
+              "react.production.min.js": 5906,
+              "react.development.js": 29
             }
           },
           "object-assign": {
             "package.json": 65,
             "index.js": 940
           },
-          "react": {
-            "lib": {
-              "ReactComponentTreeHook.js": 4196,
-              "reactProdInvariant.js": 441,
-              "ReactCurrentOwner.js": 62,
-              "React.js": 627,
-              "ReactBaseClasses.js": 908,
-              "ReactNoopUpdateQueue.js": 316,
-              "canDefineProperty.js": 50,
-              "lowPriorityWarning.js": 62,
-              "ReactChildren.js": 1414,
-              "PooledClass.js": 993,
-              "ReactElement.js": 1884,
-              "ReactElementSymbol.js": 121,
-              "traverseAllChildren.js": 1025,
-              "getIteratorFn.js": 177,
-              "KeyEscapeUtils.js": 329,
-              "ReactDOMFactories.js": 2217,
-              "ReactElementValidator.js": 2222,
-              "checkReactTypeSpec.js": 478,
-              "ReactPropTypeLocationNames.js": 50,
-              "ReactPropTypesSecret.js": 94,
-              "ReactPropTypes.js": 113,
-              "ReactVersion.js": 48,
-              "createClass.js": 193,
-              "onlyChild.js": 174,
-              "getNextDebugID.js": 73
-            },
-            "package.json": 74,
-            "react.js": 56
-          },
           "prop-types": {
-            "factory.js": 113,
-            "factoryWithTypeCheckers.js": 5252,
+            "checkPropTypes.js": 98,
             "lib": {
               "ReactPropTypesSecret.js": 94
             },
-            "checkPropTypes.js": 98,
             "package.json": 79,
             "index.js": 70,
+            "factoryWithTypeCheckers.js": 5252,
             "factoryWithThrowingShims.js": 608
           },
-          "create-react-class": {
-            "factory.js": 5076,
-            "package.json": 87,
-            "index.js": 314
+          "scheduler": {
+            "package.json": 78,
+            "index.js": 78,
+            "cjs": {
+              "scheduler.production.min.js": 4252,
+              "scheduler.development.js": 29,
+              "scheduler-tracing.production.min.js": 417,
+              "scheduler-tracing.development.js": 27
+            },
+            "tracing.js": 86
           },
           "react-router": {
             "package.json": 81,
@@ -288,6 +117,20 @@
           "invariant": {
             "package.json": 102,
             "browser.js": 381
+          },
+          "create-react-class": {
+            "package.json": 87,
+            "index.js": 314,
+            "factory.js": 5076
+          },
+          "fbjs": {
+            "lib": {
+              "emptyObject.js": 50,
+              "invariant.js": 403,
+              "warning.js": 72,
+              "emptyFunction.js": 281,
+              "shallowEqual.js": 403
+            }
           },
           "warning": {
             "package.json": 98,
@@ -1065,15 +908,6 @@
               }
             }
           },
-          "react-tap-event-plugin": {
-            "package.json": 109,
-            "src": {
-              "injectTapEventPlugin.js": 272,
-              "defaultClickRejectionStrategy.js": 64,
-              "TapEventPlugin.js": 1454,
-              "TouchEventUtils.js": 161
-            }
-          },
           "simple-assign": {
             "package.json": 81,
             "index.js": 173
@@ -1085,23 +919,23 @@
           "react-event-listener": {
             "package.json": 112,
             "dist": {
-              "react-event-listener.cjs.js": 2157
+              "react-event-listener.cjs.js": 2109
             },
             "node_modules": {
               "@babel": {
                 "runtime": {
                   "helpers": {
-                    "builtin": {
-                      "classCallCheck.js": 122,
-                      "createClass.js": 251,
-                      "possibleConstructorReturn.js": 170,
-                      "typeof.js": 505,
-                      "assertThisInitialized.js": 151,
-                      "inherits.js": 328,
-                      "objectWithoutProperties.js": 341,
-                      "objectSpread.js": 380,
-                      "defineProperty.js": 148
-                    }
+                    "classCallCheck.js": 122,
+                    "createClass.js": 251,
+                    "possibleConstructorReturn.js": 159,
+                    "typeof.js": 505,
+                    "assertThisInitialized.js": 151,
+                    "getPrototypeOf.js": 170,
+                    "inherits.js": 284,
+                    "setPrototypeOf.js": 133,
+                    "objectWithoutProperties.js": 311,
+                    "objectWithoutPropertiesLoose.js": 162,
+                    "extends.js": 246
                   }
                 }
               },
@@ -1827,9 +1661,10 @@
     ],
     "packages/mongo-livedata.js": 34,
     "packages/sakulstra_aggregate.js": 39,
+    "packages/rwatts_uuid.js": 522,
     "packages/softwarerero_accounts-t9n.js": 187446,
     "packages/std_accounts-ui.js": [
-      43583,
+      43482,
       {
         "node_modules": {
           "meteor": {
@@ -1854,7 +1689,7 @@
                     "Form.jsx": 1189,
                     "FormMessage.jsx": 656,
                     "FormMessages.jsx": 474,
-                    "LoginForm.jsx": 17269,
+                    "LoginForm.jsx": 17168,
                     "PasswordOrService.jsx": 878,
                     "SocialButtons.jsx": 516
                   }
@@ -1892,15 +1727,14 @@
         }
       }
     ],
-    "packages/rwatts_uuid.js": 522,
     "packages/zetoff_accounts-material-ui.js": [
-      5369,
+      5305,
       {
         "node_modules": {
           "meteor": {
             "zetoff:accounts-material-ui": {
               "check_npm.js": 181,
-              "main.jsx": 3727,
+              "main.jsx": 3663,
               "fix.js": 330,
               "social_buttons_config.js": 504
             }
@@ -1934,7 +1768,7 @@
       {}
     ],
     "app/app.js": [
-      28151,
+      28228,
       {
         "client": {
           "template.main.js": 147,
@@ -1961,20 +1795,20 @@
           },
           "ui": {
             "components": {
-              "Balance.js": 598,
+              "Balance.js": 545,
               "BaseComponent.js": 445,
               "ConnectionNotification.js": 612,
               "Header.js": 595,
               "ImageElement.js": 749,
-              "Item.js": 813,
+              "Item.js": 846,
               "KeyGenerator.js": 1075,
               "LanguageToggle.js": 815,
               "Loading.js": 326,
               "Message.js": 389,
               "MobileMenu.js": 618,
-              "PageMenu.js": 1306,
-              "RecipientElement.js": 980,
-              "UserMenu.js": 1323
+              "PageMenu.js": 1339,
+              "RecipientElement.js": 940,
+              "UserMenu.js": 1346
             },
             "containers": {
               "AppContainer.js": 438,
@@ -1988,8 +1822,8 @@
               "BalancePage.js": 530,
               "KeyGeneratorPage.js": 546,
               "NotFoundPage.js": 470,
-              "OptInsPage.js": 2058,
-              "RecipientsPage.js": 1235,
+              "OptInsPage.js": 2116,
+              "RecipientsPage.js": 1258,
               "StartPage.js": 822
             }
           }
