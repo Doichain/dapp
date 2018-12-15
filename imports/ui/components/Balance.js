@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import i18n from 'meteor/universe:i18n';
+//import i18n from 'meteor/universe:i18n';
 import BaseComponent from './BaseComponent.js';
 
 export default class Balance extends BaseComponent {

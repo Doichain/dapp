@@ -1,6 +1,8 @@
 import React from 'react';
 import BaseComponent from './BaseComponent.js';
 import ImageElement from './ImageElement.js';
+import PropTypes from 'prop-types';
+
 export default class Item extends BaseComponent {
   constructor(props) {
     super(props);
@@ -40,5 +42,5 @@ export default class Item extends BaseComponent {
 }
 
 Item.propTypes = {
-  keys: React.PropTypes.array
+  keys: PropTypes.array
 };

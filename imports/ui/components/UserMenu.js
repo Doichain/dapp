@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import i18n from 'meteor/universe:i18n';
 import BaseComponent from './BaseComponent.js';
+import PropTypes from 'prop-types';
 
 export default class UserMenu extends BaseComponent {
   constructor(props) {
@@ -69,6 +70,6 @@ export default class UserMenu extends BaseComponent {
 }
 
 UserMenu.propTypes = {
-  user: React.PropTypes.object,
-  logout: React.PropTypes.func,
+  user: PropTypes.object,
+  logout: PropTypes.func,
 };

@@ -5,6 +5,7 @@ import Header from '../components/Header.js';
 import Message from '../components/Message.js';
 import Item from '../components/Item.js';
 import RecipientElement from '../components/RecipientElement.js';
+import PropTypes from 'prop-types';
 
 export default class OptInsPage extends BaseComponent {
   constructor(props) {
@@ -48,13 +49,13 @@ export default class OptInsPage extends BaseComponent {
               {
                 key: "data",
                 name: i18n.__('pages.optInsPage.data'),
-                value: subJson(optIn.data),
+                value: optIn.data?subJson(optIn.data):"",
                 json: true
               },
               {
                 key: "screenshot",
                 name: i18n.__('pages.optInsPage.screenshot'),
-                value: parseScreenshot(optIn.data),
+                value: optIn.data?parseScreenshot(optIn.data):"",
                 image: true
               },
               {
@@ -65,7 +66,7 @@ export default class OptInsPage extends BaseComponent {
               {
                 key: "createdAt",
                 name: i18n.__('pages.optInsPage.createdAt'),
-                value: optIn.createdAt.toISOString()
+                value: optIn.createdAt?optIn.createdAt.toISOString():""
               },
               {
                 key: "confirmedAt",
@@ -127,6 +128,6 @@ function parseScreenshot(json){
 }
 
 OptInsPage.propTypes = {
-  optIns: React.PropTypes.array,
-  loading: React.PropTypes.bool
+  optIns: PropTypes.array,
+  loading: PropTypes.bool
 };

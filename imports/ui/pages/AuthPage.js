@@ -1,6 +1,6 @@
 import React from 'react';
 import MobileMenu from '../components/MobileMenu.js';
-
+import PropTypes from 'prop-types';
 const AuthPage = ({ content, link }) => (
   <div className="page auth">
     <nav>
@@ -14,8 +14,8 @@ const AuthPage = ({ content, link }) => (
 );
 
 AuthPage.propTypes = {
-  content: React.PropTypes.element,
-  link: React.PropTypes.element,
+  content: PropTypes.element,
+  link: PropTypes.element,
 };
 
 export default AuthPage;

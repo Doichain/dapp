@@ -1,8 +1,7 @@
-import { Meteor } from 'meteor/meteor';
-import React from 'react';
 import i18n from 'meteor/universe:i18n';
 import BaseComponent from './BaseComponent.js';
 import Item from '../components/Item.js';
+import React from 'react';
 
 export default class RecipientElement extends BaseComponent {
   constructor(props) {
@@ -41,7 +40,7 @@ export default class RecipientElement extends BaseComponent {
               {
                 key: "createdAt",
                 name: i18n.__('pages.recipientsPage.createdAt'),
-                value: createdAt.toISOString()
+                value: createdAt?createdAt.toISOString():""
               }
             ]}
             key={_id}
