@@ -2,10 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import {Meta} from '../../api/meta/meta.js'
 Meteor.startup(() => {
-   let version=Assets.getText("version.json");
 
-  if (Meta.find().count() > 0){
-    Meta.remove({});
+  let version=Assets.getText("version.json");
+
+  if(Meta.find({key:"version"}).count() > 0){
+    Meta.remove({key:"version"});
   }
    Meta.insert({key:"version",value:version});
   
