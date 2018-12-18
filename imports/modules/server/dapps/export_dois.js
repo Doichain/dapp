@@ -39,7 +39,7 @@ const exportDois = (data) => {
         { $lookup: { from: "senders", localField: "sender", foreignField: "_id", as: "SenderEmail" } },
         { $unwind: "$SenderEmail"},
         { $unwind: "$RecipientEmail"},
-        { $project: {_id:1,createdAt:1, confirmedAt:1,nameId:1, 'SenderEmail.email':1,'RecipientEmail.email':1}
+        { $project: {_id:1,ownerId:1, createdAt:1, confirmedAt:1,nameId:1, 'SenderEmail.email':1,'RecipientEmail.email':1}
       }
     ];
     //if(ourData.status==1) query = {"confirmedAt": { $exists: true, $ne: null }}
