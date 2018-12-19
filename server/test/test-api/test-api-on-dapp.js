@@ -6,7 +6,6 @@ import {Recipients} from "../../../imports/api/recipients/recipients";
 import {getHttpGET, getHttpGETdata, getHttpPOST} from "../../../server/api/http";
 import {testLogging} from "../../../imports/startup/server/log-configuration";
 import {generatetoaddress} from "./test-api-on-node";
-import { AssertionError } from "assert";
 
 const headers = { 'Content-Type':'text/plain'  };
 const os = require('os');
@@ -155,7 +154,7 @@ async function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback)
         if(our_optIn._id != optInId) throw new Error("OptInId wrong",our_optIn._id,optInId);
         if(log) testLogging('optIn:',our_optIn);
         nameId = getNameIdOfRawTransaction(url,auth,our_optIn.txId);
-        if("e/"+our_optIn.nameId != nameId) throw new AssertionError("NameId wrong","e/"+our_optIn.nameId,nameId);
+        chai.assert.equal("e/"+our_optIn.nameId,nameId);
 
         if(log) testLogging('nameId:',nameId);
         if(nameId == null) throw new Error("NameId null");
@@ -339,15 +338,25 @@ function delete_all_emails_from_pop3(hostname,port,username,password,log,callbac
     });
 }
 
-export function confirmLink(confirmLink){
+export function confirmLink(confirmLink) {
+    const syncFunc = Meteor.wrapAsync(confirm_link);
+    return syncFunc(confirmLink);
+}
+
+function confirm_link(confirmLink,callback){
     testLogging("clickable link:",confirmLink);
     const doiConfirmlinkResult = getHttpGET(confirmLink,'');
-
+    try{
     chai.expect(doiConfirmlinkResult.content).to.have.string('ANMELDUNG ERFOLGREICH');
     chai.expect(doiConfirmlinkResult.content).to.have.string('Vielen Dank für Ihre Anmeldung');
     chai.expect(doiConfirmlinkResult.content).to.have.string('Ihre Anmeldung war erfolgreich.');
     chai.assert.equal(200, doiConfirmlinkResult.statusCode);
-    return true;
+    callback(null,true);
+    }
+    catch(e){
+        callback(e,null);
+    }
+    
 }
 
 export function verifyDOI(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log ){
@@ -399,15 +408,15 @@ async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
         }
 
     })();
-    try{
-        if(statusVerify!=200) throw new AssertionError("Bad verify response",statusVerify,200);
-        if(resultVerify.data.data.val != true) throw new Error("Verification did not return true");
-        if(counter >= 50) throw new Error("could not verify DOI after retries");
+        try{
+        chai.assert.equal(statusVerify,200);
+        chai.assert.equal(resultVerify.data.data.val,true);
+        chai.assert.isBelow(counter,50);
         callback(null,true);
-    }
-    catch(error){
+        }
+        catch(error){
         callback(error,false);
-    }
+        }
 }
 
 export function createUser(url,auth,username,templateURL,log){
