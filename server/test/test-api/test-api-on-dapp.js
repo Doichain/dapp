@@ -151,14 +151,14 @@ async function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback)
 
     try{
 
-        if(our_optIn._id != optInId) throw new Error("OptInId wrong",our_optIn._id,optInId);
+        chai.assert.equal(our_optIn._id,optInId);
         if(log) testLogging('optIn:',our_optIn);
         nameId = getNameIdOfRawTransaction(url,auth,our_optIn.txId);
         chai.assert.equal("e/"+our_optIn.nameId,nameId);
 
         if(log) testLogging('nameId:',nameId);
-        if(nameId == null) throw new Error("NameId null");
-        if(counter >= 50) throw new Error("OptIn not found after retries");
+        chai.assert.notEqual(nameId,null);
+        chai.assert.isBelow(counter,50,"OptIn not found after retries");
         callback(null,nameId);
     }
     catch(error){
@@ -508,23 +508,23 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
     let running = true;
     let counter = 0;
-    await (async function loop() {
+    let confirmedLink = "";
+    confirmedLink = await(async function loop() {
         while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
             try{
                 testLogging('step 3: getting email from hostname!',os.hostname());
                 const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname()=='regtest')?'mail':'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
                 testLogging('step 4: confirming link',link2Confirm);
-                if(link2Confirm!=null) running=false;
+                if(link2Confirm!=null){running=false;
                 confirmLink(link2Confirm);
+                confirmedLink=link2Confirm;
                 testLogging('confirmed')
+                return link2Confirm;
+                }
             }catch(ex){
                 testLogging('trying to get email - so far no success:',counter);
                 await new Promise(resolve => setTimeout(resolve, 3000));
             }
-        }
-
-        if(counter >= 50){
-            throw new Error("email not found after max retries");
         }
 
     })();
@@ -536,6 +536,8 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     }else{
         let nameId=null;
         try{
+            //confirmLink(confirmedLink);
+            chai.assert.isBelow(counter,50);
             const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
             if(log) testLogging('got nameId',nameId);
             generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);

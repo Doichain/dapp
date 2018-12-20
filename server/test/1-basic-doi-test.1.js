@@ -94,6 +94,7 @@ if(Meteor.isAppTest) {
             const exportedOptIns = exportOptIns(dappUrlAlice, logAdmin, true);
             chai.expect(exportedOptIns).to.not.be.undefined;
             chai.expect(exportedOptIns[0]).to.not.be.undefined;
+            chai.expect(exportedOptIns[0].RecipientEmail.email).to.be.equal(recipient_mail);
             const exportedOptInsA = exportOptIns(dappUrlAlice, logUserA, true);
             exportedOptInsA.forEach(element => {
                 chai.expect(element.ownerId).to.be.equal(logUserA.userId);
