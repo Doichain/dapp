@@ -6,7 +6,9 @@ import {
     login,
     requestDOI, verifyDOI
 } from "./test-api/test-api-on-dapp";
-import {testLogging} from "../../imports/startup/server/log-configuration";
+import {
+    testLog as testLogging
+} from "meteor/doichain:doichain-meteor-api";
 import {
     deleteOptInsFromAliceAndBob,
     generatetoaddress,

@@ -1,8 +1,22 @@
-import { Meteor } from 'meteor/meteor';
-import { render } from 'react-dom';
-import '/imports/startup/client';
-import { renderRoutes } from '../imports/startup/client/routes.js';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './app.js'
+import '/imports/both/startup'
+import { AccountsReact } from 'meteor/meteoreact:accounts'
 
 Meteor.startup(() => {
-  render(renderRoutes(), document.getElementById('app'));
-});
+
+  AccountsReact.style(Package['inspiraluna:useraccounts-react-material-ui'], true)
+
+  const sub = Meteor.subscribe('users.user')
+
+  const interval = setInterval(() => {
+    if (sub.ready()) {
+      clearInterval(interval)
+      ReactDOM.render(
+        <App />,
+        document.getElementById('root')
+      )
+    }
+  }, 333)
+})

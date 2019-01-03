@@ -6,7 +6,10 @@ import {
     exportOptIns,
     requestConfirmVerifyBasicDoi, resetUsers, updateUser, deleteAllEmailsFromPop3
 } from "./test-api/test-api-on-dapp";
-import {logBlockchain} from "../../imports/startup/server/log-configuration";
+import {
+    testLog as logBlockchain
+} from "meteor/doichain:doichain-meteor-api";
+
 import {deleteOptInsFromAliceAndBob} from "./test-api/test-api-on-node";
 
 const node_url_alice = 'http://172.20.0.6:18332/';

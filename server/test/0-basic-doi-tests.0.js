@@ -1,9 +1,8 @@
 import {chai} from 'meteor/practicalmeteor:chai';
+import { testLog } from "meteor/doichain:doichain-meteor-api";
 import {
     deleteOptInsFromAliceAndBob, getBalance, initBlockchain
 } from "./test-api/test-api-on-node";
-
-import {logBlockchain} from "../../imports/startup/server/log-configuration";
 const node_url_alice = 'http://172.20.0.6:18332/';
 const node_url_bob =   'http://172.20.0.7:18332/';
 const rpcAuth = "admin:generated-password";
@@ -15,7 +14,7 @@ if(Meteor.isAppTest) {
         this.timeout(0);
 
         before(function () {
-            logBlockchain("removing OptIns,Recipients,Senders");
+            testLog("removing OptIns,Recipients,Senders",'');
             deleteOptInsFromAliceAndBob();
         });
 

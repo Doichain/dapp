@@ -4,7 +4,9 @@ import {
     login,
     requestConfirmVerifyBasicDoi, requestDOI
 } from "./test-api/test-api-on-dapp";
-import {logBlockchain} from "../../imports/startup/server/log-configuration";
+import {
+    testLog as logBlockchain
+} from "meteor/doichain:doichain-meteor-api";
 import {deleteOptInsFromAliceAndBob, generatetoaddress, getNewAddress} from "./test-api/test-api-on-node";
 
 const node_url_alice = 'http://172.20.0.6:18332/';
@@ -19,7 +21,7 @@ if(Meteor.isAppTest) {
     describe('03-basic-doi-test-03', function () {
 
         before(function () {
-            logBlockchain("removing OptIns,Recipients,Senders");
+            //logBlockchain("removing OptIns,Recipients,Senders");
             deleteOptInsFromAliceAndBob();
             deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password, true);
         });

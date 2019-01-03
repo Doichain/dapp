@@ -1,5 +1,9 @@
-import {getHttpPOST} from "../../../server/api/http";
-import {logBlockchain, testLogging} from "../../../imports/startup/server/log-configuration";
+import {
+    httpPOST as getHttpPOST,
+    testLog as testLogging,
+    testLog as logBlockchain
+} from "meteor/doichain:doichain-meteor-api";
+
 import {chai} from 'meteor/practicalmeteor:chai';
 import {Meteor} from "meteor/meteor";
 const os = require('os');
@@ -9,7 +13,7 @@ const exec = require('child_process').exec;
 
 export function initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyBob,log) {            //connect nodes (alice & bob) and generate DOI (only if not connected)
 
-    console.log("importing private key:"+privKeyBob);
+    testLogging("importing private key:"+privKeyBob);
     importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, log);
     try {
         const aliceContainerId = getContainerIdOfName('alice');

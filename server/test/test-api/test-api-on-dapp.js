@@ -1,17 +1,19 @@
 import {Meteor} from "meteor/meteor";
 import {chai} from 'meteor/practicalmeteor:chai';
 import {quotedPrintableDecode} from "emailjs-mime-codec";
-import {OptIns} from "../../../imports/api/opt-ins/opt-ins";
-import {Recipients} from "../../../imports/api/recipients/recipients";
-import {getHttpGET, getHttpGETdata, getHttpPOST} from "../../../server/api/http";
-import {testLogging} from "../../../imports/startup/server/log-configuration";
-import {generatetoaddress} from "./test-api-on-node";
 import { AssertionError } from "assert";
+import {
+    OptInsCollection,
+    RecipientsCollection as Recipients,
+    httpGET as getHttpGET,
+    httpGETdata as getHttpGETdata,
+    httpPOST as getHttpPOST,
+    testLog as testLogging
+} from "meteor/doichain:doichain-meteor-api";
+import {generatetoaddress} from "./test-api-on-node";
 
 const headers = { 'Content-Type':'text/plain'  };
 const os = require('os');
-
-
 var POP3Client = require("poplib");
 
 export function login(url, paramsLogin, log) {
@@ -137,7 +139,7 @@ async function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback)
         while(running && ++counter<50){ //trying 50x to get opt-in
 
             testLogging('find opt-In',optInId);
-            our_optIn = OptIns.findOne({_id: optInId});
+            our_optIn = OptInsCollection.findOne({_id: optInId});
             if(our_optIn.txId!==undefined){
                 testLogging('found txId of opt-In',our_optIn.txId);
                 running = false;
@@ -441,7 +443,7 @@ export function findUser(userId){
 }
 
 export function findOptIn(optInId,log){
-    const res = OptIns.findOne({_id:optInId});
+    const res = OptInsCollection.findOne({_id:optInId});
     if(log)testLogging(res,optInId);
     chai.expect(res).to.not.be.undefined;
     return res;
