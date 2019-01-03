@@ -28,3 +28,4 @@ tracker
 underscore
 sakulstra:aggregate
 practicalmeteor:chai
+practicalmeteor:mocha

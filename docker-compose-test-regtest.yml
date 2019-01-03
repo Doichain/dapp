@@ -7,8 +7,10 @@ services:
       - "27017"
     ports:
       - "28017:27017"
-    dns:
+    dns: #doesn't seem to work anymore
       - 172.20.0.5
+    volumes:
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
     networks:
       static-network:
         ipv4_address: 172.20.0.3
@@ -31,6 +33,7 @@ services:
     #tty: true
     volumes:
       - "./contrib/:/contrib"
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
     networks:
       static-network:
         ipv4_address: 172.20.0.5
@@ -56,6 +59,7 @@ services:
       - bind
     volumes:
       - "./contrib/:/contrib"
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
     command: bash -c 'cp /contrib/scripts/sasl/sasldb2 /etc/ && cp -r /contrib/scripts/tequila/* /opt/tequila/domains/ && chown -R tequila:tequila /opt/tequila/domains && mkdir -p /var/spool/virtual/ci-doichain.org && chown tequila:tequila /var/spool/virtual/ci-doichain.org && service postfix reload && sleep infinity'
     networks:
       static-network:
@@ -77,6 +81,8 @@ services:
       - 172.20.0.5
       - 8.8.8.8
     dns_search: ci-doichain.org
+    volumes:
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
     stdin_open: true
     tty: true
     networks:
@@ -99,6 +105,8 @@ services:
       - 172.20.0.5
       - 8.8.8.8
     dns_search: ci-doichain.org
+    volumes:
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
     stdin_open: true
     tty: true
     networks:
@@ -110,6 +118,7 @@ services:
     hostname: regtest
     #build: .
     volumes:
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
       - "/var/run/docker.sock:/var/run/docker.sock"
       - ".:/home/doichain/dapp" #TODO you can enable this during development but not during testing in CI (permission denided)
     dns:
