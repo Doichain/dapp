@@ -194,17 +194,11 @@
       "path": "packages/mongo.js"
     },
     {
-      "path": "packages/standard-minifier-css.js"
-    },
-    {
       "path": "packages/standard-minifier-js.js"
     },
     {
       "sourceMap": "packages/shell-server.js.map",
       "path": "packages/shell-server.js"
-    },
-    {
-      "path": "packages/mongo-livedata.js"
     },
     {
       "path": "packages/raix_eventemitter.js"
@@ -320,6 +314,12 @@
       "path": "packages/practicalmeteor_chai.js"
     },
     {
+      "path": "packages/seba_minifiers-autoprefixer.js"
+    },
+    {
+      "path": "packages/static-html.js"
+    },
+    {
       "path": "packages/livedata.js"
     },
     {
@@ -332,14 +332,6 @@
     {
       "node_modules": "npm/node_modules",
       "path": "app/global-imports.js",
-      "assets": {
-        "version.json": "assets/app/version.json"
-      }
-    },
-    {
-      "node_modules": "npm/node_modules",
-      "sourceMap": "app/app.js.map",
-      "path": "app/app.js",
       "assets": {
         "version.json": "assets/app/version.json"
       }

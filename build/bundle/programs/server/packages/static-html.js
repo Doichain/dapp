@@ -3,6 +3,6 @@
 
 
 /* Exports */
-Package._define("mongo-livedata");
+Package._define("static-html");
 
 })();

@@ -148,6 +148,8 @@ services:
   dockerhost:
     image: qoomon/docker-host
     cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    volumes:
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
     restart: on-failure
     networks:
       static-network:

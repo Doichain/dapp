@@ -107,10 +107,8 @@ install("allow-deny");
 install("mongo-decimal", "meteor/mongo-decimal/decimal.js");
 install("binary-heap", "meteor/binary-heap/binary-heap.js");
 install("mongo");
-install("standard-minifier-css");
 install("standard-minifier-js");
 install("shell-server", "meteor/shell-server/main.js");
-install("mongo-livedata");
 install("raix:eventemitter");
 install("tmeasday:check-npm-versions", "meteor/tmeasday:check-npm-versions/check-npm-versions.js");
 install("aldeed:collection2", "meteor/aldeed:collection2/collection2.js");
@@ -140,6 +138,8 @@ install("reactive-var");
 install("ultimatejs:tracker-react", "meteor/ultimatejs:tracker-react/main.js");
 install("sakulstra:aggregate");
 install("practicalmeteor:chai");
+install("seba:minifiers-autoprefixer");
+install("static-html");
 install("livedata");
 install("hot-code-push");
 install("autoupdate", "meteor/autoupdate/autoupdate_server.js");
@@ -224,54 +224,27 @@ module.useNode();
     ".json"
   ]
 });
-meteorInstall({"node_modules":{"emailjs-mime-codec":{"package.json":function(require,exports,module){
+meteorInstall({"node_modules":{"fibers":{"package.json":function(require,exports,module){
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                     //
-// node_modules/emailjs-mime-codec/package.json                                                        //
-//                                                                                                     //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                                                                                       //
-module.exports = {
-  "name": "emailjs-mime-codec",
-  "version": "2.0.7",
-  "main": "dist/mimecodec"
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-},"dist":{"mimecodec.js":function(require,exports,module){
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                     //
-// node_modules/emailjs-mime-codec/dist/mimecodec.js                                                   //
-//                                                                                                     //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                                                                                       //
-module.useNode();
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}}},"poplib":{"package.json":function(require,exports,module){
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                     //
-// node_modules/poplib/package.json                                                                    //
+// node_modules/fibers/package.json                                                                    //
 //                                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
                                                                                                        //
 module.exports = {
-  "name": "poplib",
-  "version": "0.1.7",
-  "main": "main.js"
+  "name": "fibers",
+  "version": "3.1.1",
+  "main": "fibers"
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-},"main.js":function(require,exports,module){
+},"fibers.js":function(require,exports,module){
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                     //
-// node_modules/poplib/main.js                                                                         //
+// node_modules/fibers/fibers.js                                                                       //
 //                                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
                                                                                                        //
@@ -370,7 +343,7 @@ module.useNode();
                                                                                                        //
 module.exports = {
   "name": "react",
-  "version": "16.6.3",
+  "version": "16.7.0",
   "main": "index.js"
 };
 

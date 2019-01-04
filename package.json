@@ -61,7 +61,6 @@
     "fibers": "^3.1.1",
     "hashids": "^1.2.2",
     "history": "^4.7.2",
-    "json5": "^2.1.0",
     "meteor-node-stubs": "^0.3.3",
     "mui-datatables": "^2.0.0-beta-44",
     "namecoin": "^0.1.4",

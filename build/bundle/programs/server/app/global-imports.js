@@ -13,6 +13,7 @@ chai = Package['practicalmeteor:chai'].chai;
 assert = Package['practicalmeteor:chai'].assert;
 expect = Package['practicalmeteor:chai'].expect;
 should = Package['practicalmeteor:chai'].should;
+Accounts = Package['accounts-base'].Accounts;
 Meteor = Package.meteor.Meteor;
 global = Package.meteor.global;
 meteorEnv = Package.meteor.meteorEnv;

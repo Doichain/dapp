@@ -2,14 +2,34 @@
   "format": "web-program-pre1",
   "manifest": [
     {
-      "path": "332b085a189732c4a3064a64c598b84d7fac2b13.css",
+      "path": "eac5caf314ba16cf7f6538ff345f3c50c3b14acb.js",
+      "where": "client",
+      "type": "js",
+      "cacheable": true,
+      "url": "/eac5caf314ba16cf7f6538ff345f3c50c3b14acb.js?meteor_js_resource=true",
+      "size": 1944100,
+      "hash": "eac5caf314ba16cf7f6538ff345f3c50c3b14acb",
+      "sri": "hrfxo1qscyE8gr7I92ayJdavEOSgo9zFMrlcvKV6jgOVisonw868PtLcvYTW6nrGSNzXegzodzdtyfSbNzTO7Q=="
+    },
+    {
+      "path": "eac5caf314ba16cf7f6538ff345f3c50c3b14acb.stats.json",
+      "where": "client",
+      "type": "json",
+      "cacheable": true,
+      "url": "/eac5caf314ba16cf7f6538ff345f3c50c3b14acb.stats.json?meteor_js_resource=true",
+      "size": 86460,
+      "hash": "a70b90e5bf08d71373dbfdd410606b22b5a21aac",
+      "sri": "ZNYjzQ2bqbpbdoZ4iqJyzboOUkFt4iNMfmxh+yMt+3Z39DRWM5YBchNBxijZMYg9gvr93AEFzmCnwZUPYyFVdg=="
+    },
+    {
+      "path": "8f4f49c802c79d11bd03bfa3f029b233ab9b5d9a.css",
       "where": "client",
       "type": "css",
       "cacheable": true,
-      "url": "/332b085a189732c4a3064a64c598b84d7fac2b13.css?meteor_css_resource=true",
-      "size": 573,
-      "hash": "332b085a189732c4a3064a64c598b84d7fac2b13",
-      "sri": "K/ZlOIyRvhiX57vrHAiTJwqWAxw4VXjMDIlBKrVseo9Y5kNU0GcjqfTiXgblzc/GcG44VUIovsbcuMo2B2vN8A=="
+      "url": "/8f4f49c802c79d11bd03bfa3f029b233ab9b5d9a.css?meteor_css_resource=true",
+      "size": 579,
+      "hash": "8f4f49c802c79d11bd03bfa3f029b233ab9b5d9a",
+      "sri": "9tRIPZ4AXcJSC6ql1FB4TsY2xskLSj4h3Lq15DaiAkKcCX8pcq6qXd1uq5R6N7q6AaqNe05tPjunFaWySA5o6A=="
     },
     {
       "path": "app/logo_todos.svg",
@@ -160,6 +180,18 @@
       "size": 21429,
       "hash": "ce07ae19e63650a3c1f17b7fe5fa20947bbf7c94",
       "sri": "F1zj7ze+TOP6ZS7hWEatlwKkysNZyuX/xIq8VNSioGE4SZCSxqHzSQwWB5CUr4oWAwy2iBRBD4faZpfNMKzy2g=="
+    },
+    {
+      "path": "head.html",
+      "where": "internal",
+      "type": "head",
+      "hash": "2e4d6ecbcf2b1cce0610bca83c76047561482374"
+    },
+    {
+      "path": "body.html",
+      "where": "internal",
+      "type": "body",
+      "hash": "6a3769b52df288102bdd4204740d2c2939cd1f65"
     }
   ]
 }
