@@ -24,9 +24,13 @@ const confirmOptIn = (request) => {
     const decoded = decodeDoiHash({hash: request.hash});
     const optIn = OptIns.findOne({_id: decoded.id});
     if(optIn === undefined || optIn.confirmationToken !== decoded.token) throw "Invalid hash";
+    if(optIn.confirmationToken === decoded.token && optIn.confirmedAt != undefined){
+      logConfirm("OptIn already confirmed: ",optIn);
+      return decoded.redirect;
+    }
     const confirmedAt = new Date();
 
-    OptIns.update({_id : optIn._id},{$set:{confirmedAt: confirmedAt, confirmedBy: ourRequest.host}, $unset: {confirmationToken: ""}});
+    OptIns.update({_id : optIn._id},{$set:{confirmedAt: confirmedAt, confirmedBy: ourRequest.host}});
 
     //TODO here find all DoichainEntries in the local database  and blockchain with the same masterDoi
     const entries = DoichainEntries.find({$or: [{name: optIn.nameId}, {masterDoi: optIn.nameId}]});

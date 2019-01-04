@@ -401,9 +401,13 @@ async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
                 if(resultVerify.data.data.val===true) running = false;
 
             }catch(ex) {
-                testLogging('trying to verify opt-in - so far no success:');
+                testLogging('trying to verify opt-in - so far no success:',ex);
+                //generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
+                //await new Promise(resolve => setTimeout(resolve, 2000));
+            }
+            finally{
                 generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                await new Promise(resolve => setTimeout(resolve, 2000)); 
             }
         }
 
@@ -536,13 +540,13 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     }else{
         let nameId=null;
         try{
-            //confirmLink(confirmedLink);
             chai.assert.isBelow(counter,50);
+            //confirmLink(confirmedLink);
             const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
             if(log) testLogging('got nameId',nameId);
             generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
             testLogging('before verification');
-
+            
             if(Array.isArray(sender_mail_in)){
                 for (let index = 0; index < sender_mail_in.length; index++) {
                     let tmpId = index==0 ? nameId : nameId+"-"+(index); //get nameid of coDOIs based on master
@@ -554,7 +558,8 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
                 verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, nameId, true); //need to generate two blocks to make block visible on alice
             }
             testLogging('after verification');
-            callback(null, {optIn: resultDataOptIn, nameId: nameId});
+            //confirmLink(confirmedLink);
+            callback(null, {optIn: resultDataOptIn, nameId: nameId,confirmLink: confirmedLink});
         }
         catch(error){
             callback(error, {optIn: resultDataOptIn, nameId: nameId});

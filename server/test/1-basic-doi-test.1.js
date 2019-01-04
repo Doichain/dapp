@@ -4,7 +4,7 @@ import {
     createUser,
     findUser,
     exportOptIns,
-    requestConfirmVerifyBasicDoi, resetUsers, updateUser, deleteAllEmailsFromPop3
+    requestConfirmVerifyBasicDoi, resetUsers, updateUser, deleteAllEmailsFromPop3, confirmLink
 } from "./test-api/test-api-on-dapp";
 import {logBlockchain} from "../../imports/startup/server/log-configuration";
 import {deleteOptInsFromAliceAndBob} from "./test-api/test-api-on-node";
@@ -136,6 +136,17 @@ if(Meteor.isAppTest) {
             updateUser(dappUrlAlice, adLog, adLog.userId, {"subject": "updateTest", "templateURL": templateUrlB});
             requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, adLog, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
             done();
+        });
+
+        it('should redirect if confirmation-link is clicked again',function(){
+            for (let index = 0; index < 3; index++) {
+                const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+                const sender_mail = "alice_"+index+"@ci-doichain.org";
+                const dataLoginAlice = login(dappUrlAlice, dAppLogin, false); //log into dApp
+                let returnedData = requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, dataLoginAlice, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);    
+                chai.assert.equal(true,confirmLink(returnedData.confirmLink));
+            }
+
         });
     });
 }

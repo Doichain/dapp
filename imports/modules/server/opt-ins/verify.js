@@ -36,13 +36,14 @@ const verifyOptIn = (data) => {
       data: ourData.recipient_mail+ourData.sender_mail,
       signature: entryData.signature,
       publicKey: ourData.recipient_public_key
-    })
+    });
 
     if(!firstCheck) return {firstCheck: false};
     const parts = ourData.recipient_mail.split("@"); //TODO put this into getPublicKeyAndAddress
     const domain = parts[parts.length-1];
     const publicKeyAndAddress = getPublicKeyAndAddress({domain: domain});
 
+    if(!entryData.signature||!entryData.doiSignature)return {secondCheck: false};
     const secondCheck = verifySignature({
       data: entryData.signature,
       signature: entryData.doiSignature,
