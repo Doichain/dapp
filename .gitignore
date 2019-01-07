@@ -1,4 +1,7 @@
-nohup.out
+*.out
+*.log
+*.err
+build/
 node_modules/
 settings.json
 package-lock.json

@@ -33,7 +33,7 @@ const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 
 if(Meteor.isAppTest || Meteor.isTest) {
 
-    describe("meteor-1.8.1-selenium-mocha", function () {
+    xdescribe("meteor-1.8.1-selenium-mocha", function () {
 
         before(async  function () {
             this.timeout(mochaTimeOut);

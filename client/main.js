@@ -5,7 +5,6 @@ import '/imports/both/startup'
 import { AccountsReact } from 'meteor/meteoreact:accounts'
 
 Meteor.startup(() => {
-
   AccountsReact.style(Package['inspiraluna:useraccounts-react-material-ui'], true)
 
   const sub = Meteor.subscribe('users.user')

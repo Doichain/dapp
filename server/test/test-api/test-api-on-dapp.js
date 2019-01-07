@@ -8,6 +8,7 @@ import {
     httpGET as getHttpGET,
     httpGETdata as getHttpGETdata,
     httpPOST as getHttpPOST,
+    httpPUT as getHttpPUT,
     testLog as testLogging
 } from "meteor/doichain:doichain-meteor-api";
 import {generatetoaddress} from "./test-api-on-node";
@@ -466,14 +467,17 @@ export function exportOptIns(url,auth,log){
 }
 
 
-export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob,recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log) {
+export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,
+                                             dappUrlBob,recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log) {
     const syncFunc = Meteor.wrapAsync(request_confirm_verify_basic_doi);
-    return syncFunc(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log);
+    return syncFunc(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob,
+        recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log);
 }
 
 
 async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,
-                                                dappUrlBob, recipient_mail,sender_mail_in,optionalData,recipient_pop3username, recipient_pop3password, log, callback) {
+                                                dappUrlBob, recipient_mail,sender_mail_in,optionalData,
+                                                recipient_pop3username, recipient_pop3password, log, callback) {
     if(log) testLogging('node_url_alice',node_url_alice);
     if(log) testLogging('rpcAuthAlice',rpcAuthAlice);
     if(log) testLogging('dappUrlAlice',dappUrlAlice);
@@ -522,11 +526,11 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
 
     })();
 
-    if(os.hostname()!=='regtest'){ //if this is a selenium test from outside docker - don't verify DOI here for simplicity 
+   /* if(os.hostname()!=='regtest'){ //if this is a selenium test from outside docker - don't verify DOI here for simplicity
             testLogging('returning to test without DOI-verification while doing selenium outside docker');
             callback(null, {status: "DOI confirmed"});
            // return;
-    }else{
+    }else{*/
         let nameId=null;
         try{
             const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
@@ -538,7 +542,7 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
                 for (let index = 0; index < sender_mail_in.length; index++) {
                     let tmpId = index==0 ? nameId : nameId+"-"+(index); //get nameid of coDOIs based on master
                     testLogging("NameId of coDoi: ",tmpId);
-                verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail_in[index], recipient_mail, tmpId, true);
+                    verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail_in[index], recipient_mail, tmpId, true);
                 }
             }
             else{
@@ -550,12 +554,13 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
         catch(error){
             callback(error, {optIn: resultDataOptIn, nameId: nameId});
         }
-    }
+   // }
 
 
 }
 
 export function updateUser(url,auth,updateId,mailTemplate,log){
+
     const headersUser = {
         'Content-Type':'application/json',
         'X-User-Id':auth.userId,
@@ -567,7 +572,7 @@ export function updateUser(url,auth,updateId,mailTemplate,log){
     const urlUsers = url+'/api/v1/users/'+updateId;
     const realDataUser= { data: dataUser, headers: headersUser};
     if(log) testLogging('updateUser:', realDataUser);
-    let res = HTTP.put(urlUsers,realDataUser);
+    let res = getHttpPUT(urlUsers,realDataUser);
     if(log) testLogging("response",res);
     chai.assert.equal(200, res.statusCode);
     chai.assert.equal(res.data.status,"success");

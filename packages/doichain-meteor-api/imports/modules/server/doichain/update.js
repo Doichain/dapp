@@ -94,7 +94,7 @@ function rerun(job){
         {
             //repeats: 600,   // Only repeat this once
             // This is the default
-           // wait: 10000   // Wait 10 sec between repeats
+           // wait: 1000   // Wait 10 sec between repeats
                           // Default is previous setting
         },
         function (err, result) {

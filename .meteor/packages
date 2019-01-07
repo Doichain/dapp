@@ -28,5 +28,6 @@ sakulstra:aggregate
 practicalmeteor:chai
 es5-shim
 seba:minifiers-autoprefixer
-static-html
 accounts-base
+static-html
+email

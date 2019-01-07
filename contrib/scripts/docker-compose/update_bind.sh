@@ -1,6 +1,7 @@
 #!/bin/bash
 
 NOW=$(date +%s)
+MONGO_IP=172.20.0.3
 MAIL_IP=172.20.0.4
 BIND_IP_LASTPART=5
 ALICE_IP=172.20.0.6
@@ -36,9 +37,12 @@ sed -i.bak s/172.17.0.bob/${BOB_IP}/g /data/bind/lib/ci-doichain.org.hosts
 #update bind with hostname of mail, update serial and reload bind
 sed -i.bak s/172.17.0.mail/${MAIL_IP}/g /data/bind/lib/ci-doichain.org.hosts
 
+#update bind with hostname of mail, update serial and reload bind
+sed -i.bak s/172.17.0.mongo/${MONGO_IP}/g /data/bind/lib/ci-doichain.org.hosts
+
 sed -i.bak s/_serial_/${NOW}/g /data/bind/lib/ci-doichain.org.hosts
 chown bind:bind /data/bind/lib/*
-echo "search ci-doichain.org" >> /etc/resolv.conf
+#echo "search ci-doichain.org" >> /etc/resolv.conf
 cat  /etc/resolv.conf
 #service bind9 restart it's not at all runnning anything here.g
 #service bind9 status

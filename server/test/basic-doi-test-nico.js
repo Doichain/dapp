@@ -20,7 +20,7 @@ const dAppLogin = {"username":"admin","password":"password"};
 
 if(Meteor.isTest || Meteor.isAppTest) {
 
-    describe('basic-doi-test-nico', function () {
+    xdescribe('basic-doi-test-nico', function () {
         this.timeout(600000);
 
         before(function () {

@@ -69,15 +69,15 @@ function wait_to_start_container(startedContainerId,callback){
 }
 
 function delete_options_from_alice_and_bob(callback){
-    const containerId = getContainerIdOfName('mongo');
-    exec('sudo docker cp /home/doichain/dapp/contrib/scripts/meteor/delete_collections.sh '+containerId+':/tmp/', (e, stdout, stderr)=> {
-        testLogging('copied delete_collections into mongo docker container',{stderr:stderr,stdout:stdout});
-        exec('sudo docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"', (e, stdout, stderr)=> {
-            testLogging('sudo docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"',{stderr:stderr,stdout:stdout});
-            callback(stderr, stdout);
-        });
 
+    const containerId = getContainerIdOfName('mongo');
+    testLogging('containerId of mongo:',containerId);
+
+    exec((global.inside_docker?'sudo':'')+ 'docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"', (e, stdout, stderr)=> {
+        testLogging((global.inside_docker?'sudo':'')+'docker exec ',{stderr:stderr,stdout:stdout});
+        callback(stderr, stdout);
     });
+
 }
 
 export function isNodeAlive(url, auth, log) {
