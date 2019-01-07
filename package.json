@@ -45,21 +45,16 @@
     "@material-ui/icons": "^3.0.1",
     "basic-auth-connect": "^1.0.0",
     "bcrypt": "^3.0.3",
-    "fibers": "^3.1.1",
-    "hashids": "^1.2.2",
     "history": "^4.7.2",
     "meteor-node-stubs": "^0.3.3",
     "mui-datatables": "^2.0.0-beta-44",
-    "namecoin": "^0.1.4",
-    "qs-middleware": "^1.0.3",
+
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-highlight": "^0.12.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "secp256k1": "^3.6.1",
     "simpl-schema": "^1.5.3",
-    "standard-ecies": "^1.0.0",
     "useragent": "^2.3.0"
   },
   "devDependencies": {
