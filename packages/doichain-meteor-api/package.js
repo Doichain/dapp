@@ -39,7 +39,13 @@ Npm.depends({
     'simpl-schema':'1.5.3',
     'scribe-js':'2.0.4',
     'namecoin': '0.1.4',
-    'secp256k1':'3.6.1'
+    'secp256k1':'3.6.1',
+    'crypto-js':'3.1.9-1',
+    'standard-ecies':'1.0.0',
+    'bs58':'4.0.1',
+    'hashids':'1.2.2',
+    'bitcore-message':'1.0.4',
+    'bitcore-lib':'0.16.0'
 });
 
 
