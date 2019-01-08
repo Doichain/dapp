@@ -327,12 +327,10 @@
       "path": "packages/softwarerero_accounts-t9n.js"
     },
     {
-      "node_modules": "npm/node_modules/meteor/std_accounts-ui/node_modules",
       "sourceMap": "packages/std_accounts-ui.js.map",
       "path": "packages/std_accounts-ui.js"
     },
     {
-      "node_modules": "npm/node_modules/meteor/zetoff_accounts-material-ui/node_modules",
       "sourceMap": "packages/zetoff_accounts-material-ui.js.map",
       "path": "packages/zetoff_accounts-material-ui.js"
     },
