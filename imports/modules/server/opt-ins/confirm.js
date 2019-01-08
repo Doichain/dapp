@@ -24,7 +24,7 @@ const confirmOptIn = (request) => {
     const decoded = decodeDoiHash({hash: request.hash});
     const optIn = OptIns.findOne({_id: decoded.id});
     if(optIn === undefined || optIn.confirmationToken !== decoded.token) throw "Invalid hash";
-    if(optIn.confirmationToken === decoded.token && optIn.confirmedAt != undefined){
+    if(optIn.confirmationToken === decoded.token && optIn.confirmedAt != undefined){ // Opt-In was already confirmed on email click
       logConfirm("OptIn already confirmed: ",optIn);
       return decoded.redirect;
     }
