@@ -13,7 +13,6 @@ shell-server@0.4.0            # Server-side component of the `meteor shell` comm
 msavin:mongol
 meteortesting:mocha@1.1.1
 
-doichain:doichain-meteor-api
 inspiraluna:useraccounts-react-material-ui
 aldeed:collection2
 ecmascript@0.12.4
