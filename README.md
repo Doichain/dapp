@@ -59,11 +59,11 @@ The Url for fetching the doi mail data. Only required for the Send dApp. The Url
 ```json
 {
   "data": {
-    from: "fancy@newsletter.com",
-    subject: "Fancy Newsletter Confirmation",
-    redirect: "http://fancynewsletterconfirmationpage.com",
-    returnPath: "noreply@newsletter.com",
-    content: "<html><body><a href=\"${confirmation_url}\">Confirmation link</a></body></html>"
+    "from": "fancy@newsletter.com",
+    "subject": "Fancy Newsletter Confirmation",
+    "redirect": "http://fancynewsletterconfirmationpage.com",
+    "returnPath": "noreply@newsletter.com",
+    "content": "<html><body><a href=\"${confirmation_url}\">Confirmation link</a></body></html>"
   }
 }
 ```
@@ -91,7 +91,7 @@ Example configuration with all three dApps activated:
       "username": "admin",
       "password": "****",
       "server":   "smtp.your-email.com",
-      "port": 587
+      "port": 587,
       "defaultFrom": "doichain@your-email.com"
     },
     "doichain": {
