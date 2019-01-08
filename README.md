@@ -56,7 +56,7 @@ Required settings for each dApp namecoin daemon. It contains ``host``, ``port``,
 
 ##### Doi Mail Fetch Url
 The Url for fetching the doi mail data. Only required for the Send dApp. The Url will be called with a ``get`` request. The dApp expects following answer:
-```
+```json
 {
   "data": {
     from: "fancy@newsletter.com",
@@ -72,7 +72,7 @@ The Url for fetching the doi mail data. Only required for the Send dApp. The Url
 The SMTP settings of the Confirm dApp for sending double Opt-In mails. Required fields are ``username``, ``password``, ``server`` and ``port``
 
 Example configuration with all three dApps activated:
-```
+```json
 {
   "app": {
     "types": ["send", "confirm", "verify"]
@@ -125,8 +125,13 @@ You need a valide token for some of the REST calls. Get the token with:
     + ``username`` - Authentification Username
     + ``password`` - Authentification Password
 
-Response with valide credentials:
+* Example request (cURL)
+```sh
+curl -H "Content-Type: application/json" -X POST -d '{"username":"username","password":"password"}' http://localhost:3000/api/v1/login
 ```
+
+* Response with valid credentials:
+```json
 {
   "status": "success",
   "data": {
@@ -152,7 +157,14 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
     + ``recipient_mail`` - Email of the recipient
     + ``sender_mail`` - Email of the sender
     + ``ownerid`` - (ADMIN ONLY) Userid of Opt-In-owner
-    + ``data`` - (OPTIONAL) JSON with recipient/Opt-In data. Data can contain a field ``screenshot`` to store a screenshot of the subscription.
+    + ``data`` - (OPTIONAL) Recipient/Opt-In data
+        - ``screenshot`` - (OPTIONAL) Can store a screenshot of the subscription
+        - ``templateParam`` - (OPTIONAL) Parameters to be added to template URL
+        - ``redirectParam`` - (OPTIONAL) Parameters to be added to redirect URL
+* Example request:
+```sh
+curl -X POST -H "X-Auth-Token: Ui5rDPEf2kCugdAafUoU7Mh7--bkkL5hm3lVg6DN132" -H "X-User-Id: szkkeuSpfKueyskLz" http://localhost:3000/api/v1/opt-in -d '{"recipient_mail:recipentMail", "sender_mail":"Sendermail", "data":{"redirectParam":{"id":"hash"}}}'
+```
 * Success-Response:
 ```json
 {
@@ -180,6 +192,10 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 * Query-Parameter:
     + ``status`` - not yet working
     + ``ownerid`` - (ADMIN ONLY,OPTIONAL) userId of specific Opt-in owner 
+* Example request:
+```sh
+curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-User-Id: 8BxFMSZAc7Ez2iiR6" http://localhost:3000/api/v1/export
+```
 * Success-Response:
 ```json
 {
@@ -292,15 +308,19 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
 ##### Update User
 * Auth required: Yes
 * Role required: none
-* Url: ``users/:id``
+* Url: ``users/:userId``
 * Method: ``PUT``
 * Parameter:
     + ``mailTemplate`` - Changed form information as JSON
         - ``subject`` - (OPTIONAL) Subject of the email
         - ``redirect`` - (OPTIONAL) Redirect URL
         - ``returnPath`` - (OPTIONAL) Return Path
-        - ``templateURL`` - (OPTIONAL) Confirm mail template URL
+        - ``templateURL`` - (OPTIONAL) Confirm mail template URLhttp://localhost:3000/api/v1/export
 * Note: This uses ``PUT`` method. It will overwrite all data in ``mailTemplate`` !
+* Example request:
+```sh
+curl -X PUT -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-User-Id: 8BxFMSZAc7Ez2iiR6" http://localhost:3000/api/v1/users/8BxFMSZAc7Ez2iiR6 -d '{"mailTemplate":{"subject":"changedSubject","redirect":"RedirectPage","returnPath":"ReturnAddress","templateURL":"changedTemplateURL"}}'
+```
 * Success-Response:
 ```json
 {
