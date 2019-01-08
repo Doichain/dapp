@@ -1,6 +1,4 @@
-*.out
-*.log
-*.err
+logs/
 build/
 node_modules/
 settings.json
