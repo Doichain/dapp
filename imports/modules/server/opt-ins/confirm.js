@@ -25,11 +25,11 @@ const confirmOptIn = (request) => {
     const optIn = OptIns.findOne({_id: decoded.id});
     if(optIn === undefined || optIn.confirmationToken !== decoded.token) throw "Invalid hash";
     if(optIn.confirmationToken === decoded.token && optIn.confirmedAt != undefined){ // Opt-In was already confirmed on email click
-      logConfirm("OptIn already confirmed: ",optIn);
-      return decoded.redirect;
+      logConfirm("OptIn already confirmed: ",optIn); 
+      return decoded.redirect; 
     }
     const confirmedAt = new Date();
-
+//TODO after confirmation we deleted the confonfirmationtoken, now we keep it. can this be a security problem?
     OptIns.update({_id : optIn._id},{$set:{confirmedAt: confirmedAt, confirmedBy: ourRequest.host}});
 
     //TODO here find all DoichainEntries in the local database  and blockchain with the same masterDoi
