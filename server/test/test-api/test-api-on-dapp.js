@@ -499,7 +499,7 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
 
     let sender_mail = sender_mail_in;
     if(log) testLogging('log into alice and request DOI');
-    let resultDataOptInTmp = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, null, true);
+    let resultDataOptInTmp = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, optionalData, true);
     let resultDataOptIn = resultDataOptInTmp;
 
     if(Array.isArray(sender_mail_in)){              //Select master doi from senders and result
