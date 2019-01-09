@@ -19,4 +19,4 @@ export MONGO_URL=mongodb://mongo:27017/bob
 nohup node build/bundle/main.js &
 
 #overwrite .meteorignore back to normal
-sudo echo "stories/\nbuild/" > .meteorignore
+sudo printf "stories/\nbuild/" > .meteorignore
