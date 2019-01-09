@@ -30,7 +30,7 @@ const verifyOptIn = (data) => {
     const ourData = data;
     VerifyOptInSchema.validate(ourData);
     const entry = nameShow(VERIFY_CLIENT, ourData.name_id);
-    if(entry === undefined) return false;
+    if(entry === undefined) return {nameIdFound: "failed"};
     const entryData = JSON.parse(entry.value);
     const firstCheck = verifySignature({
       data: ourData.recipient_mail+ourData.sender_mail,
@@ -38,19 +38,19 @@ const verifyOptIn = (data) => {
       publicKey: ourData.recipient_public_key
     });
 
-    if(!firstCheck) return {firstCheck: false};
+    if(!firstCheck) return {soiSignatureStatus: "failed"};
     const parts = ourData.recipient_mail.split("@"); //TODO put this into getPublicKeyAndAddress
     const domain = parts[parts.length-1];
     const publicKeyAndAddress = getPublicKeyAndAddress({domain: domain});
 
-    if(!entryData.signature||!entryData.doiSignature)return {secondCheck: false};
+    if(!entryData.signature||!entryData.doiSignature)return {doiSignatureStatus: "missing"};
     const secondCheck = verifySignature({
       data: entryData.signature,
       signature: entryData.doiSignature,
       publicKey: publicKeyAndAddress.publicKey
     })
 
-    if(!secondCheck) return {secondCheck: false};
+    if(!secondCheck) return {doiSignatureStatus: "failed"};
     return true;
   } catch (exception) {
     throw new Meteor.Error('opt-ins.verify.exception', exception);
