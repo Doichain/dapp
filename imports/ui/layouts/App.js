@@ -71,9 +71,9 @@ export default class App extends React.Component {
               {version ? <Item
                keys={[
                  {
-                   key: "branch",
-                   name: "version",
-                   value: versionInfo.branch},
+                   key: "version",
+                   name: "tag",
+                   value: versionInfo.version},
                    {
                     key: "id",
                     name: "time",
