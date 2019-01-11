@@ -97,9 +97,40 @@ const getDoiMailData = (data) => {
     try{
       let owner = Accounts.users.findOne({_id: optIn.ownerId});
       let mailTemplate = owner.profile.mailTemplate;
+      let redirParamString=null;
+      let templParamString=null;
+      try{
+        let optinData = JSON.parse(optIn.data);
+        let redirParam = optinData.redirectParam ? optinData.redirectParam:null;
+        let templParam = optinData.templateParam ? optinData.templateParam:null;
+      
+      //parse template params
+      let str = [];
+      for (let tParam in templParam){
+        if (templParam.hasOwnProperty(tParam)) {
+          str.push(encodeURIComponent(tParam) + "=" + encodeURIComponent(templParam[tParam]));
+        }
+        templParamString=str.join("&");
+      }
+      //parse redirect params
+      str = [];
+      for (let rParam in redirParam){
+        if (redirParam.hasOwnProperty(rParam)) {
+          str.push(encodeURIComponent(rParam) + "=" + encodeURIComponent(redirParam[rParam]));
+          logSend("Templateparam added:",rParam+": "+redirParam[rParam]);
+        }
+        redirParamString=str.join("&");
+      }
+      }
+      catch(e){
+        logSend("Couldn't retrieve parameters")
+      }
       userProfileSchema.validate(mailTemplate);
 
-      returnData["redirect"] = mailTemplate["redirect"] || defaultReturnData["redirect"];
+      //Appends parameter to redirect-url
+      let tmpRedirect = mailTemplate["redirect"] ? (redirParamString === null ? mailTemplate["redirect"] : (mailTemplate["redirect"].indexOf("?")==-1 ? mailTemplate["redirect"]+"?"+redirParamString : mailTemplate["redirect"]+"&"+redirParamString)):null; 
+      
+      returnData["redirect"] = tmpRedirect || defaultReturnData["redirect"];
       returnData["subject"] = mailTemplate["subject"] || defaultReturnData["subject"];
       returnData["returnPath"] = mailTemplate["returnPath"] || defaultReturnData["returnPath"];
       returnData["content"] = mailTemplate["templateURL"] ? (getHttpGET(mailTemplate["templateURL"], "").content || defaultReturnData["content"]) : defaultReturnData["content"];

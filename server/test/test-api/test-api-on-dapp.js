@@ -347,9 +347,15 @@ function confirm_link(confirmLink,callback){
     testLogging("clickable link:",confirmLink);
     const doiConfirmlinkResult = getHttpGET(confirmLink,'');
     try{
+    if(doiConfirmlinkResult.content.indexOf("Hello world!")==-1){
+    //    chai.expect(doiConfirmlinkResult.content.indexOf("ANMELDUNG ERFOLGREICH")).to.not.equal(-1);
     chai.expect(doiConfirmlinkResult.content).to.have.string('ANMELDUNG ERFOLGREICH');
     chai.expect(doiConfirmlinkResult.content).to.have.string('Vielen Dank für Ihre Anmeldung');
     chai.expect(doiConfirmlinkResult.content).to.have.string('Ihre Anmeldung war erfolgreich.');
+    }
+    else{
+        chai.expect(doiConfirmlinkResult.content.indexOf("Hello world!")).to.not.equal(-1);
+    }
     chai.assert.equal(200, doiConfirmlinkResult.statusCode);
     callback(null,true);
     }
@@ -519,8 +525,7 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
                 testLogging('step 3: getting email from hostname!',os.hostname());
                 const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname()=='regtest')?'mail':'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
                 testLogging('step 4: confirming link',link2Confirm);
-                if(link2Confirm!=null){running=false;
-                confirmLink(link2Confirm);
+                if(link2Confirm!=null){running=false;            
                 confirmedLink=link2Confirm;
                 testLogging('confirmed')
                 return link2Confirm;
@@ -540,6 +545,7 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     }else{
         let nameId=null;
         try{
+            confirmLink(confirmedLink);
             chai.assert.isBelow(counter,50);
             //confirmLink(confirmedLink);
             const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);

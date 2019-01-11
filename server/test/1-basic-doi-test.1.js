@@ -32,6 +32,8 @@ if(Meteor.isAppTest) {
             logBlockchain("removing OptIns,Recipients,Senders");
             deleteOptInsFromAliceAndBob();
             deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password, true);
+            const adLog = login(dappUrlAlice, dAppLogin, false);
+            updateUser(dappUrlAlice, adLog, adLog.userId, {"subject":"Testsubject"});
         });
 
         it('should test if basic Doichain workflow is working with optional data', function (done) {
@@ -138,11 +140,22 @@ if(Meteor.isAppTest) {
             done();
         });
 
+        it('should use URL params', function (done) {
+            const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+            const sender_mail = "alice-param@ci-doichain.org";
+            const adLog = login(dappUrlAlice, dAppLogin, false);
+            updateUser(dappUrlAlice, adLog, adLog.userId, {"subject": "paramTest", "redirect": "https://www.doichain.org"},true);
+            requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, adLog, dappUrlBob, recipient_mail, sender_mail, {'redirectParam': {'p':1}}, "bob@ci-doichain.org", "bob", true);
+            updateUser(dappUrlAlice, adLog, adLog.userId,{"subject":"paramTest"},false);
+            done();
+        });
+
         it('should redirect if confirmation-link is clicked again',function(){
             for (let index = 0; index < 3; index++) {
                 const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
                 const sender_mail = "alice_"+index+"@ci-doichain.org";
                 const dataLoginAlice = login(dappUrlAlice, dAppLogin, false); //log into dApp
+                updateUser(dappUrlAlice, dataLoginAlice, dataLoginAlice.userId,{"subject":"multiclickTest"},true);
                 let returnedData = requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, dataLoginAlice, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);    
                 chai.assert.equal(true,confirmLink(returnedData.confirmLink));
             }
