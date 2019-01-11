@@ -18,10 +18,10 @@ const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
 
 if(Meteor.isAppTest) {
-    xdescribe('3-basic-doi-test-3', function () {
+    describe('03-basic-doi-test-03', function () {
 
         before(function () {
-            //logBlockchain("removing OptIns,Recipients,Senders");
+            logBlockchain("removing OptIns,Recipients,Senders");
             deleteOptInsFromAliceAndBob();
             deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password, true);
         });

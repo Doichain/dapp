@@ -30,7 +30,7 @@ const recipient_pop3password = "bob";
 const log = true;
 
 if(Meteor.isAppTest) {
-    describe('basic-doi-test-1', function () {
+    describe('basic-doi-test-01', function () {
         this.timeout(0);
 
         before(function () {
@@ -153,6 +153,17 @@ if(Meteor.isAppTest) {
             requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, adLog, global.dappUrlBob, recipient_mail, sender_mail,
                 {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
             done();
+        });
+
+        it('should redirect if confirmation-link is clicked again',function(){
+            for (let index = 0; index < 3; index++) {
+                const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+                const sender_mail = "alice_"+index+"@ci-doichain.org";
+                const dataLoginAlice = login(dappUrlAlice, dAppLogin, false); //log into dApp
+                let returnedData = requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, dataLoginAlice, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
+                chai.assert.equal(true,confirmLink(returnedData.confirmLink));
+            }
+
         });
     });
 }

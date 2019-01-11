@@ -29,7 +29,7 @@ const dAppLogin = {"username":"admin","password":"password"};
 const log = true;
 
 if(Meteor.isAppTest) {
-    xdescribe('2-basic-doi-test-with-offline-node-2', function () {
+    describe('02-basic-doi-test-with-offline-node-02', function () {
 
         before(function () {
             deleteOptInsFromAliceAndBob();
@@ -103,6 +103,7 @@ if(Meteor.isAppTest) {
                         await new Promise(resolve => setTimeout(resolve, 2000));
                     }
                 }
+                })();
                 generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, true);
                 verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuth, sender_mail, recipient_mail, nameId, log); //need to generate two blocks to make block visible on alice
                 testLogging('end of getNameIdOfRawTransaction returning nameId', nameId);
@@ -117,7 +118,6 @@ if(Meteor.isAppTest) {
                     testLogging('could not stop 3rd_node',);
                 }
                 done();
-            })();
             //done();
         }); //it
     });
