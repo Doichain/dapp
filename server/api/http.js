@@ -1,9 +1,21 @@
 import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http'
 
+//Wrapping the HTTP.get method is not neccessary, it calls the function syncronous if there is no callback function anyway.
+//wrapping instead caused problems when calling php-files
+//TODO: remove unneccessary wrapping
+
+
+//Don't use this!
+//export function getHttpGETerror(url, query) {
+//  const syncFunc = Meteor.wrapAsync(_get);
+//  return syncFunc(url, query);
+//}
+
+
+//This is only a temporary fix
 export function getHttpGET(url, query) {
-  const syncFunc = Meteor.wrapAsync(_get);
-  return syncFunc(url, query);
+    return HTTP.get(url, {query: query});
 }
 
 export function getHttpGETdata(url, data) {

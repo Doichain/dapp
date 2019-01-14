@@ -66,7 +66,7 @@ Api.addRoute(DOI_FETCH_ROUTE, {authRequired: false}, {
       try {
           logSend('rest api - DOI_FETCH_ROUTE called by bob to request email template',JSON.stringify(params));
           const data = getDoiMailData(params);
-          logSend('got doi-mail-data (including templalte) returning to bob',{subject:data.subject, recipient:data.recipient});
+          logSend('got doi-mail-data (including template) returning to bob',{subject:data.subject, recipient:data.recipient, redirect:data.redirect});
         return {status: 'success', data};
       } catch(error) {
         logError('error while getting DoiMailData',error);
