@@ -144,8 +144,8 @@ if(Meteor.isAppTest) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice-param@ci-doichain.org";
             const adLog = login(dappUrlAlice, dAppLogin, false);
-            updateUser(dappUrlAlice, adLog, adLog.userId, {"subject": "paramTest", "redirect": "https://www.doichain.org"},true);
-            requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, adLog, dappUrlBob, recipient_mail, sender_mail, {'redirectParam': {'p':1}}, "bob@ci-doichain.org", "bob", true);
+            updateUser(dappUrlAlice, adLog, adLog.userId, {"subject": "paramTest", "redirect": "https://www.doichain.org", "templateURL": templateUrlA},true);
+            requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, adLog, dappUrlBob, recipient_mail, sender_mail, {'redirectParam': {'p':1},'templateParam':{'token':'abcdfgh'}}, "bob@ci-doichain.org", "bob", true);
             updateUser(dappUrlAlice, adLog, adLog.userId,{"subject":"paramTest"},false);
             done();
         });

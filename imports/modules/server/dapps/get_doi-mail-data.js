@@ -7,7 +7,7 @@ import getOptInKey from '../dns/get_opt-in-key.js';
 import verifySignature from '../doichain/verify_signature.js';
 import { getHttpGET } from '../../../../server/api/http.js';
 import { DOI_MAIL_FETCH_URL } from '../../../startup/server/email-configuration.js';
-import { logSend } from "../../../startup/server/log-configuration";
+import { logSend, testLogging } from "../../../startup/server/log-configuration";
 import { Accounts } from 'meteor/accounts-base'
 
 const GetDoiMailDataSchema = new SimpleSchema({
@@ -104,11 +104,12 @@ const getDoiMailData = (data) => {
         let redirParam = optinData.redirectParam ? optinData.redirectParam:null;
         let templParam = optinData.templateParam ? optinData.templateParam:null;
       
-      //parse template params
+        //parse template params
       let str = [];
       for (let tParam in templParam){
         if (templParam.hasOwnProperty(tParam)) {
           str.push(encodeURIComponent(tParam) + "=" + encodeURIComponent(templParam[tParam]));
+          logSend("tmplParam added:",tParam+"="+templParam[tParam]);
         }
         templParamString=str.join("&");
       }
@@ -117,7 +118,7 @@ const getDoiMailData = (data) => {
       for (let rParam in redirParam){
         if (redirParam.hasOwnProperty(rParam)) {
           str.push(encodeURIComponent(rParam) + "=" + encodeURIComponent(redirParam[rParam]));
-          logSend("Templateparam added:",rParam+": "+redirParam[rParam]);
+          logSend("redirParam added:",rParam+"="+redirParam[rParam]);
         }
         redirParamString=str.join("&");
       }
@@ -129,11 +130,12 @@ const getDoiMailData = (data) => {
 
       //Appends parameter to redirect-url
       let tmpRedirect = mailTemplate["redirect"] ? (redirParamString === null ? mailTemplate["redirect"] : (mailTemplate["redirect"].indexOf("?")==-1 ? mailTemplate["redirect"]+"?"+redirParamString : mailTemplate["redirect"]+"&"+redirParamString)):null; 
-      
+      let tmpTemplate = mailTemplate["templateURL"] ? (templParamString === null ? mailTemplate["templateURL"] : (mailTemplate["templateURL"].indexOf("?")==-1 ? mailTemplate["templateURL"]+"?"+templParamString : mailTemplate["templateURL"]+"&"+templParamString)):null; 
+
       returnData["redirect"] = tmpRedirect || defaultReturnData["redirect"];
       returnData["subject"] = mailTemplate["subject"] || defaultReturnData["subject"];
       returnData["returnPath"] = mailTemplate["returnPath"] || defaultReturnData["returnPath"];
-      returnData["content"] = mailTemplate["templateURL"] ? (getHttpGET(mailTemplate["templateURL"], "").content || defaultReturnData["content"]) : defaultReturnData["content"];
+      returnData["content"] = tmpTemplate ? (getHttpGET(tmpTemplate, "").content || defaultReturnData["content"]) : defaultReturnData["content"];
       
     }
     catch(error) {
