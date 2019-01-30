@@ -4,7 +4,7 @@ import {
     createUser,
     findUser,
     exportOptIns,
-    requestConfirmVerifyBasicDoi, resetUsers, updateUser, deleteAllEmailsFromPop3
+    requestConfirmVerifyBasicDoi, resetUsers, updateUser, deleteAllEmailsFromPop3, confirmLink
 } from "./test-api/test-api-on-dapp";
 import {
     testLog as logBlockchain
@@ -67,7 +67,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should test if Doichain workflow is using different templates for different users', function (done) {
+        it('should test if Doichain workflow is using different templates for different users', function (done) {
 
             resetUsers();
             const recipient_mail = "bob@ci-doichain.org"; //
@@ -90,7 +90,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should test if users can export OptIns ', function (done) {
+        it('should test if users can export OptIns ', function (done) {
             resetUsers();
 
             const logAdmin = login(global.dappUrlAlice, global.dAppLogin, false);
@@ -159,8 +159,8 @@ if(Meteor.isAppTest) {
             for (let index = 0; index < 3; index++) {
                 const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
                 const sender_mail = "alice_"+index+"@ci-doichain.org";
-                const dataLoginAlice = login(dappUrlAlice, dAppLogin, false); //log into dApp
-                let returnedData = requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, dataLoginAlice, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
+                const dataLoginAlice = login(global.dappUrlAlice, global.dAppLogin, false); //log into dApp
+                let returnedData = requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, dataLoginAlice, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
                 chai.assert.equal(true,confirmLink(returnedData.confirmLink));
             }
 
