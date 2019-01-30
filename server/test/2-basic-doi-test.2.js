@@ -29,7 +29,7 @@ const dAppLogin = {"username":"admin","password":"password"};
 const log = true;
 
 if(Meteor.isAppTest) {
-    describe('02-basic-doi-test-with-offline-node-02', function () {
+    xdescribe('02-basic-doi-test-with-offline-node-02', function () {
 
         before(function () {
             deleteOptInsFromAliceAndBob();

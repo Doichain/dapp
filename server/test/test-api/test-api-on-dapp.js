@@ -534,7 +534,6 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
                 await new Promise(resolve => setTimeout(resolve, 3000));
             }
         }
-
     })();
 
    /* if(os.hostname()!=='regtest'){ //if this is a selenium test from outside docker - don't verify DOI here for simplicity
