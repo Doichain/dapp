@@ -10,7 +10,7 @@
     "selenium-regtest": "MOCHA_GREP=selenium TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha --port 3001 --settings settings-regtest.json",
     "mocha": "MONGO_URL=mongodb://mongo:27017/alice MOCHA_GREP=basic-doi-test TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
     "test-mocha-docker": "export MONGO_URL=mongodb://mongo:27017/alice;export  MOCHA_GREP=basic-doi-test;meteor test --full-app --once --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
-    "test-alice": "MONGO_URL=mongodb://localhost:28017/alice;export  MOCHA_GREP=basic-doi-test;meteor test --full-app --once --driver-package meteortesting:mocha --port 3000 --settings settings-alice.json",
+    "test-alice": "MONGO_URL=mongodb://localhost:28017/alice MOCHA_GREP=basic-doi-test meteor test --full-app --once --driver-package meteortesting:mocha --port 3000 --settings settings-alice.json",
     "test-nico": "MONGO_URL=mongodb://mongo:27017/alice MOCHA_GREP=basic-doi-test-nico TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
     "test-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha --port 3100",
     "test-app-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --full-app --once --driver-package meteortesting:mocha --port 3100",
