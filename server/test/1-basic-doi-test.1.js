@@ -54,7 +54,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should create two more users', function (done) {
+        it('should create two more users', function (done) {
             resetUsers();
             const logAdmin = login(global.dappUrlAlice, global.dAppLogin, false);
             let userA = createUser(global.dappUrlAlice, logAdmin, "alice-a", templateUrlA, true);
@@ -65,7 +65,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should test if Doichain workflow is using different templates for different users', function (done) {
+        it('should test if Doichain workflow is using different templates for different users', function (done) {
 
             resetUsers();
             const recipient_mail = "bob@ci-doichain.org"; //
@@ -88,7 +88,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should test if users can export OptIns ', function (done) {
+        it('should test if users can export OptIns ', function (done) {
             resetUsers();
 
             const logAdmin = login(global.dappUrlAlice, global.dAppLogin, false);
@@ -114,7 +114,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should test if admin can update user profiles', function () {
+        it('should test if admin can update user profiles', function () {
             resetUsers();
             let logAdmin = login(global.dappUrlAlice, global.dAppLogin, true);
             const userUp = createUser(global.dappUrlAlice, logAdmin, "updateUser", templateUrlA, true);
@@ -124,7 +124,7 @@ if(Meteor.isAppTest) {
             chai.expect(changedData).not.undefined;
         });
 
-        xit('should test if user can update own profile', function () {
+        it('should test if user can update own profile', function () {
             resetUsers();
             let logAdmin = login(global.dappUrlAlice, global.dAppLogin, true);
             const userUp = createUser(global.dappUrlAlice, logAdmin, "updateUser", templateUrlA, true);
@@ -135,7 +135,7 @@ if(Meteor.isAppTest) {
             chai.expect(changedData).not.undefined;
         });
 
-        xit('should test if coDoi works', function () {
+        it('should test if coDoi works', function () {
             const coDoiList = ["alice1@doichain-ci.com", "alice2@doichain-ci.com", "alice3@doichain-ci.com"];
             const recipient_mail = "bob@ci-doichain.org";
             const sender_mail = coDoiList;
@@ -143,7 +143,7 @@ if(Meteor.isAppTest) {
             requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logAdmin, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
         });
 
-        xit('should find updated Data in email', function (done) {
+        it('should find updated Data in email', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice-update@ci-doichain.org";
             const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
@@ -153,7 +153,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should redirect if confirmation-link is clicked again',function(){
+        it('should redirect if confirmation-link is clicked again',function(){
             for (let index = 0; index < 3; index++) {
                 const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
                 const sender_mail = "alice_"+index+"@ci-doichain.org";
@@ -161,7 +161,6 @@ if(Meteor.isAppTest) {
                 let returnedData = requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, dataLoginAlice, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
                 chai.assert.equal(true,confirmLink(returnedData.confirmLink));
             }
-
         });
     });
 }

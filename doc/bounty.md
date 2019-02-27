@@ -1,4 +1,5 @@
 # How to become a Doichain bounty hunter
+(please read what is a bounty programm here: https://medium.com/coinmonks/how-to-make-money-from-crypto-bounty-programs-the-complete-guide-aa78726d308d)
 
 Doichain LVC is setting up a bounty program in order to speed up the development of the Doichain ecosystem.
 We will offer different kinds of bounties such es marketing, social media promotion, translation bounties.
@@ -18,7 +19,7 @@ This works in x steps.
 1. Go to https://bounties.doichain.org bounties are ordered by priority
 2. Claim your bounty (after account creation)
 3. Create a fork of the https://github.com/Doichain/dapp repository
-4. Install the development environment (see: development-environment.txt)
+4. Install the development environment (see: dev-env.md)
 5. Commit and push your work and create a pull request
 6. If the pull request gets accepted we will send the amount to either your Doichain address which you provided with the pull request. (Fiat bounties can be paid in Bitcoin, USD, EUR). Please also provide an standard invoice to billing@doichain.org
 
