@@ -13,5 +13,7 @@
     - ```MONGO_URL=mongodb://localhost:28017/bob meteor run --settings settings-bob.json --port 4000```
 4. Point the dns of your development pc to the bind server running now inside your docker (127.0.0.1) check via ```host ci-doichain.org```
 5. Open a third terminal and start meteor test with
-    - ```meteor npm run ```
+    - ```meteor npm run test-alice```
+6. If all tests ran successfully you can start developing while starting dApp of Alice 
+    - - ```MONGO_URL=mongodb://localhost:28017/alice meteor run --settings settings-alice.json --port 3000```
     
