@@ -417,13 +417,13 @@ async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
 
     })();
         try{
-        chai.assert.equal(statusVerify,200);
-        chai.assert.equal(resultVerify.data.data.val,true);
-        chai.assert.isBelow(counter,50);
-        callback(null,true);
+            chai.assert.equal(statusVerify,200);
+            chai.assert.equal(resultVerify.data.data.val,true);
+            chai.assert.isBelow(counter,50);
+            callback(null,true);
         }
         catch(error){
-        callback(error,false);
+            callback(error,false);
         }
 }
 

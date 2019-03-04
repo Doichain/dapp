@@ -28,7 +28,7 @@ const recipient_pop3password = "bob";
 const log = true;
 
 if(Meteor.isAppTest) {
-    xdescribe('basic-doi-test-01', function () {
+    describe('basic-doi-test-01', function () {
         this.timeout(0);
 
         before(function () {
@@ -37,7 +37,7 @@ if(Meteor.isAppTest) {
             deleteAllEmailsFromPop3(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, true);
         });
 
-        it('should test if basic Doichain workflow is working with optional data', function (done) {
+        xit('should test if basic Doichain workflow is working with optional data', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice@ci-doichain.org";
             const dataLoginAlice = login(global.dappUrlAlice, global.dAppLogin, false); //log into dApp
@@ -45,7 +45,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it('should test if basic Doichain workflow is working without optional data', function (done) {
+        xit('should test if basic Doichain workflow is working without optional data', function (done) {
             const recipient_mail = "alice@ci-doichain.org"; //please use this as an alernative when above standard is not possible
             const sender_mail = "bob@ci-doichain.org";
             //login to dApp & request DOI on alice via bob
@@ -54,7 +54,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should create two more users', function (done) {
+        it('should create two more users', function (done) {
             resetUsers();
             const logAdmin = login(global.dappUrlAlice, global.dAppLogin, false);
             let userA = createUser(global.dappUrlAlice, logAdmin, "alice-a", templateUrlA, true);
@@ -65,7 +65,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should test if Doichain workflow is using different templates for different users', function (done) {
+        it('should test if Doichain workflow is using different templates for different users', function (done) {
 
             resetUsers();
             const recipient_mail = "bob@ci-doichain.org"; //
@@ -88,7 +88,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should test if users can export OptIns ', function (done) {
+        it('should test if users can export OptIns ', function (done) {
             resetUsers();
 
             const logAdmin = login(global.dappUrlAlice, global.dAppLogin, false);
@@ -97,7 +97,7 @@ if(Meteor.isAppTest) {
             let userB = createUser(global.dappUrlAlice, logAdmin, "alice-b", templateUrlB, true);
             chai.expect(findUser(userB)).to.not.be.undefined;
 
-            const recipient_mail = "bob@ci-doichain.org"; //
+            const recipient_mail = "bob@ci-doichain.org";
             const sender_mail_alice_a = "alice-export@ci-doichain.org";
             const logUserA = login(global.dappUrlAlice, aliceALogin, log);
             requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logUserA, global.dappUrlBob, recipient_mail, sender_mail_alice_a, {'city': 'München'}, "bob@ci-doichain.org", "bob", true);
