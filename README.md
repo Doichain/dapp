@@ -127,7 +127,7 @@ You need a valide token for some of the REST calls. Get the token with:
 
 * Example request (cURL)
 ```sh
-curl -H "Content-Type: application/json" -X POST -d '{"username":"username","password":"password"}' http://localhost:3000/api/v1/login
+curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
 ```
 
 * Response with valid credentials:
