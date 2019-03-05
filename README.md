@@ -56,14 +56,14 @@ Required settings for each dApp namecoin daemon. It contains ``host``, ``port``,
 
 ##### Doi Mail Fetch Url
 The Url for fetching the doi mail data. Only required for the Send dApp. The Url will be called with a ``get`` request. The dApp expects following answer:
-```
+```json
 {
   "data": {
-    from: "fancy@newsletter.com",
-    subject: "Fancy Newsletter Confirmation",
-    redirect: "http://fancynewsletterconfirmationpage.com",
-    returnPath: "noreply@newsletter.com",
-    content: "<html><body><a href=\"${confirmation_url}\">Confirmation link</a></body></html>"
+    "from": "fancy@newsletter.com",
+    "subject": "Fancy Newsletter Confirmation",
+    "redirect": "http://fancynewsletterconfirmationpage.com",
+    "returnPath": "noreply@newsletter.com",
+    "content": "<html><body><a href=\"${confirmation_url}\">Confirmation link</a></body></html>"
   }
 }
 ```
@@ -72,7 +72,7 @@ The Url for fetching the doi mail data. Only required for the Send dApp. The Url
 The SMTP settings of the Confirm dApp for sending double Opt-In mails. Required fields are ``username``, ``password``, ``server`` and ``port``
 
 Example configuration with all three dApps activated:
-```
+```json
 {
   "app": {
     "types": ["send", "confirm", "verify"]
@@ -91,7 +91,7 @@ Example configuration with all three dApps activated:
       "username": "admin",
       "password": "****",
       "server":   "smtp.your-email.com",
-      "port": 587
+      "port": 587,
       "defaultFrom": "doichain@your-email.com"
     },
     "doichain": {
@@ -157,13 +157,13 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
     + ``recipient_mail`` - Email of the recipient
     + ``sender_mail`` - Email of the sender
     + ``ownerid`` - (ADMIN ONLY) Userid of Opt-In-owner
-    + ``data`` - (OPTIONAL) Recipient/Opt-In data
+    + ``data`` - (OPTIONAL) Recipient/Opt-In data as String (not as JSON-Object)
         - ``screenshot`` - (OPTIONAL) Can store a screenshot of the subscription
         - ``templateParam`` - (OPTIONAL) Parameters to be added to template URL
         - ``redirectParam`` - (OPTIONAL) Parameters to be added to redirect URL
 * Example request:
 ```sh
-curl -X POST -H "X-Auth-Token: Ui5rDPEf2kCugdAafUoU7Mh7--bkkL5hm3lVg6DN132" -H "X-User-Id: szkkeuSpfKueyskLz" http://localhost:3000/api/v1/opt-in -d '{"recipient_mail:recipentMail", "sender_mail":"Sendermail", "data":{"redirectParam":{"id":"hash"}}}'
+curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: 1al5tR45IlmEYFBelPZYnQNNIgR23kIUQ6xxmcWfYw2" -H "X-User-Id: ekoCM5ZpcNLRtBaXg" http://localhost:3000/api/v1/opt-in -H "Content-Type: application/json" -d '{"recipient_mail":"alice@ci-doichain.org", "sender_mail":"bob@ci-doichain.org"}'
 ```
 * Success-Response:
 ```json

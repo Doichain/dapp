@@ -15,6 +15,7 @@ if(!global.inside_docker) global.node_url_bob = 'http://localhost:18544/';
 global.rpcAuthAlice = "admin:generated-password";
 global.rpcAuth = "admin:generated-password";
 
+global.privKeyAlice = "cNEuvnaPVkW7Xp3JS49k9aSqMBe4LSyws3aq1KvCU1utSDLtT9Dj";
 global.privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 
 global.dappUrlAlice = "http://localhost:3000";
@@ -33,7 +34,7 @@ if(Meteor.isAppTest) {
         });
 
         it('should create a RegTest Doichain with alice and bob and some Doi - coins', function () {
-            initBlockchain(global.node_url_alice,global.node_url_bob,global.rpcAuth,global.privKeyBob,true);
+            initBlockchain(global.node_url_alice,global.node_url_bob,global.rpcAuth,global.privKeyAlice,global.privKeyBob,true);
             const aliceBalance = getBalance(global.node_url_alice, global.rpcAuth, log);
             chai.assert.isAbove(aliceBalance, 0, 'no funding! ');
         });
