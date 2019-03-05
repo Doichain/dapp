@@ -13,11 +13,11 @@ const exec = require('child_process').exec;
 
 export function initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyAlice,privKeyBob,log) {            //connect nodes (alice & bob) and generate DOI (only if not connected)
 
-    testLogging("importing private key of Bob:"+privKeyBob);
-    importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, log);
-
     testLogging("importing private key of Alice:"+privKeyAlice);
     importPrivKey(node_url_alice, rpcAuth, privKeyAlice, true, log);
+
+    testLogging("importing private key of Bob:"+privKeyBob);
+    importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, log);
 
     try {
         const aliceContainerId = getContainerIdOfName('alice');
