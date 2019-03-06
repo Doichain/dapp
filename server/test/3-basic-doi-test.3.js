@@ -13,7 +13,7 @@ const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
 
 if(Meteor.isAppTest) {
-    xdescribe('03-basic-doi-test-03', function () {
+    describe('03-basic-doi-test-03', function () {
         this.timeout(0);
         
         before(function () {

@@ -1,14 +1,13 @@
 import {Meteor} from "meteor/meteor";
+import { HTTP } from 'meteor/http';
+import { URL } from "url";
 import {chai} from 'meteor/practicalmeteor:chai';
 import {quotedPrintableDecode} from "emailjs-mime-codec";
-import { AssertionError } from "assert";
 import {
     OptInsCollection,
     RecipientsCollection as Recipients,
-    httpGET as getHttpGET,
     httpGETdata as getHttpGETdata,
     httpPOST as getHttpPOST,
-    httpPUT as getHttpPUT,
     testLog as testLogging
 } from "meteor/doichain:doichain-meteor-api";
 import {generatetoaddress} from "./test-api-on-node";
@@ -37,6 +36,10 @@ export function login(url, paramsLogin, log) {
 }
 
 export function requestDOI(url, auth, recipient_mail, sender_mail, data,  log) {
+    const syncFunc = Meteor.wrapAsync(request_DOI);
+    return syncFunc(url, auth, recipient_mail, sender_mail, data,  log);
+}
+export function request_DOI(url, auth, recipient_mail, sender_mail, data,  log, callback) {
     if(log) testLogging('step 1 - requestDOI called via REST');
 
     const urlOptIn = url+'/api/v1/opt-in';
@@ -60,25 +63,29 @@ export function requestDOI(url, auth, recipient_mail, sender_mail, data,  log) {
         'X-User-Id':auth.userId,
         'X-Auth-Token':auth.authToken
     };
+    try{
+        const realDataOptIn = { data: dataOptIn, headers: headersOptIn};
+        const resultOptIn = getHttpPOST(urlOptIn, realDataOptIn);
 
-    const realDataOptIn = { data: dataOptIn, headers: headersOptIn};
-    const resultOptIn = getHttpPOST(urlOptIn, realDataOptIn);
+        //logBlockchain("resultOptIn",resultOptIn);
+        chai.assert.equal(200, resultOptIn.statusCode);
+        testLogging("RETURNED VALUES: ",resultOptIn);
+        if(Array.isArray(resultOptIn.data)){
+            testLogging('adding coDOIs');
+            resultOptIn.data.forEach(element => {
+                chai.assert.equal('success', element.status);
+            });
+        }
 
-    //logBlockchain("resultOptIn",resultOptIn);
-    chai.assert.equal(200, resultOptIn.statusCode);
-    testLogging("RETURNED VALUES: ",resultOptIn);
-    if(Array.isArray(resultOptIn.data)){
-        testLogging('adding coDOIs');
-        resultOptIn.data.forEach(element => {
-            chai.assert.equal('success', element.status);
-        });
+        else{
+            testLogging('adding DOI');
+            chai.assert.equal('success',  resultOptIn.data.status);
+        }
+        callback(null,resultOptIn.data);
     }
-
-    else{
-        testLogging('adding DOI');
-    chai.assert.equal('success',  resultOptIn.data.status);
+    catch(e){
+        callback(e,null);
     }
-    return resultOptIn.data;
 }
 
 export function getNameIdOfRawTransaction(url, auth, txId) {
@@ -169,13 +176,12 @@ async function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback)
         callback(error,nameId);
     }
 }
-
-export function fetchConfirmLinkFromPop3Mail(hostname,port,username,password,alicedapp_url,log) {
+export function fetchConfirmLinkFromPop3Mail(hostname,port,username,password,alicedapp_url,log,mail_test_string="") {
     const syncFunc = Meteor.wrapAsync(fetch_confirm_link_from_pop3_mail);
-    return syncFunc(hostname,port,username,password,alicedapp_url,log);
+    return syncFunc(hostname,port,username,password,alicedapp_url,log,mail_test_string);
 }
 
-function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alicedapp_url,log,callback) {
+function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alicedapp_url,log,mail_test_string,callback) {
 
     testLogging("step 3 - getting email from bobs inbox");
     //https://github.com/ditesh/node-poplib/blob/master/demos/retrieve-all.js
@@ -214,13 +220,15 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                     //https://github.com/emailjs/emailjs-mime-codec
                                     let html  = quotedPrintableDecode(maildata);
                                     if(os.hostname()!=='regtest'){ //this is probably a selenium test from outside docker  - so replace URL so it can be confirmed
-                                            html = replaceAll(html,'http://172.20.0.8','http://localhost');  //TODO put this IP inside a config
+                                        html = replaceAll(html,'http://172.20.0.8','http://localhost');  //TODO put this IP inside a config
                                     }
-                                    chai.expect(html.indexOf(alicedapp_url)).to.not.equal(-1);
-                                    const linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
+                                    let linkdata = null;
+                                    chai.expect(html.indexOf(alicedapp_url),"dappUrl not found in email").to.not.equal(-1);
+                                    linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
 
-                                    chai.expect(linkdata).to.not.be.null;
-                                    if(log && !(log===true))chai.expect(html.indexOf(log)).to.not.equal(-1);
+                                    chai.expect(linkdata,"no linkdata found").to.not.be.null;
+
+                                    if(mail_test_string)chai.expect(html.indexOf(mail_test_string),'teststring: "'+mail_test_string+'" not found').to.not.equal(-1);
                                     const requestData = {"linkdata":linkdata,"html":html}
 
                                     client.dele(msgnumber);
@@ -347,15 +355,24 @@ export function confirmLink(confirmLink) {
     return syncFunc(confirmLink);
 }
 
-function confirm_link(confirmLink,callback){
-    testLogging("clickable link:",confirmLink);
-    const doiConfirmlinkResult = getHttpGET(confirmLink,'');
+function confirm_link(confirmlink,callback){
+    testLogging("clickable link:",confirmlink);
+    const doiConfirmlinkRedir = HTTP.get(confirmlink,{followRedirects:false});
+    const redirLocation = doiConfirmlinkRedir.headers.location;
+    const doiConfirmlinkResult = HTTP.get(redirLocation);
+    testLogging("Response location:",redirLocation);
     try{
-    chai.expect(doiConfirmlinkResult.content).to.have.string('ANMELDUNG ERFOLGREICH');
-    chai.expect(doiConfirmlinkResult.content).to.have.string('Vielen Dank für Ihre Anmeldung');
-    chai.expect(doiConfirmlinkResult.content).to.have.string('Ihre Anmeldung war erfolgreich.');
-    chai.assert.equal(200, doiConfirmlinkResult.statusCode);
-    callback(null,true);
+        if(doiConfirmlinkResult.content.indexOf("Hello world!")==-1){
+            //    chai.expect(doiConfirmlinkResult.content.indexOf("ANMELDUNG ERFOLGREICH")).to.not.equal(-1);
+            chai.expect(doiConfirmlinkResult.content).to.have.string('ANMELDUNG ERFOLGREICH');
+            chai.expect(doiConfirmlinkResult.content).to.have.string('Vielen Dank für Ihre Anmeldung');
+            chai.expect(doiConfirmlinkResult.content).to.have.string('Ihre Anmeldung war erfolgreich.');
+        }
+        else{
+            chai.expect(doiConfirmlinkResult.content.indexOf("Hello world!")).to.not.equal(-1);
+        }
+        chai.assert.equal(200, doiConfirmlinkResult.statusCode);
+        callback(null,{location: redirLocation});
     }
     catch(e){
         callback(e,null);
@@ -481,14 +498,14 @@ export function exportOptIns(url,auth,log){
 }
 
 
-export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob,recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log) {
+export function requestConfirmVerifyBasicDoi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob,recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log,mail_test_string="") {
     const syncFunc = Meteor.wrapAsync(request_confirm_verify_basic_doi);
-    return syncFunc(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log);
+    return syncFunc(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,dappUrlBob, recipient_mail,sender_mail,optionalData,recipient_pop3username, recipient_pop3password, log,mail_test_string);
 }
 
 
 async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dappUrlAlice,dataLoginAlice,
-                                                dappUrlBob, recipient_mail,sender_mail_in,optionalData,recipient_pop3username, recipient_pop3password, log, callback) {
+                                                dappUrlBob, recipient_mail,sender_mail_in,optionalData,recipient_pop3username, recipient_pop3password, log,mail_test_string, callback) {
     if(log) testLogging('node_url_alice',node_url_alice);
     if(log) testLogging('rpcAuthAlice',rpcAuthAlice);
     if(log) testLogging('dappUrlAlice',dappUrlAlice);
@@ -517,32 +534,50 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     let running = true;
     let counter = 0;
     let confirmedLink = "";
+    let lastError = null;
     confirmedLink = await(async function loop() {
         while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
             try{
                 testLogging('step 3: getting email from hostname!',os.hostname());
-                const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname()=='regtest')?'mail':'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
-                testLogging('step 4: confirming link',link2Confirm);
+                const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname()=='regtest')?'mail':'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false,mail_test_string);
                 if(link2Confirm!=null){running=false;
-                confirmLink(link2Confirm);
-                confirmedLink=link2Confirm;
-                testLogging('confirmed')
-                return link2Confirm;
+                    confirmedLink=link2Confirm;
+                    testLogging('confirmed')
+                    return link2Confirm;
                 }
             }catch(ex){
+                lastError=ex;
+                testLogging('trying to get email - so far no success:',ex);
                 testLogging('trying to get email - so far no success:',counter);
                 await new Promise(resolve => setTimeout(resolve, 3000));
             }
         }
+
     })();
 
-   /* if(os.hostname()!=='regtest'){ //if this is a selenium test from outside docker - don't verify DOI here for simplicity
-            testLogging('returning to test without DOI-verification while doing selenium outside docker');
-            callback(null, {status: "DOI confirmed"});
-           // return;
+  /*  if(os.hostname()!=='regtest'){ //if this is a selenium test from outside docker - don't verify DOI here for simplicity
+        testLogging('returning to test without DOI-verification while doing selenium outside docker');
+        callback(null, {status: "DOI confirmed"});
+        // return;
     }else{*/
         let nameId=null;
         try{
+            if(counter>=50){
+                throw lastError;
+            }
+            testLogging('step 4: confirming link',confirmedLink);
+            //Checking the redirect-parameters after confirming link
+            let redirLink = confirmLink(confirmedLink);
+            if(optionalData && optionalData.redirectParam){
+                testLogging('step 4.5: redirectLink after confirmation in case of optional data',{optionalData:optionalData,redirLink:redirLink});
+                testLogging('redirLink.location:',redirLink.location);
+                let redirUrl = new URL(redirLink.location);
+                testLogging("Checking for redirect params:",optionalData.redirectParam)
+                Object.keys(optionalData.redirectParam).forEach(function(key){
+                    chai.assert.isTrue(redirUrl.searchParams.has(key));
+                    chai.assert.equal(redirUrl.searchParams.get(key),""+optionalData.redirectParam[key]);
+                });
+            }
             chai.assert.isBelow(counter,50);
             //confirmLink(confirmedLink);
             const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
@@ -554,25 +589,25 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
                 for (let index = 0; index < sender_mail_in.length; index++) {
                     let tmpId = index==0 ? nameId : nameId+"-"+(index); //get nameid of coDOIs based on master
                     testLogging("NameId of coDoi: ",tmpId);
-                verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail_in[index], recipient_mail, tmpId, true);
+                    verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail_in[index], recipient_mail, tmpId, true);
                 }
             }
             else{
                 verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, nameId, true); //need to generate two blocks to make block visible on alice
             }
             testLogging('after verification');
-            callback(null, {optIn: resultDataOptIn, nameId: nameId});
+            //confirmLink(confirmedLink);
+            callback(null, {optIn: resultDataOptIn, nameId: nameId,confirmLink: confirmedLink});
         }
         catch(error){
             callback(error, {optIn: resultDataOptIn, nameId: nameId});
         }
-   // }
+    //}
 
 
 }
 
 export function updateUser(url,auth,updateId,mailTemplate,log){
-
     const headersUser = {
         'Content-Type':'application/json',
         'X-User-Id':auth.userId,
@@ -584,7 +619,7 @@ export function updateUser(url,auth,updateId,mailTemplate,log){
     const urlUsers = url+'/api/v1/users/'+updateId;
     const realDataUser= { data: dataUser, headers: headersUser};
     if(log) testLogging('updateUser:', realDataUser);
-    let res = getHttpPUT(urlUsers,realDataUser);
+    let res = HTTP.put(urlUsers,realDataUser);
     if(log) testLogging("response",res);
     chai.assert.equal(200, res.statusCode);
     chai.assert.equal(res.data.status,"success");
@@ -599,7 +634,7 @@ export function updateUser(url,auth,updateId,mailTemplate,log){
 export function resetUsers(){
     Accounts.users.remove(
         {"username":
-        {"$ne":"admin"}
+                {"$ne":"admin"}
         }
     );
 }

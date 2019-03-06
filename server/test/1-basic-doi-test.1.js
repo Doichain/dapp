@@ -35,6 +35,12 @@ if(Meteor.isAppTest) {
             logBlockchain("removing OptIns,Recipients,Senders");
             deleteOptInsFromAliceAndBob();
             deleteAllEmailsFromPop3(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, true);
+            const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
+            updateUser(global.dappUrlAlice, adLog, adLog.userId, {},false);
+        });
+        afterEach(function(){
+            const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
+            updateUser(global.dappUrlAlice, adLog, adLog.userId, {},false);
         });
 
         it('should test if basic Doichain workflow is working with optional data', function (done) {
@@ -121,7 +127,7 @@ if(Meteor.isAppTest) {
             chai.expect(changedData).not.undefined;
         });
 
-        xit('should test if user can update own profile', function () {
+        it('should test if user can update own profile', function () {
             resetUsers();
             let logAdmin = login(global.dappUrlAlice, global.dAppLogin, true);
             const userUp = createUser(global.dappUrlAlice, logAdmin, "updateUser", templateUrlA, true);
@@ -132,31 +138,44 @@ if(Meteor.isAppTest) {
             chai.expect(changedData).not.undefined;
         });
 
-        xit('should test if coDoi works', function () {
-            const coDoiList = ["alice1@doichain-ci.com", "alice2@doichain-ci.com", "alice3@doichain-ci.com"];
+        it('should test if coDoi works', function () {
+            const coDoiList = ["aliceCo1@doichain-ci.com", "aliceCo2@doichain-ci.com", "aliceCo3@doichain-ci.com"];
             const recipient_mail = "bob@ci-doichain.org";
             const sender_mail = coDoiList;
             let logAdmin = login(global.dappUrlAlice, global.dAppLogin, true);
-            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logAdmin, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
+            const coDois = requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logAdmin, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
         });
 
-        xit('should find updated Data in email', function (done) {
+        it('should find updated Data in email', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice-update@ci-doichain.org";
             const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
             updateUser(global.dappUrlAlice, adLog, adLog.userId, {"subject": "updateTest", "templateURL": templateUrlB});
-            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, adLog, global.dappUrlBob, recipient_mail, sender_mail,
-                {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
+            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, adLog, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob",true, "updateTest");
             done();
         });
 
-        xit('should redirect if confirmation-link is clicked again',function(){
+        it('should use URL params', function (done) {
+            const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+            const sender_mail_a = "alice-param-a@ci-doichain.org";
+            const sender_mail_b = "alice-param-b@ci-doichain.org";
+            const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
+            updateUser(global.dappUrlAlice, adLog, adLog.userId, {"subject": "paramTest", "redirect": "https://www.doichain.org", "templateURL": global.dappUrlAlice+"/api/v1/template"},true);
+            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, adLog, global.dappUrlBob, recipient_mail, sender_mail_a, {'redirectParam': {'p':1},'templateParam':{'lang':'en'}}, "bob@ci-doichain.org", "bob",true,"your free registation");
+            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, adLog, global.dappUrlBob, recipient_mail, sender_mail_b, {'redirectParam': {'p':1},'templateParam':{'lang':'de'}}, "bob@ci-doichain.org", "bob",true,"Ihre kostenlose Anmeldung");
+            updateUser(global.dappUrlAlice, adLog, adLog.userId, {},true);
+            done();
+        });
+
+        it('should redirect if confirmation-link is clicked again',function(){
             for (let index = 0; index < 3; index++) {
                 const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
                 const sender_mail = "alice_"+index+"@ci-doichain.org";
                 const dataLoginAlice = login(global.dappUrlAlice, global.dAppLogin, false); //log into dApp
+                updateUser(global.dappUrlAlice, dataLoginAlice, dataLoginAlice.userId,{"subject":"multiclickTest"},true);
                 let returnedData = requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, dataLoginAlice, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
-                chai.assert.equal(true,confirmLink(returnedData.confirmLink));
+                logBlockchain('double link click test returnedData:',returnedData)
+                chai.assert.notEqual(null,confirmLink(returnedData.confirmLink).location);
             }
         });
     });

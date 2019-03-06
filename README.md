@@ -163,7 +163,7 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
         - ``redirectParam`` - (OPTIONAL) Parameters to be added to redirect URL
 * Example request:
 ```sh
-curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: 1al5tR45IlmEYFBelPZYnQNNIgR23kIUQ6xxmcWfYw2" -H "X-User-Id: ekoCM5ZpcNLRtBaXg" http://localhost:3000/api/v1/opt-in -H "Content-Type: application/json" -d '{"recipient_mail":"alice@ci-doichain.org", "sender_mail":"bob@ci-doichain.org"}'
+curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: TNjWzy1IaGLj9JrSWaUILMXYKEgVJFwXqp2M9AtcW7g" -H "X-User-Id: GQTKD2WiFKpx8Ndc2" http://localhost:3000/api/v1/opt-in -d '{"recipient_mail":"bob@ci-doichain.org", "sender_mail":"alice-xyz@ci-doichain.org"}'
 ```
 * Success-Response:
 ```json
