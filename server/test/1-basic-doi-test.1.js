@@ -155,7 +155,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should use URL params', function (done) {
+        it('should use URL params', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail_a = "alice-param-a@ci-doichain.org";
             const sender_mail_b = "alice-param-b@ci-doichain.org";
@@ -167,7 +167,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it('should redirect if confirmation-link is clicked again',function(){
+        xit('should redirect if confirmation-link is clicked again',function(){
             for (let index = 0; index < 3; index++) {
                 const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
                 const sender_mail = "alice_"+index+"@ci-doichain.org";

@@ -568,15 +568,14 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
             testLogging('step 4: confirming link',confirmedLink);
             //Checking the redirect-parameters after confirming link
             let redirLink = confirmLink(confirmedLink);
-            let redirUrl = new URL(redirLink.location);
-            if(optionalData){
-                if(optionalData.redirectParam){
-                    testLogging("Checking for redirect params:",optionalData.redirectParam)
-                    Object.keys(optionalData.redirectParam).forEach(function(key){
-                        chai.assert.isTrue(redirUrl.searchParams.has(key));
-                        chai.assert.equal(redirUrl.searchParams.get(key),""+optionalData.redirectParam[key]);
-                    });
-                }
+            if(optionalData && optionalData.redirectParam){
+                testLogging('step 4.5: redirectLink after confirmation in case of optional data',{optionalData:optionalData,redirLink:redirLink});
+                let redirUrl = new URL(redirLink.location);
+                testLogging("Checking for redirect params:",optionalData.redirectParam)
+                Object.keys(optionalData.redirectParam).forEach(function(key){
+                    chai.assert.isTrue(redirUrl.searchParams.has(key));
+                    chai.assert.equal(redirUrl.searchParams.get(key),""+optionalData.redirectParam[key]);
+                });
             }
             chai.assert.isBelow(counter,50);
             //confirmLink(confirmedLink);
