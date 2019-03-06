@@ -7,6 +7,10 @@ import {
 global.inside_docker = false;
 
 const log = true;
+const dns = require('dns');
+dns.setServers([
+    '127.0.0.1',
+]);
 
 global.node_url_alice = 'http://172.20.0.6:18332/';
 if(!global.inside_docker) global.node_url_alice = 'http://localhost:18543/';
