@@ -1,11 +1,11 @@
 import {Meteor} from "meteor/meteor";
-import { HTTP } from 'meteor/http'
+import { HTTP } from 'meteor/http';
+import { URL } from "url";
 import {chai} from 'meteor/practicalmeteor:chai';
 import {quotedPrintableDecode} from "emailjs-mime-codec";
 import {
     OptInsCollection,
     RecipientsCollection as Recipients,
-    httpGET as getHttpGET,
     httpGETdata as getHttpGETdata,
     httpPOST as getHttpPOST,
     testLog as testLogging
@@ -570,6 +570,7 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
             let redirLink = confirmLink(confirmedLink);
             if(optionalData && optionalData.redirectParam){
                 testLogging('step 4.5: redirectLink after confirmation in case of optional data',{optionalData:optionalData,redirLink:redirLink});
+                testLogging('redirLink.location:',redirLink.location);
                 let redirUrl = new URL(redirLink.location);
                 testLogging("Checking for redirect params:",optionalData.redirectParam)
                 Object.keys(optionalData.redirectParam).forEach(function(key){
