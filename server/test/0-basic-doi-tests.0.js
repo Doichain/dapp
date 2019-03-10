@@ -10,7 +10,7 @@ const log = true;
 const dns = require('dns');
 dns.setServers([
     '127.0.0.1',
-]);
+]); //we use our own dns in order to resolve the ci-doichain.org test domain including its TXT entry
 
 global.node_url_alice = 'http://172.20.0.6:18332/';
 if(!global.inside_docker) global.node_url_alice = 'http://localhost:18543/';
