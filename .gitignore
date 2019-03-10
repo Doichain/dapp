@@ -1,5 +1,7 @@
-nohup.out
+.idea/
+.storybook/
+logs/
 node_modules/
+packages/
 settings.json
 package-lock.json
-build/bundle/programs/server/logs

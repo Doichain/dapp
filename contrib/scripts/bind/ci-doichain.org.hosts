@@ -9,6 +9,7 @@ ci-doichain.org.	IN	SOA	ns.ci-doichain.org. admin.le-space.de. (
 ci-doichain.org.	IN	NS	ns.ci-doichain.org.
 ci-doichain.org.	IN	A	172.17.0.ns
 ns.ci-doichain.org.	IN	A	172.17.0.ns
+mongo.ci-doichain.org.	IN	A	172.17.0.mongo
 mail.ci-doichain.org.	IN	A	172.17.0.mail
 alice.ci-doichain.org.	IN	A	172.17.0.alice
 bob.ci-doichain.org.	IN	A	172.17.0.bob

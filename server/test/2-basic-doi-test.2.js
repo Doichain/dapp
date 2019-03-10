@@ -6,7 +6,9 @@ import {
     login,
     requestDOI, verifyDOI
 } from "./test-api/test-api-on-dapp";
-import {testLogging} from "../../imports/startup/server/log-configuration";
+import {
+    testLog as testLogging
+} from "meteor/doichain:doichain-meteor-api";
 import {
     deleteOptInsFromAliceAndBob,
     generatetoaddress,
@@ -16,13 +18,10 @@ import {
     stopDockerBob, waitToStartContainer
 } from "./test-api/test-api-on-node";
 const exec = require('child_process').exec;
-const node_url_alice = 'http://172.20.0.6:18332/';
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
 
 const rpcAuth = "admin:generated-password";
-const dappUrlAlice = "http://localhost:3000";
-const dappUrlBob = "http://172.20.0.8:4000";
 const dAppLogin = {"username":"admin","password":"password"};
 const log = true;
 
@@ -31,29 +30,28 @@ if(Meteor.isAppTest) {
 
         before(function () {
             deleteOptInsFromAliceAndBob();
-            deleteAllEmailsFromPop3("mail", 110, recipient_pop3username, recipient_pop3password, true);
-            exec('sudo docker rm 3rd_node', (e, stdout2, stderr2) => {
+            deleteAllEmailsFromPop3(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, true);
+            exec((global.inside_docker?'sudo':'')+' docker rm 3rd_node', (e, stdout2, stderr2) => {
                 testLogging('deleted 3rd_node:', {stdout: stdout2, stderr: stderr2});
             });
 
             try {
-                exec('sudo docker stop 3rd_node', (e, stdout, stderr) => {
+                exec((global.inside_docker?'sudo':'')+' docker stop 3rd_node', (e, stdout, stderr) => {
                     testLogging('stopped 3rd_node:', {stdout: stdout, stderr: stderr});
-                    exec('sudo docker rm 3rd_node', (e, stdout, stderr) => {
+                    exec((global.inside_docker?'sudo':'')+' docker rm 3rd_node', (e, stdout, stderr) => {
                         testLogging('removed 3rd_node:', {stdout: stdout, stderr: stderr});
                     });
                 });
             } catch (ex) {
                 testLogging('could not stop 3rd_node',);
             }
-            //importPrivKey(node_url_bob, rpcAuth, privKeyBob, true, false);
         });
 
         before(function () {
             try {
-                exec('sudo docker stop 3rd_node', (e, stdout, stderr) => {
+                exec((global.inside_docker?'sudo':'')+' docker stop 3rd_node', (e, stdout, stderr) => {
                     testLogging('stopped 3rd_node:', {stdout: stdout, stderr: stderr});
-                    exec('sudo docker rm 3rd_node', (e, stdout, stderr) => {
+                    exec((global.inside_docker?'sudo':'')+' docker rm 3rd_node', (e, stdout, stderr) => {
                         testLogging('removed 3rd_node:', {stdout: stdout, stderr: stderr});
                     });
                 });
@@ -64,7 +62,7 @@ if(Meteor.isAppTest) {
 
         it('should test if basic Doichain workflow is working when Bobs node is temporarily offline', function (done) {
             this.timeout(0);
-            global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, false);
+            global.aliceAddress = getNewAddress(global.node_url_alice, rpcAuth, false);
             //start another 3rd node before shutdown Bob
             start3rdNode();
             var containerId = stopDockerBob();
@@ -72,10 +70,10 @@ if(Meteor.isAppTest) {
             const sender_mail = "alice-to-offline-node@ci-doichain.org";
             //login to dApp & request DOI on alice via bob
             if (log) testLogging('log into alice and request DOI');
-            let dataLoginAlice = login(dappUrlAlice, dAppLogin, false); //log into dApp
-            let resultDataOptIn = requestDOI(dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, null, true);
+            let dataLoginAlice = login(global.dappUrlAlice, dAppLogin, false); //log into dApp
+            let resultDataOptIn = requestDOI(global.dappUrlAlice, dataLoginAlice, recipient_mail, sender_mail, null, true);
 
-            const nameId = getNameIdOfOptInFromRawTx(node_url_alice, rpcAuth, resultDataOptIn.data.id, true);
+            const nameId = getNameIdOfOptInFromRawTx(global.node_url_alice, rpcAuth, resultDataOptIn.data.id, true);
             if (log) testLogging('got nameId', nameId);
             var startedContainerId = startDockerBob(containerId);
             testLogging("started bob's node with containerId", startedContainerId);
@@ -83,7 +81,7 @@ if(Meteor.isAppTest) {
             waitToStartContainer(startedContainerId);
 
             //generating a block so transaction gets confirmed and delivered to bob.
-            generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, true);
+            generatetoaddress(global.node_url_alice, rpcAuth, global.aliceAddress, 1, true);
             let running = true;
             let counter = 0;
             (async function loop() {
@@ -91,7 +89,7 @@ if(Meteor.isAppTest) {
                     try {
                         //  generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, true);
                         testLogging('step 3: getting email!');
-                        const link2Confirm = fetchConfirmLinkFromPop3Mail("mail", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
+                        const link2Confirm = fetchConfirmLinkFromPop3Mail(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
                         testLogging('step 4: confirming link', link2Confirm);
                         if (link2Confirm != null) running = false;
                         confirmLink(link2Confirm);
@@ -102,13 +100,18 @@ if(Meteor.isAppTest) {
                     }
                 }
                 })();
+<<<<<<< HEAD
                 generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, true);
                 verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuth, sender_mail, recipient_mail, nameId, log); //need to generate two blocks to make block visible on alice
+=======
+                generatetoaddress(global.node_url_alice, rpcAuth, global.aliceAddress, 1, true);
+                verifyDOI(global.dappUrlAlice, dataLoginAlice, global.node_url_alice, rpcAuth, sender_mail, recipient_mail, nameId, log); //need to generate two blocks to make block visible on alice
+>>>>>>> 0.0.9
                 testLogging('end of getNameIdOfRawTransaction returning nameId', nameId);
                 try {
-                    exec('sudo docker stop 3rd_node', (e, stdout, stderr) => {
+                    exec((global.inside_docker?'sudo':'')+' docker stop 3rd_node', (e, stdout, stderr) => {
                         testLogging('stopped 3rd_node:', {stdout: stdout, stderr: stderr});
-                        exec('sudo docker rm 3rd_node', (e, stdout, stderr) => {
+                        exec((global.inside_docker?'sudo':'')+' docker rm 3rd_node', (e, stdout, stderr) => {
                             testLogging('removed 3rd_node:', {stdout: stdout, stderr: stderr});
                         });
                     });
@@ -116,7 +119,10 @@ if(Meteor.isAppTest) {
                     testLogging('could not stop 3rd_node',);
                 }
                 done();
+<<<<<<< HEAD
             //done();
+=======
+>>>>>>> 0.0.9
         }); //it
     });
 }

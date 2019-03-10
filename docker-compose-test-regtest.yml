@@ -7,8 +7,11 @@ services:
       - "27017"
     ports:
       - "28017:27017"
-    dns:
+    dns: #doesn't seem to work anymore
       - 172.20.0.5
+    volumes:
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
+      - ./contrib/scripts/meteor/delete_collections.sh:/tmp/delete_collections.sh
     networks:
       static-network:
         ipv4_address: 172.20.0.3
@@ -31,6 +34,7 @@ services:
     #tty: true
     volumes:
       - "./contrib/:/contrib"
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
     networks:
       static-network:
         ipv4_address: 172.20.0.5
@@ -56,6 +60,7 @@ services:
       - bind
     volumes:
       - "./contrib/:/contrib"
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
     command: bash -c 'cp /contrib/scripts/sasl/sasldb2 /etc/ && cp -r /contrib/scripts/tequila/* /opt/tequila/domains/ && chown -R tequila:tequila /opt/tequila/domains && mkdir -p /var/spool/virtual/ci-doichain.org && chown tequila:tequila /var/spool/virtual/ci-doichain.org && service postfix reload && sleep infinity'
     networks:
       static-network:
@@ -72,11 +77,14 @@ services:
       - REGTEST=true
       - RPC_ALLOW_IP=::/0
       - RPC_PASSWORD=generated-password
-      - DAPP_URL=http://172.20.0.8:3000/
+      - DAPP_URL=http://172.20.0.9:3000/
+#      - DAPP_URL=http://172.20.0.8:3000/ #use this when tests run inside dokcer
     dns:
       - 172.20.0.5
       - 8.8.8.8
     dns_search: ci-doichain.org
+    volumes:
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
     stdin_open: true
     tty: true
     networks:
@@ -94,52 +102,62 @@ services:
       - REGTEST=true
       - RPC_ALLOW_IP=::/0
       - RPC_PASSWORD=generated-password
-      - DAPP_URL=http://172.20.0.8:4000
+      - DAPP_URL=http://172.20.0.9:4000/
+#      - DAPP_URL=http://172.20.0.8:4000 #use this when tests run inside docker
     dns:
       - 172.20.0.5
       - 8.8.8.8
     dns_search: ci-doichain.org
+    volumes:
+      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
     stdin_open: true
     tty: true
     networks:
       static-network:
         ipv4_address: 172.20.0.7
 
-  regtest:
-    image: "doichain/dapp-only"
-    hostname: regtest
-    #build: .
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      #- ".:/home/doichain/dapp" #TODO you can enable this during development but not during testing in CI (permission denided)
-    dns:
-      - 172.20.0.5
-      - 8.8.8.8
-    dns_search: ci-doichain.org
-    #&& export MONGO_URL=mongodb://mongo:27017/alice && meteor npm cache verify && meteor npm install && meteor npm run test-d-compose-alice-mocha
-    command: bash -c "./contrib/scripts/meteor/start_dapp.sh && sleep infinity"
-    ports:
-      - "3000:3000"
-      - "4000:4000"
-    expose:
-      - "3000"
-      - "4000"
-    stdin_open: true
-    tty: true
-    privileged: true
-    depends_on:
-      - alice
-      - bob
-      - bind
-      - mail
-    networks:
-        static-network:
-          ipv4_address: 172.20.0.8
+#  regtest:
+#    image: "doichain/dapp-only"
+#    hostname: regtest
+#    #build: .
+#    volumes:
+#      - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
+#      - "/var/run/docker.sock:/var/run/docker.sock"
+#      - ".:/home/doichain/dapp" #TODO you can enable this during development but not during testing in CI (permission denided)
+#    dns:
+#      - 172.20.0.5
+#      - 8.8.8.8
+#    dns_search: ci-doichain.org
+#    #&& export MONGO_URL=mongodb://mongo:27017/alice && meteor npm cache verify && meteor npm install && meteor npm run test-d-compose-alice-mocha
+#    command: bash -c "./contrib/scripts/meteor/start_dapp.sh && sleep infinity"
+#    ports:
+#      - "3000:3000"
+#      - "4000:4000"
+#    expose:
+#      - "3000"
+#      - "4000"
+#    stdin_open: true
+#    tty: true
+#    privileged: true
+#    depends_on:
+#      - mongo
+#      - alice
+#      - bob
+#      - bind
+#      - mail
+#    networks:
+#        static-network:
+#          ipv4_address: 172.20.0.8
 
   dockerhost:
     image: qoomon/docker-host
     cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+#    volumes:
+#     - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
     restart: on-failure
+    expose:
+      - "3000"
+      - "4000"
     networks:
       static-network:
         ipv4_address: 172.20.0.9
