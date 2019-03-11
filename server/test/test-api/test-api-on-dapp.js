@@ -377,7 +377,6 @@ function confirm_link(confirmlink,callback){
     catch(e){
         callback(e,null);
     }
-
 }
 
 export function verifyDOI(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log ){
@@ -428,7 +427,7 @@ async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
             }
             finally{
                 generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                await new Promise(resolve => setTimeout(resolve, 2000)); 
             }
         }
 
@@ -534,16 +533,18 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     let running = true;
     let counter = 0;
     let confirmedLink = "";
-    let lastError = null;
+
     confirmedLink = await(async function loop() {
         while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
             try{
                 testLogging('step 3: getting email from hostname!',os.hostname());
-                const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname()=='regtest')?'mail':'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false,mail_test_string);
+                const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname()=='regtest')?'mail':'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
+                testLogging('step 4: confirming link',link2Confirm);
                 if(link2Confirm!=null){running=false;
-                    confirmedLink=link2Confirm;
-                    testLogging('confirmed')
-                    return link2Confirm;
+                confirmLink(link2Confirm);
+                confirmedLink=link2Confirm;
+                testLogging('confirmed')
+                return link2Confirm;
                 }
             }catch(ex){
                 lastError=ex;
@@ -578,13 +579,14 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
                     chai.assert.equal(redirUrl.searchParams.get(key),""+optionalData.redirectParam[key]);
                 });
             }
+
             chai.assert.isBelow(counter,50);
             //confirmLink(confirmedLink);
             const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
             if(log) testLogging('got nameId',nameId);
             generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
             testLogging('before verification');
-
+            
             if(Array.isArray(sender_mail_in)){
                 for (let index = 0; index < sender_mail_in.length; index++) {
                     let tmpId = index==0 ? nameId : nameId+"-"+(index); //get nameid of coDOIs based on master

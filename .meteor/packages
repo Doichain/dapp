@@ -8,6 +8,8 @@ meteor-base@1.4.0             # Packages every Meteor app needs to have
 mongo@1.6.0                   # The database Meteor supports right now
 
 standard-minifier-js@2.4.0    # JS minifier run for production mode
+es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
+ecmascript@0.12.4              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.4.0            # Server-side component of the `meteor shell` command
 
 msavin:mongol
@@ -15,17 +17,15 @@ meteortesting:mocha@1.1.1
 
 inspiraluna:useraccounts-react-material-ui
 aldeed:collection2
-ecmascript@0.12.4
 fourseven:scss
 meteoreact:accounts
-react-meteor-data
+react-meteor-data@0.2.16
 reactive-var@1.0.11
 ultimatejs:tracker-react
 tracker@1.2.0
 underscore@1.0.10
 sakulstra:aggregate
 practicalmeteor:chai
-es5-shim@4.8.0
 seba:minifiers-autoprefixer
 accounts-base@1.4.3
 static-html

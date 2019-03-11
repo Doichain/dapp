@@ -109,6 +109,7 @@ if(Meteor.isAppTest) {
             console.log(exportedOptIns);
             chai.expect(exportedOptIns[0]).to.not.be.undefined;
             chai.expect(exportedOptIns[0].RecipientEmail.email).to.be.equal(recipient_mail);
+
             const exportedOptInsA = exportOptIns(global.dappUrlAlice, logBasic, true);
             exportedOptInsA.forEach(element => {
                 chai.expect(element.ownerId).to.be.equal(logBasic.userId);

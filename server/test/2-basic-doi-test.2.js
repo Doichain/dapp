@@ -100,6 +100,7 @@ if(Meteor.isAppTest) {
                     }
                 }
                 })();
+
                 generatetoaddress(global.node_url_alice, rpcAuth, global.aliceAddress, 1, true);
                 verifyDOI(global.dappUrlAlice, dataLoginAlice, global.node_url_alice, rpcAuth, sender_mail, recipient_mail, nameId, log); //need to generate two blocks to make block visible on alice
                 testLogging('end of getNameIdOfRawTransaction returning nameId', nameId);

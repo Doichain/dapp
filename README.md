@@ -127,7 +127,11 @@ You need a valide token for some of the REST calls. Get the token with:
 
 * Example request (cURL)
 ```sh
+<<<<<<< HEAD
+curl -H "Content-Type: application/json" -X POST -d '{"username":"username","password":"password"}' http://localhost:3000/api/v1/login
+=======
 curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
+>>>>>>> 0.0.9
 ```
 
 * Response with valid credentials:
@@ -157,19 +161,31 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
     + ``recipient_mail`` - Email of the recipient
     + ``sender_mail`` - Email of the sender
     + ``ownerid`` - (ADMIN ONLY) Userid of Opt-In-owner
+<<<<<<< HEAD
+    + ``data`` - (OPTIONAL) Recipient/Opt-In data
+=======
     + ``data`` - (OPTIONAL) Recipient/Opt-In data as String (not as JSON-Object)
+>>>>>>> 0.0.9
         - ``screenshot`` - (OPTIONAL) Can store a screenshot of the subscription
         - ``templateParam`` - (OPTIONAL) Parameters to be added to template URL
         - ``redirectParam`` - (OPTIONAL) Parameters to be added to redirect URL
 * Example request:
 ```sh
+<<<<<<< HEAD
+curl -X POST -H "X-Auth-Token: Ui5rDPEf2kCugdAafUoU7Mh7--bkkL5hm3lVg6DN132" -H "X-User-Id: szkkeuSpfKueyskLz" http://localhost:3000/api/v1/opt-in -d '{"recipient_mail:recipentMail", "sender_mail":"Sendermail", "data":{"redirectParam":{"id":"hash"}}}'
+=======
 curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: TNjWzy1IaGLj9JrSWaUILMXYKEgVJFwXqp2M9AtcW7g" -H "X-User-Id: GQTKD2WiFKpx8Ndc2" http://localhost:3000/api/v1/opt-in -d '{"recipient_mail":"bob@ci-doichain.org", "sender_mail":"alice-xyz@ci-doichain.org"}'
+>>>>>>> 0.0.9
 ```
 * Success-Response:
 ```json
 {
     "status" : "success",
+<<<<<<< HEAD
+    "data" : 
+=======
     "data" :
+>>>>>>> 0.0.9
     {
         "id" : "optinId",
         "status" : "success",
@@ -291,7 +307,11 @@ curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
 ```json
 {
     "status" : "success",
+<<<<<<< HEAD
+    "data" : 
+=======
     "data" :
+>>>>>>> 0.0.9
     {
         "userid" : "userid",
     }
@@ -325,7 +345,11 @@ curl -X PUT -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
 ```json
 {
     "status" : "success",
+<<<<<<< HEAD
+    "data" : 
+=======
     "data" :
+>>>>>>> 0.0.9
     {
         "subject" : "changedSubject",
         "templateURL" : "changedTemplateURL",
