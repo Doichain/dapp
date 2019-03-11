@@ -355,17 +355,6 @@ export function confirmLink(confirmLink) {
     return syncFunc(confirmLink);
 }
 
-<<<<<<< HEAD
-function confirm_link(confirmLink,callback){
-    testLogging("clickable link:",confirmLink);
-    const doiConfirmlinkResult = getHttpGET(confirmLink,'');
-    try{
-    chai.expect(doiConfirmlinkResult.content).to.have.string('ANMELDUNG ERFOLGREICH');
-    chai.expect(doiConfirmlinkResult.content).to.have.string('Vielen Dank für Ihre Anmeldung');
-    chai.expect(doiConfirmlinkResult.content).to.have.string('Ihre Anmeldung war erfolgreich.');
-    chai.assert.equal(200, doiConfirmlinkResult.statusCode);
-    callback(null,true);
-=======
 function confirm_link(confirmlink,callback){
     testLogging("clickable link:",confirmlink);
     const doiConfirmlinkRedir = HTTP.get(confirmlink,{followRedirects:false});
@@ -384,16 +373,10 @@ function confirm_link(confirmlink,callback){
         }
         chai.assert.equal(200, doiConfirmlinkResult.statusCode);
         callback(null,{location: redirLocation});
->>>>>>> 0.0.9
     }
     catch(e){
         callback(e,null);
     }
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> 0.0.9
 }
 
 export function verifyDOI(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log ){
@@ -450,15 +433,6 @@ async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
 
     })();
         try{
-<<<<<<< HEAD
-        chai.assert.equal(statusVerify,200);
-        chai.assert.equal(resultVerify.data.data.val,true);
-        chai.assert.isBelow(counter,50);
-        callback(null,true);
-        }
-        catch(error){
-        callback(error,false);
-=======
             chai.assert.equal(statusVerify,200);
             chai.assert.equal(resultVerify.data.data.val,true);
             chai.assert.isBelow(counter,50);
@@ -466,7 +440,6 @@ async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
         }
         catch(error){
             callback(error,false);
->>>>>>> 0.0.9
         }
 }
 
@@ -560,15 +533,11 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     let running = true;
     let counter = 0;
     let confirmedLink = "";
-<<<<<<< HEAD
-=======
-    let lastError = null;
->>>>>>> 0.0.9
+
     confirmedLink = await(async function loop() {
         while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
             try{
                 testLogging('step 3: getting email from hostname!',os.hostname());
-<<<<<<< HEAD
                 const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname()=='regtest')?'mail':'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
                 testLogging('step 4: confirming link',link2Confirm);
                 if(link2Confirm!=null){running=false;
@@ -576,13 +545,6 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
                 confirmedLink=link2Confirm;
                 testLogging('confirmed')
                 return link2Confirm;
-=======
-                const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname()=='regtest')?'mail':'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false,mail_test_string);
-                if(link2Confirm!=null){running=false;
-                    confirmedLink=link2Confirm;
-                    testLogging('confirmed')
-                    return link2Confirm;
->>>>>>> 0.0.9
                 }
             }catch(ex){
                 lastError=ex;
@@ -601,8 +563,6 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     }else{*/
         let nameId=null;
         try{
-<<<<<<< HEAD
-=======
             if(counter>=50){
                 throw lastError;
             }
@@ -619,7 +579,7 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
                     chai.assert.equal(redirUrl.searchParams.get(key),""+optionalData.redirectParam[key]);
                 });
             }
->>>>>>> 0.0.9
+
             chai.assert.isBelow(counter,50);
             //confirmLink(confirmedLink);
             const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);

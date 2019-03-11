@@ -100,13 +100,9 @@ if(Meteor.isAppTest) {
                     }
                 }
                 })();
-<<<<<<< HEAD
-                generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, true);
-                verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuth, sender_mail, recipient_mail, nameId, log); //need to generate two blocks to make block visible on alice
-=======
+
                 generatetoaddress(global.node_url_alice, rpcAuth, global.aliceAddress, 1, true);
                 verifyDOI(global.dappUrlAlice, dataLoginAlice, global.node_url_alice, rpcAuth, sender_mail, recipient_mail, nameId, log); //need to generate two blocks to make block visible on alice
->>>>>>> 0.0.9
                 testLogging('end of getNameIdOfRawTransaction returning nameId', nameId);
                 try {
                     exec((global.inside_docker?'sudo':'')+' docker stop 3rd_node', (e, stdout, stderr) => {
@@ -119,10 +115,6 @@ if(Meteor.isAppTest) {
                     testLogging('could not stop 3rd_node',);
                 }
                 done();
-<<<<<<< HEAD
-            //done();
-=======
->>>>>>> 0.0.9
         }); //it
     });
 }

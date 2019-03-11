@@ -109,11 +109,8 @@ if(Meteor.isAppTest) {
             console.log(exportedOptIns);
             chai.expect(exportedOptIns[0]).to.not.be.undefined;
             chai.expect(exportedOptIns[0].RecipientEmail.email).to.be.equal(recipient_mail);
-<<<<<<< HEAD
-            const exportedOptInsA = exportOptIns(dappUrlAlice, logUserA, true);
-=======
+
             const exportedOptInsA = exportOptIns(global.dappUrlAlice, logBasic, true);
->>>>>>> 0.0.9
             exportedOptInsA.forEach(element => {
                 chai.expect(element.ownerId).to.be.equal(logBasic.userId);
             });
@@ -159,8 +156,6 @@ if(Meteor.isAppTest) {
             done();
         });
 
-<<<<<<< HEAD
-=======
         it('should use URL params', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail_a = "alice-param-a@ci-doichain.org";
@@ -173,25 +168,16 @@ if(Meteor.isAppTest) {
             done();
         });
 
->>>>>>> 0.0.9
         it('should redirect if confirmation-link is clicked again',function(){
             for (let index = 0; index < 3; index++) {
                 const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
                 const sender_mail = "alice_"+index+"@ci-doichain.org";
-<<<<<<< HEAD
-                const dataLoginAlice = login(dappUrlAlice, dAppLogin, false); //log into dApp
-                let returnedData = requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, dataLoginAlice, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);    
-                chai.assert.equal(true,confirmLink(returnedData.confirmLink));
-            }
-
-=======
                 const dataLoginAlice = login(global.dappUrlAlice, global.dAppLogin, false); //log into dApp
                 updateUser(global.dappUrlAlice, dataLoginAlice, dataLoginAlice.userId,{"subject":"multiclickTest"},true);
                 let returnedData = requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, dataLoginAlice, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
                 logBlockchain('double link click test returnedData:',returnedData)
                 chai.assert.notEqual(null,confirmLink(returnedData.confirmLink).location);
             }
->>>>>>> 0.0.9
         });
     });
 }
