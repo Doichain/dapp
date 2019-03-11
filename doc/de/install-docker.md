@@ -8,7 +8,7 @@
 - Doichain-Adresse bzw. PublicKey (für DNS)
 - SSL-Zertifikat 
 ## Minimal-Konfiguration
-- Cloud-Server mit "Debian: 9 (Stretch), 1 CPU, 2 GB RAM, 20 GB SSD" z.B. über Hetzner bzw. Nessus (Wien)
+- z.B. Cloud-Server mit "Debian: 9 (Stretch), 1 CPU, 2 GB RAM, 20 GB SSD" z.B. über Hetzner bzw. Nessus (Wien)
 
 ## Installationschritte
 - Zugang über SSH-Key ``ssh <neue-server-ip>``

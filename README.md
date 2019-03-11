@@ -1,5 +1,9 @@
+# Doichain dApp
+A reference implementation of the "Doichain Atomic Double-Opt-In Protocoll"
+
 ## Table of Contents
 - [Docker Installation](#docker-installation)
+    * German 
 - [Manual Installation](#manual-installation)
 - [Settings](#settings)
     * [DNS](#dns)
@@ -51,7 +55,7 @@ For a dApp with enabled verify mode, the DNS txt key ``opt-in-provider`` with th
 ##### App types
 Viable dApp types are ``send``, ``confirm`` and ``verify``
 
-##### Namecoin
+##### Doichain
 Required settings for each dApp namecoin daemon. It contains ``host``, ``port``, ``username`` and ``password``. For the Confirm dApp the wallet address is required to (``address``)
 
 ##### Doi Mail Fetch Url
@@ -127,11 +131,7 @@ You need a valide token for some of the REST calls. Get the token with:
 
 * Example request (cURL)
 ```sh
-<<<<<<< HEAD
-curl -H "Content-Type: application/json" -X POST -d '{"username":"username","password":"password"}' http://localhost:3000/api/v1/login
-=======
 curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login
->>>>>>> 0.0.9
 ```
 
 * Response with valid credentials:

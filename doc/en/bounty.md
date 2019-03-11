@@ -11,7 +11,7 @@ We offer bounties depending on their priority normally in DOI (Doicoin).
 ## Requirements
 In order to become a Doichain bounty hunter you should have experience as software developer and/or software tester.
 Right now we mainly focus on developing our dApp which is written in Javascript using MeteorJS, NodeJS, ReactJS, MongoDB frameworks.
-Doichain Node is a slightly modified fork of Namecoin (which is a early fork of Bitcoin Blockchain) so it would make sense you are alrady a experienced Bitcoin / altcoin blockchain developer or very good in C/C++ if you want to help here.
+Doichain Node is a slightly modified fork of Namecoin (which is a early fork of the Bitcoin Blockchain) so it would make sense, you are alrady a experienced Bitcoin / altcoin blockchain developer or good with in C/C++ if you want to help here.
 We have deficits in documentation, whitepaper accuracy and website contents. Also we have no English native speaker in our team yet. 
 
 ## How can I claim a bounty and how will I get paid later?
