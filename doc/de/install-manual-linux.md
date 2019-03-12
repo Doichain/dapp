@@ -4,11 +4,14 @@
 - Server z.B. Debian/Ubuntu: 18.04, 1 CPU, 2 GB RAM, 20 GB SSD
 - Hostname / DNS-Eintrag: https://doichain.your-domain.com
 - SSL-Zertifikat für doichain.your-domain.com (z.B: Letsencrypt)
-- Konfiguration SMTP-Server für ausgehende Mails (nur für DOI-Bestätigung) 
-- DNS Konfiguration  (nur Confirm-dApp: Doichain DNS-TXT Attribute der Empfänger-Email-Domain)
-- (nur Confirm-dApp): Absender (defaultFrom) beim Versenden des Doi-Requests: e.g. doichain@your-domain.com 
-- (nur Send-dApp): Default Email-Template zum Versand an den Emailempfänger eines Double-Opt-In Requests
-- für Confirm-dApp: Eine Doichain-Addresse (über offline Wallet generieren oder via doichain-cli newaddress)
+- Doicoin (DOI) (via https://bisq.network)
+- nur Send-dApp: 
+    - Default Email-Template zum Versand an den Emailempfänger eines Double-Opt-In Requests
+- nur Confirm-dApp
+    - Konfiguration SMTP-Server für ausgehende Mails (nur für DOI-Bestätigung) 
+    - DNS Konfiguration  (Doichain DNS-TXT Attribut der Empfänger-Email-Domain)
+    - Standard-Email-Absender (defaultFrom) beim Versenden des Doi-Requests: e.g. doichain@your-domain.com 
+    - Eine Doichain-Addresse (über offline Wallet generieren oder via doichain-cli newaddress)
 
 ## Vorgehensweise Installation
 - ``ssh neue-server-ip``
@@ -20,15 +23,18 @@
 - ``adduser doichain sudo``
 - ``echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers``
 - ``su doichain``
-### Installation Berkley-DB:
-``cd /usr/src; sudo wget http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz;``
-``sudo tar xzvf db-4.8.30.NC.tar.gz``
-``cd db-4.8.30.NC/build_unix/``
-``sudo ../dist/configure --enable-cxx && sudo make``
-``sudo make install``
-``sudo ln -s /usr/local/BerkeleyDB.4.8 /usr/include/db4.8``
-``sudo ln -s /usr/include/db4.8/include/* /usr/include``
-``sudo ln -s /usr/include/db4.8/lib/* /usr/lib``
+- Installation Berkley-DB:
+```
+cd /usr/src; sudo wget http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz;
+sudo tar xzvf db-4.8.30.NC.tar.gz
+cd db-4.8.30.NC/build_unix/
+sudo ../dist/configure --enable-cxx && sudo make
+sudo make install
+sudo ln -s /usr/local/BerkeleyDB.4.8 /usr/include/db4.8
+sudo ln -s /usr/include/db4.8/include/* /usr/include
+sudo ln -s /usr/include/db4.8/lib/* /usr/lib
+```
+
 - Doichain core clonen und installieren:
 ```
 cd
