@@ -29,7 +29,7 @@
 ``sudo ln -s /usr/local/BerkeleyDB.4.8 /usr/include/db4.8``
 ``sudo ln -s /usr/include/db4.8/include/* /usr/include``
 ``sudo ln -s /usr/include/db4.8/lib/* /usr/lib``
-### Doichain core clonen und installieren:
+- Doichain core clonen und installieren:
 ```
 cd
 git clone https://github.com/Doichain/core.git doichain-core \
@@ -37,7 +37,7 @@ cd doichain-core &&  ./autogen.sh && ./configure --without-gui  --disable-tests 
 make \
 sudo make install
 ```
-### Start/Stop Script für Doichaind erstellen 
+- Start/Stop Script für Doichaind erstellen 
 ```
 sudo wget https://raw.github.com/frdmn/service-daemons/master/debian -O /etc/init.d/doichaind
 sudo vi /etc/init.d/doichaind
@@ -45,7 +45,7 @@ sudo chmod +x /etc/init.d/doichaind
 sudo update-rc.d doichaind defaults
 service doichaind start
 ```
-### Logfile Rotation einschalten für debug.log 
+- Logfile Rotation einschalten für debug.log 
 - Passwort für RPC-Zugriff generieren z.B. mit: xxd -l 30 -p /dev/urandom
 - Konfigurationsdatei doichain.conf im Verzeichnis /home/doichain/.doichain/ erstellen:
 ```
@@ -77,7 +77,8 @@ doichain-cli validateaddress <doichain-adresse-von-gerade-eben>
 - opt-in-key=your-doichain-public-key in DNS aufnehmen (TXT value)
 - doichain-opt-in-provider=<your domain> 
 - settings.json file mit folgendem Inhalt konfigurieren (<Markierungen-bitte anpassen>)
-``
+
+```json
 {
     "app":
     {
@@ -140,7 +141,8 @@ sudo service doichain-dApp start
 - Default admin-userser nach dem login in http://localhost:3000 ändern
 - Ngnix installieren `sudo apt-get install nginx`
 - Installiere die Datei /etc/nginx/sites-available/doichain.<your-domain> mit folgendem Inhalt:
-``
+
+```
 upstream doichain.<your-domain> {
     server 127.0.0.1:3000;
     keepalive 32;
@@ -164,6 +166,7 @@ server {
         }
 }
 ```
+
 - Ausführen: ``ln -s /etc/nginx/sites-available/doichain.<your-domain> /etc/nginx/sites-enabled/doichain.<your-domain>``
 - ``service nginx restart``
 - SSL über Letsencrypt.org bzw. https://certbot.eff.org/
