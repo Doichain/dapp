@@ -1,15 +1,14 @@
 # Manuelle Installation Doichain Node und dApp (Linux)
 
 ## Vorraussetzungen (notwendige Informationen bevor sie mit der Konfiguration beginnen) 
-- Server mit mind. "z.B. Debian/Ubuntu: 18.04, 1 CPU, 2 GB RAM, 20 GB SSD"
-- Zugang über SSH-Key
+- Server z.B. Debian/Ubuntu: 18.04, 1 CPU, 2 GB RAM, 20 GB SSD
 - Hostname / DNS-Eintrag: https://doichain.your-domain.com
 - SSL-Zertifikat für doichain.your-domain.com (z.B: Letsencrypt)
 - Konfiguration SMTP-Server für ausgehende Mails (nur für DOI-Bestätigung) 
-- DNS Konfiguration des DNS-TXT Werts der Email-Domain
-- DefaultFrom: doichain@your-domain.com
-- Email-Template zum Versand an den Emailempfänger eines Doichain Requests
-- für Confirm-dApp: Eine Doichain-Addresse 
+- DNS Konfiguration  (nur Confirm-dApp: Doichain DNS-TXT Attribute der Empfänger-Email-Domain)
+- (nur Confirm-dApp): Absender (defaultFrom) beim Versenden des Doi-Requests: e.g. doichain@your-domain.com 
+- (nur Send-dApp): Default Email-Template zum Versand an den Emailempfänger eines Double-Opt-In Requests
+- für Confirm-dApp: Eine Doichain-Addresse (über offline Wallet generieren oder via doichain-cli newaddress)
 
 ## Vorgehensweise Installation
 - ``ssh neue-server-ip``
@@ -34,7 +33,6 @@
 ```
 cd
 git clone https://github.com/Doichain/core.git doichain-core \
-(git checkout 0.0.6) not necessary any more since 0.0.7 \
 cd doichain-core &&  ./autogen.sh && ./configure --without-gui  --disable-tests  --disable-gui-tests CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" 
 make \
 sudo make install
