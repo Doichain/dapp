@@ -4,14 +4,14 @@
 Doichain LVC is setting up a bounty program in order to speed up the development of the Doichain ecosystem.
 We will offer different kinds of code and none-code bounties such as marketing, social media promotion and translation bounties.
 
+We offer bounties depending on their priority in DOI (Doichain) but also in Fiat (€). Both DOI (Doichain) and Fiat (€) bounties are exchangeable into Doichain LVC Shares (please read about Doichain LVC (Liechtenstein venture cooperative) on www.doichain.org).
 
-In this document we want to focus on Doichain development bounties.
-We offer bounties depending on their priority in DOI (Doicoin) but also in Fiat (€).
-1 DOI is defined as 1 EUR as technically defined in the whitepaper.
+In this document we focus on **Doichain code bounties**. If you are interested in **non-code bounties**, 
+most parts of this document might not be interesting to you. In this case please jump straight to https://www.doichain.org/bounties and block any non-code bounty after account creation.
 
 ## Requirements
 In order to become a Doichain bounty hunter you should have experience as software developer and/or software tester.
-Right now we focus on developing our dApp and which is written in Javascript using MeteorJS, NodeJS, ReactJS, MongoDB frameworks.
+Right now we focus on developing our dApp and which is written in Javascript using MeteorJS, NodeJS, ReactJS, MongoDB framehttps://bluewallet.io/works.
 Doichain Node is a slightly modified fork of Namecoin (which is a early fork of the Bitcoin blockchain), so it would make sense, if you are already a experienced Bitcoin / altcoin / blockchain developer or good with in C/C++ if you want to help here.
 We have deficits in documentation, whitepaper accuracy and website contents. Also we have no English native speaker in our team yet. 
 
