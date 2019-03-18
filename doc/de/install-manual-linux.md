@@ -1,5 +1,16 @@
 # Manuelle Installation Doichain Node und dApp (Linux)
 
+Dieses Dokument beschreibt die Installation eines Doichain Nodes und einer Doichain dApp. 
+Für gewöhnlich gibt es derzeit zwei Hauptbeweggründe warum man das tun möchte:
+
+1. **Emailmarketing-Unternehmen und E-Commerce Webseiten**, 
+    die ihren Kunden **qualifizierte Double-Opt-Ins** bieten wollen, 
+    installieren eine Doichain dApp und konfigurieren den **"Send-Mode"**
+2. **ISP's / Unternehmen mit eigenem Mailserver** die "Double-Opt-Ins" für Ihre Kunden **selbst bestätigen wollen** 
+    und ihren **SMTP-Filter** oder Spam-Filter die **Doichain-Whiteliste** abfragen lassen wollen, konfigurieren den Confirm-Mode bzw. den Verify-Mode.
+
+Dieses Dokument beschreibt die volle Doichain Installation im **Send-Mode, Confirmation-Mode und Verify-Mode**
+
 ## Vorraussetzungen (notwendige Informationen bevor sie mit der Konfiguration beginnen) 
 - Server z.B. Debian/Ubuntu: 18.04, 1 CPU, 2 GB RAM, 20 GB SSD
 - Hostname / DNS-Eintrag: https://doichain.your-domain.com
