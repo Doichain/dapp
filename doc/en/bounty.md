@@ -4,7 +4,7 @@
 Doichain LVC is setting up a bounty program in order to speed up the development of the Doichain ecosystem.
 We will offer different kinds of code and none-code bounties such as marketing, social media promotion and translation bounties.
 
-We offer bounties depending on their priority in DOI (Doichain) but also in Fiat (€). Both DOI (Doichain) and Fiat (€) bounties are exchangeable into Doichain LVC Shares (please read about Doichain LVC (Liechtenstein venture cooperative) on www.doichain.org).
+We offer bounties depending on their priority in DOI (Doicoin) but also in Fiat (€). Both DOI (Doichain) and Fiat (€) bounties are exchangeable into Doichain LVC Shares (please read about Doichain LVC (Liechtenstein venture cooperative) on www.doichain.org).
 
 In this document we focus on **Doichain code bounties**. If you are interested in **non-code bounties**, 
 most parts of this document might not be interesting to you. In this case please jump straight to https://www.doichain.org/bounties and block any non-code bounty after account creation.
