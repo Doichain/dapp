@@ -1,0 +1,88 @@
+#!/usr/bin/env node
+var exec = require('child_process').exec,
+    Promise = require('promise'),
+    path = require('path'),
+    moment = require('moment'),
+    util = require('util'),
+    fs = require('fs'),
+    contents = null,
+    branch, commit;
+function getVersionTag(){
+    return new Promise(function (fulfill, reject){
+        exec(
+           // "git branch | grep '*'",
+            "git describe --tags",
+            function (err, stdout, stderr) {
+                if(err)reject(err)
+                //var name = stdout.replace('* ','').replace('\n','');
+                var version  = stdout.substring(0,stdout.indexOf("-"));
+                fulfill(version)
+            }
+        )
+    });
+}
+
+function getCommit(){
+    return new Promise(function (fulfill, reject){
+        exec(
+            "git rev-parse HEAD",
+            function (err, stdout, stderr) {
+                if(err)reject(err)
+                var commitName = stdout.replace('* ','').replace('\n','');
+                fulfill(commitName)
+            }
+        )
+    });
+}
+
+function stageVersion(){
+    return new Promise(function (fulfill, reject){
+        let versionPath = path.normalize(__dirname+"/../private/version.json").replace(/\\/g,"/");
+        exec(
+            
+            "git add "+versionPath,
+            function (err, stdout, stderr) {
+                if(err){
+                    console.log(err);
+                    reject(err)
+                    
+                }
+                console.log(stdout);
+                fulfill()
+            }
+        )
+    });
+}
+
+var result = {
+    timestamp : moment().format("DD-MM-YYYY HH:mm")
+};
+console.log("path : "+ __dirname);
+
+getVersionTag()
+    .then(function(_version){
+        result.version = _version;
+    })
+    .then(getCommit)
+    .then(function(_commit){
+        result.commit = _commit;
+    })
+    .then(function(){
+        var fileContent = JSON.stringify(result,null,2);
+
+        var pathToFile = path.normalize(__dirname+"/../private/version.json");
+        console.log("path normalized: "+ path.normalize(pathToFile));
+        if (fs.existsSync(pathToFile)) {
+            fs.writeFile(pathToFile, fileContent , function(err) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log("The file was saved!");
+                }
+            });
+        }else{
+            console.log("Cannot find file : " + pathToFile);
+        }
+    }).then(function(){
+        stageVersion().then((val)=>{console.log("version.json staged")});
+    })

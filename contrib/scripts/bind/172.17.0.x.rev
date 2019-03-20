@@ -1,0 +1,9 @@
+$ttl 38400
+x.0.17.172.in-addr.arpa.	IN	SOA	ns.ci-doichain.org. admin.ci-doichain.org. (
+			_serial_
+			10800
+			3600
+			604800
+			38400 )
+x.0.17.172.in-addr.arpa.	IN	NS	ns.ci-doichain.org.
+5 IN PTR ns.ci-doichain.org.

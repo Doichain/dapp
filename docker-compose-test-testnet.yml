@@ -1,0 +1,42 @@
+version: "2"
+services:
+  mongo:
+    image: "mongo:3.2"
+    ports:
+      - "27018:27017"
+    expose:
+      - "27017"
+    dns:
+      - 172.20.0.5
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.3
+
+  testnet:
+    image: "doichain/dapp-only"
+    #build: .
+    #volumes:
+    #  - ".:/home/doichain/dapp" # enable this when changing the code meteor should reload automatically in meteor
+    #&& export MONGO_URL=mongodb://mongo:27017/alice && meteor npm cache verify && meteor npm install && meteor npm run test-d-compose-alice-mocha
+    #command: bash -c "export MONGO_URL=mongodb://mongo:27017/testnet && meteor npm cache verify && meteor npm install && meteor npm run test-d-compose-testnet-mocha  && sleep infinity"
+    #command: bash -c "contrib/scripts/meteor/start_dapp.sh && sleep infinity"
+    command: bash -c "sleep infinity"
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    expose:
+      - "3000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - mongo
+    networks:
+        static-network:
+          ipv4_address: 172.20.0.8
+
+networks:
+  static-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

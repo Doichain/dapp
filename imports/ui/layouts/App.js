@@ -7,6 +7,11 @@ import PageMenu from '../components/PageMenu.js';
 import LanguageToggle from '../components/LanguageToggle.js';
 import ConnectionNotification from '../components/ConnectionNotification.js';
 import Loading from '../components/Loading.js';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import Item from '../components/Item.js';
 
 const CONNECTION_ISSUE_TIMEOUT = 5000;
 
@@ -44,6 +49,7 @@ export default class App extends React.Component {
       menuOpen,
       children,
       location,
+      version
     } = this.props;
 
     // eslint-disable-next-line react/jsx-no-bind
@@ -54,30 +60,48 @@ export default class App extends React.Component {
     const clonedChildren = children && React.cloneElement(children, {
       key: location.pathname
     });
-
+    let versionInfo = version ? JSON.parse(version): null;
     return (
-      <div id="container" className={menuOpen ? 'menu-open' : ''}>
-        <section id="menu">
-          <LanguageToggle />
-          <UserMenu user={user} logout={this.logout} />
-          <PageMenu user={user}/>
-        </section>
-        {showConnectionIssue && !connected
-          ? <ConnectionNotification />
-          : null}
-        <div className="content-overlay" onClick={closeMenu} />
-        <div id="content-container">
-          <ReactCSSTransitionGroup
-            transitionName="fade"
-            transitionEnterTimeout={200}
-            transitionLeaveTimeout={200}
-          >
-            {loading
-              ? <Loading key="loading" />
-              : clonedChildren}
-          </ReactCSSTransitionGroup>
-        </div>
-      </div>
+        <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+          <div id="container" className={menuOpen ? 'menu-open' : ''}>
+            <section id="menu">
+              <LanguageToggle />
+              <UserMenu user={user} logout={this.logout} />
+              <PageMenu user={user}/>
+              {version ? <Item
+               keys={[
+                 {
+                   key: "version",
+                   name: "tag",
+                   value: versionInfo.version},
+                   {
+                    key: "id",
+                    name: "time",
+                    value: versionInfo.timestamp},
+                    {
+                      key: "commit",
+                      name: "commit",
+                      value: versionInfo.commit}
+                    ]}
+              />:null}
+            </section>
+            {showConnectionIssue && !connected
+              ? <ConnectionNotification />
+              : null}
+            <div className="content-overlay" onClick={closeMenu} />
+            <div id="content-container">
+              <ReactCSSTransitionGroup
+                transitionName="fade"
+                transitionEnterTimeout={200}
+                transitionLeaveTimeout={200}
+              >
+                {loading
+                  ? <Loading key="loading" />
+                  : clonedChildren}
+              </ReactCSSTransitionGroup>
+            </div>
+          </div>
+      </MuiThemeProvider>
     );
   }
 }

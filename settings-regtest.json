@@ -1,0 +1,47 @@
+{
+  "app": {
+    "debug": "true",
+    "regtest":"true",
+    "host": "172.20.0.9",
+    "port": "3100",
+    "types": [
+      "send",
+      "confirm",
+      "verify"
+    ]
+  },
+  "send": {
+    "doiMailFetchUrl": "http://localhost:3100/api/v1/debug/mail",
+    "doichain": {
+      "host": "localhost",
+      "port": "18543",
+      "username": "admin",
+      "password": "generated-password"
+    }
+  },
+  "confirm": {
+    "doichain": {
+      "host": "localhost",
+      "port": "18543",
+      "username": "admin",
+      "password": "generated-password",
+      "address": ""
+    },
+    "smtp": {
+      "username": "alice@ci-doichain.org",
+      "password": "alice",
+      "server": "localhost",
+      "port": "25",
+      "NODE_TLS_REJECT_UNAUTHORIZED":"0",
+      "defaultFrom":"info@ci-doichain.org"
+    }
+  },
+  "verify": {
+    "doichain": {
+      "host": "localhost",
+      "port": "18543",
+      "username": "admin",
+      "password": "generated-password"
+    }
+  }
+}

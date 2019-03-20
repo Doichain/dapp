@@ -1,0 +1,3 @@
+[submodule "packages/accounts-ui"]
+	path = packages/accounts-ui
+	url = https://github.com/Doichain/accounts-ui.git
