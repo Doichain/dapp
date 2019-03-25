@@ -4,7 +4,7 @@ import {
     fetchConfirmLinkFromPop3Mail,
     getNameIdOfOptInFromRawTx,
     login,
-    requestDOI, verifyDOI
+    requestDOI, verifyDOI, clickConfirmLink
 } from "./test-api/test-api-on-dapp";
 import {
     testLog as testLogging
@@ -92,7 +92,7 @@ if(Meteor.isAppTest) {
                         const link2Confirm = fetchConfirmLinkFromPop3Mail(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
                         testLogging('step 4: confirming link', link2Confirm);
                         if (link2Confirm != null) running = false;
-                        confirmLink(link2Confirm);
+                        clickConfirmLink(link2Confirm);
                         testLogging('confirmed');
                     } catch (ex) {
                         testLogging('trying to get email - so far no success:', counter);

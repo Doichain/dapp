@@ -4,7 +4,7 @@ import {
     createUser,
     findUser,
     exportOptIns,
-    requestConfirmVerifyBasicDoi, resetUsers, updateUser, deleteAllEmailsFromPop3, confirmLink
+    requestConfirmVerifyBasicDoi, resetUsers, updateUser, deleteAllEmailsFromPop3, confirmLink, clickConfirmLink
 } from "./test-api/test-api-on-dapp";
 import {
     testLog as logBlockchain
@@ -168,6 +168,26 @@ if(Meteor.isAppTest) {
             done();
         });
 
+        it('should use the text version', function(done){
+            const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+            const sender_mail_a = "alice-text@ci-doichain.org";
+            const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
+            updateUser(global.dappUrlAlice, adLog, adLog.userId, {"subject": "textTest", "redirect": "", "templateURL": templateUrlA.replace("html","txt")},true);
+            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, adLog, global.dappUrlBob, recipient_mail, sender_mail_a,null,"bob@ci-doichain.org", "bob",true,"your free registation");
+            updateUser(global.dappUrlAlice, adLog, adLog.userId, {},true);
+            done();
+        });
+
+        it('should use the json/multipart version', function(done){
+            const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
+            const sender_mail_a = "alice-param-multi@ci-doichain.org";
+            const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
+            updateUser(global.dappUrlAlice, adLog, adLog.userId, {"subject": "multiTest", "redirect": "", "templateURL": templateUrlA.replace("html","json")},true);
+            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, adLog, global.dappUrlBob, recipient_mail, sender_mail_a,null,"bob@ci-doichain.org", "bob",true,"your free registation");
+            updateUser(global.dappUrlAlice, adLog, adLog.userId, {},true);
+            done();
+        });
+
         it('should redirect if confirmation-link is clicked again',function(){
             for (let index = 0; index < 3; index++) {
                 const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
@@ -176,7 +196,7 @@ if(Meteor.isAppTest) {
                 updateUser(global.dappUrlAlice, dataLoginAlice, dataLoginAlice.userId,{"subject":"multiclickTest"},true);
                 let returnedData = requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, dataLoginAlice, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
                 logBlockchain('double link click test returnedData:',returnedData)
-                chai.assert.notEqual(null,confirmLink(returnedData.confirmLink).location);
+                chai.assert.notEqual(null,clickConfirmLink(returnedData.confirmLink).location);
             }
         });
     });
