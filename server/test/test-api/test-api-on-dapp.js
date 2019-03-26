@@ -224,7 +224,7 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                     }
                                     let linkdata = null;
                                     chai.expect(html.indexOf(alicedapp_url),"dappUrl not found in email").to.not.equal(-1);
-                                    linkdata =  html.substring(html.indexOf(alicedapp_url),html.indexOf("'",html.indexOf(alicedapp_url)));
+                                    linkdata =  html.substring(html.indexOf(alicedapp_url)).match(/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*[a-z,A-Z,0-9]{16,}/)[0];
 
                                     chai.expect(linkdata,"no linkdata found").to.not.be.null;
 
@@ -350,7 +350,7 @@ function delete_all_emails_from_pop3(hostname,port,username,password,log,callbac
     });
 }
 
-export function confirmLink(confirmLink) {
+export function clickConfirmLink(confirmLink) {
     const syncFunc = Meteor.wrapAsync(confirm_link);
     return syncFunc(confirmLink);
 }
@@ -533,17 +533,16 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     let running = true;
     let counter = 0;
     let confirmedLink = "";
-
+    let lastError=null;
     confirmedLink = await(async function loop() {
         while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
             try{
                 testLogging('step 3: getting email from hostname!',os.hostname());
                 const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname()=='regtest')?'mail':'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
                 testLogging('step 4: confirming link',link2Confirm);
-                if(link2Confirm!=null){running=false;
-                confirmLink(link2Confirm);
+                if(link2Confirm!=undefined){running=false;
                 confirmedLink=link2Confirm;
-                testLogging('confirmed')
+                testLogging('confirmed');
                 return link2Confirm;
                 }
             }catch(ex){
@@ -568,7 +567,7 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
             }
             testLogging('step 4: confirming link',confirmedLink);
             //Checking the redirect-parameters after confirming link
-            let redirLink = confirmLink(confirmedLink);
+            let redirLink = clickConfirmLink(confirmedLink);
             if(optionalData && optionalData.redirectParam){
                 testLogging('step 4.5: redirectLink after confirmation in case of optional data',{optionalData:optionalData,redirLink:redirLink});
                 testLogging('redirLink.location:',redirLink.location);

@@ -162,7 +162,7 @@ export function getBalance(url,auth,log){
 }
 
 function get_container_id_of_name(name,callback) {
-    exec(sudo+'docker ps --filter "name='+name+'" | cut -f1 -d" " | sed \'1d\'', (e, stdout, stderr)=> {
+    exec(sudo+'docker ps --filter "name='+name+'" -q', (e, stdout, stderr)=> {
         if(e!=null){
             testLogging('cannot find '+name+' node '+stdout,stderr);
             return null;
