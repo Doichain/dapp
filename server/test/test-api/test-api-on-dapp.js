@@ -11,6 +11,8 @@ import {
     testLog as testLogging
 } from "meteor/doichain:doichain-meteor-api";
 import {generatetoaddress} from "./test-api-on-node";
+import {getUrl} from "../../../packages/meteor-api/imports/startup/server/dapp-configuration";
+import {logSend} from "../../../packages/meteor-api/imports/startup/server/log-configuration";
 
 const headers = { 'Content-Type':'text/plain'  };
 const os = require('os');
@@ -358,7 +360,11 @@ export function clickConfirmLink(confirmLink) {
 function confirm_link(confirmlink,callback){
     testLogging("clickable link:",confirmlink);
     const doiConfirmlinkRedir = HTTP.get(confirmlink,{followRedirects:false});
-    const redirLocation = doiConfirmlinkRedir.headers.location;
+    let redirLocation = doiConfirmlinkRedir.headers.location;
+    if(!redirLocation.startsWith("http://") && !redirLocation.startsWith("https://")){
+        redirLocation = getUrl()+"templates/pages/"+redirLocation;
+        logSend('redirectUrl:',redirLocation);
+    }
     const doiConfirmlinkResult = HTTP.get(redirLocation);
     testLogging("Response location:",redirLocation);
     try{
@@ -451,7 +457,7 @@ export function createUser(url,auth,username,templateURL,log){
     }
     const mailTemplate = {
         "subject": "Hello i am "+username,
-        "redirect": "https://www.doichain.org/vielen-dank/",
+        "redirect": "thank-you-en.html",
         "returnPath":  username+"-test@doichain.org",
         "templateURL": templateURL
     }
