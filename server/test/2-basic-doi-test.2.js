@@ -1,6 +1,6 @@
 import {chai} from 'meteor/practicalmeteor:chai';
 import {
-    confirmLink, deleteAllEmailsFromPop3,
+    deleteAllEmailsFromPop3,
     fetchConfirmLinkFromPop3Mail,
     getNameIdOfOptInFromRawTx,
     login,
