@@ -1,14 +1,16 @@
 # Doichain dApp - REST-API
 
 ## Table of Contents
-- [Authentification](#authentification)
-- [Calls (Send - dApp)](#calls--send---dapp-)
+- [Authentication](#authentication)
+- [Calls (Send - dApp) Request a Double-Opt-In](#calls--send---dapp-)
     - [Create Opt-In](#create-opt-in)
     - [Get Double Opt-In mail data](#get-double-opt-in-mail-data)
-- [Calls (Confirm - dApp)](#calls--confirm---dapp-)
+- [Calls (Confirm - dApp) Confirm a Double-Opt-In via email/browser](#calls--confirm---dapp-)
     - [Confirm Opt-In](#confirm-opt-in)
- [Calls (Verify - dApp)](#calls--verify---dapp-)
+- [Calls (Verify - dApp)](#calls--verify---dapp-)
     - [Verify Opt-In](#verify-opt-in)
+    - [Verify Local](#verify-local)
+- [Export (Opt-Ins)](#export)    
 - [Calls (Users)](#calls--users-)
     - [Create user](#create-user)
     - [Update user](#update-user)
@@ -17,8 +19,8 @@
 List of REST API calls for the version 1.
 All call urls in version 1 start with ``/api/v1/``
 
-### Authentification
-You need a valide token for some of the REST calls. Get the token with:
+### Authentication
+You need a valid token for some of the REST calls. Get the token with:
 
 * Url: ``login``
 * Parameter:
@@ -84,7 +86,40 @@ curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: TNjWzy1IaGLj9
     "message" : "Errormessage"
 }
 ```
-##### Export
+### Calls (Confirm - dApp)
+##### Confirm Opt-In
+* Auth required: No
+* Url: ``opt-in/confirm/:HASH``
+* Method: ``GET``
+* Parameter:
+    + ``HASH`` - The internally generatet hash. It contains following information:
+        + ``opt-in id`` - The database id of the opt-in
+        + ``confirmation token`` - A random generated token for the confirmation validation
+        + ``redirect url`` - Url where the customer should be redirected to
+
+### Calls (Verify - dApp)
+##### Verify Opt-In 
+* Description: verify on any known dApp all four parameters mandatory
+* Auth required: No
+* Url: ``opt-in/verify``
+* Method: ``GET``
+* Parameter:
+    + ``recipient_mail`` - Email of the recipient
+    + ``sender_mail`` - Email of the sender
+    + ``name_id`` - Blockchain entry name id
+    + ``recipient_public_key`` - Public key of the recipient
+    
+##### Verify Local 
+* verify email permission on own local dApp with sender email and recipients email only
+* Auth required: Yes
+* Role required: ``admin``
+* Url: ``opt-in/verify``
+* Method: ``GET``
+* Parameter:
+    + ``recipient_mail`` - Email of the recipient
+    + ``sender_mail`` - Email of the sender
+    
+#### Export
 * Auth required: yes
 * Role required: ``none``
 * Url: ``export``
@@ -138,39 +173,6 @@ curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
     "message" : "Errormessage"
 }
 ```
-##### Get Double Opt-In mail data
-* Auth required: false
-* Url: ``doi-mail``
-* Method: ``GET``
-* Query-Parameter:
-    + ``name_id`` - Blockchain entry name id
-    + ``signature`` - Signature created with:
-        + ``message`` - Blockchain entry name id
-        + ``private key`` - Confirm dApp private key
-
-### Calls (Confirm - dApp)
-##### Confirm Opt-In
-* Auth required: No
-* Url: ``opt-in/confirm/:HASH``
-* Method: ``GET``
-* Parameter:
-    + ``HASH`` - The internally generatet hash. It contains following information:
-        + ``opt-in id`` - The database id of the opt-in
-        + ``confirmation token`` - A random generated token for the confirmation validation
-        + ``redirect url`` - Url where the customer should be redirected to
-
-### Calls (Verify - dApp)
-##### Verify Opt-In
-* Auth required: Yes
-* Role required: ``admin``
-* Url: ``opt-in/verify``
-* Method: ``GET``
-* Parameter:
-    + ``recipient_mail`` - Email of the recipient
-    + ``sender_mail`` - Email of the sender
-    + ``name_id`` - Blockchain entry name id
-    + ``recipient_public_key`` - Public key of the recipient
-
 ### Calls (Users)
 ##### Create User
 * Auth required: Yes
@@ -250,3 +252,12 @@ curl -X PUT -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
     "message" : "Errormessage"
 }
 ```
+##### Get Double Opt-In mail data (internal function for offchain dapp communication)
+* Auth required: false
+* Url: ``doi-mail``
+* Method: ``GET``
+* Query-Parameter:
+    + ``name_id`` - Blockchain entry name id
+    + ``signature`` - Signature created with:
+        + ``message`` - Blockchain entry name id
+        + ``private key`` - Confirm dApp private key

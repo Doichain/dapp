@@ -392,15 +392,15 @@ export function verifyDOI(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
 }
 
 
-async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail,nameId, log, callback){
-    let our_recipient_mail =recipient_mail;
-    if(Array.isArray(recipient_mail)){
-        our_recipient_mail=recipient_mail[0];
+async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, nameId, log, callback) {
+    let our_recipient_mail = recipient_mail;
+    if (Array.isArray(recipient_mail)) {
+        our_recipient_mail = recipient_mail[0];
     }
-    const urlVerify = dAppUrl+'/api/v1/opt-in/verify';
+    const urlVerify = dAppUrl + '/api/v1/opt-in/verify';
     const recipient_public_key = Recipients.findOne({email: our_recipient_mail}).publicKey;
-    let resultVerify ={};
-    let statusVerify ={};
+    let resultVerify = {};
+    let statusVerify = {};
 
     const dataVerify = {
         recipient_mail: our_recipient_mail,
@@ -410,44 +410,107 @@ async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
     };
 
     const headersVerify = {
-        'Content-Type':'application/json',
-        'X-User-Id':dAppUrlAuth.userId,
-        'X-Auth-Token':dAppUrlAuth.authToken
+        'Content-Type': 'application/json',
+        'X-User-Id': dAppUrlAuth.userId,
+        'X-Auth-Token': dAppUrlAuth.authToken
     };
     let running = true;
     let counter = 0;
 
     await (async function loop() {
-        while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
-            try{
-                testLogging('Step 5: verifying opt-in:', {data:dataVerify});
-                const realdataVerify = { data: dataVerify, headers: headersVerify };
+        while (running && ++counter < 50) { //trying 50x to get email from bobs mailbox
+            try {
+                testLogging('Step 5: verifying opt-in:', {data: dataVerify});
+                const realdataVerify = {data: dataVerify}; //, headers: headersVerify
                 resultVerify = getHttpGETdata(urlVerify, realdataVerify);
-                testLogging('result /opt-in/verify:',{status:resultVerify.data.status,val:resultVerify.data.data.val} );
+                testLogging('result /opt-in/verify:', {
+                    status: resultVerify.data.status,
+                    val: resultVerify.data.data.val
+                });
                 statusVerify = resultVerify.statusCode;
-                if(resultVerify.data.data.val===true) running = false;
+                if (resultVerify.data.data.val === true) running = false;
 
-            }catch(ex) {
-                testLogging('trying to verify opt-in - so far no success:',ex);
+            } catch (ex) {
+                testLogging('trying to verify opt-in - so far no success:', ex);
                 //generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
                 //await new Promise(resolve => setTimeout(resolve, 2000));
-            }
-            finally{
+            } finally {
                 generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
-                await new Promise(resolve => setTimeout(resolve, 2000)); 
+                await new Promise(resolve => setTimeout(resolve, 2000));
             }
         }
 
     })();
-        try{
-            chai.assert.equal(statusVerify,200);
-            chai.assert.equal(resultVerify.data.data.val,true);
-            chai.assert.isBelow(counter,50);
-            callback(null,true);
+    try {
+        chai.assert.equal(statusVerify, 200);
+        chai.assert.equal(resultVerify.data.data.val, true);
+        chai.assert.isBelow(counter, 50);
+        callback(null, true);
+    } catch (error) {
+        callback(error, false);
+    }
+}
+
+export function verifyLocal(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, log ){
+    const syncFunc = Meteor.wrapAsync(verify_local);
+    return syncFunc(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, log );
+}
+
+
+async function verify_local(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, log, callback) {
+    let our_recipient_mail = recipient_mail;
+    if (Array.isArray(recipient_mail)) {
+        our_recipient_mail = recipient_mail[0];
+    }
+    const urlVerify = dAppUrl + '/api/v1/opt-in/verify-local';
+    let resultVerify = {};
+    let statusVerify = {};
+
+    const dataVerify = {
+        recipient_mail: our_recipient_mail,
+        sender_mail: sender_mail
+    };
+    const dataLoginBob = login(dAppUrl, global.dAppLogin, false); //log into dApp
+    const headersVerify = {
+        'Content-Type': 'application/json',
+        'X-User-Id': dataLoginBob.userId,
+        'X-Auth-Token': dataLoginBob.authToken
+    };
+    let running = true;
+    let counter = 0;
+
+    await (async function loop() {
+        while (running && ++counter < 50) { //trying 50x to get email from bobs mailbox
+            try {
+                testLogging('Step 5: verifying opt-in:', {data: dataVerify});
+                const realdataVerify = {data: dataVerify, headers: headersVerify};
+                resultVerify = getHttpGETdata(urlVerify, realdataVerify);
+                testLogging('result /opt-in/verify-local:', {
+                    status: resultVerify.data.status,
+                    val: resultVerify.data.data.val
+                });
+                statusVerify = resultVerify.statusCode;
+                if (resultVerify.data.data.val === true) running = false;
+
+            } catch (ex) {
+                testLogging('trying to verify opt-in - so far no success:', ex);
+                //generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
+                //await new Promise(resolve => setTimeout(resolve, 2000));
+            } finally {
+                generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
         }
-        catch(error){
-            callback(error,false);
-        }
+
+    })();
+    try {
+        chai.assert.equal(statusVerify, 200);
+        chai.assert.equal(resultVerify.data.data.val, true);
+        chai.assert.isBelow(counter, 50);
+        callback(null, true);
+    } catch (error) {
+        callback(error, false);
+    }
 }
 
 export function createUser(url,auth,username,templateURL,log){
@@ -562,57 +625,50 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
 
     })();
 
-  /*  if(os.hostname()!=='regtest'){ //if this is a selenium test from outside docker - don't verify DOI here for simplicity
-        testLogging('returning to test without DOI-verification while doing selenium outside docker');
-        callback(null, {status: "DOI confirmed"});
-        // return;
-    }else{*/
-        let nameId=null;
-        try{
-            if(counter>=50){
-                throw lastError;
-            }
-            testLogging('step 4: confirming link',confirmedLink);
-            //Checking the redirect-parameters after confirming link
-            let redirLink = clickConfirmLink(confirmedLink);
-            if(optionalData && optionalData.redirectParam){
-                testLogging('step 4.5: redirectLink after confirmation in case of optional data',{optionalData:optionalData,redirLink:redirLink});
-                testLogging('redirLink.location:',redirLink.location);
-                let redirUrl = new URL(redirLink.location);
-                testLogging("Checking for redirect params:",optionalData.redirectParam)
-                Object.keys(optionalData.redirectParam).forEach(function(key){
-                    chai.assert.isTrue(redirUrl.searchParams.has(key));
-                    chai.assert.equal(redirUrl.searchParams.get(key),""+optionalData.redirectParam[key]);
-                });
-            }
-
-            chai.assert.isBelow(counter,50);
-            //confirmLink(confirmedLink);
-            const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
-            if(log) testLogging('got nameId',nameId);
-            generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
-            testLogging('before verification');
-            
-            if(Array.isArray(sender_mail_in)){
-                for (let index = 0; index < sender_mail_in.length; index++) {
-                    let tmpId = index==0 ? nameId : nameId+"-"+(index); //get nameid of coDOIs based on master
-                    testLogging("NameId of coDoi: ",tmpId);
-                    verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail_in[index], recipient_mail, tmpId, true);
-                }
-            }
-            else{
-                verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, nameId, true); //need to generate two blocks to make block visible on alice
-            }
-            testLogging('after verification');
-            //confirmLink(confirmedLink);
-            callback(null, {optIn: resultDataOptIn, nameId: nameId,confirmLink: confirmedLink});
+    let nameId=null;
+    try{
+        if(counter>=50){
+            throw lastError;
         }
-        catch(error){
-            callback(error, {optIn: resultDataOptIn, nameId: nameId});
+        testLogging('step 4: confirming link',confirmedLink);
+        //Checking the redirect-parameters after confirming link
+        let redirLink = clickConfirmLink(confirmedLink);
+        if(optionalData && optionalData.redirectParam){
+            testLogging('step 4.5: redirectLink after confirmation in case of optional data',{optionalData:optionalData,redirLink:redirLink});
+            testLogging('redirLink.location:',redirLink.location);
+            let redirUrl = new URL(redirLink.location);
+            testLogging("Checking for redirect params:",optionalData.redirectParam)
+            Object.keys(optionalData.redirectParam).forEach(function(key){
+                chai.assert.isTrue(redirUrl.searchParams.has(key));
+                chai.assert.equal(redirUrl.searchParams.get(key),""+optionalData.redirectParam[key]);
+            });
         }
-    //}
 
+        chai.assert.isBelow(counter,50);
+        //confirmLink(confirmedLink);
+        const nameId = getNameIdOfOptInFromRawTx(node_url_alice,rpcAuthAlice,resultDataOptIn.data.id,true);
+        if(log) testLogging('got nameId',nameId);
+        generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
 
+        if(Array.isArray(sender_mail_in)){
+            for (let index = 0; index < sender_mail_in.length; index++) {
+                let tmpId = index==0 ? nameId : nameId+"-"+(index); //get nameid of coDOIs based on master
+                testLogging("NameId of coDoi: ",tmpId);
+                verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail_in[index], recipient_mail, tmpId, true);
+                verifyLocal(dappUrlBob, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail_in[index], recipient_mail, true)
+            }
+        }
+        else{
+            verifyDOI(dappUrlAlice, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, nameId, true); //need to generate two blocks to make block visible on alice
+            verifyLocal(dappUrlBob, dataLoginAlice, node_url_alice, rpcAuthAlice, sender_mail, recipient_mail, true)
+
+        }
+        //confirmLink(confirmedLink);
+        callback(null, {optIn: resultDataOptIn, nameId: nameId,confirmLink: confirmedLink});
+    }
+    catch(error){
+        callback(error, {optIn: resultDataOptIn, nameId: nameId});
+    }
 }
 
 export function updateUser(url,auth,updateId,mailTemplate,log){
