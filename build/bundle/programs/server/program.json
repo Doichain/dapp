@@ -289,31 +289,19 @@
       "path": "packages/static-html.js"
     },
     {
-      "path": "packages/mrt_later.js"
-    },
-    {
-      "sourceMap": "packages/vsivsi_job-collection.js.map",
-      "path": "packages/vsivsi_job-collection.js"
-    },
-    {
       "path": "packages/alanning_roles.js"
-    },
-    {
-      "sourceMap": "packages/aldeed_collection2-core.js.map",
-      "path": "packages/aldeed_collection2-core.js"
-    },
-    {
-      "sourceMap": "packages/aldeed_schema-deny.js.map",
-      "path": "packages/aldeed_schema-deny.js"
-    },
-    {
-      "sourceMap": "packages/aldeed_schema-index.js.map",
-      "path": "packages/aldeed_schema-index.js"
     },
     {
       "node_modules": "npm/node_modules/meteor/universe_i18n/node_modules",
       "sourceMap": "packages/universe_i18n.js.map",
       "path": "packages/universe_i18n.js"
+    },
+    {
+      "path": "packages/mrt_later.js"
+    },
+    {
+      "sourceMap": "packages/vsivsi_job-collection.js.map",
+      "path": "packages/vsivsi_job-collection.js"
     },
     {
       "node_modules": "npm/node_modules/meteor/simple_json-routes/node_modules",
@@ -322,12 +310,6 @@
     {
       "sourceMap": "packages/nimble_restivus.js.map",
       "path": "packages/nimble_restivus.js"
-    },
-    {
-      "path": "packages/rwatts_uuid.js"
-    },
-    {
-      "path": "packages/session.js"
     },
     {
       "node_modules": "npm/node_modules/meteor/doichain_doichain-meteor-api/node_modules",

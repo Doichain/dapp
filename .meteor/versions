@@ -1,7 +1,7 @@
 accounts-base@1.4.3
 accounts-password@1.5.1
 alanning:roles@1.2.16
-aldeed:collection2@3.0.1
+aldeed:collection2@3.0.2
 allow-deny@1.1.0
 autoupdate@1.6.0
 babel-compiler@7.3.4
@@ -23,9 +23,9 @@ ddp-rate-limiter@1.0.7
 ddp-server@2.3.0
 deps@1.0.12
 diff-sequence@1.1.1
-doichain:doichain-meteor-api@0.0.38
+doichain:doichain-meteor-api@0.0.39
 dynamic-import@0.5.1
-ecmascript@0.12.4
+ecmascript@0.12.7
 ecmascript-runtime@0.7.0
 ecmascript-runtime-client@0.8.0
 ecmascript-runtime-server@0.7.1
@@ -52,7 +52,7 @@ meteor@1.9.3
 meteor-base@1.4.0
 meteoreact:accounts@1.2.3
 meteortesting:browser-tests@1.2.0
-meteortesting:mocha@1.1.1
+meteortesting:mocha@1.1.2
 meteortesting:mocha-core@5.2.0_3
 meteortoys:toykit@4.0.2
 minifier-css@1.4.2
@@ -107,5 +107,5 @@ underscore@1.0.10
 universe:i18n@1.20.1
 url@1.2.0
 vsivsi:job-collection@1.4.0
-webapp@1.7.3
+webapp@1.7.4
 webapp-hashing@1.0.9
