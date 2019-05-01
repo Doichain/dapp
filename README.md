@@ -1,5 +1,5 @@
 # Doichain dApp
-A reference implementation of the "Doichain Atomic Double-Opt-In Protocoll"
+A reference implementation of the "Doichain Atomic Double-Opt-In Protocol"
 
 ## Table of Contents
 - [Manual Installation](doc/en/install-manual-linux.md) (en) [Manual Installation](doc/de/install-manual-linux.md) (de)
