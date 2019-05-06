@@ -37,7 +37,38 @@ apt-get install docker-ce
 ```
 - Generate Doichain-Address and PrivateKey https://walletgenerator.net/?currency=NameCoin
 ```
-docker run -td --restart always -e DAPP_DEBUG=true -e DAPP_CONFIRM='true' -e DAPP_VERIFY='true' -e DAPP_SEND='true' -e RPC_USER=admin -e RPC_PASSWORD=rpc-password -e RPC_HOST=localhost -e DAPP_HOST=your-dapp-hostname+domain-name-or-ip -e DAPP_SMTP_HOST=localhost -e DAPP_SMTP_USER=doichain -e DAPP_SMTP_PASS='doichain-mail-pw!' -e DAPP_SMTP_PORT=25 -e CONFIRM_ADDRESS=previously-generated-doichain-address -e DEFAULT_FROM='reply@your-domain.com' -p DAPP_HTTP_PORT:3000 -p PORT:8338 -p RPC_PORT:8339 -v doichain_PROJEKTNAME:/home/doichain/data --name=doichain_PROJEKTNAME --hostname=doichain_PROJEKTNAME -i doichain/dapp
+# 1. create doinet on docker
+docker network create doinet
+
+# 2. start mongo (see: https://hub.docker.com/_/mongo) 
+docker run -d --network doinet --name mongo \
+            -e MONGO_INITDB_ROOT_USERNAME=mongoadmin \
+    -e MONGO_INITDB_ROOT_PASSWORD=secret \
+    mongo
+
+# 3. start 
+docker run -td --restart always \
+(-p TESTNET=true)
+(-p REGTEST=true)
+-e DAPP_DEBUG=true 
+-e DAPP_CONFIRM='true' 
+-e DAPP_VERIFY='true' 
+-e DAPP_SEND='true'
+-e DAPP_HOST=your-dapp-hostname+domain-name-or-ip
+-e CONFIRM_ADDRESS=previously-generated-doichain-address 
+-e DEFAULT_FROM='reply@your-domain.com' 
+-e DAPP_SMTP_HOST=localhost 
+-e DAPP_SMTP_USER=doichain 
+-e DAPP_SMTP_PASS='doichain-mail-pw!' 
+-e DAPP_SMTP_PORT=25 
+-e RPC_USER=admin 
+-e RPC_PASSWORD=rpc-password 
+-e RPC_HOST=localhost
+(-p RPC_PORT=8339)
+-v doichain_PROJEKTNAME:/home/doichain/data 
+--name=doichain_PROJEKTNAME 
+--hostname=doichain_PROJEKTNAME 
+-i doichain/dapp
 ```
 # Run Example sendApp (alice) only
 ```
