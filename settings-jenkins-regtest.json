@@ -1,7 +1,6 @@
 {
   "app": {
     "debug": "true",
-    "regtest":"true",
     "ssl": false,
     "host": "172.20.0.8",
     "port": "3000",
