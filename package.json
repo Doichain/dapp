@@ -1,7 +1,7 @@
 {
   "name": "doichain",
   "private": true,
-  "version": "0.0.8",
+  "version": "0.0.9",
   "scripts": {
     "start": "meteor run",
     "lint": "eslint .",
@@ -60,10 +60,6 @@
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
     "@meteorjs/eslint-config-meteor": "^1.0.5",
-    "@storybook/addon-actions": "^4.1.1",
-    "@storybook/addon-links": "^4.1.1",
-    "@storybook/addons": "^4.1.1",
-    "@storybook/react": "^4.1.1",
     "babel-eslint": "^8.2.6",
     "babel-loader": "^8.0.4",
     "chai": "^4.2.0",

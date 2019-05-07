@@ -42,7 +42,7 @@ docker network create doinet
 
 # 2. start mongo (see: https://hub.docker.com/_/mongo) 
 docker run -d --network doinet --name mongo \
-            -e MONGO_INITDB_ROOT_USERNAME=mongoadmin \
+            -e MONGO_INITDB_ROOT_USERNAME=doichain \
     -e MONGO_INITDB_ROOT_PASSWORD=secret \
     mongo
 
