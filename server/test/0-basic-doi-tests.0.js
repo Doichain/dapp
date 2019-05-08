@@ -21,7 +21,7 @@ if(Meteor.isAppTest) {
     global.privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 
     global.dappUrlAlice = "http://localhost:3000";
-    global.dappUrlBob = global.insde_docker?"http://172.20.0.8:4000":"http://localhost:4000";
+    global.dappUrlBob = global.inside_docker?"http://172.20.0.8:4000":"http://localhost:4000";
     global.dAppLogin = {"username":"admin","password":"password"};
 
     dns.setServers([
