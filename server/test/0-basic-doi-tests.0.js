@@ -2,6 +2,7 @@ import {chai} from 'meteor/practicalmeteor:chai';
 import {
     deleteOptInsFromAliceAndBob, getBalance, initBlockchain
 } from "./test-api/test-api-on-node";
+import {testLog} from "meteor/doichain:doichain-meteor-api";
 
 global.inside_docker = false;
 
