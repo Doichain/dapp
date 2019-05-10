@@ -23,8 +23,8 @@ ddp-rate-limiter@1.0.7
 ddp-server@2.3.0
 deps@1.0.12
 diff-sequence@1.1.1
-doichain:doichain-meteor-api@0.2.3
-doichain:settings@0.1.7
+doichain:doichain-meteor-api@0.2.13
+doichain:settings@0.2.2
 dynamic-import@0.5.1
 ecmascript@0.12.7
 ecmascript-runtime@0.7.0
@@ -32,7 +32,6 @@ ecmascript-runtime-client@0.8.0
 ecmascript-runtime-server@0.7.1
 ejson@1.1.0
 email@1.2.3
-erasaur:meteor-lodash@4.0.0
 es5-shim@4.8.0
 fetch@0.1.1
 fourseven:scss@4.11.0
