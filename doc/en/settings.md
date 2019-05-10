@@ -75,6 +75,8 @@ Example configuration with all three dApps activated:
       "password": "****",
       "server":   "smtp.your-email.com",
       "port": 587,
+      "smtps": true,
+      "NODE_TLS_REJECT_UNAUTHORIZED":1,
       "defaultFrom": "doichain@your-email.com"
     },
     "doichain": {
