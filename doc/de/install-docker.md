@@ -48,8 +48,8 @@ docker run -d --network doinet --name mongo \
 
 # 3. start 
 docker run -td --restart always \
-(-p TESTNET=true)
-(-p REGTEST=true)
+(-p TESTNET=true) <-- choose one
+(-p REGTEST=true) <-- choose one
 -e DAPP_DEBUG=true 
 -e DAPP_CONFIRM='true' 
 -e DAPP_VERIFY='true' 
