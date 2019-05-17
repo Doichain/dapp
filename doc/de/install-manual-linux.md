@@ -91,7 +91,7 @@ doichain-cli getnewaddress
 ```
 doichain-cli validateaddress <doichain-adresse-von-gerade-eben>
 ```
-- opt-in-key=your-doichain-public-key in DNS aufnehmen (TXT value)
+- doichain-opt-in-key=your-doichain-public-key in DNS aufnehmen (TXT value)
 - doichain-opt-in-provider=<your domain> 
 - settings.json file mit folgendem Inhalt konfigurieren (<Markierungen-bitte anpassen>)
 

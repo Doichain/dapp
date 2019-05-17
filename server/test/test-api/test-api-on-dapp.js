@@ -40,7 +40,7 @@ export function requestDOI(url, auth, recipient_mail, sender_mail, data,  log) {
     const syncFunc = Meteor.wrapAsync(request_DOI);
     return syncFunc(url, auth, recipient_mail, sender_mail, data,  log);
 }
-export function request_DOI(url, auth, recipient_mail, sender_mail, data,  log, callback) {
+function request_DOI(url, auth, recipient_mail, sender_mail, data,  log, callback) {
     if(log) testLogging('step 1 - requestDOI called via REST');
 
     const urlOptIn = url+'/api/v1/opt-in';

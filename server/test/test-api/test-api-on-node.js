@@ -76,9 +76,9 @@ function delete_options_from_alice_and_bob(callback){
 
     const containerId = getContainerIdOfName('mongo');
     testLogging('containerId of mongo:',containerId);
-
-    exec((global.inside_docker?'sudo':'')+ 'docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"', (e, stdout, stderr)=> {
-        testLogging((global.inside_docker?'sudo':'')+'docker exec ',{stderr:stderr,stdout:stdout});
+    const command = ''+(global.inside_docker?'sudo':'')+'docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"';
+    exec(command, (e, stdout, stderr)=> {
+        testLogging(command,{stderr:stderr,stdout:stdout});
         callback(stderr, stdout);
     });
 

@@ -2,8 +2,8 @@
 
 MongoInternals = Package.mongo.MongoInternals;
 Mongo = Package.mongo.Mongo;
-Collection2 = Package['aldeed:collection2'].Collection2;
 ECMAScript = Package.ecmascript.ECMAScript;
+Collection2 = Package['aldeed:collection2'].Collection2;
 ReactMeteorData = Package['react-meteor-data'].ReactMeteorData;
 ReactiveVar = Package['reactive-var'].ReactiveVar;
 Tracker = Package.tracker.Tracker;
@@ -16,7 +16,6 @@ should = Package['practicalmeteor:chai'].should;
 Accounts = Package['accounts-base'].Accounts;
 Email = Package.email.Email;
 EmailInternals = Package.email.EmailInternals;
-Doichain = Package['doichain:doichain-meteor-api'].Doichain;
 Meteor = Package.meteor.Meteor;
 global = Package.meteor.global;
 meteorEnv = Package.meteor.meteorEnv;

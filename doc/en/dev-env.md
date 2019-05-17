@@ -1,4 +1,4 @@
-# Setting up a Doichain Development Environment 
+# Setting up a Doichain Development Environment via RegTest
 
 1. Clone Repository ```git clone https://github.com/Doichain/dapp.git doichain-dapp; cd doichain-dapp/```
 2. Install Docker and Docker Compose and run ```docker-compose -f docker-compose-test-regtest.yml up``` to settup the develpment environemnt
