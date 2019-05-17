@@ -230,7 +230,7 @@ curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
 * Note: This uses ``PUT`` method. It will overwrite all data in ``mailTemplate`` !
 * Example request:
 ```sh
-curl -X PUT -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-User-Id: 8BxFMSZAc7Ez2iiR6" http://localhost:3000/api/v1/users/8BxFMSZAc7Ez2iiR6 -d '{"mailTemplate":{"subject":"changedSubject","redirect":"RedirectPage","returnPath":"ReturnAddress","templateURL":"changedTemplateURL"}}'
+curl -X PUT -H "Content-Type: application/json" -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-User-Id: 8BxFMSZAc7Ez2iiR6" http://localhost:3000/api/v1/users/8BxFMSZAc7Ez2iiR6 -d '{"mailTemplate":{"subject":"changedSubject","redirect":"RedirectPage","returnPath":"ReturnAddress","templateURL":"changedTemplateURL"}}'
 ```
 * Success-Response:
 ```json
