@@ -13,7 +13,7 @@
     - ```meteor npm install```
     - ```MONGO_URL=mongodb://localhost:28017/bob meteor run --settings settings-bob.json --port 4000```
 6. Open a third terminal and start meteor test with
-    - ```meteor npm run test-alice```
+    - ```meteor npm run regtest-alice```
 7. If all tests ran successfully you can start developing while starting dApp of Alice 
     - ```MONGO_URL=mongodb://localhost:28017/alice meteor run --settings settings-alice.json --port 3000```
     

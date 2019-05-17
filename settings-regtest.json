@@ -25,6 +25,7 @@
       "port": "18543",
       "username": "admin",
       "password": "generated-password",
+      "smtps": false,
       "address": ""
     },
     "smtp": {

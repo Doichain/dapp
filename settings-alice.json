@@ -33,6 +33,7 @@
       "password": "bob",
       "server": "localhost",
       "port": "25",
+      "smtps": false,
       "NODE_TLS_REJECT_UNAUTHORIZED":0,
       "defaultFrom":"info@ci-doichain.org"
     }
