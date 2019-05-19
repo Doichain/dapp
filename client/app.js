@@ -1,8 +1,5 @@
-import React, { Component, Fragment } from "react"
+import React, { Component, Fragment, useState } from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
-import { withTracker } from "meteor/react-meteor-data"
-
-
 /* Includes */
 
 import Navbar from "./includes/Navbar"
@@ -13,35 +10,27 @@ import Footer from "./includes/Footer"
 import Home from "./pages/Home"
 import Auth from "./pages/Auth"
 
-class App extends Component {
+const App = props => {
 
-  state = {
-    theme : "material-ui"
-  }
-
-  render () {
-    const { user }  = this.props
-    const { theme } = this.state
-
+    const [state, setState] = useState({
+        theme : "material-ui"
+    });
     return (
       <Fragment>
-        <Navbar
-          user={user}
-        />
+        <Navbar />
         <Router>
           <Fragment>
 
             <div id='content'>
               <Route exact path='/' render={props => (
                 <Home
-                  user={user}
-                  theme={theme}
+                  theme={state.theme}
                   {...props}
                 />
               )} />
 
               <Auth
-                theme={theme}
+                theme={state.theme}
               />
             </div>
             <Route path='*' component={Footer} />
@@ -49,11 +38,6 @@ class App extends Component {
         </Router>
       </Fragment>
     )
-  }
 }
 
-export default withTracker(() => {
-  return {
-    user: Meteor.user()
-  }
-})(App)
+export default App;

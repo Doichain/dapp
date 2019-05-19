@@ -1,12 +1,13 @@
 # Docker Installation Doichain Node und dApp
 ## Vorraussetzungen (notwendige Informationen bevor sie mit der Konfiguration beginnen) 
 - Hostname für die dApp bzw. den Node: z.B. doichain.<ihre-domain.de>
-- SMTP-Server für ausgehende Emails (nur bei confirm dApp) 
-- SMTP-Server defaultFrom (nur bei confirm dApp) 
-- DNS-Konfiguration
 - Email Template (nur für Send-dApp - wie soll die Email aussehen, die zum Kunden gesendet wird?) 
-- Doichain-Adresse bzw. PublicKey (für DNS)
-- SSL-Zertifikat 
+- SSL-Zertifikat und installierter Ngingx
+## zusätzlich für Confirm-dApp Konfiguration
+- SMTP-Server für ausgehende Emails 
+- SMTP-Server defaultFrom (z.B. doichain@ihre-domain.de)
+- Zugang zum DNS-Server für Eintragung DNS-Public-Key (nur bei confirm dApp) 
+
 ## Minimal-Konfiguration
 - z.B. Cloud-Server mit "Debian: 9 (Stretch), 1 CPU, 2 GB RAM, 20 GB SSD" z.B. über Hetzner bzw. Nessus (Wien)
 
@@ -40,7 +41,7 @@ apt-get install docker-ce
 # 1. create doinet on docker
 docker network create doinet
 
-# 2. start mongo (see: https://hub.docker.com/_/mongo) 
+# 2. start mongo (see: https://hub.docker.com/_/mongo)  (change the password!)
 docker run -d --network doinet --name mongo \
             -e MONGO_INITDB_ROOT_USERNAME=doichain \
     -e MONGO_INITDB_ROOT_PASSWORD=secret \

@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
 import {withStyles} from "@material-ui/core";
-
+import {useCurrentUser} from "react-meteor-hooks";
 
 const styles = {
     grid: {
@@ -25,45 +25,36 @@ const styles = {
     },
 };
 
-class User extends Component {
+const User = props => {
 
-    constructor(props) {
-        super(props);
-    }
-    render () {
-
-    const {
-        user,
-        theme,
-        classes
-    } = this.props;
+    const currentUser = useCurrentUser()
 
     return (
         <React.Fragment>
             <div style={{ padding: 20 }}>
-                <Grid container className={classes.grid} justify="center" alignItems="center" spacing={24}>
+                <Grid container className={props.classes.grid} justify="center" alignItems="center" spacing={24}>
                     <Grid item xs>
-                        <Card className={classes.card}>
+                        <Card className={props.classes.card}>
                             <CardContent>
-                                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                <Typography className={props.classes.title} color="textSecondary" gutterBottom>
                                     Current Balance in DOI: <b><Balance/></b>
                                 </Typography>
                             </CardContent>
                         </Card>
                     </Grid>
                     <Grid item xs>
-                        <Card className={classes.card}>
+                        <Card className={props.classes.card}>
                             <CardContent>
-                                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                <Typography className={props.classes.title} color="textSecondary" gutterBottom>
                                     DOI requested
                                 </Typography>
                             </CardContent>
                         </Card>
                     </Grid>
                     <Grid item xs>
-                        <Card className={classes.card}>
+                        <Card className={props.classes.card}>
                             <CardContent>
-                                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                <Typography className={props.classes.title} color="textSecondary" gutterBottom>
                                     DOI confirmed
                                 </Typography>
                             </CardContent>
@@ -72,11 +63,9 @@ class User extends Component {
                 </Grid>
             </div>
             <p>&nbsp;</p>
-            <OptInsPage user={user} theme={theme}/>
+            <OptInsPage user={currentUser} theme={props.theme}/>
         </React.Fragment>
     )
-  }
-
 }
 
 User.propTypes = {

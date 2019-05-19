@@ -16,7 +16,7 @@
       "host": "localhost",
       "port": "18339",
       "username": "admin",
-      "password": "28fed5974e1f67ffea9a4ace7440394fbf243ad3b2abb6be322505f100ee"
+      "password": "2ff56335ab5351d6d0efcf552c3041aee1380ab87eb32412da4d01c4c39a"
     }
   },
   "confirm": {
@@ -24,7 +24,7 @@
       "host": "localhost",
       "port": "18339",
       "username": "admin",
-      "password": "28fed5974e1f67ffea9a4ace7440394fbf243ad3b2abb6be322505f100ee",
+      "password": "2ff56335ab5351d6d0efcf552c3041aee1380ab87eb32412da4d01c4c39a",
       "address": ""
     },
     "smtp": {
@@ -41,7 +41,7 @@
       "host": "localhost",
       "port": "18339",
       "username": "admin",
-      "password": "28fed5974e1f67ffea9a4ace7440394fbf243ad3b2abb6be322505f100ee"
+      "password": "2ff56335ab5351d6d0efcf552c3041aee1380ab87eb32412da4d01c4c39a"
     }
   }
 }

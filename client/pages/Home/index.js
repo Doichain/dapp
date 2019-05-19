@@ -1,26 +1,19 @@
-import React, { Component, Fragment } from "react"
+import React, { Fragment } from "react"
 import PropTypes from "prop-types"
 import AccountsBox from "/client/components/AccountsBox"
+import {useCurrentUser} from "react-meteor-hooks"
 import User from "../User"
 
-class Home extends Component {
-
-  render () {
-    const {
-      user,
-      theme
-    } = this.props
+const Home = props => {
 
     return (
       <Fragment>
-        {!user ?
-          <AccountsBox theme={theme} />
-        : <User user={user} theme={theme} />
+        {!useCurrentUser() ?
+          <AccountsBox theme={props.theme} />
+        : <User theme={props.theme} />
         }
       </Fragment>
     )
-  }
-
 }
 
 Home.propTypes = {
