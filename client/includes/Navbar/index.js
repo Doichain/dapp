@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -10,6 +10,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import {AccountsReact} from "meteor/meteoreact:accounts";
 import DoichainVersion from "../../components/DoichainVersion";
 import {useCurrentUser} from "react-meteor-hooks";
+import {useStore} from "../hookstore";
+
 const styles = {
     root: {
         flexGrow: 1,
@@ -25,11 +27,15 @@ const styles = {
 
 const Navbar = props => {
 
+    //https://blog.usejournal.com/global-state-management-with-react-hooks-5e453468c5bf
+    //https://reactjs.org/docs/hooks-intro.html
+    const [drawerOpen, setDrawerOpen] = useStore();
+
     return (
         <div className={props.classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton className={props.classes.menuButton} color="inherit" aria-label="Menu">
+                    <IconButton  onClick={() => setDrawerOpen(true)} className={props.classes.menuButton} color="inherit" aria-label="Menu">
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" className={props.classes.grow}>

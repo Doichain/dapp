@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import OptInsPage from "../../components/OptIns";
-import Balance from "../../components/Balance/Balance";
+import OptIns from "../components/OptIns";
+import Balance from "../components/Balance";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
@@ -63,7 +63,7 @@ const User = props => {
                 </Grid>
             </div>
             <p>&nbsp;</p>
-            <OptInsPage user={currentUser} theme={props.theme}/>
+            <OptIns user={currentUser} theme={props.theme}/>
         </React.Fragment>
     )
 }

@@ -1,6 +1,7 @@
 .idea/
 .storybook/
 logs/
+build/
 node_modules/
 packages/
 settings.json

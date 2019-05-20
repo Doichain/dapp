@@ -1,13 +1,14 @@
 import React, { Fragment } from "react"
 import PropTypes from "prop-types"
-import AccountsBox from "/client/components/AccountsBox"
+import AccountsBox from "../components/AccountsBox"
 import {useCurrentUser} from "react-meteor-hooks"
-import User from "../User"
-
+import User from "./User";
+import DoichainDrawer from "../includes/DoichainDrawer"
 const Home = props => {
 
     return (
       <Fragment>
+          <DoichainDrawer />
         {!useCurrentUser() ?
           <AccountsBox theme={props.theme} />
         : <User theme={props.theme} />
