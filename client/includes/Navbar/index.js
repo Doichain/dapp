@@ -32,6 +32,9 @@ const Navbar = props => {
     //https://blog.usejournal.com/global-state-management-with-react-hooks-5e453468c5bf
     //https://reactjs.org/docs/hooks-intro.html
     const [drawerOpen, setDrawerOpen] = useStore();
+    //const [currentUser, setCurrentUser] = useStore();
+   // console.log(useCurrentUser());
+    const currentUser = useCurrentUser()
 
     return (
         <div className={props.classes.root}>
@@ -44,7 +47,7 @@ const Navbar = props => {
                         Doichain - dApp
                     </Typography>
                     <DoichainVersion />
-                    <Button color="inherit" onClick={() =>  AccountsReact.logout()}>{useCurrentUser?'Logout':'Login'}</Button>
+                    <Button color="inherit" onClick={() =>  AccountsReact.logout()}>{currentUser?'Logout':'Login'}</Button>
                 </Toolbar>
             </AppBar>
         </div>
