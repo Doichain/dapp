@@ -10,7 +10,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import {AccountsReact} from "meteor/meteoreact:accounts";
 import DoichainVersion from "../../components/DoichainVersion";
 import {useCurrentUser} from "react-meteor-hooks";
-import {useStore} from "../hookstore";
+import {store, useStore} from "../hookstore";
 
 const styles = {
     root: {
@@ -24,6 +24,8 @@ const styles = {
         marginRight: 20,
     },
 };
+
+store.drawerOpen = true;
 
 const Navbar = props => {
 

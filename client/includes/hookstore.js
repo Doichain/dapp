@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export const store = {
-    state: {},
+    state: null,
     setState(value) {
         this.state = value;
         this.setters.forEach(setter => setter(this.state));

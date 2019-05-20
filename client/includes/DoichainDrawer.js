@@ -87,13 +87,12 @@ store.drawerOpen = true;
 const DoichainDrawer = props => {
 
     const [drawerOpen, setDrawerOpen] = useStore(); // https://reactjs.org/docs/hooks-intro.html
-
     return (
         <Drawer
             className={props.classes.drawer}
             variant="persistent"
             anchor="left"
-            open={drawerOpen}
+            open={drawerOpen!==undefined?drawerOpen:false}
             classes={{
                 paper: props.classes.drawerPaper,
             }}

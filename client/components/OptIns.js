@@ -28,7 +28,7 @@ class OptInsPage  extends Component {
             "error"];
         let data = [];
 
-        console.log(meta);
+      /*  console.log(meta); */
 
         optIns.map(doc => {
             const _id = doc._id;
@@ -73,10 +73,10 @@ export default withTracker(() => {
     const sendersHandle = Meteor.subscribe('senders.byOwner');
     const recipientsHandle = Meteor.subscribe('recipients.byOwner');
 
-    console.log('meta ready:'+metaHandle.ready());
+    /*console.log('meta ready:'+metaHandle.ready());
     console.log('senders ready:'+sendersHandle.ready());
     console.log('optIns ready:'+optInsHandle.ready());
-    console.log('recipientsHandle ready:'+recipientsHandle.ready());
+    console.log('recipientsHandle ready:'+recipientsHandle.ready());*/
     const loading = !optInsHandle.ready()||!recipientsHandle.ready();
 
     return {
