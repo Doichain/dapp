@@ -8,6 +8,9 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
 import {withStyles} from "@material-ui/core";
 import {useCurrentUser} from "react-meteor-hooks";
+import Network from "../components/Network";
+import Blocks from "../components/Blocks";
+import Difficulty from "../components/Difficulty";
 
 const styles = {
     grid: {
@@ -37,7 +40,10 @@ const User = props => {
                         <Card className={props.classes.card}>
                             <CardContent>
                                 <Typography className={props.classes.title} color="textSecondary" gutterBottom>
-                                    Current Balance in DOI: <b><Balance/></b>
+                                    Network: <b><Network/></b><br/>
+                                    Blocks: <b><Blocks/></b> <br/>
+                                    Difficulty: <b><Difficulty/></b><br/>
+                                    Balance in DOI: <b><Balance/></b><br/>
                                 </Typography>
                             </CardContent>
                         </Card>

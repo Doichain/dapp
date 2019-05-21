@@ -172,6 +172,54 @@ curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
     + ``recipient_public_key`` - Public key of the recipient
 
 ### Calls (Users)
+##### List User
+* Auth required: Yes
+* Role required: ``admin``
+* Url: ``users/getAll``
+* Method: ``GET``
+* Parameter: none
+* Success-Response:
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "_id": "EdyRSPxxxxxxxxx",
+      "createdAt": "2019-05-18T07:25:42.250Z",
+      "services": {
+        "password": {
+          "bcrypt": "$2b$10$t6A.pvwMlTNM7qo5CGajvuLYzVT1melAEqckgmuZUBO/DRrCFeydW"
+        },
+        "resume": {
+          "loginTokens": [
+            {
+              "when": "2019-05-20T13:00:25.433Z",
+              "hashedToken": "a2mxkKnloFEtzoBzOwJrXXN2E4pYBYchZAaZpDmNJsI="
+            },
+            {
+              "when": "2019-05-21T09:29:12.274Z",
+              "hashedToken": "eoCq3aJ0keZaKhZXbnpGie1wxbLHvAEzeap/jsVXCt8="
+            },
+            {
+              "hashedToken": "zPY+rDq9BEsks0/oAGXn6ThoegMxPUL/+IdLcAZ2Gxc="
+            }
+          ]
+        }
+      },
+      "username": "admin",
+      "emails": [
+        {
+          "address": "admin@xyz.org",
+          "verified": false
+        }
+      ],
+      "roles": [
+        "admin"
+      ]
+    }
+  ]
+```
+
 ##### Create User
 * Auth required: Yes
 * Role required: ``admin``

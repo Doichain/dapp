@@ -1,7 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import React, {Component} from "react";
 
-export default class Balance extends Component {
+export default class Balance extends Component { //TODO maybe get this information from meta data and then update as soon as a new block comes in
   constructor(props) {
     super(props);
     this.state = {
