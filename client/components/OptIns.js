@@ -33,13 +33,13 @@ class OptInsPage  extends Component {
         optIns.map(doc => {
             const _id = doc._id;
             const createdAt = doc.createdAt.toISOString();
-            //const nameId = doc.nameId ? doc.nameId : "";
-            //const ownerId = doc.ownerId ? doc.ownerId : "";
+            const nameId = doc.nameId ? doc.nameId : "";
+            const ownerId = doc.ownerId ? doc.ownerId : "";
             const sender = doc.sender && senders.length>0 ?  _.find(senders, { _id: doc.sender}).email  : "";
             const recipientId = doc.recipient ? _.find(recipients, { _id: doc.recipient}).email: "";
             const error = doc.error ? replaceAll(doc.error,"\"", "") : "";
-            //const newRecord = [_id, createdAt, nameId, ownerId, recipientId, sender, error];
-            const newRecord = [sender, recipientId, createdAt, error];
+            const newRecord = [sender, recipientId, createdAt, nameId, ownerId, recipientId, error];
+            //const newRecord = [sender, recipientId, createdAt, error];
             data.push(newRecord);
         });
 

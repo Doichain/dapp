@@ -2,10 +2,11 @@ import React  from 'react'
 import {MetaCollection} from "meteor/doichain:doichain-meteor-api"
 import {useSubscription,useTracker} from "react-meteor-hooks"
 
-const Blocks = props => {
+const Chain = props => {
     const loading = useSubscription('meta');
-    const meta = useTracker(() => MetaCollection.find({key:'blocks'}).fetch());
-    return (meta.length>0?JSON.parse(meta[0].value):'not available');
+    const meta = useTracker(() => MetaCollection.find({key:'chain'}).fetch());
+    return ((meta.length>0)?meta[0].value:'not available');
+
 }
 
-export default Blocks;
+export default Chain;

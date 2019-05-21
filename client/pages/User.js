@@ -8,9 +8,11 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
 import {withStyles} from "@material-ui/core";
 import {useCurrentUser} from "react-meteor-hooks";
-import Network from "../components/Network";
+import Chain from "../components/Chain";
 import Blocks from "../components/Blocks";
 import Difficulty from "../components/Difficulty";
+//import {getBalance} from "../../packages/meteor-api/server/api/doichain";
+//import {CONFIRM_CLIENT} from "../../packages/meteor-api/imports/startup/server/doichain-configuration";
 
 const styles = {
     grid: {
@@ -40,10 +42,10 @@ const User = props => {
                         <Card className={props.classes.card}>
                             <CardContent>
                                 <Typography className={props.classes.title} color="textSecondary" gutterBottom>
-                                    Network: <b><Network/></b><br/>
+                                    Chain: <b><Chain/></b><br/>
                                     Blocks: <b><Blocks/></b> <br/>
-                                    Difficulty: <b><Difficulty/></b><br/>
-                                    Balance in DOI: <b><Balance/></b><br/>
+                                    Difficulty: <b><Difficulty/></b> <br/>
+                                    Balance: <b><Balance/></b> <br/>
                                 </Typography>
                             </CardContent>
                         </Card>
