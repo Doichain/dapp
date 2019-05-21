@@ -11,6 +11,7 @@ import {useCurrentUser} from "react-meteor-hooks";
 import Chain from "../components/Chain";
 import Blocks from "../components/Blocks";
 import Difficulty from "../components/Difficulty";
+import SizeOnDisk from "../components/SizeOnDisk";
 //import {getBalance} from "../../packages/meteor-api/server/api/doichain";
 //import {CONFIRM_CLIENT} from "../../packages/meteor-api/imports/startup/server/doichain-configuration";
 
@@ -37,7 +38,7 @@ const User = props => {
     return (
         <React.Fragment>
             <div style={{ padding: 20 }}>
-                <Grid container className={props.classes.grid} justify="center" alignItems="center" spacing={24}>
+                <Grid container className={props.classes.grid} justify="flex-start" alignItems="center" spacing={24}>
                     <Grid item xs>
                         <Card className={props.classes.card}>
                             <CardContent>
@@ -45,7 +46,8 @@ const User = props => {
                                     Chain: <b><Chain/></b><br/>
                                     Blocks: <b><Blocks/></b> <br/>
                                     Difficulty: <b><Difficulty/></b> <br/>
-                                    Balance: <b><Balance/></b> <br/>
+                                    Size on disk: <b><SizeOnDisk/></b> <br/>
+                                    Balance (DOI): <b><Balance/></b> <br/>
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -54,7 +56,9 @@ const User = props => {
                         <Card className={props.classes.card}>
                             <CardContent>
                                 <Typography className={props.classes.title} color="textSecondary" gutterBottom>
-                                    DOI requested
+                                    DOI requested Doichain all<br/>
+                                    DOI requested this Doichain dApp <br/>
+                                    DOI requested by user {currentUser.username}  <br/>
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -63,7 +67,9 @@ const User = props => {
                         <Card className={props.classes.card}>
                             <CardContent>
                                 <Typography className={props.classes.title} color="textSecondary" gutterBottom>
-                                    DOI confirmed
+                                    DOI confirmed Doichain all <br/>
+                                    DOI confirmed this Doichain dApp <br/>
+                                    DOI confirmed by user {currentUser.username}  <br/>
                                 </Typography>
                             </CardContent>
                         </Card>
