@@ -9,12 +9,12 @@ class Footer extends Component {
 
     return (
       <footer>
-        <ul className='options'>
-          {!loggedIn && (
-            <li>
-              <NavLink exact to='/sign-in' activeClassName='hide' isActive={isAuthRoute}>
-                Try with react-router
-              </NavLink>
+             <ul className='options'>
+             {!loggedIn && (
+               <li>
+               <NavLink exact to='/sign-in' activeClassName='hide' isActive={isAuthRoute}>
+                   Try with react-router
+                 </NavLink>
             </li>)}
           {!loggedIn && <li><NavLink exact to='/' activeClassName='hide'>Try without react-router</NavLink></li>}
         </ul>
@@ -29,10 +29,8 @@ class Footer extends Component {
     )
   }
 }
-
 const isAuthRoute = (match, { pathname }) => {
   const { mapStateToRoute } = AccountsReact.config
   return Object.values(mapStateToRoute).find(route => route === pathname)
 }
-
 export default Footer

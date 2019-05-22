@@ -12,8 +12,6 @@ import Chain from "../components/Chain";
 import Blocks from "../components/Blocks";
 import Difficulty from "../components/Difficulty";
 import SizeOnDisk from "../components/SizeOnDisk";
-//import {getBalance} from "../../packages/meteor-api/server/api/doichain";
-//import {CONFIRM_CLIENT} from "../../packages/meteor-api/imports/startup/server/doichain-configuration";
 
 const styles = {
     grid: {

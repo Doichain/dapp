@@ -14,6 +14,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
+import {NavLink} from "react-router-dom";
+
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -104,20 +107,45 @@ const DoichainDrawer = props => {
             </div>
             <Divider />
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
+                {[ 'Wallet'].map((text, index) => (
+                    <NavLink exact to='/wallet' activeClassName='hide'>
+                        <ListItem button key={text}>
+                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    </NavLink>
                 ))}
             </List>
             <Divider />
             <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
+                {['Permissions'].map((text, index) => (
+                    <NavLink exact to='/permissions' activeClassName='hide'>
+                        <ListItem button key={text}>
+                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    </NavLink>
+                ))}
+            </List>
+            <List>
+                {['Confirmations'].map((text, index) => (
+                    <NavLink exact to='/confirmations'>
+                        <ListItem button key={text}>
+                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    </NavLink>
+                ))}
+            </List>
+            <Divider />
+            <List>
+                {['Users','Settings'].map((text, index) => (
+                    <NavLink exact to={('/'+text)}>
+                        <ListItem button key={text} >
+                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    </NavLink>
                 ))}
             </List>
         </Drawer>
@@ -130,3 +158,4 @@ DoichainDrawer.propTypes = {
 };
 
 export default withStyles(styles, { withTheme: true })(DoichainDrawer);
+

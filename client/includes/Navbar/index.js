@@ -32,8 +32,6 @@ const Navbar = props => {
     //https://blog.usejournal.com/global-state-management-with-react-hooks-5e453468c5bf
     //https://reactjs.org/docs/hooks-intro.html
     const [drawerOpen, setDrawerOpen] = useStore();
-    //const [currentUser, setCurrentUser] = useStore();
-   // console.log(useCurrentUser());
     const currentUser = useCurrentUser()
 
     return (

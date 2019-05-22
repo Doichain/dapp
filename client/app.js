@@ -9,6 +9,12 @@ import Footer from "./includes/Footer"
 
 import Home from "./pages/Home"
 import Auth from "./pages/Auth"
+import Settings from "./pages/Settings";
+import DoichainDrawer from "./includes/DoichainDrawer";
+import Wallet from "./pages/Wallet";
+import Permissions from "./pages/Permissions";
+import User from "./pages/User";
+import Confirmations from "./pages/Confirmations";
 
 const App = props => {
 
@@ -17,22 +23,28 @@ const App = props => {
     });
     return (
       <Fragment>
-        <Navbar />
         <Router>
           <Fragment>
+              <DoichainDrawer />
+              <Navbar />
+              <div id='content'>
+                  <Route exact path='/' render={props => (
+                    <Home
+                      theme={state.theme}
+                      {...props}
+                    />
+                  )} />
 
-            <div id='content'>
-              <Route exact path='/' render={props => (
-                <Home
-                  theme={state.theme}
-                  {...props}
-                />
-              )} />
+                    <Route path='/wallet' component={Wallet} />
+                    <Route path='/permissions' component={Permissions} />
+                    <Route path='/confirmations' component={Confirmations} />
+                    <Route path='/users' component={User} />
+                    <Route path='/settings' component={Settings} />
 
-              <Auth
-                theme={state.theme}
-              />
-            </div>
+                  <Auth
+                    theme={state.theme}
+                  />
+              </div>
             <Route path='*' component={Footer} />
           </Fragment>
         </Router>
@@ -41,3 +53,4 @@ const App = props => {
 }
 
 export default App;
+
