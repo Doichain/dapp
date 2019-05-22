@@ -12,6 +12,7 @@ import Chain from "../components/Chain";
 import Blocks from "../components/Blocks";
 import Difficulty from "../components/Difficulty";
 import SizeOnDisk from "../components/SizeOnDisk";
+import UnconfirmedBalance from "../components/UnconfirmedBalance";
 
 const styles = {
     grid: {
@@ -30,7 +31,7 @@ const styles = {
 };
 
 const User = props => {
-
+    //console.log(props)
     const currentUser = useCurrentUser()
 
     return (
@@ -46,6 +47,7 @@ const User = props => {
                                     Difficulty: <b><Difficulty/></b> <br/>
                                     Size on disk: <b><SizeOnDisk/></b> <br/>
                                     Balance (DOI): <b><Balance/></b> <br/>
+                                    Unconfirmed Balance (DOI): <b><UnconfirmedBalance/></b> <br/>
                                 </Typography>
                             </CardContent>
                         </Card>

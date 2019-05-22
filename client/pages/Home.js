@@ -3,8 +3,9 @@ import PropTypes from "prop-types"
 import AccountsBox from "../components/AccountsBox"
 import {useCurrentUser} from "react-meteor-hooks"
 import User from "./User";
-const Home = props => {
 
+const Home = props => {
+    console.log("theme",props)
     return (
       <Fragment>
         {!useCurrentUser() ?

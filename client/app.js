@@ -6,21 +6,22 @@ import Navbar from "./includes/Navbar"
 import Footer from "./includes/Footer"
 
 /* Pages */
-
 import Home from "./pages/Home"
 import Auth from "./pages/Auth"
-import Settings from "./pages/Settings";
 import DoichainDrawer from "./includes/DoichainDrawer";
 import Wallet from "./pages/Wallet";
 import Permissions from "./pages/Permissions";
-import User from "./pages/User";
 import Confirmations from "./pages/Confirmations";
+import User from "./pages/User";
+import Settings from "./pages/Settings";
 
 const App = props => {
 
     const [state, setState] = useState({
         theme : "material-ui"
     });
+
+    console.log(state.theme)
     return (
       <Fragment>
         <Router>
