@@ -108,6 +108,7 @@ if(Meteor.isAppTest) {
             chai.expect(exportedOptIns).to.not.be.undefined;
             console.log(exportedOptIns);
             chai.expect(exportedOptIns[0]).to.not.be.undefined;
+            chai.expect(exportedOptIns[0].data).to.be.equal('{"city":"München"}');
             chai.expect(exportedOptIns[0].RecipientEmail.email).to.be.equal(recipient_mail);
 
             const exportedOptInsA = exportOptIns(global.dappUrlAlice, logBasic, true);
