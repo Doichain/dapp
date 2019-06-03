@@ -1,6 +1,6 @@
 version: "2"
 services:
-  mongo:
+  regtest-mongo:
     image: "mongo:3.2"
     hostname: regtest-mongo
     expose:
