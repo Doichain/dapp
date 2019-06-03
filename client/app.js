@@ -1,59 +1,57 @@
-import React, { Component, Fragment } from "react"
+import React, { Component, Fragment, useState } from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
-import { withTracker } from "meteor/react-meteor-data"
-
-
 /* Includes */
 
 import Navbar from "./includes/Navbar"
 import Footer from "./includes/Footer"
 
 /* Pages */
-
 import Home from "./pages/Home"
 import Auth from "./pages/Auth"
+import DoichainDrawer from "./includes/DoichainDrawer";
+import Wallet from "./pages/Wallet";
+import Permissions from "./pages/Permissions";
+import Confirmations from "./pages/Confirmations";
+import User from "./pages/User";
+import Settings from "./pages/Settings";
 
-class App extends Component {
+const App = props => {
 
-  state = {
-    theme : "material-ui"
-  }
+    const [state, setState] = useState({
+        theme : "material-ui"
+    });
 
-  render () {
-    const { user }  = this.props
-    const { theme } = this.state
-
+    console.log(state.theme)
     return (
       <Fragment>
-        <Navbar
-          user={user}
-        />
         <Router>
           <Fragment>
+              <DoichainDrawer />
+              <Navbar />
+              <div id='content'>
+                  <Route exact path='/' render={props => (
+                    <Home
+                      theme={state.theme}
+                      {...props}
+                    />
+                  )} />
 
-            <div id='content'>
-              <Route exact path='/' render={props => (
-                <Home
-                  user={user}
-                  theme={theme}
-                  {...props}
-                />
-              )} />
+                    <Route path='/wallet' component={Wallet} />
+                    <Route path='/permissions' component={Permissions} />
+                    <Route path='/confirmations' component={Confirmations} />
+                    <Route path='/users' component={User} />
+                    <Route path='/settings' component={Settings} />
 
-              <Auth
-                theme={theme}
-              />
-            </div>
+                  <Auth
+                    theme={state.theme}
+                  />
+              </div>
             <Route path='*' component={Footer} />
           </Fragment>
         </Router>
       </Fragment>
     )
-  }
 }
 
-export default withTracker(() => {
-  return {
-    user: Meteor.user()
-  }
-})(App)
+export default App;
+

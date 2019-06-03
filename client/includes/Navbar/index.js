@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,6 +8,9 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import {AccountsReact} from "meteor/meteoreact:accounts";
+import DoichainVersion from "../../components/DoichainVersion";
+import {useCurrentUser} from "react-meteor-hooks";
+import {store, useStore} from "../hookstore";
 
 const styles = {
     root: {
@@ -22,24 +25,31 @@ const styles = {
     },
 };
 
+store.drawerOpen = true;
 
-function Navbar(props) {
-    const { classes, user } = props;
+const Navbar = props => {
+
+    //https://blog.usejournal.com/global-state-management-with-react-hooks-5e453468c5bf
+    //https://reactjs.org/docs/hooks-intro.html
+    const [drawerOpen, setDrawerOpen] = useStore();
+    const currentUser = useCurrentUser()
+
     return (
-        <div className={classes.root}>
+        <div className={props.classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                    <IconButton  onClick={() => setDrawerOpen(true)} className={props.classes.menuButton} color="inherit" aria-label="Menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" color="inherit" className={classes.grow}>
+                    <Typography variant="h6" color="inherit" className={props.classes.grow}>
                         Doichain - dApp
                     </Typography>
-                    <Button color="inherit" onClick={() =>  AccountsReact.logout()}>{user?'Logout':'Login'}</Button>
+                    <DoichainVersion />
+                    <Button color="inherit" onClick={() =>  AccountsReact.logout()}>{currentUser?'Logout':'Login'}</Button>
                 </Toolbar>
             </AppBar>
         </div>
-    );
+    )
 }
 
 Navbar.propTypes = {

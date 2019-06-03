@@ -16,6 +16,7 @@ function getVersionTag(){
                 if(err)reject(err)
                 //var name = stdout.replace('* ','').replace('\n','');
                 var version  = stdout.substring(0,stdout.indexOf("-"));
+                console.log("found version:",version);
                 fulfill(version)
             }
         )

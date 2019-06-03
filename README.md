@@ -11,5 +11,5 @@ A reference implementation of the "Doichain Atomic Double-Opt-In Protocol"
 - [UML](doc/en/uml.md)
 - [Funding]
     - Buy/Sell Doicoin from https://bisq.network 
-    - (mainnet/testnet) Transfer it to your new Doichain Node Address you create with ```curl --user admin:nico --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getnewaddress", "params": [] }' -H 'content-type: text/plain;' http://localhost:(1)8339``` <--- choose correct port
+    - (mainnet/testnet) Transfer it to your new Doichain Node Address you create with ```curl --user admin:<your-password> --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getnewaddress", "params": [] }' -H 'content-type: text/plain;' http://localhost:(1)8339``` <--- choose correct port
 

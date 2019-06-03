@@ -1,8 +1,8 @@
 version: "2"
 services:
-  mongo:
+  regtest-mongo:
     image: "mongo:3.2"
-    hostname: mongo
+    hostname: regtest-mongo
     expose:
       - "27017"
     ports:
