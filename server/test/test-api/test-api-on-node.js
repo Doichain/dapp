@@ -74,7 +74,7 @@ function wait_to_start_container(startedContainerId,callback){
 
 function delete_options_from_alice_and_bob(callback){
 
-    const containerId = getContainerIdOfName('mongo');
+    const containerId = getContainerIdOfName('regtest-mongo');
     testLogging('containerId of mongo:',containerId);
     const command = ''+(global.inside_docker?'sudo':'')+'docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"';
     exec(command, (e, stdout, stderr)=> {
