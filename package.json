@@ -11,7 +11,7 @@
     "mocha": "MONGO_URL=mongodb://mongo:27017/alice MOCHA_GREP=basic-doi-test TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
     "test-mocha-docker": "export MONGO_URL=mongodb://mongo:27017/alice;export  MOCHA_GREP=basic-doi-test;meteor test --full-app --once --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
     "regtest-alice": "MONGO_URL=mongodb://localhost:28017/alice MOCHA_GREP=basic-doi-test meteor test --full-app --once --driver-package meteortesting:mocha --port 3000 --settings settings-alice.json",
-    "regtest-nico": "MONGO_URL=mongodb://mongo:27017/alice MOCHA_GREP=basic-doi-test-nico TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
+    "regtest-nico": "MONGO_URL=mongodb://mongo:27017/alice MOCHA_GREP=nico-doi-tests TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha --port 3000 --settings settings-jenkins-regtest.json",
     "testnet": "echo 'please create secure tunnel (forward) local port 3005 to remote port as written in settings.json (e.g.4010)';MONGO_URL=mongodb://doichain:secret@localhost:27017/admin meteor --settings settings-testnet.json --port 3005",
     "test-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha --port 3100",
     "test-app-chrome": "TEST_BROWSER_DRIVER=chrome meteor test --full-app --once --driver-package meteortesting:mocha --port 3100",

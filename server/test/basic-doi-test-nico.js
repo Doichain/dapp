@@ -28,7 +28,7 @@ global.dappUrlBob = global.insde_docker?"http://172.20.0.8:4000":"http://localho
 global.dAppLogin = {"username":"admin","password":"password"};
 
 if(Meteor.isAppTest) {
-    describe('basic-doi-test-nico', function () {
+    describe('nico-doi-tests', function () {
         this.timeout(0);
 
         before(function () {

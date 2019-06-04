@@ -59,7 +59,7 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
     + ``recipient_mail`` - Email of the recipient
     + ``sender_mail`` - Email of the sender
     + ``ownerid`` - (ADMIN ONLY) Userid of Opt-In-owner
-    + ``data`` - (OPTIONAL) Recipient/Opt-In data as String (not as JSON-Object)
+    + ``data`` - (OPTIONAL) Recipient/Opt-In data json encoded string
         - ``screenshot`` - (OPTIONAL) Can store a screenshot of the subscription
         - ``templateParam`` - (OPTIONAL) Parameters to be added to template URL
         - ``redirectParam`` - (OPTIONAL) Parameters to be added to redirect URL
