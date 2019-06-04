@@ -67,7 +67,7 @@ services:
         ipv4_address: 172.20.0.4
 
   alice:
-    image: "doichain/node-only:0.16.3.2"
+    image: "doichain/node-only"
     hostname: alice
     ports:
       - "18543:18332"
@@ -92,7 +92,7 @@ services:
         ipv4_address: 172.20.0.6
 
   bob:
-    image: "doichain/node-only:0.16.3.2"
+    image: "doichain/node-only"
     hostname: bob
     ports:
       - "18544:18332"
