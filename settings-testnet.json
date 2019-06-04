@@ -2,7 +2,7 @@
   "app": {
     "debug": "true",
     "ssl": false,
-    "host": "5.9.154.226",
+    "host": "explorer.doichain.org",
     "port": "4010",
     "types": [
       "send",
