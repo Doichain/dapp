@@ -66,6 +66,7 @@ function request_DOI(url, auth, recipient_mail, sender_mail, data,  log, callbac
     };
     try{
         const realDataOptIn = { data: dataOptIn, headers: headersOptIn};
+        testLogging("urlOptIn",urlOptIn);
         const resultOptIn = getHttpPOST(urlOptIn, realDataOptIn);
 
         //logBlockchain("resultOptIn",resultOptIn);

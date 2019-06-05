@@ -2,7 +2,7 @@
   "app": {
     "debug": "true",
     "ssl": false,
-    "host": "explorer.doichain.org",
+    "host": "${host}",
     "port": "4010",
     "types": [
       "send",
@@ -16,7 +16,7 @@
       "host": "localhost",
       "port": "18339",
       "username": "admin",
-      "password": "2ff56335ab5351d6d0efcf552c3041aee1380ab87eb32412da4d01c4c39a"
+      "password": "${password}"
     }
   },
   "confirm": {
@@ -24,7 +24,7 @@
       "host": "localhost",
       "port": "18339",
       "username": "admin",
-      "password": "2ff56335ab5351d6d0efcf552c3041aee1380ab87eb32412da4d01c4c39a",
+      "password": "${password}",
       "address": ""
     },
     "smtp": {
@@ -41,7 +41,7 @@
       "host": "localhost",
       "port": "18339",
       "username": "admin",
-      "password": "2ff56335ab5351d6d0efcf552c3041aee1380ab87eb32412da4d01c4c39a"
+      "password": "${password}"
     }
   }
 }

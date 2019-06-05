@@ -1,7 +1,7 @@
-# Setting up a Doichain Development Environment on testnet
+# Setting up a Doichain Development Environment on testnet  manually
 
 1. Clone Repository ```git clone https://github.com/Doichain/dapp.git doichain-dapp; cd doichain-dapp/```
-2. In case you install on an unofficial IP, you probably you want to create a tunnel to a public available server so testnet can communicate with your local Doichain dApp 
+2. In case you install on an unofficial IP, you maybe want to create a tunnel to a public available server so testnet dApps can communicate with your local Doichain dApp 
 ```ssh -R 4010:localhost:4010 you@your-public-remote-ssh-server```
 3. Start a Doichain Testnet node as described on https://github.com/Doichain/docker/tree/master/node-only
 ```sh docker run -it -e TESTNET=true -p DAPP_URL=http://>public-ip-or-hostname>:4010 -p 18339:18339 -e RPC_PASSWORD=<rpc-password> --name doichain-testnet doichain/node-only```

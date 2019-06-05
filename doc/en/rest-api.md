@@ -271,7 +271,7 @@ curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
         - ``subject`` - (OPTIONAL) Subject of the email
         - ``redirect`` - (OPTIONAL) Redirect URL
         - ``returnPath`` - (OPTIONAL) Return Path
-        - ``templateURL`` - (OPTIONAL) Confirm mail template URLhttp://localhost:3000/api/v1/export
+        - ``templateURL`` - (OPTIONAL) Confirm mail template URL
             + text/plain
             + text/html
             + application/json
