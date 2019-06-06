@@ -4,7 +4,7 @@
 2. In case you install on an unofficial IP, you maybe want to create a tunnel to a public available server so testnet dApps can communicate with your local Doichain dApp 
 ```ssh -R 4010:localhost:4010 you@your-public-remote-ssh-server```
 3. Start a Doichain Testnet node as described on https://github.com/Doichain/docker/tree/master/node-only
-```sh docker run -it -e TESTNET=true -e DAPP_URL=http://>public-ip-or-hostname>:4010 -p 18339:18339 -e RPC_PASSWORD=<rpc-password> --name doichain-testnet doichain/node-only```
+```sh docker run -it -e TESTNET=true -e DAPP_URL=http://>public-ip-or-hostname>:4010 -e RPC_ALLOW_IP=::/0 -p 18339:18339 -e RPC_PASSWORD=<rpc-password> --name doichain-testnet doichain/node-only```
 4. Install Meteor from meteor.com
 5. Open a another terminal and start meteor 
     - ```meteor npm install```
