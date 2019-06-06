@@ -25,6 +25,8 @@ class OptInsPage  extends Component {
             "sender",
             "recipient",
             "createdAt",
+            "nameId",
+            "ownerId",
             "error"];
         let data = [];
 
@@ -38,7 +40,7 @@ class OptInsPage  extends Component {
             const sender = doc.sender && senders.length>0 ?  _.find(senders, { _id: doc.sender}).email  : "";
             const recipientId = doc.recipient ? _.find(recipients, { _id: doc.recipient}).email: "";
             const error = doc.error ? replaceAll(doc.error,"\"", "") : "";
-            const newRecord = [sender, recipientId, createdAt, nameId, ownerId, recipientId, error];
+            const newRecord = [sender, recipientId, createdAt, nameId, ownerId, error];
             //const newRecord = [sender, recipientId, createdAt, error];
             data.push(newRecord);
         });
