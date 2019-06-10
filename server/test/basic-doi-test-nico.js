@@ -9,25 +9,25 @@ global.inside_docker = false;
 
 const log = true;
 const dns = require('dns');
-dns.setServers([
-    '127.0.0.1',
-]); //we use our own dns in order to resolve the ci-doichain.org test domain including its TXT entry
-
-global.node_url_alice = 'http://172.20.0.6:18332/';
-if(!global.inside_docker) global.node_url_alice = 'http://localhost:18543/';
-global.node_url_bob =   'http://172.20.0.7:18332/';
-if(!global.inside_docker) global.node_url_bob = 'http://localhost:18544/';
-global.rpcAuthAlice = "admin:generated-password";
-global.rpcAuth = "admin:generated-password";
-
-global.privKeyAlice = "cNEuvnaPVkW7Xp3JS49k9aSqMBe4LSyws3aq1KvCU1utSDLtT9Dj";
-global.privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
-
-global.dappUrlAlice = "http://localhost:3000";
-global.dappUrlBob = global.insde_docker?"http://172.20.0.8:4000":"http://localhost:4000";
-global.dAppLogin = {"username":"admin","password":"password"};
 
 if(Meteor.isAppTest) {
+    global.node_url_alice = 'http://172.20.0.6:18332/';
+    if(!global.inside_docker) global.node_url_alice = 'http://localhost:18543/';
+    global.node_url_bob =   'http://172.20.0.7:18332/';
+    if(!global.inside_docker) global.node_url_bob = 'http://localhost:18544/';
+    global.rpcAuthAlice = "admin:generated-password";
+    global.rpcAuth = "admin:generated-password";
+
+    global.privKeyAlice = "cNEuvnaPVkW7Xp3JS49k9aSqMBe4LSyws3aq1KvCU1utSDLtT9Dj";
+    global.privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
+
+    global.dappUrlAlice = "http://localhost:3000";
+    global.dappUrlBob = global.insde_docker?"http://172.20.0.8:4000":"http://localhost:4000";
+    global.dAppLogin = {"username":"admin","password":"password"};
+
+    dns.setServers([
+        '127.0.0.1',
+    ]); //we use our own dns in order to resolve the ci-doichain.org test domain including its TXT entry
     describe('nico-doi-tests', function () {
         this.timeout(0);
 

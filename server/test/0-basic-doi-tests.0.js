@@ -8,11 +8,6 @@ global.inside_docker = false;
 
 const log = true;
 const dns = require('dns');
-/*
-dns.setServers([
-    '91.217.137.37',
-]);
-console.log('dns-servers:',dns.getServers())*/
 if(Meteor.isAppTest) {
 
     global.node_url_alice = 'http://172.20.0.6:18332/';

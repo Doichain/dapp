@@ -1,91 +1,133 @@
-import React, {Component} from "react"
+import React, {Component, Fragment} from "react"
 import MUIDataTable from "mui-datatables";
 import {OptInsCollection,RecipientsCollection, SendersCollection, MetaCollection} from "meteor/doichain:doichain-meteor-api";
-import {withTracker} from "meteor/react-meteor-data";
+import {useCurrentUser, useSubscription, useTracker} from "react-meteor-hooks"
 import _ from 'lodash';
-import {Meteor} from "meteor/meteor";
 
-class OptInsPage  extends Component {
+import CustomToolbarSelect from "./CustomToolbarSelect";
+import {withStyles} from "@material-ui/core";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
 
-    constructor(props) {
-        super(props);
+const styles = {
+
+};
+
+let data = []
+let optIns = []
+
+let options = {
+    filterType: "dropdown",
+    resizableColumns:true,
+    expandableRows:true,
+    renderExpandableRow: (rowData, rowMeta) => {
+        console.log(rowData, rowMeta);
+        return (
+            <TableRow>
+                <TableCell colSpan={rowData.length}>
+                    Custom expandable row option. Data: {JSON.stringify(rowMeta)}
+                    {optIns[rowMeta.dataIndex].nameId}
+                    {optIns[rowMeta.dataIndex].error}
+                </TableCell>
+            </TableRow>
+        );
+    },
+    selectableRows: 'multiple',
+    onRowsSelect: (rowData) => {
+        console.log("onRowsSelect",rowData)
+    },
+    onRowsDelete: (rowsData) => {
+        console.log("onRowsDelete1",rowsData)
+
+        console.log(optIns[0]._id)
+        Meteor.call("opt-ins.remove", optIns[0]._id, (error, val) => {
+            if(!error) {
+                console.log('deleted:'+ optIns[0]._id)
+            }else{
+                console.log(val)
+            }
+        });
+    },
+    onCellClick: (colData, cellMeta) => {
+        console.log("onCellClick",colData)
+        console.log("onCellClick",cellMeta)
     }
+}
 
-    render () {
-        const {
-            theme,
-            meta,
-            optIns,
-            recipients,
-            senders
-        } = this.props
+const OptIns = props => {
 
-        //const columns = ["_id","createdAt","nameId","ownerId","recipient","sender","error"];
-        const columns = [
-            "sender",
-            "recipient",
-            "createdAt",
-            "nameId",
-            "ownerId",
-            "error"];
-        let data = [];
+    const columns = [
+        {
+            name: "CreatedAt",
+            options: {
+                filter: true
+            }
+        },
+        {
+            name: "Sender",
+            options: {
+                filter: true
+            }
+        },
+        {
+            name: "Recipient",
+            options: {
+                filter: true
+            }
+        },
+        {
+            name: "NameId",
+            options: {
+                filter: true
+            }
+        },
+        {
+            name: "Status",
+            options: {
+                filter: true
+            }
+        }
+    ];
 
-      /*  console.log(meta); */
+    const loading = useSubscription('opt-ins.all')
+    const loadingSenders = useSubscription('senders.byOwner')
+    const loadingRecipients  = useSubscription('recipients.all')
+    optIns = useTracker(() => OptInsCollection.find({})).fetch()
+    const senders = useTracker(() => SendersCollection.find({})).fetch()
+    const recipients = useTracker(() => RecipientsCollection.find({})).fetch()
 
+    if(!loading && !loadingSenders && !loadingRecipients){
+        data = []
         optIns.map(doc => {
-            const _id = doc._id;
-            const createdAt = doc.createdAt.toISOString();
+            // const _id = doc._id;
+            const createdAt = doc.createdAt.toISOString()
             const nameId = doc.nameId ? doc.nameId : "";
-            const ownerId = doc.ownerId ? doc.ownerId : "";
+            //const ownerId = doc.ownerId ? doc.ownerId : "";
             const sender = doc.sender && senders.length>0 ?  _.find(senders, { _id: doc.sender}).email  : "";
-            const recipientId = doc.recipient ? _.find(recipients, { _id: doc.recipient}).email: "";
-            const error = doc.error ? replaceAll(doc.error,"\"", "") : "";
-            const newRecord = [sender, recipientId, createdAt, nameId, ownerId, error];
+            const recipient = doc.recipient ? _.find(recipients, { _id: doc.recipient}).email: "";
+            const status = doc.status;
+            // const error = doc.error ? replaceAll(doc.error,"\"", "") : "";
+            const newRecord = [createdAt, sender, recipient, nameId, status];
             //const newRecord = [sender, recipientId, createdAt, error];
             data.push(newRecord);
         });
-
         //see: https://www.material-ui-datatables.com/
         //https://github.com/gregnb/mui-datatables
-        const options = {
-            filterType: "checkbox",
-            resizableColumns:true
-        };
-        return (
-            <div id="opt-ins-wrapper" className={theme}>
-                <MUIDataTable
-                    title={"Opt-Ins"}
-                    data={data}
-                    columns={columns}
-                    options={options}
-                />
-            </div>
-        )
     }
-}
+    return (
+        <div id="opt-ins-wrapper">
+            <MUIDataTable
+                title={"Opt-Ins"}
+                data={data}
+                columns={columns}
+                options={options}
+            />
+        </div>
+    )
 
+}
+export default withStyles(styles)(OptIns);
+/*
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
-}
-
-export default withTracker(() => {
-
-    const metaHandle = Meteor.subscribe('meta.all');
-    const optInsHandle = Meteor.subscribe('opt-ins.all');
-    const sendersHandle = Meteor.subscribe('senders.byOwner');
-    const recipientsHandle = Meteor.subscribe('recipients.byOwner');
-
-    /*console.log('meta ready:'+metaHandle.ready());
-    console.log('senders ready:'+sendersHandle.ready());
-    console.log('optIns ready:'+optInsHandle.ready());
-    console.log('recipientsHandle ready:'+recipientsHandle.ready());*/
-    const loading = !optInsHandle.ready()||!recipientsHandle.ready();
-
-    return {
-        loading,
-        meta: metaHandle.ready() ? MetaCollection.find().fetch() : [],
-        optIns: !loading ? OptInsCollection.find().fetch() : [],
-        recipients: recipientsHandle.ready() ? RecipientsCollection.find().fetch() : [],
-        senders: sendersHandle.ready() ? SendersCollection.find().fetch() : []
-    }
-})(OptInsPage)
+}*/

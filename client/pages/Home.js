@@ -5,7 +5,6 @@ import {useCurrentUser} from "react-meteor-hooks"
 import User from "./User";
 
 const Home = props => {
-    console.log("theme",props)
     return (
       <Fragment>
         {!useCurrentUser() ?
@@ -14,10 +13,6 @@ const Home = props => {
         }
       </Fragment>
     )
-}
-
-Home.propTypes = {
-  theme: PropTypes.string.isRequired
 }
 
 export default Home

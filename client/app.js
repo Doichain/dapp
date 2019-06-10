@@ -21,7 +21,6 @@ const App = props => {
         theme : "material-ui"
     });
 
-    console.log(state.theme)
     return (
       <Fragment>
         <Router>
@@ -31,7 +30,6 @@ const App = props => {
               <div id='content'>
                   <Route exact path='/' render={props => (
                     <Home
-                      theme={state.theme}
                       {...props}
                     />
                   )} />
