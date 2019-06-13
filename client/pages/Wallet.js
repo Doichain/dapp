@@ -32,19 +32,27 @@ const styles = {
 
 const Wallet = props => {
     const currentUser = useCurrentUser()
-    const requestDoubleOptInClick = e => (
+    const requestDoubleOptInClick = e => {
         console.log('requestDoubleOptInClick clicked',e.target)
-    )
-    const sendCoinClick= e => (
-        console.log('handleCoin clicked',e)
-        Meteor.call("opt-ins.remove", optIns[0]._id, (error, val) => {
+        e.preventDefault()
+    }
+    const sendCoins= e => {
+        const address = e.target.address.value;
+        const amount = e.target.amount.value;
+
+        console.log('handleCoin clicked: amount (doi)',e.target.amount.value)
+        console.log('handleCoin clicked: address',e.target.address.value)
+
+        Meteor.call("doichain.sendToAddress", address, amount, (error, val) => {
             if(!error) {
-                console.log('deleted:'+ optIns[0]._id)
+                console.log('send',val)
             }else{
-                console.log(val)
+                console.log(error)
             }
-        });
-    )
+        })
+        console.log(`sendToAddress address:${address} amount:${amount} `)
+        e.preventDefault();
+    }
     return (
         <React.Fragment>
             <div style={{ padding: 20 }}>
@@ -103,21 +111,23 @@ const Wallet = props => {
                 <tr>
                     <td>Request permission from </td>
                     <td>Email:<input type={"text"} name="email"/></td>
-                    <td><input type={"button"} value={"Request"}  onClick={requestDoubleOptInClick}/></td>
+                    <td><input type={"submit"} value={"Request"}  onClick={requestDoubleOptInClick}/></td>
                 </tr>
                 </tbody>
             </table>
         <h1>Doicoin</h1>
-            <table>
-                <tbody>
-                <tr>
-                    <td>Send </td>
-                    <td><input type={"text"} />DOI</td>
-                    <td>to:<input type={"text"} />DOI</td>
-                    <td><input type={"button"} value={"send"}  onClick={sendCoinClick}/></td>
-                </tr>
-                </tbody>
-            </table>
+            <form onSubmit={sendCoins}>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>Send </td>
+                        <td>amount: <input name={"amount"} type={"number"} />DOI</td>
+                        <td>to:<input name={"address"} type={"text"} />(Address)</td>
+                        <td><input type={"submit"} value={"send"}/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
     </React.Fragment>)
 }
 
