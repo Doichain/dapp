@@ -89,9 +89,7 @@ const OptIns = props => {
                         }}>
                           &#x25cf;
                         </span> {
-                            value[value.length-1] === 'relationship' ? 'In a relationship'
-                                : value[value.length-1] === 'complicated' ? `It's complicated`
-                                : value[value.length-1]
+                            value[value.length-1]
                         }
                     </span>
                     );
