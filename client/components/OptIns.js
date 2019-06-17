@@ -1,7 +1,7 @@
-import React, {Component, Fragment} from "react"
+import React from "react"
 import MUIDataTable from "mui-datatables";
-import {OptInsCollection,RecipientsCollection, SendersCollection, MetaCollection} from "meteor/doichain:doichain-meteor-api";
-import {useCurrentUser, useSubscription, useTracker} from "react-meteor-hooks"
+import {OptInsCollection,RecipientsCollection, SendersCollection} from "meteor/doichain:doichain-meteor-api";
+import {useSubscription, useTracker} from "react-meteor-hooks"
 import _ from 'lodash';
 
 import CustomToolbarSelect from "./CustomToolbarSelect";
@@ -25,9 +25,8 @@ let options = {
         return (
             <TableRow>
                 <TableCell colSpan={rowData.length}>
-                    Custom expandable row option. Data: {JSON.stringify(rowMeta)}
-                    {optIns[rowMeta.dataIndex].nameId}
-                    {optIns[rowMeta.dataIndex].error}
+                    NameId: {optIns[rowMeta.dataIndex].nameId} <br/>
+                    Errors: {optIns[rowMeta.dataIndex].error?optIns[rowMeta.dataIndex].error:'none'}
                 </TableCell>
             </TableRow>
         );
@@ -76,15 +75,27 @@ const OptIns = props => {
             }
         },
         {
-            name: "NameId",
-            options: {
-                filter: true
-            }
-        },
-        {
             name: "Status",
             options: {
-                filter: true
+                filter: true,
+                customBodyRender: function(value, tableMeta, updateValue){
+                    return (
+                        <span>
+                        <span style={{
+                            color: value[value.length-1] === 'template fetched' ? '#ff9900'
+                                : value[value.length-1] === 'transaction sent' ? '#ffbf00'
+                                    : '#57d500',
+                            transition: 'all .3s ease'
+                        }}>
+                          &#x25cf;
+                        </span> {
+                            value[value.length-1] === 'relationship' ? 'In a relationship'
+                                : value[value.length-1] === 'complicated' ? `It's complicated`
+                                : value[value.length-1]
+                        }
+                    </span>
+                    );
+                }
             }
         }
     ];
@@ -107,7 +118,7 @@ const OptIns = props => {
             const recipient = doc.recipient ? _.find(recipients, { _id: doc.recipient}).email: "";
             const status = doc.status;
             // const error = doc.error ? replaceAll(doc.error,"\"", "") : "";
-            const newRecord = [createdAt, sender, recipient, nameId, status];
+            const newRecord = [createdAt, sender, recipient, status];
             //const newRecord = [sender, recipientId, createdAt, error];
             data.push(newRecord);
         });
