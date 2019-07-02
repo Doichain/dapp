@@ -15,7 +15,7 @@
 - Zugang über SSH-Key ``ssh <neue-server-ip>``
 - Backup bei ihrem Hoster aktivieren (z.B. bei Hetzner / Amazon AWS) 
 - Docker installieren nach Beschreibung: https://docs.docker.com/install/linux/docker-ce/debian/
-```
+```bash
 sudo apt-get update
 
 apt-get install -y \
@@ -36,18 +36,35 @@ add-apt-repository \
 apt-get update
 apt-get install docker-ce
 ```
-- Generate Doichain-Address and PrivateKey https://walletgenerator.net/?currency=NameCoin
-```
-# 1. create doinet on docker
-docker network create doinet
 
-# 2. start mongo (see: https://hub.docker.com/_/mongo)  (change the password!)
+- create 'doinet' on docker
+```bash
+docker network create doinet
+```
+
+- start mongo (see: https://hub.docker.com/_/mongo)  (change the password!)
+```bash
 docker run -d --network doinet --name mongo \
-            -e MONGO_INITDB_ROOT_USERNAME=doichain \
+    -e MONGO_INITDB_ROOT_USERNAME=doichain \
     -e MONGO_INITDB_ROOT_PASSWORD=secret \
     mongo
+```
+- create a user on Mongo DB https://docs.mongodb.com/manual/tutorial/create-users/
+```mongo
+use doichain
+db.createUser(
+  {
+    user: "doichain",
+    pwd: "<your-mongo-doichain-password>",
+    roles: [
+       { role: "readWrite", db: "doichain" }
+    ]
+  }
+)
+```
 
-# 3. start 
+# 4. start doichain image
+```bash
 docker run -td --restart always \
 (-p TESTNET=true) <-- choose one
 (-p REGTEST=true) <-- choose one
