@@ -9,7 +9,7 @@ const DoichainVersion = props => {
     const meta = useTracker(() => MetaCollection.find({key:'version'}).fetch());
     return (
         <Typography variant="subtitle1" color="inherit">
-           Version: {meta.length>0?JSON.parse(meta[0].value).version+
+           Doichain Version: {meta.length>0?JSON.parse(meta[0].value).version+
             ' ('+JSON.parse(meta[0].value).timestamp+')': ''}
         </Typography>
     );

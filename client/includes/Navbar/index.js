@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {Fragment, useState} from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,9 +8,9 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import {AccountsReact} from "meteor/meteoreact:accounts";
-import DoichainVersion from "../../components/DoichainVersion";
 import {useCurrentUser} from "react-meteor-hooks";
 import {store, useStore} from "../hookstore";
+import {Link, NavLink} from "react-router-dom";
 
 const styles = {
     root: {
@@ -44,7 +44,7 @@ const Navbar = props => {
                     <Typography variant="h6" color="inherit" className={props.classes.grow}>
                         Doichain - dApp
                     </Typography>
-                    <DoichainVersion />
+                    {currentUser ?<Link color="inherit" to={`/change-password`}>Change Password</Link>:''}
                     <Button color="inherit" onClick={() =>  AccountsReact.logout()}>{currentUser?'Logout':'Login'}</Button>
                 </Toolbar>
             </AppBar>

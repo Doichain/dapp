@@ -4,7 +4,6 @@ import {OptInsCollection,RecipientsCollection, SendersCollection} from "meteor/d
 import {useSubscription, useTracker} from "react-meteor-hooks"
 import _ from 'lodash';
 
-import CustomToolbarSelect from "./CustomToolbarSelect";
 import {withStyles} from "@material-ui/core";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";

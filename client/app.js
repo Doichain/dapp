@@ -1,5 +1,6 @@
 import React, { Component, Fragment, useState } from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
+import { AccountsReactComponent } from "meteor/meteoreact:accounts"
 /* Includes */
 
 import Navbar from "./includes/Navbar"
