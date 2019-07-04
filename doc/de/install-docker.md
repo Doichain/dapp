@@ -51,16 +51,16 @@ docker run -d --network doinet --name mongo \
 ```
 - create a user on Mongo DB https://docs.mongodb.com/manual/tutorial/create-users/
 ```mongo
-use doichain
-db.createUser(
-  {
-    user: "doichain",
-    pwd: "<your-mongo-doichain-password>",
-    roles: [
-       { role: "readWrite", db: "doichain" }
-    ]
-  }
-)
+    use doichain
+    db.createUser(
+      {
+        user: "doichain",
+        pwd: "<your-mongo-doichain-password>",
+        roles: [
+           { role: "readWrite", db: "doichain" }
+        ]
+      }
+    )
 ```
 
 # 4. start doichain image
