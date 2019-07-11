@@ -76,16 +76,28 @@ const OptIns = props => {
         {
             name: "Status",
             options: {
-                filter: true,
+                filter: false,
                 customBodyRender: function(value, tableMeta, updateValue){
-                    return (
+
+                    const colorOrange = '#ff9900'
+                    const colorYellow = '#ffbf00'
+                    const colorGreen = '#57d500'
+                    const colorRed = '#d9534f'
+
+                    let color = colorRed;
+
+                    if( value[value.length-1] === 'template fetched' ||
+                        value[value.length-1] === 'template requested' ||
+                        value[value.length-1] === 'signature verified' ||
+                        value[value.length-1] === 'email configured') color = colorOrange
+
+                    if( value[value.length-1] === 'transaction sent' ||
+                        value[value.length-1] === 'opt-in received' ) color = colorYellow
+
+
+                        return (
                         <span>
-                        <span style={{
-                            color: value[value.length-1] === 'template fetched' ? '#ff9900'
-                                : value[value.length-1] === 'transaction sent' ? '#ffbf00'
-                                    : '#57d500',
-                            transition: 'all .3s ease'
-                        }}>
+                        <span style={{color:color,transition: 'all .3s ease'}}>
                           &#x25cf;
                         </span> {
                             value[value.length-1]
