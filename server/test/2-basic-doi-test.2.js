@@ -10,7 +10,7 @@ import {
     testLog as testLogging
 } from "meteor/doichain:doichain-meteor-api";
 import {
-    deleteOptInsFromAliceAndBob,
+    deleteOptInsFromAliceAndBob, doichainAddNode,
     generatetoaddress,
     getNewAddress,
     start3rdNode,
@@ -47,24 +47,11 @@ if(Meteor.isAppTest) {
             }
         });
 
-        before(function () {
-            try {
-                exec((global.inside_docker?'sudo':'')+' docker stop 3rd_node', (e, stdout, stderr) => {
-                    testLogging('stopped 3rd_node:', {stdout: stdout, stderr: stderr});
-                    exec((global.inside_docker?'sudo':'')+' docker rm 3rd_node', (e, stdout, stderr) => {
-                        testLogging('removed 3rd_node:', {stdout: stdout, stderr: stderr});
-                    });
-                });
-            } catch (ex) {
-                testLogging('could not stop 3rd_node',);
-            }
-        });
-
         it('should test if basic Doichain workflow is working when Bobs node is temporarily offline', function (done) {
-            this.timeout(0);
+            this.timeout(180000);
             global.aliceAddress = getNewAddress(global.node_url_alice, rpcAuth, false);
             //start another 3rd node before shutdown Bob
-            start3rdNode();
+            //start3rdNode();
             var containerId = stopDockerBob();
             const recipient_mail = "bob@ci-doichain.org";
             const sender_mail = "alice-to-offline-node@ci-doichain.org";
@@ -75,19 +62,21 @@ if(Meteor.isAppTest) {
 
             const nameId = getNameIdOfOptInFromRawTx(global.node_url_alice, rpcAuth, resultDataOptIn.data.id, true);
             if (log) testLogging('got nameId', nameId);
+            //generating a block so transaction gets confirmed and delivered to bob.
+            generatetoaddress(global.node_url_alice, rpcAuth, global.aliceAddress, 10, true);
+
             var startedContainerId = startDockerBob(containerId);
             testLogging("started bob's node with containerId", startedContainerId);
             chai.expect(startedContainerId).to.not.be.null;
-            waitToStartContainer(startedContainerId);
 
-            //generating a block so transaction gets confirmed and delivered to bob.
-            generatetoaddress(global.node_url_alice, rpcAuth, global.aliceAddress, 1, true);
+
+            waitToStartContainer(startedContainerId); //start, reconnect and reindex
+            //onnect_docker_bob(startedContainerId)
             let running = true;
             let counter = 0;
             (async function loop() {
                 while (running && ++counter < 50) { //trying 50x to get email from bobs mailbox
                     try {
-                        //  generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 1, true);
                         testLogging('step 3: getting email!');
                         const link2Confirm = fetchConfirmLinkFromPop3Mail(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
                         testLogging('step 4: confirming link', link2Confirm);
@@ -99,22 +88,8 @@ if(Meteor.isAppTest) {
                         await new Promise(resolve => setTimeout(resolve, 2000));
                     }
                 }
-                })();
-
-                generatetoaddress(global.node_url_alice, rpcAuth, global.aliceAddress, 1, true);
-                verifyDOI(global.dappUrlAlice, dataLoginAlice, global.node_url_alice, rpcAuth, sender_mail, recipient_mail, nameId, log); //need to generate two blocks to make block visible on alice
-                testLogging('end of getNameIdOfRawTransaction returning nameId', nameId);
-                try {
-                    exec((global.inside_docker?'sudo':'')+' docker stop 3rd_node', (e, stdout, stderr) => {
-                        testLogging('stopped 3rd_node:', {stdout: stdout, stderr: stderr});
-                        exec((global.inside_docker?'sudo':'')+' docker rm 3rd_node', (e, stdout, stderr) => {
-                            testLogging('removed 3rd_node:', {stdout: stdout, stderr: stderr});
-                        });
-                    });
-                } catch (ex) {
-                    testLogging('could not stop 3rd_node',);
-                }
                 done();
+            })();
         }); //it
     });
 }

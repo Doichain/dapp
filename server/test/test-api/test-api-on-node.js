@@ -174,15 +174,21 @@ function get_container_id_of_name(name,callback) {
 
 function stop_docker_bob(callback) {
     const bobsContainerId = getContainerIdOfName('bob');
+
     testLogging('stopping Bob with container-id: '+bobsContainerId);
-    try{
-        exec(sudo+'docker stop '+bobsContainerId, (e, stdout, stderr)=> {
-            testLogging('stopping Bob with container-id: ',{stdout:stdout,stderr:stderr});
-            callback(null, bobsContainerId);
-        });
-    }catch (e) {
-        testLogging('couldnt stop bobs node',e);
-    }
+    exec(sudo+'docker exec '+bobsContainerId+' doichain-cli stop', (e, stdout, stderr)=> {
+        testLogging('bob '+bobsContainerId+' stopped ',{stdout:stdout,stderr:stderr});
+
+        try{
+            exec(sudo+'docker stop '+bobsContainerId, (e, stdout, stderr)=> {
+                testLogging('stopping Bob with container-id: ',{stdout:stdout,stderr:stderr});
+                callback(null, bobsContainerId);
+            });
+        }catch (e) {
+            testLogging('couldnt stop bobs node',e);
+            callback(e, mull);
+        }
+    });
 }
 
 function doichain_add_node(containerId,callback) {
