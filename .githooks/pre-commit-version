@@ -14,6 +14,7 @@ function getVersionTag(){
             "git describe --tags",
             function (err, stdout, stderr) {
                 if(err)reject(err)
+                console.log('executed git describe --tags',stdout)
                 //var name = stdout.replace('* ','').replace('\n','');
                 var version  = stdout.substring(0,stdout.indexOf("-"));
                 console.log("found version:",version);
