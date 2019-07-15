@@ -86,23 +86,24 @@ const OptIns = props => {
 
                     let color = colorRed;
 
-                    if( value[value.length-1] === 'template fetched' ||
-                        value[value.length-1] === 'template requested' ||
-                        value[value.length-1] === 'signature verified' ||
-                        value[value.length-1] === 'email configured') color = colorOrange
+                    if(value) {
+                        if (value[value.length - 1] === 'template fetched' ||
+                            value[value.length - 1] === 'template requested' ||
+                            value[value.length - 1] === 'signature verified' ||
+                            value[value.length - 1] === 'email configured') color = colorOrange
 
-                    if( value[value.length-1] === 'transaction sent' ||
-                        value[value.length-1] === 'opt-in received' ) color = colorYellow
+                        if (value[value.length - 1] === 'transaction sent' ||
+                            value[value.length - 1] === 'opt-in received') color = colorYellow
+                    }else{ // old versions don't have a status
+                            color = colorYellow;
+                    }
 
-
-                        return (
+                    return (
                         <span>
-                        <span style={{color:color,transition: 'all .3s ease'}}>
-                          &#x25cf;
-                        </span> {
-                            value[value.length-1]
-                        }
-                    </span>
+                            <span style={{color:color,transition: 'all .3s ease'}}>
+                              &#x25cf;
+                            </span> { value?value[value.length-1]:'unkown status'}
+                        </span>
                     );
                 }
             }
