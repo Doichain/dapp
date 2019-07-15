@@ -4,6 +4,7 @@ import {
 } from "./test-api/test-api-on-node";
 import {testLog} from "meteor/doichain:doichain-meteor-api";
 global.inside_docker = false;
+
 const log = true;
 const dns = require('dns');
 
