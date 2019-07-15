@@ -13,7 +13,7 @@ import {
     deleteOptInsFromAliceAndBob, doichainAddNode,
     generatetoaddress,
     getNewAddress,
-    start3rdNode,
+    triggerNewBlock,
     startDockerBob,
     stopDockerBob, waitToStartContainer
 } from "./test-api/test-api-on-node";
@@ -51,7 +51,7 @@ if(Meteor.isAppTest) {
             this.timeout(180000);
             global.aliceAddress = getNewAddress(global.node_url_alice, rpcAuth, false);
             //start another 3rd node before shutdown Bob
-            //start3rdNode();
+            //triggerNewBlock();
             var containerId = stopDockerBob();
             const recipient_mail = "bob@ci-doichain.org";
             const sender_mail = "alice-to-offline-node@ci-doichain.org";
@@ -71,6 +71,7 @@ if(Meteor.isAppTest) {
 
 
             waitToStartContainer(startedContainerId); //start, reconnect and reindex
+            triggerNewBlock('http://localhost:4000/api/v1/blocknotify') //send blocknotify to bob
             //onnect_docker_bob(startedContainerId)
             let running = true;
             let counter = 0;

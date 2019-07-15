@@ -220,34 +220,11 @@ function connect_docker_bob(bobsContainerId, callback) {
     });
 }
 
-function start_3rd_node(callback) {
-    exec(sudo+'docker start 3rd_node', (e, stdout, stderr)=> {
-        testLogging('trying to start 3rd_node',{stdout:stdout,stderr:stderr});
-        if(stderr){
-            exec(sudo+'docker network ls |grep doichain | cut -f9 -d" "', (e, stdout, stderr)=> {
-                const network = stdout.toString().substring(0,stdout.toString().length-1);
-                testLogging('connecting 3rd node to docker network: '+network);
-                exec(sudo+'docker run --expose=18332 ' +
-                    '-e REGTEST=true ' +
-                    '-e DOICHAIN_VER=0.16.3.2 ' +
-                    '-e RPC_ALLOW_IP=::/0 ' +
-                    '-e CONNECTION_NODE=alice '+
-                    '-e RPC_PASSWORD=generated-password ' +
-                    '--name=3rd_node '+
-                    '--dns=172.20.0.5  ' +
-                    '--dns=8.8.8.8 ' +
-                    '--dns-search=ci-doichain.org ' +
-                    '--ip=172.20.0.10 ' +
-                    '--network='+network+' -d doichain/core:0.16.3.2', (e, stdout, stderr)=> {
-                    callback(stderr, stdout);
-                });
-            });
-        }else{
+function trigger_new_block(url, callback) {
+    exec('curl -s -X GET '+url, (e, stdout, stderr)=> {
             callback(stderr, stdout);
         }
-    });
-
-
+    );
 }
 
 function run_and_wait(runfunction,seconds, callback){
@@ -267,9 +244,9 @@ export function deleteOptInsFromAliceAndBob() {
     return syncFunc();
 }
 
-export function start3rdNode() {
-    const syncFunc = Meteor.wrapAsync(start_3rd_node);
-    return syncFunc();
+export function triggerNewBlock(url) {
+    const syncFunc = Meteor.wrapAsync(trigger_new_block);
+    return syncFunc(url);
 }
 
 export function stopDockerBob() {
