@@ -13,7 +13,7 @@ const styles = {
 };
 
 let data = []
-let optIns = []
+let permissions = []
 
 let options = {
     filterType: "dropdown",
@@ -24,8 +24,10 @@ let options = {
         return (
             <TableRow>
                 <TableCell colSpan={rowData.length}>
-                    NameId: {optIns[rowMeta.dataIndex].nameId} <br/>
-                    Errors: {optIns[rowMeta.dataIndex].error?optIns[rowMeta.dataIndex].error:'none'}
+                    NameId: {permissions[rowMeta.dataIndex].nameId} <br/>
+                    TxId: {permissions[rowMeta.dataIndex].txId} <br/>
+                    States: {permissions[rowMeta.dataIndex].status} <br/>
+                    Errors: {permissions[rowMeta.dataIndex].error?permissions[rowMeta.dataIndex].error:'none'}
                 </TableCell>
             </TableRow>
         );
@@ -37,10 +39,10 @@ let options = {
     onRowsDelete: (rowsData) => {
         console.log("onRowsDelete1",rowsData)
 
-        console.log(optIns[0]._id)
-        Meteor.call("opt-ins.remove", optIns[0]._id, (error, val) => {
+        console.log(permissions[0]._id)
+        Meteor.call("opt-ins.remove", permissions[0]._id, (error, val) => {
             if(!error) {
-                console.log('deleted:'+ optIns[0]._id)
+                console.log('deleted:'+ permissions[0]._id)
             }else{
                 console.log(val)
             }
@@ -62,13 +64,7 @@ const OptIns = props => {
             }
         },
         {
-            name: "Sender",
-            options: {
-                filter: true
-            }
-        },
-        {
-            name: "Recipient",
+            name: "NameId",
             options: {
                 filter: true
             }
@@ -110,26 +106,19 @@ const OptIns = props => {
         }
     ];
 
-    const loading = useSubscription('opt-ins.all')
-    const loadingSenders = useSubscription('senders.byOwner')
-    const loadingRecipients  = useSubscription('recipients.all')
-    optIns = useTracker(() => OptInsCollection.find({})).fetch()
-    const senders = useTracker(() => SendersCollection.find({})).fetch()
-    const recipients = useTracker(() => RecipientsCollection.find({})).fetch()
+    const loading = useSubscription('confirmations.all')
+    permissions = useTracker(() => OptInsCollection.find({})).fetch()
 
-    if(!loading && !loadingSenders && !loadingRecipients){
+
+    if(!loading){
         data = []
-        optIns.map(doc => {
+        permissions.map(doc => {
             // const _id = doc._id;
             const createdAt = doc.createdAt.toISOString()
             const nameId = doc.nameId ? doc.nameId : "";
-            //const ownerId = doc.ownerId ? doc.ownerId : "";
-            const sender = doc.sender && senders.length>0 ?  _.find(senders, { _id: doc.sender}).email  : "";
-            const recipient = doc.recipient ? _.find(recipients, { _id: doc.recipient}).email: "";
+            const txId = doc.txId ? doc.txId : "";
             const status = doc.status;
-            // const error = doc.error ? replaceAll(doc.error,"\"", "") : "";
-            const newRecord = [createdAt, sender, recipient, status];
-            //const newRecord = [sender, recipientId, createdAt, error];
+            const newRecord = [createdAt, nameId,status];
             data.push(newRecord);
         });
         //see: https://www.material-ui-datatables.com/
@@ -138,7 +127,7 @@ const OptIns = props => {
     return (
         <div id="opt-ins-wrapper">
             <MUIDataTable
-                title={"Opt-Ins"}
+                title={"Confirmations"}
                 data={data}
                 columns={columns}
                 options={options}

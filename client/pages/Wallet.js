@@ -34,11 +34,13 @@ const Wallet = props => {
     const currentUser = useCurrentUser()
 
     const requestEmailPermission = e => {
+        e.preventDefault();
 
-        const email = e.target.email.value;
-        console.log('handleCoin clicked: email',email)
+        const recipientMail = e.target.recipientMail.value;
+        const senderEmail = e.target.senderEmail.value;
+        console.log('handleCoin clicked: email',recipientMail)
 
-        Meteor.call("doichain.requestEmailPermission", {email}, (error, val) => {
+        Meteor.call("doichain.requestEmailPermission", {senderEmail,recipientMail}, (error, val) => {
             if(!error) {
                 console.log('requestEmailPermission',val)
             }else{
@@ -46,10 +48,11 @@ const Wallet = props => {
             }
         })
 
-        e.preventDefault();
+
     }
 
     const sendCoins= e => {
+        e.preventDefault();
         const address = e.target.address.value;
         const amount = e.target.amount.value;
 
@@ -64,7 +67,7 @@ const Wallet = props => {
             }
         })
         console.log(`sendToAddress address:${address} amount:${amount} `)
-        e.preventDefault();
+
     }
 
     return (
@@ -125,7 +128,8 @@ const Wallet = props => {
                     <tbody>
                     <tr>
                         <td>Request permission from </td>
-                        <td>Email:<input type={"text"} name="email"/></td>
+                        <td>Sender Email:<input type={"text"} name={"senderEmail"}/></td>
+                        <td>Recipient Email:<input type={"text"} name={"recipientMail"}/></td>
                         <td><input type={"submit"} value={"Request"}/></td>
                     </tr>
                     </tbody>

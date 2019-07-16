@@ -3,15 +3,19 @@ import {
     deleteOptInsFromAliceAndBob, getBalance, initBlockchain
 } from "./test-api/test-api-on-node";
 import {testLog} from "meteor/doichain:doichain-meteor-api";
+import {regtest} from "meteor/doichain:doichain-meteor-api";
 global.inside_docker = false;
 
 const log = true;
 const dns = require('dns');
 
-if(Meteor.isAppTest) {
+if(regtest){
     dns.setServers([
         '127.0.0.1',
     ]); //we use our own dns in order to resolve the ci-doichain.org test domain including its TXT entry
+}
+
+if(Meteor.isAppTest) {
     global.node_url_alice = 'http://172.20.0.6:18332/';
     if(!global.inside_docker) global.node_url_alice = 'http://localhost:18543/';
     global.node_url_bob =   'http://172.20.0.7:18332/';

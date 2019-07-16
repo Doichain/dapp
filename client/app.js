@@ -11,8 +11,8 @@ import Home from "./pages/Home"
 import Auth from "./pages/Auth"
 import DoichainDrawer from "./includes/DoichainDrawer";
 import Wallet from "./pages/Wallet";
-import Permissions from "./pages/Permissions";
-import Confirmations from "./pages/Confirmations";
+import PermissionsPage from "./pages/PermissionsPage";
+import ConfirmationsPage from "./pages/ConfirmationsPage";
 import User from "./pages/User";
 import Settings from "./pages/Settings";
 
@@ -36,8 +36,8 @@ const App = props => {
                   )} />
 
                     <Route path='/wallet' component={Wallet} />
-                    <Route path='/permissions' component={Permissions} />
-                    <Route path='/confirmations' component={Confirmations} />
+                    <Route path='/permissions' component={PermissionsPage} />
+                    <Route path='/confirmations' component={ConfirmationsPage} />
                     <Route path='/users' component={User} />
                     <Route path='/settings' component={Settings} />
 
