@@ -32,10 +32,23 @@ const styles = {
 
 const Wallet = props => {
     const currentUser = useCurrentUser()
-    const requestDoubleOptInClick = e => {
-        console.log('requestDoubleOptInClick clicked',e.target)
-        e.preventDefault()
+
+    const requestEmailPermission = e => {
+
+        const email = e.target.email.value;
+        console.log('handleCoin clicked: email',email)
+
+        Meteor.call("doichain.requestEmailPermission", {email}, (error, val) => {
+            if(!error) {
+                console.log('requestEmailPermission',val)
+            }else{
+                console.log('requestEmailPermission',error)
+            }
+        })
+
+        e.preventDefault();
     }
+
     const sendCoins= e => {
         const address = e.target.address.value;
         const amount = e.target.amount.value;
@@ -43,16 +56,17 @@ const Wallet = props => {
         console.log('handleCoin clicked: amount (doi)',e.target.amount.value)
         console.log('handleCoin clicked: address',e.target.address.value)
 
-        Meteor.call("doichain.sendToAddress", address, amount, (error, val) => {
+        Meteor.call("doichain.sendToAddress", {address, amount}, (error, val) => {
             if(!error) {
-                console.log('send',val)
+                console.log('sendToAddress',val)
             }else{
-                console.log(error)
+                console.log('sendToAddress',error)
             }
         })
         console.log(`sendToAddress address:${address} amount:${amount} `)
         e.preventDefault();
     }
+
     return (
         <React.Fragment>
             <div style={{ padding: 20 }}>
@@ -106,15 +120,17 @@ const Wallet = props => {
             </Grid>
         </div>
             <h1>Email permission</h1>
-            <table>
-                <tbody>
-                <tr>
-                    <td>Request permission from </td>
-                    <td>Email:<input type={"text"} name="email"/></td>
-                    <td><input type={"submit"} value={"Request"}  onClick={requestDoubleOptInClick}/></td>
-                </tr>
-                </tbody>
-            </table>
+            <form onSubmit={requestEmailPermission}>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>Request permission from </td>
+                        <td>Email:<input type={"text"} name="email"/></td>
+                        <td><input type={"submit"} value={"Request"}/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
         <h1>Doicoin</h1>
             <form onSubmit={sendCoins}>
                 <table>
