@@ -12,6 +12,13 @@ import UnconfirmedBalance from "../components/UnconfirmedBalance";
 import AdressesByAccount from "../components/AddressesByAcccount"
 import {withStyles} from "@material-ui/core";
 import {useCurrentUser} from "react-meteor-hooks";
+import MetaData from "../components/MetaData";
+import {
+    BLOCKCHAIN_INFO_VAL_ALLREQUESTEDDOIS,
+    BLOCKCHAIN_INFO_VAL_ALLCONFIRMEDDOIS,
+    BLOCKCHAIN_INFO_VAL_OURREQUESTEDDOIS,
+    BLOCKCHAIN_INFO_VAL_OURCONFIRMEDDOIS
+} from "meteor/doichain:doichain-meteor-api"
 
 const styles = {
     grid: {
@@ -102,9 +109,9 @@ const Wallet = props => {
                     <Card className={props.classes.card}>
                         <CardContent>
                             <Typography className={props.classes.title} color="textSecondary" gutterBottom>
-                                DOI requested Doichain all<br/>
-                                DOI requested this Doichain dApp <br/>
-                                DOI requested by user {currentUser.username}  <br/>
+                                DOI requested Doichain all <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLREQUESTEDDOIS} /></b><br/>
+                                DOI requested this Doichain dApp <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLREQUESTEDDOIS} /></b><br/>
+                                DOI requested by user {currentUser.username} <b>?</b><br/>
                             </Typography>
                         </CardContent>
                     </Card>
@@ -113,9 +120,9 @@ const Wallet = props => {
                     <Card className={props.classes.card}>
                         <CardContent>
                             <Typography className={props.classes.title} color="textSecondary" gutterBottom>
-                                DOI confirmed Doichain all <br/>
-                                DOI confirmed this Doichain dApp <br/>
-                                DOI confirmed by user {currentUser.username}  <br/>
+                                DOI confirmed Doichain all <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURREQUESTEDDOIS} /></b><br/>
+                                DOI confirmed this Doichain dApp <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURREQUESTEDDOIS} /></b><br/>
+                                DOI confirmed by user {currentUser.username}  <b>?</b><br/>
                             </Typography>
                         </CardContent>
                     </Card>
