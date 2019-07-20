@@ -110,7 +110,7 @@ const Wallet = props => {
                         <CardContent>
                             <Typography className={props.classes.title} color="textSecondary" gutterBottom>
                                 DOI requested Doichain all <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLREQUESTEDDOIS} /></b><br/>
-                                DOI requested this Doichain dApp <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLREQUESTEDDOIS} /></b><br/>
+                                DOI requested this Doichain dApp <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURREQUESTEDDOIS} /></b><br/>
                                 DOI requested by user {currentUser.username} <b>?</b><br/>
                             </Typography>
                         </CardContent>
@@ -120,8 +120,8 @@ const Wallet = props => {
                     <Card className={props.classes.card}>
                         <CardContent>
                             <Typography className={props.classes.title} color="textSecondary" gutterBottom>
-                                DOI confirmed Doichain all <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURREQUESTEDDOIS} /></b><br/>
-                                DOI confirmed this Doichain dApp <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURREQUESTEDDOIS} /></b><br/>
+                                DOI confirmed Doichain all <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLCONFIRMEDDOIS} /></b><br/>
+                                DOI confirmed this Doichain dApp <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLCONFIRMEDDOIS} /></b><br/>
                                 DOI confirmed by user {currentUser.username}  <b>?</b><br/>
                             </Typography>
                         </CardContent>
