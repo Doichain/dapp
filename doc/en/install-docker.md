@@ -11,41 +11,11 @@
 - edit your DNS-Zone of <your-domain.com> (txt value with doichain public key)
 
 ## Hardware Requirements
-- e.g. "Debian: 9 (Stretch) with 1 CPU, 2 GB RAM, 20 GB SSD"
+- e.g. "Debian: 9 (Stretch) with 1 CPU, 2 GB RAM, 40 GB SSD"
 
 ## Installation
 - setup your server and connect via ssh
 - don't forget to activate a backup
-- install nginx ``apt-get install nginx``
-- edit file ``vi /etc/nginx/sites-available/doichain``
-```
-upstream doichain {
-    server 127.0.0.1:3000;
-    keepalive 32;
-}
-server {
-        listen 80;
-        listen [::]:80;
-
-        server_name <your-hostname-and-domain>;
-        
-        location / {
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header Host $http_host;
-                proxy_set_header X-NginX-Proxy true;
-                proxy_http_version 1.1;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection "upgrade";
-                proxy_pass http://doichain;
-                proxy_redirect off;
-        }
-}
-```
-- link file ``ln -s /etc/nginx/sites-available/doichain /etc/nginx/sites-enabled/doichain``
-- start nginx ``systemctl nginx start``
-- check if nginx is running on port 80 
-- install letsencrypt 
 - install docker as described https://docs.docker.com/install/linux/docker-ce/debian/ or copy step by step:
 ```bash
 sudo apt-get update
@@ -103,7 +73,7 @@ docker run -d --network doinet --name mongo \
     db.createUser(
       {
         user: "doichain-testnet",
-        pwd: "<your-mongo-doichain-password>",
+        pwd: "doichain-testnet",
         roles: [
            { role: "readWrite", db: "doichain-testnet" }
         ]
@@ -111,19 +81,19 @@ docker run -d --network doinet --name mongo \
     )
 ```
 
-# 4. start doichain image
+# start doichain image
+
 ```bash
-docker run -td --restart always --network doinet \
-#-e TESTNET=true # enable if testnet  \
-#-e REGTEST=true # enable if regtest  \
--e MONGO_URL=
--e DAPP_SSL=false
+ docker run -td --restart always --network doinet \
+ --name=doichain-testnet --hostname=doichain-testnet   \
+-e TESTNET=true \
+-e MONGO_URL="mongodb://doichain-testnet:doichain-testnet@mongo:27017/doichain-testnet" \
+-e DAPP_HOST=<ip-or-hostname>  \
+-e DAPP_SSL=false \
 -e DAPP_DEBUG=true   \
 -e DAPP_CONFIRM='true'  \
 -e DAPP_VERIFY='true'  \
 -e DAPP_SEND='true'  \
--e DAPP_HOST=your-dapp-hostname+domain-name-or-ip  \
--e CONFIRM_ADDRESS=previously-generated-doichain-address  \
 -e DEFAULT_FROM='reply@your-domain.com'  \
 -e DAPP_SMTP_HOST=localhost  \
 -e DAPP_SMTP_USER=doichain   \
@@ -132,14 +102,44 @@ docker run -td --restart always --network doinet \
 -e RPC_USER=admin  \
 -e RPC_PASSWORD=rpc-password  \
 -e RPC_HOST=localhost  \
-#-p 3000:3000 -p 18338:18338 -p 18339:18339 # #enable if testnet or regtest \
-#-p 3000:3000 -p 8338:8338 -p 8339:8339 # enable if mainnet \
--v doichain_PROJEKTNAME:/home/doichain/data  \
---name=doichain_PROJEKTNAME  \
---hostname=doichain_PROJEKTNAME  \ 
--i doichain/dapp:0.0.9  \
-```
+-p 3000:3000 -p 18338:18338 -p 18339:18339 \
+-v doichain-testnet:/home/doichain/data  \
+doichain/dapp:0.0.9
 
-# 5. Test
+```
+- check if dApp is running http://<ip-or-hostname>:3000
+
+- install nginx ``apt-get update; apt-get install nginx``
+- edit file ``vi /etc/nginx/sites-available/doichain``
+```
+upstream doichain {
+    server 127.0.0.1:3000;
+    keepalive 32;
+}
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name <your-hostname-and-domain>;
+        
+        location / {
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-NginX-Proxy true;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_pass http://doichain;
+                proxy_redirect off;
+        }
+}
+```
+- link file ``ln -s /etc/nginx/sites-available/doichain /etc/nginx/sites-enabled/doichain``
+- start nginx ``systemctl nginx start``
+- check if nginx is running on port 80 
+- install letsencrypt https://certbot.eff.org/
+
+# Test
 - Request your userId and authToken via curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' https://localhost/api/v1/login
 - Request Double-Opt-In via curl -X POST -H "X-User-Id: xxxxxxx" -H "X-Auth-Token: yyyyyyyyyyyyyyy" -i "https://localhost/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org"
