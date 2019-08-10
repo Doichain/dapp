@@ -47,11 +47,11 @@ docker network create doinet
 - start mongo (see: https://hub.docker.com/_/mongo)  (change the password!)
 ```bash
 #for testnet
-docker volume create doichain-testnet 
+docker volume create doichain-testnet-db
 #for mainnet
 docker volume create doichain
 docker run -d --network doinet --name mongo \
-    -v doichain-testnet:/data/db \
+    -v doichain-testnet-db:/data/db \
     -e MONGO_INITDB_ROOT_USERNAME=admin \
     -e MONGO_INITDB_ROOT_PASSWORD=secret \
     mongo
@@ -62,20 +62,20 @@ docker run -d --network doinet --name mongo \
     db.createUser(
       {
         user: "doichain",
-        pwd: "<your-mongo-doichain-password>",
+        pwd: "doichain",
         roles: [
            { role: "readWrite", db: "doichain" }
         ]
       }
     )
     
-    use doichain-testnet
+    use doichain-test
     db.createUser(
       {
-        user: "doichain-testnet",
-        pwd: "doichain-testnet",
+        user: "doichain-test",
+        pwd: "doichain-test",
         roles: [
-           { role: "readWrite", db: "doichain-testnet" }
+           { role: "readWrite", db: "doichain-test" }
         ]
       }
     )
@@ -88,12 +88,12 @@ docker run -d --network doinet --name mongo \
  --name=doichain-testnet --hostname=doichain-testnet   \
 -e TESTNET=true \
 -e MONGO_URL="mongodb://doichain-testnet:doichain-testnet@mongo:27017/doichain-testnet" \
--e DAPP_HOST=<ip-or-hostname>  \
+-e DAPP_HOST=<ip-or-hostname.your-domain.org> \
 -e DAPP_SSL=false \
 -e DAPP_DEBUG=true   \
 -e DAPP_CONFIRM='true'  \
--e DAPP_VERIFY='true'  \
 -e DAPP_SEND='true'  \
+-e DAPP_VERIFY='true'  \
 -e DEFAULT_FROM='reply@your-domain.com'  \
 -e DAPP_SMTP_HOST=localhost  \
 -e DAPP_SMTP_USER=doichain   \
@@ -103,12 +103,12 @@ docker run -d --network doinet --name mongo \
 -e RPC_PASSWORD=rpc-password  \
 -e RPC_HOST=localhost  \
 -p 3000:3000 -p 18338:18338 -p 18339:18339 \
--v doichain-testnet:/home/doichain/data  \
+-v doichain-testnet-data:/home/doichain/data  \
 doichain/dapp:0.0.9
 
 ```
 - check if dApp is running http://<ip-or-hostname>:3000
-
+- change the admin password!
 - install nginx ``apt-get update; apt-get install nginx``
 - edit file ``vi /etc/nginx/sites-available/doichain``
 ```
