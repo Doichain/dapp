@@ -20,13 +20,14 @@ let options = {
     resizableColumns:true,
     expandableRows:true,
     renderExpandableRow: (rowData, rowMeta) => {
-        console.log(rowData, rowMeta);
+      //  console.log(rowData, rowMeta);
         return (
             <TableRow>
                 <TableCell colSpan={rowData.length}>
                     NameId: {permissions[rowMeta.dataIndex].nameId} <br/>
                     TxId: {permissions[rowMeta.dataIndex].txId} <br/>
                     States: {permissions[rowMeta.dataIndex].status} <br/>
+                    Signature: {JSON.parse(permissions[rowMeta.dataIndex].value).signature} <br/>
                     Errors: {permissions[rowMeta.dataIndex].error?permissions[rowMeta.dataIndex].error:'none'}
                 </TableCell>
             </TableRow>
@@ -128,7 +129,8 @@ const OptIns = props => {
             const txId = doc.txId ? doc.txId : "";
             //const ownerId = doc.ownerId ? doc.ownerId : "";
             const sender = doc.sender && senders.length>0 ?  _.find(senders, { _id: doc.sender}).email  : "";
-            const recipient = doc.recipient ? _.find(recipients, { _id: doc.recipient}).email: "";
+            console.log(doc.recipient)
+            const recipient = doc.recipient!==undefined ?    _.find(recipients, { _id: doc.recipient}).email: "";
             const status = doc.status;
             // const error = doc.error ? replaceAll(doc.error,"\"", "") : "";
             const newRecord = [createdAt, sender, recipient, status];

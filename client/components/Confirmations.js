@@ -2,7 +2,6 @@ import React from "react"
 import MUIDataTable from "mui-datatables";
 import {OptInsCollection,RecipientsCollection, SendersCollection} from "meteor/doichain:doichain-meteor-api";
 import {useSubscription, useTracker} from "react-meteor-hooks"
-import _ from 'lodash';
 
 import {withStyles} from "@material-ui/core";
 import TableRow from "@material-ui/core/TableRow";
@@ -13,21 +12,29 @@ const styles = {
 };
 
 let data = []
-let permissions = []
+let confirmations = []
 
 let options = {
     filterType: "dropdown",
     resizableColumns:true,
     expandableRows:true,
     renderExpandableRow: (rowData, rowMeta) => {
-        console.log(rowData, rowMeta);
+        const valueJSON = (confirmations[rowMeta.dataIndex].value!==undefined)?JSON.parse(confirmations[rowMeta.dataIndex].value):''
+        const signature = (valueJSON!==undefined)?valueJSON.signature:""
+        const from =  (valueJSON!==undefined)?valueJSON.from!==undefined?valueJSON.from:"":""
+
         return (
             <TableRow>
                 <TableCell colSpan={rowData.length}>
-                    NameId: {permissions[rowMeta.dataIndex].nameId} <br/>
-                    TxId: {permissions[rowMeta.dataIndex].txId} <br/>
-                    States: {permissions[rowMeta.dataIndex].status} <br/>
-                    Errors: {permissions[rowMeta.dataIndex].error?permissions[rowMeta.dataIndex].error:'none'}
+                    NameId: {confirmations[rowMeta.dataIndex].nameId} <br/>
+                    Domain: {confirmations[rowMeta.dataIndex].domain} <br/>
+                    Address: {confirmations[rowMeta.dataIndex].address} <br/>
+                    TxId: {confirmations[rowMeta.dataIndex].txId} <br/>
+                    Confirmations: {confirmations[rowMeta.dataIndex].confirmations} <br/>
+                    States: {confirmations[rowMeta.dataIndex].status} <br/>
+                    Signature: {signature} <br/>
+                    From: {from.substring(0,50)}  <br/>
+                    Errors: {confirmations[rowMeta.dataIndex].error?confirmations[rowMeta.dataIndex].error:'none'}
                 </TableCell>
             </TableRow>
         );
@@ -39,10 +46,10 @@ let options = {
     onRowsDelete: (rowsData) => {
         console.log("onRowsDelete1",rowsData)
 
-        console.log(permissions[0]._id)
-        Meteor.call("opt-ins.remove", permissions[0]._id, (error, val) => {
+        console.log(confirmations[0]._id)
+        Meteor.call("opt-ins.remove", confirmations[0]._id, (error, val) => {
             if(!error) {
-                console.log('deleted:'+ permissions[0]._id)
+                console.log('deleted:'+ confirmations[0]._id)
             }else{
                 console.log(val)
             }
@@ -65,6 +72,12 @@ const OptIns = props => {
         },
         {
             name: "NameId",
+            options: {
+                filter: true
+            }
+        },
+        {
+            name: "Domain",
             options: {
                 filter: true
             }
@@ -107,18 +120,19 @@ const OptIns = props => {
     ];
 
     const loading = useSubscription('confirmations.all')
-    permissions = useTracker(() => OptInsCollection.find({})).fetch()
+    confirmations = useTracker(() => OptInsCollection.find({})).fetch()
 
 
     if(!loading){
         data = []
-        permissions.map(doc => {
+        confirmations.map(doc => {
             // const _id = doc._id;
             const createdAt = doc.createdAt.toISOString()
             const nameId = doc.nameId ? doc.nameId : "";
             const txId = doc.txId ? doc.txId : "";
             const status = doc.status;
-            const newRecord = [createdAt, nameId,status];
+            const domain = doc.domain;
+            const newRecord = [createdAt, nameId,domain,status];
             data.push(newRecord);
         });
         //see: https://www.material-ui-datatables.com/

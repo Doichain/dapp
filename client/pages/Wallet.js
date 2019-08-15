@@ -40,6 +40,21 @@ const styles = {
 const Wallet = props => {
     const currentUser = useCurrentUser()
 
+    const rescanBlockchain = e => {
+        e.preventDefault();
+
+        console.log('rescanning blockchain')
+
+        Meteor.call("doichain.rescan", (error, val) => {
+            if(!error) {
+                console.log('rescan',val)
+            }else{
+                console.log('rescan',error)
+            }
+        })
+    }
+
+
     const requestEmailPermission = e => {
         e.preventDefault();
 
@@ -102,6 +117,9 @@ const Wallet = props => {
                                 Balance (DOI): <b><Balance/></b> <br/>
                                 Unconfirmed Balance (DOI): <b><UnconfirmedBalance/></b> <br/>
                             </Typography>
+                            <form onSubmit={rescanBlockchain}>
+                               <input type={"submit"} value={"Rescan"}/>
+                            </form>
                         </CardContent>
                     </Card>
                 </Grid>
@@ -109,9 +127,9 @@ const Wallet = props => {
                     <Card className={props.classes.card}>
                         <CardContent>
                             <Typography className={props.classes.title} color="textSecondary" gutterBottom>
-                                DOI requested Doichain all <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLREQUESTEDDOIS} /></b><br/>
-                                DOI requested this Doichain dApp <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURREQUESTEDDOIS} /></b><br/>
-                                DOI requested by user {currentUser.username} <b>?</b><br/>
+                                <b>Doichain all </b><br/>
+                                DOI requested: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLREQUESTEDDOIS} /></b><br/>
+                                DOI confirmed: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLCONFIRMEDDOIS} /></b><br/>
                             </Typography>
                         </CardContent>
                     </Card>
@@ -120,9 +138,9 @@ const Wallet = props => {
                     <Card className={props.classes.card}>
                         <CardContent>
                             <Typography className={props.classes.title} color="textSecondary" gutterBottom>
-                                DOI confirmed Doichain all <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLCONFIRMEDDOIS} /></b><br/>
-                                DOI confirmed this Doichain dApp <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLCONFIRMEDDOIS} /></b><br/>
-                                DOI confirmed by user {currentUser.username}  <b>?</b><br/>
+                                <b>This Doichain Node </b><br/>
+                                DOI requested: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURREQUESTEDDOIS} /></b><br/>
+                                DOI confirmed: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURCONFIRMEDDOIS} /></b><br/>
                             </Typography>
                         </CardContent>
                     </Card>
