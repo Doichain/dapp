@@ -17,6 +17,7 @@ import {
     BLOCKCHAIN_INFO_VAL_ALLREQUESTEDDOIS,
     BLOCKCHAIN_INFO_VAL_ALLCONFIRMEDDOIS,
     BLOCKCHAIN_INFO_VAL_OURREQUESTEDDOIS,
+    BLOCKCHAIN_INFO_VAL_OURRECEIVEDDOIS,
     BLOCKCHAIN_INFO_VAL_OURCONFIRMEDDOIS
 } from "meteor/doichain:doichain-meteor-api"
 
@@ -140,7 +141,8 @@ const Wallet = props => {
                             <Typography className={props.classes.title} color="textSecondary" gutterBottom>
                                 <b>This Doichain Node </b><br/>
                                 DOI requested: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURREQUESTEDDOIS} /></b><br/>
-                                DOI confirmed: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURCONFIRMEDDOIS} /></b><br/>
+                                DOI received Validator: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURRECEIVEDDOIS} /></b><br/>
+                                DOI confirmed by Validator: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_OURCONFIRMEDDOIS} /></b><br/>
                             </Typography>
                         </CardContent>
                     </Card>
