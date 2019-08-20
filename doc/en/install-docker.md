@@ -69,13 +69,13 @@ docker run -d --network doinet --name mongo \
       }
     )
     
-    use doichain-test
+    use doichain-testnet
     db.createUser(
       {
-        user: "doichain-test",
-        pwd: "doichain-test",
+        user: "doichain-testnet",
+        pwd: "doichain-testnet",
         roles: [
-           { role: "readWrite", db: "doichain-test" }
+           { role: "readWrite", db: "doichain-testnet" }
         ]
       }
     )
