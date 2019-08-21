@@ -89,6 +89,8 @@ docker run -d --network doinet --name mongo \
 -e TESTNET=true \
 -e MONGO_URL="mongodb://doichain-testnet:doichain-testnet@mongo:27017/doichain-testnet" \
 -e DAPP_HOST=<ip-or-hostname.your-domain.org> \
+-e DAPP_PORT=3000 \
+-e HTTP_PORT=3000  \
 -e DAPP_SSL=false \
 -e DAPP_DEBUG=true   \
 -e DAPP_CONFIRM='true'  \
@@ -104,7 +106,7 @@ docker run -d --network doinet --name mongo \
 -e RPC_HOST=localhost  \
 -p 3000:3000 -p 18338:18338 -p 18339:18339 \
 -v doichain-testnet-data:/home/doichain/data  \
-doichain/dapp:0.0.9
+doichain/dapp-testnet:0.0.9.30
 
 ```
 - check if dApp is running http://<ip-or-hostname>:3000
