@@ -1,11 +1,11 @@
-# Docker Installation Doichain Node und dApp
+# Docker Installation Doichain Node and dApp
 
 ## preconditions for DOI-requester installing "Send - dApp"
 - public IP-address and hostname (we recommend doichain.<your-domain.com>)
 - ssl certificate for nginx for above stated domain
 - prepare at least one email template for your DOI request email (if not provided, default is used)
 
-## in case you want to install a Doichain Double-Opt-In validator
+#### in case you want to install a Doichain Double-Opt-In validator
 - SMTP server for outgoing DOI-Emails 
 - defaultFrom (z.B. doichain@your-domain.com)
 - edit your DNS-Zone of <your-domain.com> (txt value with doichain public key)
