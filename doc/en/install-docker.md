@@ -91,6 +91,7 @@ docker run -d --network doinet --name mongo \
 -e DAPP_HOST=<ip-or-hostname.your-domain.org> \
 -e DAPP_PORT=3000 \
 -e HTTP_PORT=3000  \
+-e DAPP_DOI_URL=http://localhost:3000/api/v1/debug/mail \
 -e DAPP_SSL=false \
 -e DAPP_DEBUG=true   \
 -e DAPP_CONFIRM='true'  \
