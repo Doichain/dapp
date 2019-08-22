@@ -242,7 +242,16 @@ curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
             ```json
             {"text":"","html":""}
             ```
-
+* Example request:
+```sh
+curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: Nqa7aNhvE-e2ROE_kBWhUmHwpscqpEfS5J-nIbwEDv_" -H "X-User-Id: izGMmYSx5ZgSARBcd" http://116.203.197.171:3000/api/v1/users -d '{
+"username":"peter", 
+"password":"balicoworking", 
+"email":"peter@bali-coworking.org", 
+"mailTemplate":{"subject":"Email permission request of Peter from Bali Coworking",
+"redirect":"http://www.doichian.org",
+"returnPath":"peter@bali-coworking.org",
+"templateURL":"http://put-your-template-url.here.txt"}}'```
 * Success-Response:
 ```json
 {
@@ -280,7 +289,7 @@ curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
 * Note: This uses ``PUT`` method. It will overwrite all data in ``mailTemplate`` !
 * Example request:
 ```sh
-curl -X PUT -H "Content-Type: application/json" -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-User-Id: 8BxFMSZAc7Ez2iiR6" http://localhost:3000/api/v1/users/8BxFMSZAc7Ez2iiR6 -d '{"mailTemplate":{"subject":"changedSubject","redirect":"RedirectPage","returnPath":"ReturnAddress","templateURL":"changedTemplateURL"}}'
+curl -X PUT -H "Content-Type: application/json" -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k" -H "X-User-Id: 8BxFMSZAc7Ez2iiR6" http://localhost:3000/api/v1/users/8BxFMSZAc7Ez2iiR6 -d '{"mailTemplate":{"subject":"changedSubject","redirect":"RedirectPage","returnPath":"ReturnAddress","templateURL":"changedTemplateURL"}}'
 ```
 * Success-Response:
 ```json
