@@ -159,7 +159,7 @@ const User = props => {
                         defaultColumn
                     },
                     {
-                        Header: 'Redirect URL (after confirmation)',
+                        Header: 'Template URL (after confirmation)',
                         accessor: 'profile.mailTemplate.templateURL',
                         defaultColumn
                     }
