@@ -1,5 +1,16 @@
+import { Meteor } from 'meteor/meteor';
+
 Meteor.publish('users.user', function () {
-  if (this.userId) {
+
+  if(Roles.userIsInRole(this.userId, 'admin')){
+    return Meteor.users.find({},  {
+      fields: {
+        'emails': 1,
+        'profile': 1,
+        'services': 1
+      },
+    });
+  } else {
     return Meteor.users.find({
       _id: this.userId
     }, {
@@ -9,7 +20,5 @@ Meteor.publish('users.user', function () {
         'services': 1
       }
     })
-  } else {
-    return this.ready()
   }
 })

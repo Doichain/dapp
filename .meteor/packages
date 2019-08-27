@@ -31,3 +31,4 @@ accounts-base@1.4.3
 static-html
 email@1.2.3
 doichain:doichain-meteor-api
+alanning:roles

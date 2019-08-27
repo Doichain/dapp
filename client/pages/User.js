@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import MUIDataTable from "mui-datatables";
 import {useSubscription, useTracker} from "react-meteor-hooks"
-import {OptInsCollection} from "meteor/doichain:doichain-meteor-api";
 
 let data = [{createdAt:'user1'},{createdAt:'user1'},{createdAt:'user1'}]
 let users = []
@@ -50,7 +49,7 @@ const User = props => {
     ]
 
     const loading = useSubscription('users.user')
-    users = useTracker(() => Meteor.users.find({})).fetch()
+    users = useTracker(() => Meteor.users.find({}))
     console.log(users)
     if(!loading ){
         data = []
