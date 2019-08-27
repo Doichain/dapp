@@ -244,7 +244,7 @@ curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
             ```
 * Example request:
 ```sh
-curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: Nqa7aNhvE-e2ROE_kBWhUmHwpscqpEfS5J-nIbwEDv_" -H "X-User-Id: izGMmYSx5ZgSARBcd" http://116.203.197.171:3000/api/v1/users -d '{
+curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: Nqa7aNhvE-e2ROE_kBWhUmHwpscqpEfS5J-nIbwEDv_" -H "X-User-Id: izGMmYSx5ZgSARBcd" http://localhost:3000/api/v1/users -d '{
 "username":"peter", 
 "password":"balicoworking", 
 "email":"peter@bali-coworking.org", 
