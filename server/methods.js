@@ -2,7 +2,6 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { Meteor } from 'meteor/meteor';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 
-
 const usersUpdate = new ValidatedMethod({
     name: 'users.update',
     validate: null,
@@ -23,7 +22,6 @@ const usersUpdate = new ValidatedMethod({
 });
 
 
-// Get list of all method names on doichain
 const OPTIONS_METHODS = _.pluck([usersUpdate], 'name');
 
 if (Meteor.isServer) {
