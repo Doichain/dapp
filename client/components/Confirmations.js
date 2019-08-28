@@ -2,14 +2,8 @@ import React from "react"
 import MUIDataTable from "mui-datatables";
 import {OptInsCollection,RecipientsCollection, SendersCollection} from "meteor/doichain:doichain-meteor-api";
 import {useSubscription, useTracker} from "react-meteor-hooks"
-
-import {withStyles} from "@material-ui/core";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-
-const styles = {
-
-};
 
 let data = []
 let confirmations = []
@@ -150,7 +144,7 @@ const OptIns = props => {
     )
 
 }
-export default withStyles(styles)(OptIns);
+export default OptIns;
 /*
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);

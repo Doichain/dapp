@@ -1,18 +1,19 @@
 import React  from 'react'
-import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import Chain from "../components/Chain";
-import Blocks from "../components/Blocks";
-import Difficulty from "../components/Difficulty";
-import SizeOnDisk from "../components/SizeOnDisk";
-import Balance from "../components/Balance";
-import UnconfirmedBalance from "../components/UnconfirmedBalance";
+import Grid from "@material-ui/core/Grid"
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
+import Typography from "@material-ui/core/Typography"
+import Chain from "../components/Chain"
+import Blocks from "../components/Blocks"
+import Difficulty from "../components/Difficulty"
+import SizeOnDisk from "../components/SizeOnDisk"
+import Balance from "../components/Balance"
+import UnconfirmedBalance from "../components/UnconfirmedBalance"
 import AdressesByAccount from "../components/AddressesByAcccount"
-import {withStyles} from "@material-ui/core";
-import {useCurrentUser} from "react-meteor-hooks";
-import MetaData from "../components/MetaData";
+import RescanButton from "../components/RescanButton"
+import GenerateBlockButton from "../components/GenerateBlockButton"
+import {withStyles} from "@material-ui/core"
+import MetaData from "../components/MetaData"
 import {
     BLOCKCHAIN_INFO_VAL_ALLREQUESTEDDOIS,
     BLOCKCHAIN_INFO_VAL_ALLCONFIRMEDDOIS,
@@ -40,22 +41,6 @@ const styles = {
 
 
 const Wallet = props => {
-    const currentUser = useCurrentUser()
-
-    const rescanBlockchain = e => {
-        e.preventDefault();
-
-        console.log('rescanning blockchain')
-
-        Meteor.call("doichain.rescan", (error, val) => {
-            if(!error) {
-                console.log('rescan',val)
-            }else{
-                console.log('rescan',error)
-            }
-        })
-    }
-
 
     const requestEmailPermission = e => {
         e.preventDefault();
@@ -71,8 +56,6 @@ const Wallet = props => {
                 console.log('requestEmailPermission',error)
             }
         })
-
-
     }
 
     const sendCoins= e => {
@@ -91,7 +74,6 @@ const Wallet = props => {
             }
         })
         console.log(`sendToAddress address:${address} amount:${amount} `)
-
     }
 
     return (
@@ -119,9 +101,8 @@ const Wallet = props => {
                                 Balance (DOI): <b><Balance/></b> <br/>
                                 Unconfirmed Balance (DOI): <b><UnconfirmedBalance/></b> <br/>
                             </Typography>
-                            <form onSubmit={rescanBlockchain}>
-                               <input type={"submit"} value={"Rescan"}/>
-                            </form>
+                            <RescanButton/>
+                            <GenerateBlockButton/>
                         </CardContent>
                     </Card>
                 </Grid>
