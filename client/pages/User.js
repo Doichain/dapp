@@ -1,7 +1,7 @@
 import React,{ useState,useEffect } from 'react'
 import styled from 'styled-components'
 import { useTable } from 'react-table'
-import {useSubscription,useTracker} from "react-meteor-hooks"
+import {useSubscription,useTracker,useMethod} from "react-meteor-hooks"
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 
 checkNpmVersions({
@@ -41,7 +41,7 @@ const Styles = styled.div`
   }
 `
 
-// Create an editable cell renderer
+
 const EditableCell = ({
                           cell: { value: initialValue },
                           row: { index },
@@ -64,19 +64,11 @@ const EditableCell = ({
     React.useEffect(() => {
         setValue(initialValue)
     }, [initialValue])
-   /* if(value.toString() === "true" || value.toString() === "false"){
-        return (
-            <select onChange={onChange} onBlur={onBlur}>
-                <option value={"true"}>true</option>
-                <option value={"false"}>false</option>
-            </select>
-        )
-    }
-    else*/
-        return <input value={value} onChange={onChange} onBlur={onBlur} />
+
+    return <input value={value} onChange={onChange} onBlur={onBlur} />
 }
 
-const defaultColumn = {
+const editableColumn = {
     Cell: EditableCell,
 }
 
@@ -85,7 +77,7 @@ function Table({ columns, data, updateMyData, disablePageResetOnDataChange }) {
     const { getTableProps, headerGroups, rows, prepareRow } = useTable({
         columns,
         data,
-        defaultColumn,
+        defaultColumn: editableColumn,
         disablePageResetOnDataChange,
         // updateMyData isn't part of the API, but
         // anything we put into these options will
@@ -132,7 +124,8 @@ const User = props => {
                 columns: [
                     {
                         Header: 'Username',
-                        accessor: 'username'
+                        accessor: 'username',
+                        Cell: ({ cell: { value } }) => value?value:''
                     },
                     {
                         Header: 'Email',
@@ -146,28 +139,30 @@ const User = props => {
                     {
                         Header: 'Email Subject',
                         accessor: 'profile.mailTemplate.subject',
-                        defaultColumn
+                        defaultColumn: editableColumn
                     },
                     {
                         Header: 'Redirect URL (after confirmation)',
                         accessor: 'profile.mailTemplate.redirect',
-                        defaultColumn
+                        defaultColumn: editableColumn
                     },
                     {
                         Header: 'returnPath (email)',
                         accessor: 'profile.mailTemplate.returnPath',
-                        defaultColumn
+                        defaultColumn: editableColumn
                     },
                     {
                         Header: 'Template URL (after confirmation)',
                         accessor: 'profile.mailTemplate.templateURL',
-                        defaultColumn
+                        defaultColumn: editableColumn
                     }
                 ],
             }
         ],
         []
     )
+
+    const usersUpdate  = useMethod('users.update')
 
     // We need to keep the table from resetting the pageIndex when we
     // Update data. So we can keep track of that flag with a ref.
@@ -178,10 +173,9 @@ const User = props => {
     const updateMyData = (rowIndex, columnID, value) => {
         // We also turn on the flag to not reset the page
         skipPageResetRef.current = true
-        console.log("updating id: "+listItems[rowIndex]._id+" data with value: "+value+" and key:",listItems[rowIndex].key)
-        //hook method call Meteor.user.update({_id: listItems[rowIndex]._id},{$set:{value:value}})
+        usersUpdate.call({_id:listItems[rowIndex]._id,columnID:columnID,value:value})
 
-         setData(old =>
+        setData(old =>
               old.map((row, index) => {
                   if (index === rowIndex) {
                       console.log(columnID, value)
@@ -211,14 +205,9 @@ const User = props => {
     }
 
     const [data, setData] =  useState(listItems)
-    const [originalData,setOriginalData] = useState(listItems)
-    // Let's add a data resetter/randomizer to help
-    // illustrate that flow...
-    const resetData = () => setData(originalData)
 
     useEffect( () => {
         setData(listItems)
-        setOriginalData(listItems)
     }, [loading]);
     return (
         <Styles>
@@ -228,7 +217,6 @@ const User = props => {
                 data={data}
                 disablePageResetOnDataChange={skipPageResetRef.current}
             />
-            <button onClick={resetData}>Reset Data</button>
         </Styles>
     )
 }
