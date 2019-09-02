@@ -21,7 +21,7 @@ const App = props => {
     const [state, setState] = useState({
         theme : "material-ui"
     });
-
+    // <Route path='/permissions' component={PermissionsPage} />
     return (
       <Fragment>
         <Router>
@@ -36,7 +36,7 @@ const App = props => {
                   )} />
 
                     <Route path='/wallet' component={Wallet} />
-                    <Route path='/permissions' component={PermissionsPage} />
+
                     <Route path='/confirmations' component={ConfirmationsPage} />
                     <Route path='/users' component={User} />
                     <Route path='/settings' component={Settings} />

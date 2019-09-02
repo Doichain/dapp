@@ -90,6 +90,17 @@ store.drawerOpen = true;
 const DoichainDrawer = props => {
 
     const [drawerOpen, setDrawerOpen] = useStore(); // https://reactjs.org/docs/hooks-intro.html
+
+   /* <List> TODO remove when not needed anymore
+        {['Permissions'].map((text, index) => (
+            <NavLink exact to='/permissions' activeClassName='hide' key={index}>
+                <ListItem button key={text}>
+                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                    <ListItemText primary={text} />
+                </ListItem>
+            </NavLink>
+        ))}
+    </List> */
     return (
         <Drawer
             className={props.classes.drawer}
@@ -117,16 +128,6 @@ const DoichainDrawer = props => {
                 ))}
             </List>
             <Divider />
-            <List>
-                {['Permissions'].map((text, index) => (
-                    <NavLink exact to='/permissions' activeClassName='hide' key={index}>
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    </NavLink>
-                ))}
-            </List>
             <List>
                 {['Confirmations'].map((text, index) => (
                     <NavLink exact to='/confirmations' key={index}>

@@ -11,6 +11,8 @@ const GenerateBlockButton = props => {
         generateBlockMethod.call({blocks:1})
     }
 
+    //TODO only display button if on regtest network !
+    // if(isRegtest)
     return (
         <button onClick={generateBlock} onTouchEnd={generateBlock}>Generate Block</button>
     );
