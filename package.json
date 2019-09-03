@@ -48,6 +48,7 @@
     "bcrypt": "^3.0.6",
     "history": "^4.9.0",
     "invariant": "^2.2.4",
+    "match-sorter": "^4.0.1",
     "meteor-node-stubs": "^0.3.3",
     "mui-datatables": "^2.4.0",
     "proptypes": "^1.1.0",

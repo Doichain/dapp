@@ -77,6 +77,30 @@ const OptIns = props => {
             }
         },
         {
+            name: "receivedByValidator",
+            options: {
+                filter: true
+            }
+        },
+        {
+            name: "confirmedByValidator",
+            options: {
+                filter: true
+            }
+        },
+        {
+            name: "ourRequestedDoi",
+            options: {
+                filter: true
+            }
+        },
+        {
+            name: "ourRequestedAndConfirmedDois",
+            options: {
+                filter: true
+            }
+        },
+        {
             name: "Status",
             options: {
                 filter: false,
@@ -126,7 +150,11 @@ const OptIns = props => {
             const txId = doc.txId ? doc.txId : "";
             const status = doc.status;
             const domain = doc.domain;
-            const newRecord = [createdAt, nameId,domain,status];
+            const newRecord = [createdAt, nameId,domain,status,
+                doc.receivedByValidator,
+                doc.confirmedByValidator,
+                doc.ourRequestedDoi,
+                doc.ourRequestedAndConfirmedDois];
             data.push(newRecord);
         });
         //see: https://www.material-ui-datatables.com/

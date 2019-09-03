@@ -23,7 +23,7 @@ ddp-rate-limiter@1.0.7
 ddp-server@2.3.0
 deps@1.0.12
 diff-sequence@1.1.1
-doichain:doichain-meteor-api@0.3.12
+doichain:doichain-meteor-api@0.3.13
 doichain:settings@0.3.1
 dynamic-import@0.5.1
 ecmascript@0.12.7
