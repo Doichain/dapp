@@ -1,6 +1,9 @@
 # Doichain dApp
 A reference implementation of the "Doichain Atomic Double-Opt-In Protocol"
 
+Note: This is still experimental software. This module is not intended for use in production environments, or for use where real money is at stake, at this point.
+Please contact developers over Telegram @doichain for questions.
+
 ## Table of Contents
 - [Manual Installation](doc/en/install-manual-linux.md) (en) [Manual Installation](doc/de/install-manual-linux.md) (de)
 - [Docker Installation](doc/en/install-docker.md)
