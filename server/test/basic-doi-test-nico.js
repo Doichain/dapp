@@ -28,7 +28,7 @@ if(Meteor.isAppTest) {
     dns.setServers([
         '127.0.0.1',
     ]); //we use our own dns in order to resolve the ci-doichain.org test domain including its TXT entry
-    describe('nico-doi-tests', function () {
+    xdescribe('nico-doi-tests', function () {
         this.timeout(0);
 
         before(function () {

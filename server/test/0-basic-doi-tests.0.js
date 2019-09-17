@@ -24,13 +24,11 @@ if(Meteor.isAppTest) {
     global.rpcAuth = "admin:generated-password";
 
     global.privKeyAlice = "cNEuvnaPVkW7Xp3JS49k9aSqMBe4LSyws3aq1KvCU1utSDLtT9Dj";
-    global.privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
+    global.privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj"; //validator
 
     global.dappUrlAlice = "http://localhost:3000";
     global.dappUrlBob = global.inside_docker?"http://172.20.0.8:4000":"http://localhost:4000";
     global.dAppLogin = {"username":"admin","password":"password"};
-
-
 
     describe('basic-doi-test-0', function () {
         this.timeout(0);
