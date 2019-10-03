@@ -56,7 +56,7 @@ const ConfirmationsPage = props => {
                             return (value&&value===true)?'1':'0'
                         }
                     },
-                    {
+                 /*   {
                         Header: 'CBV',
                         accessor: 'confirmedByValidator',
                         Cell: ({ cell: { value } }) => {
@@ -76,7 +76,7 @@ const ConfirmationsPage = props => {
                         Cell: ({ cell: { value } }) => {
                             return (value&&value===true)?'1':'0'
                         }
-                    }
+                    } */
                 ],
             }
         ],
