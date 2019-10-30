@@ -50,7 +50,7 @@ docker network create doinet
 docker volume create doichain-testnet-db
 #for mainnet
 docker volume create doichain
-docker run -d --network doinet --name mongo \
+docker run -d --restart always --network doinet --name mongo \
     -v doichain-testnet-db:/data/db \
     -e MONGO_INITDB_ROOT_USERNAME=admin \
     -e MONGO_INITDB_ROOT_PASSWORD=secret \
