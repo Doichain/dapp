@@ -149,7 +149,7 @@ const ConfirmationsPage = props => {
             <div>
                 <div>
                 <pre>filters:
-                  <code>{JSON.stringify(state[0].filters, null, 2)}</code>
+                  <code>{(state && state.length>0 && state[0])?JSON.stringify(state[0].filters, null, 2):''}</code>
                 </pre>
             </div>
             <table {...getTableProps()}>
