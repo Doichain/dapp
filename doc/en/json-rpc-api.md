@@ -1,4 +1,4 @@
-# Doichain dApp - REST-API
+# Doichain dApp - JSON-RPC-API
 
 ## Table of Contents
 - [Authentication](#authentication)
@@ -10,17 +10,17 @@
 - [Calls (Verify - dApp)](#calls--verify---dapp-)
     - [Verify Opt-In](#verify-opt-in)
     - [Verify Local](#verify-local)
-- [Export (Opt-Ins)](#export)    
+- [Export (Opt-Ins)](#export)
 - [Calls (Users)](#calls--users-)
     - [Create user](#create-user)
     - [Update user](#update-user)
-        
-## REST API
-List of REST API calls for the version 1.
+
+## JSON-RPC-API
+List of JSON-RPC-API calls for the version 1.
 All call urls in version 1 start with ``/api/v1/``
 
 ### Authentication
-You need a valid token for some of the REST calls. Get the token with:
+You need a valid token for some of the RPC calls. Get the token with:
 
 * Url: ``login``
 * Parameter:
@@ -98,7 +98,7 @@ curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: TNjWzy1IaGLj9
         + ``redirect url`` - Url where the customer should be redirected to
 
 ### Calls (Verify - dApp)
-##### Verify Opt-In 
+##### Verify Opt-In
 * Description: verify on any known dApp all four parameters mandatory
 * Auth required: No
 * Url: ``opt-in/verify``
@@ -108,8 +108,8 @@ curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: TNjWzy1IaGLj9
     + ``sender_mail`` - Email of the sender
     + ``name_id`` - Blockchain entry name id
     + ``recipient_public_key`` - Public key of the recipient
-    
-##### Verify Local 
+
+##### Verify Local
 * verify email permission on own local dApp with sender email and recipients email only
 * Auth required: Yes
 * Role required: ``admin``
@@ -118,7 +118,7 @@ curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: TNjWzy1IaGLj9
 * Parameter:
     + ``recipient_mail`` - Email of the recipient
     + ``sender_mail`` - Email of the sender
-    
+
 #### Export
 * Auth required: yes
 * Role required: ``none``
@@ -126,7 +126,7 @@ curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: TNjWzy1IaGLj9
 * Method: ``GET``
 * Query-Parameter:
     + ``status`` - not yet working
-    + ``ownerid`` - (ADMIN ONLY,OPTIONAL) userId of specific Opt-in owner 
+    + ``ownerid`` - (ADMIN ONLY,OPTIONAL) userId of specific Opt-in owner
 * Example request:
 ```sh
 curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-User-Id: 8BxFMSZAc7Ez2iiR6" http://localhost:3000/api/v1/export
