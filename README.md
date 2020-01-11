@@ -7,7 +7,7 @@ Please contact developers over Telegram @doichain for questions.
 ## Table of Contents
 - [Manual Installation](doc/en/install-manual-linux.md) (en) [Manual Installation](doc/de/install-manual-linux.md) (de)
 - [Docker Installation](doc/en/install-docker.md)
-- [REST-API](doc/en/rest-api.md)
+- [JSON-RPC-API](doc/en/json-rpc-api.md)
 - [Setting up a Doichain Development Environment via RegTest](doc/en/dev-env-regtest.md)
 - [Setting up a Doichain Development Environment via Testnet](doc/en/dev-env-testnet.md)
 - [Bounty Program](doc/en/bounty.md)
