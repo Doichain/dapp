@@ -1,7 +1,7 @@
 # Setting up a Doichain Development Environment via RegTest
 
 1. Clone Repository ```git clone https://github.com/Doichain/dapp.git doichain-dapp; cd doichain-dapp/```
-2. Install Docker and Docker Compose and run ```docker-compose -f docker-compose-test-regtest.yml up``` to setup the development environment
+2. Install Docker and Docker Compose and run ```docker-compose -f contrib/docker/docker-compose-test-regtest.yml up``` to setup the development environment
     - mongo server running on port 28017 (db alice and db bob)
     - bind (dns) server running (serving test domain ci-doichain.org with TXT records holding doichain public-key)
     - mail server (smtp, pop) running on smtp port 25 (and pop3 for user alice and usr bob)
