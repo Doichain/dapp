@@ -2,7 +2,8 @@
 
 ## Table of Contents
 - [Authentication](#authentication)
-- [Calls (Send - dApp) Request a Double-Opt-In](#calls--send---dapp-)
+- [Verify your sender-email](#verify-sender-email)
+- [Request a Double-Opt-In](#rpc-calls--send---dapp-)
     - [Create Opt-In](#create-opt-in)
     - [Get Double Opt-In mail data](#get-double-opt-in-mail-data)
 - [Calls (Confirm - dApp) Confirm a Double-Opt-In via email/browser](#calls--confirm---dapp-)
@@ -48,8 +49,37 @@ X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k
 X-User-Id: 8BxFMSZAc7Ez2iiR6
 ```
 
+### Verify Sender Email
+* Auth required: yes
+* Role required: ``none``
+* Url: ``email/verify``
+* Method: ``POST``
+* Query-Parameter:
+    + ``sender_mail`` - Email of the sender which should be verified over Doichain
+* Example request:
+```sh
+curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token:hrCWbYhIT1QcNyb27yIvemaHOavWHj-Rt6QpEyDv0HO" -H "X-User-Id: GcqBF3aAQmp4X3ELZ" http://localhost:3000/api/v1/email/verify -d '{"sender_mail":"bob@ci-doichain.org"}'
+```
+* Success-Response:
+```json
+{
+  "status": "success",
+  "data": {
+    "txData": [...],
+    "status": "success",
+    "message": "Email address sent to validator(s)"
+  }
+}
+```
+* Fail-Response:
+```json
+{
+  "status": "fail",
+  "message": "Error: queryTxt ECONNREFUSED doichain.org [dns.getOptInKey.exception]"
+}
+```
 
-### Calls (Send - dApp)
+### RPC-Calls (Send - dApp)
 ##### Create Opt-In
 * Auth required: yes
 * Role required: ``none``
