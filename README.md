@@ -5,7 +5,7 @@ Note: This is still experimental software. This module is not intended for use i
 Please contact developers over Telegram @doichain for questions.
 
 ## Table of Contents
-- [Manual Installation](doc/en/install-manual-linux.md) (en) [Manual Installation](doc/de/install-manual-linux.md) (de)
+- [Manual Installation](doc/en/install-manual-linux.md)
 - [Docker Installation](doc/en/install-docker.md)
 - [JSON-RPC-API](doc/en/json-rpc-api.md)
 - [Setting up a Doichain Development Environment via RegTest](doc/en/dev-env-regtest.md)

@@ -21,9 +21,7 @@
     "test-watch": "TEST_BROWSER_DRIVER=chrome TEST_WATCH=1 meteor test --driver-package meteortesting:mocha",
     "test-app-watch": "TEST_BROWSER_DRIVER=chrome TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "test-watch-browser": "TEST_WATCH=1 meteor test --driver-package meteortesting:mocha",
-    "test-app-watch-browser": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "test-app-watch-browser": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha"
   },
   "eslintConfig": {
     "extends": "@meteorjs/eslint-config-meteor",

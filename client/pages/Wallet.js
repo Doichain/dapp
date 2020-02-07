@@ -20,7 +20,9 @@ import {
     BLOCKCHAIN_INFO_VAL_OURREQUESTEDDOIS,
     BLOCKCHAIN_INFO_VAL_OURREQUESTEDANDCONFIRMEDDOIS,
     BLOCKCHAIN_INFO_VAL_OURRECEIVEDDOIS,
-    BLOCKCHAIN_INFO_VAL_OURCONFIRMEDDOIS
+    BLOCKCHAIN_INFO_VAL_OURCONFIRMEDDOIS,
+    BLOCKCHAIN_INFO_VAL_ALLREQUESTEDEMAILVERIFICATIONS,
+    BLOCKCHAIN_INFO_VAL_ALLCONFIRMEDEMAILVERIFICATIONS
 } from "meteor/doichain:doichain-meteor-api"
 
 const styles = {
@@ -44,7 +46,6 @@ const Wallet = props => {
 
     const requestEmailPermission = e => {
         e.preventDefault();
-
         const recipientMail = e.target.recipientMail.value;
         const senderEmail = e.target.senderEmail.value;
         console.log('handleCoin clicked: email',recipientMail)
@@ -113,6 +114,8 @@ const Wallet = props => {
                                 <b>Doichain all </b><br/>
                                 DOI requested: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLREQUESTEDDOIS} /></b><br/>
                                 DOI confirmed: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLCONFIRMEDDOIS} /></b><br/>
+                                Email Verifications requested: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLREQUESTEDEMAILVERIFICATIONS} /></b><br/>
+                                Email Verifications confirmed: <b><MetaData metakey={BLOCKCHAIN_INFO_VAL_ALLCONFIRMEDEMAILVERIFICATIONS} /></b><br/>
                             </Typography>
                         </CardContent>
                     </Card>

@@ -23,7 +23,7 @@ ddp-rate-limiter@1.0.7
 ddp-server@2.3.0
 deps@1.0.12
 diff-sequence@1.1.1
-doichain:doichain-meteor-api@0.3.38
+doichain:doichain-meteor-api@0.3.40
 doichain:settings@0.3.1
 dynamic-import@0.5.1
 ecmascript@0.14.0
@@ -52,6 +52,7 @@ mdg:validated-method@1.2.0
 meteor@1.9.3
 meteor-base@1.4.0
 meteoreact:accounts@1.2.3
+meteorhacks:async@1.0.0
 meteortesting:browser-tests@1.3.1
 meteortesting:mocha@1.1.4
 meteortesting:mocha-core@7.0.0
