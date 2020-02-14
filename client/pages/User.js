@@ -137,6 +137,11 @@ const User = props => {
                 Header: 'Mail Template',
                 columns: [
                     {
+                        Header: 'Sender Name',
+                        accessor: 'profile.mailTemplate.senderName',
+                        defaultColumn: editableColumn
+                    },
+                    {
                         Header: 'Email Subject',
                         accessor: 'profile.mailTemplate.subject',
                         defaultColumn: editableColumn
@@ -197,9 +202,10 @@ const User = props => {
         users.map(doc => {
             const _id = doc._id;
             const username = doc.username;
+            const senderName = doc.senderName;
             const email = doc.emails[0].address
             const profile = doc.profile;
-            const newRecord = {_id, username, email,profile};
+            const newRecord = {_id, username, senderName, email,profile};
             listItems.push(newRecord);
         });
     }
