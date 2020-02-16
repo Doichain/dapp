@@ -58,7 +58,7 @@ X-User-Id: 8BxFMSZAc7Ez2iiR6
     + ``sender_mail`` - Email of the sender which should be verified over Doichain
 * Example request:
 ```sh
-curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token:hrCWbYhIT1QcNyb27yIvemaHOavWHj-Rt6QpEyDv0HO" -H "X-User-Id: GcqBF3aAQmp4X3ELZ" http://localhost:3000/api/v1/email/verify -d '{"sender_mail":"bob@ci-doichain.org"}'
+curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token:xzy789" -H "X-User-Id: abc123" http://localhost:3000/api/v1/email/verify -d '{"sender_mail":"bob@ci-doichain.org"}'
 ```
 * Success-Response:
 ```json
@@ -101,7 +101,7 @@ curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: TNjWzy1IaGLj9
 ```json
 {
     "status" : "success",
-    "data" : 
+    "data" :
     {
         "id" : "optinId",
         "status" : "success",
@@ -275,9 +275,9 @@ curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
 * Example request:
 ```sh
 curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: Nqa7aNhvE-e2ROE_kBWhUmHwpscqpEfS5J-nIbwEDv_" -H "X-User-Id: izGMmYSx5ZgSARBcd" http://localhost:3000/api/v1/users -d '{
-"username":"peter", 
-"password":"balicoworking", 
-"email":"peter@bali-coworking.org", 
+"username":"peter",
+"password":"balicoworking",
+"email":"peter@bali-coworking.org",
 "mailTemplate":{"subject":"Email permission request of Peter from Bali Coworking",
 "redirect":"http://www.doichian.org",
 "returnPath":"peter@bali-coworking.org",
@@ -286,7 +286,7 @@ curl -X POST -H "Content-Type: application/json" -H "X-Auth-Token: Nqa7aNhvE-e2R
 ```json
 {
     "status" : "success",
-    "data" : 
+    "data" :
     {
         "userid" : "userid",
     }
