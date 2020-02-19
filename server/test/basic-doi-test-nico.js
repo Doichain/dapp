@@ -45,8 +45,8 @@ if(Meteor.isAppTest) {
         it('should store sender email in confirmation dApp when its not fallback server', function (done) {
            const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
            const sender_mail = "alice@ci-doichain.org";
-           const dataLoginAlice = login(global.dappUrlAlice, dAppLogin, false); //log into dApp
-           requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, dataLoginAlice, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
+           const dataLoginAlice = login(global.dappUrlAlice, null, false); //log into dApp
+           requestConfirmVerifyBasicDoi(null, null, null, dataLoginAlice, null, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
 
            //connect to verify rest interface and check if permission given
 

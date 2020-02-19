@@ -4,13 +4,13 @@ import {
     fetchConfirmLinkFromPop3Mail,
     getNameIdOfOptInFromRawTx,
     login,
-    requestDOI, verifyDOI, clickConfirmLink
+    requestDOI, clickConfirmLink
 } from "./test-api/test-api-on-dapp";
 import {
     testLog as testLogging
 } from "meteor/doichain:doichain-meteor-api";
 import {
-    deleteOptInsFromAliceAndBob, doichainAddNode,
+    deleteOptInsFromAliceAndBob,
     generatetoaddress,
     getNewAddress,
     triggerNewBlock,
@@ -79,7 +79,7 @@ if(Meteor.isAppTest) {
                 while (running && ++counter < 50) { //trying 50x to get email from bobs mailbox
                     try {
                         testLogging('step 3: getting email!');
-                        const link2Confirm = fetchConfirmLinkFromPop3Mail(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
+                        const link2Confirm = fetchConfirmLinkFromPop3Mail(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, null, false);
                         testLogging('step 4: confirming link', link2Confirm);
                         if (link2Confirm != null) running = false;
                         clickConfirmLink(link2Confirm);
