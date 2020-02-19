@@ -20,7 +20,12 @@
     "react/jsx-uses-react": "warn",
     "react/jsx-uses-vars": "warn",
     "react/prop-types":"warn",
-    "react/UNSAFE_componentWillReceiveProps":"warn"
+    "react/no-unsafe":["warn", { "checkAliases": true }]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   },
   "extends": ["eslint:recommended", "plugin:react/recommended"]
 }
