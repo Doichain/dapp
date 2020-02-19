@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -21,8 +22,6 @@ const defaultToolbarSelectStyles = {
 class CustomToolbarSelect extends React.Component {
 
     handleClick = () => {
-        console.log("click! current selected rows", this.props);
-
          /*   Meteor.call("doichain.getBalance", (error, bal) => {
                 const tmpVal = bal;
                 if(!error) {
@@ -53,6 +52,9 @@ class CustomToolbarSelect extends React.Component {
     }
 }
 
+CustomToolbarSelect.propTypes = {
+    classes: PropTypes.object.isRequired,
+}
 export default withStyles(defaultToolbarSelectStyles, {
     name: "CustomToolbarSelect"
 })(CustomToolbarSelect);
