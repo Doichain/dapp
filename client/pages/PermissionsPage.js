@@ -1,7 +1,7 @@
 import React  from 'react'
 import Permissions from "../components/Permissions";
 
-const PermissionsPage = props => {
+const PermissionsPage = () => {
 
     return (
         <React.Fragment>

@@ -1,11 +1,10 @@
 import React  from 'react'
 import Typography from "@material-ui/core/Typography"
 import {MetaCollection} from "meteor/doichain:doichain-meteor-api"
-import {useSubscription,useTracker} from "react-meteor-hooks"
+import {useTracker} from "react-meteor-hooks"
 
-const DoichainVersion = props => {
+const DoichainVersion = () => {
 
-    const loading = useSubscription('meta');
     const meta = useTracker(() => MetaCollection.find({key:'version'}).fetch());
     return (
         <Typography variant="subtitle1" color="inherit">
