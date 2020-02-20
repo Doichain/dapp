@@ -19,7 +19,7 @@ let options = {
     filterType: "dropdown",
     resizableColumns:true,
     expandableRows:true,
-    renderExpandableRow: (rowData, rowMeta) => {
+    renderExpandableRow: function expandableRowRender(rowData, rowMeta){
       //  console.log(rowData, rowMeta);
         return (
             <TableRow>
@@ -34,28 +34,14 @@ let options = {
         );
     },
     selectableRows: 'multiple',
-    onRowsSelect: (rowData) => {
-        console.log("onRowsSelect",rowData)
+    onRowsSelect: () => { },
+    onRowsDelete: () => {
+        Meteor.call("opt-ins.remove", permissions[0]._id, () => {});
     },
-    onRowsDelete: (rowsData) => {
-        console.log("onRowsDelete1",rowsData)
-
-        console.log(permissions[0]._id)
-        Meteor.call("opt-ins.remove", permissions[0]._id, (error, val) => {
-            if(!error) {
-                console.log('deleted:'+ permissions[0]._id)
-            }else{
-                console.log(val)
-            }
-        });
-    },
-    onCellClick: (colData, cellMeta) => {
-        console.log("onCellClick",colData)
-        console.log("onCellClick",cellMeta)
-    }
+    onCellClick: () => {}
 }
 
-const OptIns = props => {
+const OptIns = () => {
 
     const columns = [
         {
@@ -80,11 +66,10 @@ const OptIns = props => {
             name: "Status",
             options: {
                 filter: false,
-                customBodyRender: function(value, tableMeta, updateValue){
+                customBodyRender: function renderCustomBody(value){
 
                     const colorOrange = '#ff9900'
                     const colorYellow = '#ffbf00'
-                    const colorGreen = '#57d500'
                     const colorRed = '#d9534f'
 
                     let color = colorRed;
@@ -125,11 +110,10 @@ const OptIns = props => {
         permissions.map(doc => {
             // const _id = doc._id;
             const createdAt = doc.createdAt.toISOString()
-            const nameId = doc.nameId ? doc.nameId : "";
-            const txId = doc.txId ? doc.txId : "";
+            // const nameId = doc.nameId ? doc.nameId : "";
+            // const txId = doc.txId ? doc.txId : "";
             //const ownerId = doc.ownerId ? doc.ownerId : "";
             const sender = doc.sender && senders.length>0 ?  _.find(senders, { _id: doc.sender}).email  : "";
-            console.log(doc.recipient)
             const recipient = doc.recipient!==undefined ?    _.find(recipients, { _id: doc.recipient}).email: "";
             const status = doc.status;
             // const error = doc.error ? replaceAll(doc.error,"\"", "") : "";

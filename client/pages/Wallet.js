@@ -1,4 +1,5 @@
 import React  from 'react'
+import PropTypes from 'prop-types';
 import Grid from "@material-ui/core/Grid"
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
@@ -47,15 +48,8 @@ const Wallet = props => {
 
         const recipientMail = e.target.recipientMail.value;
         const senderEmail = e.target.senderEmail.value;
-        console.log('handleCoin clicked: email',recipientMail)
 
-        Meteor.call("doichain.requestEmailPermission", {senderEmail,recipientMail}, (error, val) => {
-            if(!error) {
-                console.log('requestEmailPermission',val)
-            }else{
-                console.log('requestEmailPermission',error)
-            }
-        })
+        Meteor.call("doichain.requestEmailPermission", {senderEmail,recipientMail}, () => {})
     }
 
     const sendCoins= e => {
@@ -63,17 +57,7 @@ const Wallet = props => {
         const address = e.target.address.value;
         const amount = e.target.amount.value;
 
-        console.log('handleCoin clicked: amount (doi)',e.target.amount.value)
-        console.log('handleCoin clicked: address',e.target.address.value)
-
-        Meteor.call("doichain.sendToAddress", {address, amount}, (error, val) => {
-            if(!error) {
-                console.log('sendToAddress',val)
-            }else{
-                console.log('sendToAddress',error)
-            }
-        })
-        console.log(`sendToAddress address:${address} amount:${amount} `)
+        Meteor.call("doichain.sendToAddress", {address, amount}, () => {})
     }
 
     return (
@@ -161,5 +145,8 @@ const Wallet = props => {
     </React.Fragment>)
 }
 
+Wallet.propTypes = {
+    classes: PropTypes.object.isRequired
+};
 
 export default withStyles(styles)(Wallet);

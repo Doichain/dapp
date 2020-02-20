@@ -7,7 +7,7 @@ import {
 import {
     testLog as logBlockchain
 } from "meteor/doichain:doichain-meteor-api";
-import {deleteOptInsFromAliceAndBob, generatetoaddress, getNewAddress} from "./test-api/test-api-on-node";
+import {generatetoaddress, getNewAddress} from "./test-api/test-api-on-node";
 
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";

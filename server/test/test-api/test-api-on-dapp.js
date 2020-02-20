@@ -196,12 +196,12 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
     client.on("connect", function() {
         testLogging("CONNECT success");
         client.login(username, password);
-        client.on("login", function(status, rawdata) {
+        client.on("login", function(status) {
             if (status) {
                 testLogging("LOGIN/PASS success");
                 client.list();
 
-                client.on("list", function(status, msgcount, msgnumber, data, rawdata) {
+                client.on("list", function(status, msgcount, msgnumber) {
 
                     if (status === false) {
                         const err = "LIST failed"+ msgnumber;
@@ -214,7 +214,7 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                         //chai.expect(msgcount).to.be.above(0, 'no email in bobs inbox');
                         if (msgcount > 0){
                             client.retr(1);
-                            client.on("retr", function(status, msgnumber, maildata, rawdata) {
+                            client.on("retr", function(status, msgnumber, maildata) {
 
                                 if (status === true) {
                                     if(log) testLogging("RETR success " + msgnumber);
@@ -231,10 +231,9 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                     chai.expect(linkdata,"no linkdata found").to.not.be.null;
 
                                     if(mail_test_string)chai.expect(html.indexOf(mail_test_string),'teststring: "'+mail_test_string+'" not found').to.not.equal(-1);
-                                    const requestData = {"linkdata":linkdata,"html":html}
 
                                     client.dele(msgnumber);
-                                    client.on("dele", function(status, msgnumber, data, rawdata) {
+                                    client.on("dele", function() {
                                         client.quit();
 
                                         client.end();
@@ -297,12 +296,12 @@ function delete_all_emails_from_pop3(hostname,port,username,password,log,callbac
     client.on("connect", function() {
         testLogging("CONNECT success");
         client.login(username, password);
-        client.on("login", function(status, rawdata) {
+        client.on("login", function(status) {
             if (status) {
                 testLogging("LOGIN/PASS success");
                 client.list();
 
-                client.on("list", function(status, msgcount, msgnumber, data, rawdata) {
+                client.on("list", function(status, msgcount, msgnumber) {
 
                     if (status === false) {
                         const err = "LIST failed"+ msgnumber;
@@ -316,7 +315,7 @@ function delete_all_emails_from_pop3(hostname,port,username,password,log,callbac
                         if (msgcount > 0){
                             for(let i = 0;i<=msgcount;i++){
                                 client.dele(i+1);
-                                client.on("dele", function(status, msgnumber, data, rawdata) {
+                                client.on("dele", function(status) {
                                     testLogging("deleted email"+(i+1)+" status:"+status);
                                    if(i==msgcount-1){
                                        client.quit();
@@ -410,11 +409,6 @@ async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
         recipient_public_key: recipient_public_key
     };
 
-    const headersVerify = {
-        'Content-Type': 'application/json',
-        'X-User-Id': dAppUrlAuth.userId,
-        'X-Auth-Token': dAppUrlAuth.authToken
-    };
     let running = true;
     let counter = 0;
 

@@ -2,7 +2,7 @@ import React  from 'react'
 import {MetaCollection} from "meteor/doichain:doichain-meteor-api"
 import {useSubscription,useTracker} from "react-meteor-hooks"
 
-const AddressesByAccount = props => {
+const AddressesByAccount = () => {
   const loading = useSubscription('meta');
   const meta = useTracker(() => MetaCollection.find({key:'addresses_by_account'}).fetch());
 
