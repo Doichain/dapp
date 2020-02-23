@@ -16,9 +16,14 @@ function getVersionTag(){
                 if(err)reject(err)
                 console.log('executed git describe --tags',stdout)
                 //var name = stdout.replace('* ','').replace('\n','');
-                var version  = stdout.substring(0,stdout.indexOf("-"));
+                let version  = stdout.substring(0,stdout.indexOf("-"));
                 if(!version) version=stdout;
                 console.log("found version:",version);
+                let buildNo = version.substring(version.lastIndexOf('.')+1,version.length)
+                buildNo++
+                console.log('increased build nr to',buildNo)
+                version = version.substring(0,version.lastIndexOf('.'))+"."+buildNo
+                console.log('version now',version)
                 fulfill(version)
             }
         )
@@ -42,13 +47,12 @@ function stageVersion(){
     return new Promise(function (fulfill, reject){
         let versionPath = path.normalize(__dirname+"/../private/version.json").replace(/\\/g,"/");
         exec(
-            
+
             "git add "+versionPath,
             function (err, stdout, stderr) {
                 if(err){
                     console.log(err);
                     reject(err)
-                    
                 }
                 console.log(stdout);
                 fulfill()
