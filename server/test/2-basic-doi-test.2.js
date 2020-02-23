@@ -27,7 +27,6 @@ const log = true;
 
 if(Meteor.isAppTest) {
     describe('02-basic-doi-test-with-offline-node-02', function () {
-
         before(function () {
             deleteOptInsFromAliceAndBob();
             deleteAllEmailsFromPop3(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, true);

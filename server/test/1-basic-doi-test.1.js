@@ -133,10 +133,11 @@ if(Meteor.isAppTest) {
             resetUsers();
             let logAdmin = login(global.dappUrlAlice, global.dAppLogin, true);
             const userUp = createUser(global.dappUrlAlice, logAdmin, "updateUser", templateUrlA, true);
-            //logBlockchain('should test if user can update own profile:userUp:',userUp);
+            logBlockchain('should test if user can update own profile:userUp:',userUp);
             const logUserUp = login(global.dappUrlAlice, {"username": "updateUser", "password": "password"}, true);
-            //logBlockchain('should test if user can update own profile:logUserUp:',logUserUp);
+            logBlockchain('should test if user can update own profile:logUserUp:',logUserUp);
             const changedData = updateUser(global.dappUrlAlice, logUserUp, userUp, {"templateURL": templateUrlB}, true);
+            logBlockchain('should test if user can update own profile:changedData:',changedData);
             chai.expect(changedData).not.undefined;
         });
 

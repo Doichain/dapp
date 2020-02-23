@@ -9,7 +9,7 @@ mongo@1.8.0                   # The database Meteor supports right now
 
 standard-minifier-js@2.6.0    # JS minifier run for production mode
 es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
-ecmascript@0.14.0              # Enable ECMAScript2015+ syntax in app code
+ecmascript@0.14.2              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.4.0            # Server-side component of the `meteor shell` command
 
 msavin:mongol
