@@ -21,7 +21,7 @@ function getVersionTag(){
                 console.log("found version:",version);
                 let buildNo = version.substring(version.lastIndexOf('.')+1,version.length)
                 buildNo++
-                console.log('increased build nr to',buildNo)
+                console.log('increased build no to',buildNo)
                 version = version.substring(0,version.lastIndexOf('.'))+"."+buildNo
                 console.log('version now',version)
                 fulfill(version)
