@@ -1,6 +1,6 @@
 import React from "react"
 import MUIDataTable from "mui-datatables";
-import {OptInsCollection,RecipientsCollection, SendersCollection} from "meteor/doichain:doichain-meteor-api";
+import {OptInsCollection} from "meteor/doichain:doichain-meteor-api";
 import {useSubscription, useTracker} from "react-meteor-hooks"
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
@@ -12,7 +12,7 @@ let options = {
     filterType: "dropdown",
     resizableColumns:true,
     expandableRows:true,
-    renderExpandableRow: (rowData, rowMeta) => {
+    renderExpandableRow: function expandableRowRender(rowData, rowMeta) {
         const valueJSON = (confirmations[rowMeta.dataIndex].value!==undefined)?JSON.parse(confirmations[rowMeta.dataIndex].value):''
         const signature = (valueJSON!==undefined)?valueJSON.signature:""
         const from =  (valueJSON!==undefined)?valueJSON.from!==undefined?valueJSON.from:"":""
@@ -34,28 +34,14 @@ let options = {
         );
     },
     selectableRows: 'multiple',
-    onRowsSelect: (rowData) => {
-        console.log("onRowsSelect",rowData)
+    onRowsSelect: () => { },
+    onRowsDelete: () => {
+        Meteor.call("opt-ins.remove", confirmations[0]._id, () => { });
     },
-    onRowsDelete: (rowsData) => {
-        console.log("onRowsDelete1",rowsData)
-
-        console.log(confirmations[0]._id)
-        Meteor.call("opt-ins.remove", confirmations[0]._id, (error, val) => {
-            if(!error) {
-                console.log('deleted:'+ confirmations[0]._id)
-            }else{
-                console.log(val)
-            }
-        });
-    },
-    onCellClick: (colData, cellMeta) => {
-        console.log("onCellClick",colData)
-        console.log("onCellClick",cellMeta)
-    }
+    onCellClick: () => {}
 }
 
-const OptIns = props => {
+const OptIns = () => {
 
     const columns = [
         {
@@ -104,11 +90,10 @@ const OptIns = props => {
             name: "Status",
             options: {
                 filter: false,
-                customBodyRender: function(value, tableMeta, updateValue){
+                customBodyRender: function renderCustomBody(value) {
 
                     const colorOrange = '#ff9900'
                     const colorYellow = '#ffbf00'
-                    const colorGreen = '#57d500'
                     const colorRed = '#d9534f'
 
                     let color = colorRed;
@@ -147,7 +132,7 @@ const OptIns = props => {
             // const _id = doc._id;
             const createdAt = doc.createdAt.toISOString()
             const nameId = doc.nameId ? doc.nameId : "";
-            const txId = doc.txId ? doc.txId : "";
+            // const txId = doc.txId ? doc.txId : "";
             const status = doc.status;
             const domain = doc.domain;
             const newRecord = [createdAt, nameId,domain,status,

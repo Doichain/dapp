@@ -114,6 +114,7 @@ App.propTypes = {
   children: PropTypes.element, // matched child route component
   location: PropTypes.object,  // current router location
   params: PropTypes.object,    // parameters of the current route
+  version: PropTypes.object,    // current version information
 };
 
 App.contextTypes = {

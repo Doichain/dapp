@@ -26,7 +26,9 @@ class NavItem extends React.Component {
 }
 
 NavItem.propTypes ={
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  active: PropTypes.boolean
 }
 
 export default NavItem

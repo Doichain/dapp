@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { Route, Switch } from "react-router-dom"
+import PropTypes from 'prop-types'
 import { AccountsReactComponent } from "meteor/meteoreact:accounts"
 
 class Authentication extends Component {
@@ -38,5 +39,6 @@ class Authentication extends Component {
     )
   }
 }
+Authentication.propTypes = { theme: PropTypes.string }
 
 export default Authentication

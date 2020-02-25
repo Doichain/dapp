@@ -186,7 +186,7 @@ function stop_docker_bob(callback) {
             });
         }catch (e) {
             testLogging('couldnt stop bobs node',e);
-            callback(e, mull);
+            callback(e, null);
         }
     });
 }

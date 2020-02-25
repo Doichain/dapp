@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useTable,useFilters } from 'react-table'
-import {useSubscription,useTracker,useMethod} from "react-meteor-hooks"
+import { useTracker } from "react-meteor-hooks"
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 import {OptInsCollection} from "meteor/doichain:doichain-meteor-api";
 import matchSorter from 'match-sorter'
@@ -16,11 +17,7 @@ checkNpmVersions({
 
 
 // Create an editable cell renderer
-const StatusCell = ({
-                          cell: { value: value },
-                          row: { index },
-                          column: { id },
-                      }) => {
+const StatusCell = ({ cell: { value: value } }) => {
 
     const statusItems = value.map((status, index) =>
         <p key={index}>{status}</p>
@@ -28,7 +25,7 @@ const StatusCell = ({
     return statusItems
 }
 
-const ConfirmationsPage = props => {
+const ConfirmationsPage = () => {
 
     const columns = React.useMemo(
         () => [
@@ -101,6 +98,14 @@ const ConfirmationsPage = props => {
             />
         )
     }
+    
+    DefaultColumnFilter.propTypes = {
+        column: PropTypes.shape({
+            filterValue: PropTypes.string,
+            preFilteredRows: PropTypes.object,
+            setFilter:  PropTypes.func
+        })
+    }
 
     const defaultColumn = React.useMemo(
         () => ({
@@ -154,10 +159,10 @@ const ConfirmationsPage = props => {
             </div>
             <table {...getTableProps()}>
                 <thead>
-                {headerGroups.map(headerGroup => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(column => (
-                            <th {...column.getHeaderProps()}>
+                {headerGroups.map((headerGroup, headerGroupIndex) => (
+                    <tr key={headerGroupIndex} {...headerGroup.getHeaderGroupProps()}>
+                        {headerGroup.headers.map((column, columnIndex) => (
+                            <th key={columnIndex} {...column.getHeaderProps()}>
                                 {column.render('Header')}
                                 {/* Render the columns filter UI */}
                                 <div>{column.canFilter ? column.render('Filter') : null}</div>
@@ -168,11 +173,11 @@ const ConfirmationsPage = props => {
                 </thead>
                 <tbody>
                 {rows.map(
-                    (row, i) =>
+                    (row, rowIndex) =>
                         prepareRow(row) || (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map(cell => {
-                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                            <tr key={rowIndex} {...row.getRowProps()}>
+                                {row.cells.map((cell, cellIndex) => {
+                                    return <td key={cellIndex} {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                 })}
                             </tr>
                         )
@@ -182,8 +187,11 @@ const ConfirmationsPage = props => {
             </div>
         )
     }
+    Table.propTypes = {
+        columns: PropTypes.object,
+        data: PropTypes.object
+    }
 
-    const loading = useSubscription('confirmations.all')
     const confirmations = useTracker(() => OptInsCollection.find({})).fetch()
 
     return (

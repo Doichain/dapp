@@ -10,7 +10,6 @@ const dappUrlTestdApp = "http://localhost:4010";
 const dAppLogin = {"username":"admin","password":"password"};
 
 const sender_mail = 'testnet@doichain.org';
-const log = true;
 
 if(Meteor.isAppTest) {
     describe('testnet-doi-test-01', function () {

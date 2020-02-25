@@ -4,7 +4,7 @@ import {
     createUser,
     findUser,
     exportOptIns,
-    requestConfirmVerifyBasicDoi, resetUsers, updateUser, deleteAllEmailsFromPop3, confirmLink, clickConfirmLink
+    requestConfirmVerifyBasicDoi, resetUsers, updateUser, deleteAllEmailsFromPop3, clickConfirmLink
 } from "./test-api/test-api-on-dapp";
 import {
     testLog as logBlockchain
@@ -24,8 +24,6 @@ const aliceBLogin = {"username":"alice-a","password":"password"};
 
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
-
-const log = true;
 
 if(Meteor.isAppTest) {
     describe(  'basic-doi-test-01', function () {
@@ -106,7 +104,6 @@ if(Meteor.isAppTest) {
             requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logAdmin, global.dappUrlBob, recipient_mail, sender_mail_alice_b, {'city': 'München'}, "bob@ci-doichain.org", "bob", true);
             const exportedOptIns = exportOptIns(global.dappUrlAlice, logAdmin, true);
             chai.expect(exportedOptIns).to.not.be.undefined;
-            console.log(exportedOptIns);
             chai.expect(exportedOptIns[0]).to.not.be.undefined;
             chai.expect(exportedOptIns[0].data).to.be.equal('{"city":"Ekaterinburg"}');
             chai.expect(exportedOptIns[0].RecipientEmail.email).to.be.equal(recipient_mail);
@@ -146,7 +143,7 @@ if(Meteor.isAppTest) {
             const recipient_mail = "bob@ci-doichain.org";
             const sender_mail = coDoiList;
             let logAdmin = login(global.dappUrlAlice, global.dAppLogin, true);
-            const coDois = requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logAdmin, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
+            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logAdmin, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
         });
 
         it('should find updated data in email', function (done) {

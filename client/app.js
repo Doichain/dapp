@@ -1,6 +1,5 @@
-import React, { Component, Fragment, useState } from "react"
+import React, { Fragment, useState } from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
-import { AccountsReactComponent } from "meteor/meteoreact:accounts"
 /* Includes */
 
 import Navbar from "./includes/Navbar"
@@ -11,14 +10,14 @@ import Home from "./pages/Home"
 import Auth from "./pages/Auth"
 import DoichainDrawer from "./includes/DoichainDrawer";
 import Wallet from "./pages/Wallet";
-import PermissionsPage from "./pages/PermissionsPage";
+// import PermissionsPage from "./pages/PermissionsPage";
 import ConfirmationsPage from "./pages/ConfirmationsPage";
 import User from "./pages/User";
 import Settings from "./pages/Settings";
 
-const App = props => {
+const App = () => {
 
-    const [state, setState] = useState({
+    const [state] = useState({
         theme : "material-ui"
     });
     // <Route path='/permissions' component={PermissionsPage} />

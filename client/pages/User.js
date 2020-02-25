@@ -1,4 +1,5 @@
 import React,{ useState,useEffect } from 'react'
+import PropTypes from 'prop-types';
 import styled from 'styled-components'
 import { useTable } from 'react-table'
 import {useSubscription,useTracker,useMethod} from "react-meteor-hooks"
@@ -67,6 +68,12 @@ const EditableCell = ({
 
     return <input value={value} onChange={onChange} onBlur={onBlur} />
 }
+EditableCell.propTypes = {
+    cell: PropTypes.shape({ value: PropTypes.object }),
+    row: PropTypes.shape({ index: PropTypes.object }),
+    column: PropTypes.shape({ id: PropTypes.object }),
+    updateMyData: PropTypes.func
+}
 
 const editableColumn = {
     Cell: EditableCell,
@@ -91,21 +98,21 @@ function Table({ columns, data, updateMyData, disablePageResetOnDataChange }) {
     return (
         <table {...getTableProps()}>
             <thead>
-            {headerGroups.map(headerGroup => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map(column => (
-                        <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+            {headerGroups.map((headerGroup, headerGroupIndex) => (
+                <tr key={headerGroupIndex} {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map((column, headerIndex) => (
+                        <th key={headerIndex} {...column.getHeaderProps()}>{column.render('Header')}</th>
                     ))}
                 </tr>
             ))}
             </thead>
             <tbody>
             {rows.map(
-                (row, i) =>
+                (row, rowIndex) =>
                     prepareRow(row) || (
-                        <tr {...row.getRowProps()}>
-                            {row.cells.map(cell => {
-                                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                        <tr key={rowIndex} {...row.getRowProps()}>
+                            {row.cells.map((cell, cellIndex) => {
+                                return <td key={cellIndex} {...cell.getCellProps()}>{cell.render('Cell')}</td>
                             })}
                         </tr>
                     )
@@ -114,8 +121,14 @@ function Table({ columns, data, updateMyData, disablePageResetOnDataChange }) {
         </table>
     )
 }
+Table.propTypes = {
+    columns: PropTypes.object,
+    data: PropTypes.object,
+    updateMyData: PropTypes.func,
+    disablePageResetOnDataChange: PropTypes.bool
+};
 
-const User = props => {
+const User = () => {
 
     const columns = React.useMemo(
         () => [
@@ -183,7 +196,6 @@ const User = props => {
         setData(old =>
               old.map((row, index) => {
                   if (index === rowIndex) {
-                      console.log(columnID, value)
                       return {
                           ...old[rowIndex],
                           [columnID]: value,

@@ -5,7 +5,6 @@ var webdriver = require('selenium-webdriver');
 
 var By = require('selenium-webdriver').By,
     until = require('selenium-webdriver').until,
-    firefox = require('selenium-webdriver/firefox'),
     chrome = require('selenium-webdriver/chrome');
 
 let driver;
@@ -75,7 +74,6 @@ if(Meteor.isAppTest || Meteor.isTest) {
         it("should should click on balance and show current balance", async function (done) {
             this.timeout(mochaTimeOut);
             const aliceBalance = await getBalance(node_url_alice, rpcAuth, true);
-            console.log('aliceBalance:'+aliceBalance);
             await driver.findElement(By.linkText("Balance")).click();
             await driver.wait(until.urlContains("/balance"));
             await driver.wait(until.elementLocated(By.id("balanceAmount")));
@@ -94,7 +92,6 @@ if(Meteor.isAppTest || Meteor.isTest) {
             await driver.findElement(By.linkText("Home")).click(); //click to another menu
             await driver.wait(until.elementTextIs(driver.findElement(By.className("title")), 'doichain'));
             const aliceBalance = await getBalance(node_url_alice, rpcAuth, true);
-            console.log('balance:'+aliceBalance);
             await driver.sleep(3000);
 
             await driver.findElement(By.linkText("Balance")).click(); //so balance gets updated
@@ -109,7 +106,6 @@ if(Meteor.isAppTest || Meteor.isTest) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice-over-selenium"+Date.now()+"@ci-doichain.org";
             const dataLoginAlice = login(dappUrlAlice, dAppLogin, true); //log into dApp
-            console.log("current DNS-Servers:"+dns.getServers());
             requestConfirmVerifyBasicDoi(node_url_alice, rpcAuthAlice, dappUrlAlice, dataLoginAlice, dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
 
             await driver.findElement(By.linkText("Opt-Ins")).click(); //so balance gets updated
