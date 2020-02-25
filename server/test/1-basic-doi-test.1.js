@@ -149,7 +149,7 @@ if(Meteor.isAppTest) {
             const coDois = requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logAdmin, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
         });
 
-        it('should find updated Data in email', function (done) {
+        it('should find updated data in email', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice-update@ci-doichain.org";
             const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
