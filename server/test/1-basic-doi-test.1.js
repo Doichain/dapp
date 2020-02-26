@@ -28,7 +28,6 @@ const recipient_pop3password = "bob";
 if(Meteor.isAppTest) {
     describe(  'basic-doi-test-01', function () {
         this.timeout(0);
-
         before(function () {
             logBlockchain("removing OptIns,Recipients,Senders");
             deleteOptInsFromAliceAndBob();
