@@ -70,7 +70,6 @@ if(Meteor.isAppTest) {
         });
 
         it('should test if Doichain workflow is using different templates for different users', function (done) {
-
             resetUsers();
             const recipient_mail = "bob@ci-doichain.org"; //
             const sender_mail_alice_a = "alice-a@ci-doichain.org";
