@@ -1,7 +1,7 @@
 # Doichain dApp
 A reference implementation of the "Doichain Atomic Double-Opt-In Protocol"
 
-Note: This is still experimental software. This module is not intended for use in production environments, or for use where real money is at stake, at this point.
+Note: This is still experimental software. This module is not (yet) intended for use in production environments, or for use where real money is at stake, at this point.
 Please contact developers over Telegram @doichain for questions.
 
 ## Table of Contents
