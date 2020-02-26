@@ -14,4 +14,4 @@ Please contact developers over Telegram @doichain for questions.
 - [Settings](doc/en/settings.md)
 - [UML](doc/en/uml.md)
 - Funding
-    - Buy/Sell Doicoin from https://bisq.network
+    - Buy/Sell Doicoin at https://bisq.network
