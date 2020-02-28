@@ -11,13 +11,13 @@ ENV DAPP_CONFIRM true
 ENV DAPP_VERIFY true
 ENV DAPP_DEBUG true
 ENV DAPP_HOST "localhost"
-ENV DAPP_PORT 3010
-ENV HTTP_PORT 3010
+ENV DAPP_PORT 3000
+ENV HTTP_PORT 3000
 ENV CONFIRM_ADDRESS ""
 ENV MONGO_URL false
 ENV DAPP_DOI_URL http://localhost:$DAPP_PORT/api/v1/debug/mail
 ENV DAPP_SMTP_USER "doichain"
-ENV DAPP_SMTP_HOST "localhost"
+ENV DAPP_SMTP_HOST "smtp"
 ENV DAPP_SMTP_PASS ""
 ENV DAPP_SMTP_PORT 587
 ENV CONNECTION_NODE 5.9.154.226
@@ -43,7 +43,6 @@ RUN apt-get update && apt-get install -y \
 	curl \
 	jq \
 	vim \
-#	mongodb \
 	bc \
 	bsdtar \
 	dos2unix \
