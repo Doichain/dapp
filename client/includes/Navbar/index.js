@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import {AccountsReact} from "meteor/meteoreact:accounts";
 import {useCurrentUser} from "react-meteor-hooks";
-import {store} from "../hookstore";
+import {store, useStore} from "../hookstore";
 import {Link} from "react-router-dom";
 
 const styles = {
@@ -31,13 +31,14 @@ const Navbar = props => {
 
     //https://blog.usejournal.com/global-state-management-with-react-hooks-5e453468c5bf
     //https://reactjs.org/docs/hooks-intro.html
+    const [drawerOpen, setDrawerOpen] = useStore();
     const currentUser = useCurrentUser()
 
     return (
         <div className={props.classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton  onClick={() => {store.drawerOpen = true}} className={props.classes.menuButton} color="inherit" aria-label="Menu">
+                    <IconButton  onClick={() => setDrawerOpen(true)} className={props.classes.menuButton} color="inherit" aria-label="Menu">
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" className={props.classes.grow}>
