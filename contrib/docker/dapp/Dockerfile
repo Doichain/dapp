@@ -1,4 +1,4 @@
-FROM jasdeepsingh/doichain-base:docker-base-image
+FROM doichain/doichain-base:docker-base-image
 
 ARG DOICHAIN_VER=master
 ARG DOICHAIN_DAPP_VER=master
