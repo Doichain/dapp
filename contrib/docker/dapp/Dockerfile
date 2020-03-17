@@ -79,7 +79,7 @@ RUN mkdir data && \
 	sudo ln -s /home/doichain/data/dapp/local /home/doichain/dapp/.meteor
 
 WORKDIR /home/doichain/dapp
-RUN meteor build build/ --architecture os.linux.x86_64 --directory --server ${DAPP_HOST}:${DAPP_PORT} && \
+RUN meteor npm isntall && meteor build build/ --architecture os.linux.x86_64 --directory --server ${DAPP_HOST}:${DAPP_PORT} && \
     rm -rf node_modules
 
 WORKDIR /home/doichain
