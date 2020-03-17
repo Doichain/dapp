@@ -27,7 +27,7 @@ RUN sed -i 's/http\:\/\/dl-cdn.alpinelinux.org/https\:\/\/alpine.global.ssl.fast
 ENV DOICHAIN_VERSION=0.0.9
 ENV DOICHAIN_PREFIX=/opt/doichain-${DOICHAIN_VERSION}
 
-RUN git clone --branch master https://github.com/Doichain/core.git doichain-core && \
+RUN git clone --branch ${DOICHAIN_VER} https://github.com/Doichain/core.git doichain-core && \
     cd doichain-core && \
     ./autogen.sh && \
     ./configure LDFLAGS=-L`ls -d /opt/db*`/lib/ CPPFLAGS=-I`ls -d /opt/db*`/include/ \
@@ -88,7 +88,7 @@ RUN adduser --disabled-password --gecos '' doichain && \
 USER doichain
 
 RUN cd /home/doichain; mkdir .doichain scripts && \
-    git clone --branch master https://github.com/Doichain/dapp.git && cd dapp && \
+    git clone --branch ${DOICHAIN_DAPP_VER} https://github.com/Doichain/dapp.git && cd dapp && \
     meteor npm install && \
     cd /home/doichain && \
     mkdir -p data; cd data && \
