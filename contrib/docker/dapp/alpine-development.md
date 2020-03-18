@@ -1,7 +1,7 @@
 # doichain/docker:alpine
 ## an Alpine docker image for the Doichain environment http://www.doichain.org
 
-This Docker Image is Based on Alpine Linux And Is Under Development 
+This Docker Image is Based on Alpine Linux And Is Under Development
 ---
 
 ## Step to compile the smaller alpine image for your Doichain Environment
