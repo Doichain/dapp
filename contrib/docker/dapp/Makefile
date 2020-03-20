@@ -1,6 +1,6 @@
-IMG=doichain/dapp-testnet:v0.0.9.54
+IMG=doichain/dapp-testnet:v0.0.9.75
 DOICHAIN_VER=0.16.3.2
-DOICHAIN_DAPP_VER=v0.0.9.54
+DOICHAIN_DAPP_VER=v0.0.9.75
 
 
 DNS1=91.217.137.37
@@ -11,7 +11,7 @@ DAPP_HOST=5.9.154.226
 DAPP_PORT=4010
 #internal http-port inside docker
 HTTP_PORT=3010
-DAPP_SSL=false
+DAPP_SSL=true
 MONGO_URL=mongodb://doichain-testnet:doichain-testnet@mongo:27017/doichain-testnet
 
 #in case you want to play with alice and bob - change those parameters!
