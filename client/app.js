@@ -10,7 +10,6 @@ import Home from "./pages/Home"
 import Auth from "./pages/Auth"
 import DoichainDrawer from "./includes/DoichainDrawer";
 import Wallet from "./pages/Wallet";
-// import PermissionsPage from "./pages/PermissionsPage";
 import ConfirmationsPage from "./pages/ConfirmationsPage";
 import User from "./pages/User";
 import Settings from "./pages/Settings";
