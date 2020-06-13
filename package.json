@@ -1,5 +1,5 @@
 {
-  "name": "doichain",
+  "name": "doichain-dApp",
   "private": true,
   "version": "0.0.9",
   "scripts": {
@@ -45,6 +45,8 @@
     "@material-ui/icons": "^3.0.2",
     "@textile/ipfs-lite": "^0.1.5",
     "bcrypt": "^3.0.7",
+    "bitcoinjs-message": "^2.1.0",
+    "doichain": "0.0.49",
     "history": "^4.9.0",
     "invariant": "^2.2.4",
     "match-sorter": "^4.0.1",

@@ -163,11 +163,10 @@ async function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback)
     })();
 
     try{
-
         chai.assert.equal(our_optIn._id,optInId);
         if(log) testLogging('optIn:',our_optIn);
         nameId = getNameIdOfRawTransaction(url,auth,our_optIn.txId);
-        chai.assert.equal("e/"+our_optIn.nameId,nameId);
+        chai.assert.equal(our_optIn.nameId,nameId);
 
         if(log) testLogging('nameId:',nameId);
         chai.assert.notEqual(nameId,null);
