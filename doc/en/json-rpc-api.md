@@ -263,6 +263,7 @@ curl -X GET -H "X-Auth-Token: BbTe9w3DTZhPNriUWv1aU6a_FDawlkYjKMQ6I2t3V2k"-H "X-
     + ``password`` - Password of new user
     + ``mailTemplate`` - (OPTIONAL) Form information as JSON
         - ``subject`` - (OPTIONAL) Subject of the email
+        - ``senderName`` - (OPTIONAL) Name of sender
         - ``redirect`` - (OPTIONAL) Redirect URL
         - ``returnPath`` - (OPTIONAL) Return Path
         - ``templateURL`` - (OPTIONAL) Confirm mail template URL
