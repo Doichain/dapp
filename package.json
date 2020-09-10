@@ -44,7 +44,7 @@
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
     "@textile/ipfs-lite": "^0.1.5",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "doichain": "0.0.49",
     "history": "^4.9.0",
     "invariant": "^2.2.4",
