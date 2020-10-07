@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:18.04
 
 ARG DOICHAIN_VER=master
 ENV DOICHAIN_VER $DOICHAIN_VER
@@ -20,7 +20,7 @@ ENV RPC_PORT_REGTEST 18332
 ENV RPC_USER admin
 
 #Install dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 	autoconf \
 	apt-utils \
 	bsdmainutils \
@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y \
 	vim \
 	jq \
 	bc \
-	bsdtar \
+#	bsdtar \
 	dos2unix \
 	git \
 	libboost-all-dev \
@@ -42,7 +42,7 @@ RUN apt-get update && apt-get install -y \
 	sudo \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN export tar='bsdtar'
+#RUN export tar='bsdtar'
 
 
 #Install locales
@@ -67,20 +67,19 @@ RUN echo '12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef  db-4
 	sudo tar xzvf db-4.8.30.NC.tar.gz && \
 	cd db-4.8.30.NC/build_unix/ && \
 	sudo ../dist/configure --enable-cxx && \
+	#sudo rm /usr/include/db.h && \
 	sudo make && \
 	sudo make install && \
-	sudo ln -s /usr/local/BerkeleyDB.4.8 /usr/include/db4.8 &&\
-	sudo ln -s /usr/include/db4.8/include/* /usr/include &&\
-	sudo ln -s /usr/include/db4.8/lib/* /usr/lib
+	sudo ln -s /usr/local/BerkeleyDB.4.8 /usr/include/db4.8 && \
+	sudo ln -s /usr/include/db4.8/lib/* /usr/lib && \
+    sudo ln -s /usr/include/db4.8/include/* /usr/include
 
 #Install doichain-core
 WORKDIR /home/doichain
 RUN mkdir .doichain && \
-	#sudo git clone --branch ${DOICHAIN_VER} --depth 1 https://github.com/Doichain/core.git doichain-core && \
-	sudo git clone --branch ${DOICHAIN_VER} https://github.com/Doichain/core.git doichain-core && \
+	sudo git clone --branch dc0.20.1.2 https://github.com/Le-Space/namecoin-core doichain-core && \
 	cd doichain-core && \
-	sudo ./autogen.sh && \
-	sudo ./configure --without-gui  --disable-tests  --disable-gui-tests CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" && \
+	sudo ./autogen.sh && sudo ./configure --without-gui  --disable-tests  --disable-gui-tests && \
 	sudo make && \
 	sudo make install
 
