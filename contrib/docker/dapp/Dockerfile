@@ -89,7 +89,7 @@ RUN echo '12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef  db-4
 #Install doichain-core
 WORKDIR /home/doichain
 RUN mkdir .doichain scripts && \
-	git clone --branch ${DOICHAIN_VER} https://github.com/Doichain/core.git doichain-core && \
+	git clone --branch ${DOICHAIN_VER} https://github.com/Le-Space/namecoin-core.git doichain-core && \
 	cd doichain-core && \
 	./autogen.sh && \
 	./configure --without-gui  --disable-tests  --disable-gui-tests && \
