@@ -79,7 +79,7 @@ WORKDIR /home/doichain
 RUN mkdir .doichain && \
 	sudo git clone --branch dc0.20.1.2 https://github.com/Le-Space/namecoin-core doichain-core && \
 	cd doichain-core && \
-	sudo ./autogen.sh && sudo ./configure --without-gui  --disable-tests  --disable-gui-tests && \
+	sudo ./autogen.sh && sudo ./configure --disable-tests  --disable-gui-tests && \
 	sudo make && \
 	sudo make install
 
