@@ -14,7 +14,7 @@
     - ```meteor run --settings settings-testnet.json --port 4010``` or run
       ```TEST_METEOR_SETTINGS=$(sed -e "s/\${host}/<public-ip-or-hostname>/" -e "s/\${password}/generated-password/" contrib/settings/settings-testnet.json) meteor run --port 4010```
 6. GoTo http://localhost:4010 an change your admin password!
-7. Get your Doichain-Address from dApp webfrontend or via ```docker exec -it doichain-testnet doichain-cli getaddressesbyaccount ''```
+7. Get your Doichain-Address from dApp webfrontend or via ```docker exec -it doichain-testnet doichain-cli getaddressesbylabel ''```
 8. Request Funding (Doichain Testnet coins) on our Telegram Group https://t.me/doichain
 9. Test: Request your userId and authToken via ```curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:4010/api/v1/login```
 10. Test: Request Double-Opt-In via ```curl -X POST -H "X-User-Id: xxxxxxx" -H "X-Auth-Token: yyyyyyyyyyyyyyy" -i "http://localhost:4010/api/v1/opt-in?recipient_mail=<your-customer-email@example.com>&sender_mail=info@doichain.org"```
