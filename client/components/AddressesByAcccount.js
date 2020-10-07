@@ -7,13 +7,16 @@ const AddressesByAccount = () => {
   const meta = useTracker(() => MetaCollection.find({key:'addresses_by_account'}).fetch());
 
   if(!loading){
-    const addresses = meta.length>0?meta[0].value:[]
-      const AddressItems = () => (
-
+    console.log(Object.keys(meta[0].value))
+    const addresses = meta.length>0?Object.keys(meta[0].value):['empty']
+      
+    
+    const AddressItems = () => (
           <select size={20}>
-            {addresses.map(function(item) {
+            {
+             addresses?addresses.map(function(item) {
               return <option key={item}>{item}</option>;
-            })
+            }):null //return <option key={item}>{item}</option>;
             }
           </select>
       );
