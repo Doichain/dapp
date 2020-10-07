@@ -1,7 +1,7 @@
-IMG=doichain/dapp-testnet:v0.0.9.75
-DOICHAIN_VER=0.16.3.2
-DOICHAIN_DAPP_VER=v0.0.9.75
-
+IMG=doichain/dapp:v0.0.9.81
+DOICHAIN_VER=dc0.20.1.2
+DOICHAIN_DAPP_VER=v0.0.9.80
+ 
 
 DNS1=91.217.137.37
 DNS2=172.104.136.243
@@ -203,8 +203,8 @@ generate-110:
 	curl --silent --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "generatetoaddress", "params": [110,$(ALICE_NEW_ADDRESS)] }' -H 'content-type: text/plain;' http://127.0.0.1:$(RPC_PORT_ALICE)/ | jq '.result'
 
 send-10-to-bob:
-	$(eval BOB_ADDRESS=$(shell curl -s --user $(RPC_USER):$(RPC_PASSWORD) --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getaddressesbyaccount", "params": [""] }' -H 'content-type: text/plain;' http://127.0.0.1:$(RPC_PORT_BOB)/ | jq '.result[0]'))
-	$(eval ALICE_ADDRESS=$(shell curl -s --user $(RPC_USER):$(RPC_PASSWORD) --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getaddressesbyaccount", "params": [""] }' -H 'content-type: text/plain;' http://127.0.0.1:$(RPC_PORT_ALICE)/ | jq '.result[0]'))
+	$(eval BOB_ADDRESS=$(shell curl -s --user $(RPC_USER):$(RPC_PASSWORD) --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getaddressesbylabel", "params": [""] }' -H 'content-type: text/plain;' http://127.0.0.1:$(RPC_PORT_BOB)/ | jq '.result[0]'))
+	$(eval ALICE_ADDRESS=$(shell curl -s --user $(RPC_USER):$(RPC_PASSWORD) --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getaddressesbylabel", "params": [""] }' -H 'content-type: text/plain;' http://127.0.0.1:$(RPC_PORT_ALICE)/ | jq '.result[0]'))
 
 	$(eval ismine=$(shell curl -s --user $(RPC_USER):$(RPC_PASSWORD) --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "validateaddress", "params": [$(BOB_ADDRESS)] }' -H 'content-type: text/plain;' http://127.0.0.1:$(RPC_PORT_BOB)/ | jq '.result.ismine'))
 	$(info bobs doichain address: $(BOB_ADDRESS) ismine: $(ismine))
@@ -220,8 +220,8 @@ name_doi:
 	#create example name_doi on alice and send it to bob
 
 	$(eval currentTime=$(shell date +%s))
-	$(eval BOB_ADDRESS=$(shell curl -s --user $(RPC_USER):$(RPC_PASSWORD) --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getaddressesbyaccount", "params": [""] }' -H 'content-type: text/plain;' http://127.0.0.1:$(RPC_PORT_BOB)/ | jq '.result[0]'))
-	$(eval ALICE_ADDRESS=$(shell curl -s --user $(RPC_USER):$(RPC_PASSWORD) --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getaddressesbyaccount", "params": [""] }' -H 'content-type: text/plain;' http://127.0.0.1:$(RPC_PORT_ALICE)/ | jq '.result[0]'))
+	$(eval BOB_ADDRESS=$(shell curl -s --user $(RPC_USER):$(RPC_PASSWORD) --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getaddressesbylabel", "params": [""] }' -H 'content-type: text/plain;' http://127.0.0.1:$(RPC_PORT_BOB)/ | jq '.result[0]'))
+	$(eval ALICE_ADDRESS=$(shell curl -s --user $(RPC_USER):$(RPC_PASSWORD) --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getaddressesbylabel", "params": [""] }' -H 'content-type: text/plain;' http://127.0.0.1:$(RPC_PORT_ALICE)/ | jq '.result[0]'))
 
 	$(shell curl -s --user admin:generated-password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "generatetoaddress", "params": [1,$(ALICE_ADDRESS)] }' -H 'content-type: text/plain;' http://127.0.0.1:$(RPC_PORT_ALICE)/ | jq '.result')
 
