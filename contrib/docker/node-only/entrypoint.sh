@@ -4,13 +4,17 @@ set -euo pipefail
 _RPC_PORT=${RPC_PORT}
 _NODE_PORT=${NODE_PORT}
 _DAPP_URL=${DAPP_URL}
+_REGTEST=0
+_TESTNET=0
 
 if [ $REGTEST = true ]; then
+	_REGTEST=1
 	_RPC_PORT=$RPC_PORT_REGTEST
-  _NODE_PORT=$NODE_PORT_REGTEST
+  	_NODE_PORT=$NODE_PORT_REGTEST
 fi
 
 if [ $TESTNET = true ]; then
+	_TESTNET=1
 	_RPC_PORT=$RPC_PORT_TESTNET
   	_NODE_PORT=$NODE_PORT_TESTNET
 fi
@@ -34,16 +38,28 @@ DOICHAIN_CONF_FILE=/home/doichain/data/doichain/doichain.conf
 if [ ! -f "$DOICHAIN_CONF_FILE" ]; then
 echo "DOICHAIN_CONF_FILE not found - generating new!"
 echo "
+regtest=$_REGTEST
+testnet=$_TESTNET
 daemon=1
 server=1
 rpcuser=${RPC_USER}
 rpcpassword=${RPC_PASSWORD}
 rpcallowip=${RPC_ALLOW_IP}
-rpcport=${_RPC_PORT}
-txindex=1
-namehistory=1
+#txindex=1
+#namehistory=1
 blocknotify=curl -X GET ${DAPP_URL}/api/v1/blocknotify?block=%s
 walletnotify=curl -X GET ${DAPP_URL}/api/v1/walletnotify?tx=%s
+
+[test]
+rpcport=${_RPC_PORT}
+rpcbind=0.0.0.0
+rpcallowip=0.0.0.0/0
+port=${_NODE_PORT}
+
+[regtest]
+rpcport=${_RPC_PORT}
+rpcbind=0.0.0.0
+rpcallowip=0.0.0.0/0
 port=${_NODE_PORT}" > $DOICHAIN_CONF_FILE
 fi
 
