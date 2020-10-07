@@ -50,7 +50,7 @@ curl -X POST -H 'X-User-Id: a7Rzs7KdNmGwj64Eq' -H 'X-Auth-Token: Y1z8vzJMo1qqLjr
 2. Update the DNS of your mail domain(s) :
    1. Connect to your running docker container via ``docker ps`` and ``docker attach <your-cointainer>``
    2. list your accounts with ``doichain-cli listaccounts``
-   3. get the account address of your account ``doichain-cli getaccountaddress ""`` or use:``doichain-cli getaddressesbyaccount ""``
+   3. get the account address of your account ``doichain-cli getaccountaddress ""`` or use:``doichain-cli getaddressesbylabel ""``
    4. get the ``pubkey`` from ``doichain-cli validateaddress <your-address>``
    5. add a **TXT** field ``doichain-opt-in-provider:<your-email-domain e.g. doichain.org>``
    6. add a **TXT** field ``doichain-opt-in-key:<your pubkey from above> ``
