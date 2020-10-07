@@ -42,11 +42,12 @@ regtest=$_REGTEST
 testnet=$_TESTNET
 daemon=1
 server=1
+wallet=1
 rpcuser=${RPC_USER}
 rpcpassword=${RPC_PASSWORD}
 rpcallowip=${RPC_ALLOW_IP}
-#txindex=1
-#namehistory=1
+txindex=1
+namehistory=1
 blocknotify=curl -X GET ${DAPP_URL}/api/v1/blocknotify?block=%s
 walletnotify=curl -X GET ${DAPP_URL}/api/v1/walletnotify?tx=%s
 
@@ -54,12 +55,14 @@ walletnotify=curl -X GET ${DAPP_URL}/api/v1/walletnotify?tx=%s
 rpcport=${_RPC_PORT}
 rpcbind=0.0.0.0
 rpcallowip=0.0.0.0/0
+wallet=1
 port=${_NODE_PORT}
 
 [regtest]
 rpcport=${_RPC_PORT}
 rpcbind=0.0.0.0
 rpcallowip=0.0.0.0/0
+wallet=1
 port=${_NODE_PORT}" > $DOICHAIN_CONF_FILE
 fi
 
