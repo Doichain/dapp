@@ -77,7 +77,7 @@ RUN echo '12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef  db-4
 #Install doichain-core
 WORKDIR /home/doichain
 RUN mkdir .doichain && \
-	sudo git clone --branch dc0.20.1.2 https://github.com/Le-Space/namecoin-core doichain-core && \
+	sudo git clone --branch $DOICHAIN_VER https://github.com/Le-Space/namecoin-core doichain-core && \
 	cd doichain-core && \
 	sudo ./autogen.sh && sudo ./configure --disable-tests  --disable-gui-tests && \
 	sudo make && \
