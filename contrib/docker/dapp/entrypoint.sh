@@ -42,6 +42,7 @@ rpcpassword=${RPC_PASSWORD}
 rpcallowip=${RPC_ALLOW_IP}
 txindex=1
 namehistory=1
+fallbackfee=0.0002
 rpcworkqueue=100
 blocknotify=curl -X GET http://localhost:${HTTP_PORT}/api/v1/blocknotify?block=%s
 walletnotify=curl -X GET http://localhost:${HTTP_PORT}/api/v1/walletnotify?tx=%s
