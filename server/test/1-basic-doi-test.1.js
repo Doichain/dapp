@@ -19,8 +19,9 @@ if(!global.inside_docker){
     templateUrlB="http://localhost:4000/templates/emails/doichain-anmeldung-final-EN.html";
 }
 
-const aliceALogin = {"username":"alice-a","password":"password"};
-const aliceBLogin = {"username":"alice-a","password":"password"};
+global.dAppLogin = {"username":"admin","password":"generated-password"};
+const aliceALogin = {"username":"alice-a","password":"generated-password"};
+const aliceBLogin = {"username":"alice-b","password":"generated-password"};
 
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
@@ -30,20 +31,24 @@ if(Meteor.isAppTest) {
         this.timeout(0);
         before(function () {
             logBlockchain("removing OptIns,Recipients,Senders");
-            deleteOptInsFromAliceAndBob();
-            deleteAllEmailsFromPop3(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, true);
-            const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
-            updateUser(global.dappUrlAlice, adLog, adLog.userId, {},false);
+            global.dAppLogin = {"username":"admin","password":"generated-password"};
+           // deleteOptInsFromAliceAndBob();
+           //    deleteAllEmailsFromPop3(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, true);
+           console.log('global.dappUrlAlice',global.dappUrlAlice) 
+           console.log('global.dAppLogin',global.dAppLogin)
+           const adLog = login(global.dappUrlAlice, global.dAppLogin, true);
+           updateUser(global.dappUrlAlice, adLog, adLog.userId, {},true);
         });
         afterEach(function(){
             const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
             updateUser(global.dappUrlAlice, adLog, adLog.userId, {},false);
         });
 
-        it('should test if basic Doichain workflow is working with optional data', function (done) {
+        it.only('should test if basic Doichain workflow is working with optional data', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice@ci-doichain.org";
-            const dataLoginAlice = login(global.dappUrlAlice, global.dAppLogin, false); //log into dApp
+
+            const dataLoginAlice = login(global.dappUrlAlice, global.dAppLogin, true); //log into dApp
             requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, dataLoginAlice, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
             done();
         });

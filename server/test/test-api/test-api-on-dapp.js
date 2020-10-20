@@ -105,11 +105,11 @@ function get_nameid_of_raw_transaction(url, auth, txId, callback){
     (async function loop() {
         while(running && ++counter<1500){ //trying 50x to get email from bobs mailbox
             try{
-                    testLogging('trying to get transaction',txId);
+                    testLogging('trying to getrawtransaction with txid',txId);
                     const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
                     const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headers };
                     const resultGetRawTransaction = getHttpPOST(url, realdataGetRawTransaction);
-
+                    testLogging('result',resultGetRawTransaction);
                     if(resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp!==undefined){
                         nameId = resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp.name;
                     }
@@ -671,7 +671,7 @@ export function updateUser(url,auth,updateId,mailTemplate,log){
         'X-User-Id':auth.userId,
         'X-Auth-Token':auth.authToken
     }
-
+    if(log) testLogging('headersUser:', headersUser);
     const dataUser = {"mailTemplate":mailTemplate};
     if(log) testLogging('url:', url);
     const urlUsers = url+'/api/v1/users/'+updateId;

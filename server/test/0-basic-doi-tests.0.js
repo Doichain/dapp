@@ -28,7 +28,7 @@ if(Meteor.isAppTest) {
 
     global.dappUrlAlice = "http://localhost:3000";
     global.dappUrlBob = global.inside_docker?"http://172.20.0.8:4000":"http://localhost:4000";
-    global.dAppLogin = {"username":"admin","password":"password"};
+    global.dAppLogin = {"username":"admin","password":"generated-password"};
 
     describe('basic-doi-test-0', function () {
         this.timeout(0);
@@ -38,7 +38,7 @@ if(Meteor.isAppTest) {
             deleteOptInsFromAliceAndBob();
         });
 
-        it('should create a RegTest Doichain with alice and bob and some Doi - coins', function () {
+        it.only('should create a RegTest Doichain with alice and bob and some Doi - coins', function () {
             initBlockchain(global.node_url_alice,global.node_url_bob,global.rpcAuth,global.privKeyAlice,global.privKeyBob,true);
             const aliceBalance = getBalance(global.node_url_alice, global.rpcAuth, log);
             chai.assert.isAbove(aliceBalance, 0, 'no funding! ');
