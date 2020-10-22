@@ -97,7 +97,7 @@ all: build test
 
 #--no-cache
 build:
-	docker build -t $(IMG) --no-cache --build-arg DOICHAIN_VER=$(DOICHAIN_VER) --build-arg DOICHAIN_DAPP_VER=$(DOICHAIN_DAPP_VER) .
+	docker build -t $(IMG) --build-arg DOICHAIN_VER=$(DOICHAIN_VER) --build-arg DOICHAIN_DAPP_VER=$(DOICHAIN_DAPP_VER) .
 
 mainnet%: http_port rpc_port p2pport
 	$(info Checking if HTTP_PORT, RPC_PORT and PORT is set)
