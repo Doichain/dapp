@@ -109,7 +109,7 @@ function get_nameid_of_raw_transaction(url, auth, txId, callback){
                     const dataGetRawTransaction = {"jsonrpc": "1.0", "id":"getrawtransaction", "method": "getrawtransaction", "params": [txId,1] };
                     const realdataGetRawTransaction = { auth: auth, data: dataGetRawTransaction, headers: headers };
                     const resultGetRawTransaction = getHttpPOST(url, realdataGetRawTransaction);
-                    testLogging('result',resultGetRawTransaction);
+                  //  testLogging('result',resultGetRawTransaction);
                     if(resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp!==undefined){
                         nameId = resultGetRawTransaction.data.result.vout[1].scriptPubKey.nameOp.name;
                     }
@@ -433,7 +433,6 @@ async function verify_doi(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, se
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
         }
-
     })();
     try {
         chai.assert.equal(statusVerify, 200);
@@ -476,6 +475,7 @@ async function verify_local(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, 
     await (async function loop() {
         while (running && ++counter < 50) { //trying 50x to get email from bobs mailbox
             try {
+                generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
                 testLogging('Step 5: verifying opt-in:', {data: dataVerify});
                 const realdataVerify = {data: dataVerify, headers: headersVerify};
                 resultVerify = getHttpGETdata(urlVerify, realdataVerify);
@@ -491,7 +491,7 @@ async function verify_local(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, 
                 //generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
                 //await new Promise(resolve => setTimeout(resolve, 2000));
             } finally {
-                generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
+                //generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
         }
