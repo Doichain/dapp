@@ -147,7 +147,7 @@ export function generatetoaddress(url,auth,toaddress,amount,log){
     const realdataGenerate = { auth: auth, data: dataGenerate, headers: headersGenerates };
     const resultGenerate = getHttpPOST(url, realdataGenerate);
     const statusResultGenerate = resultGenerate.statusCode;
-    if(log)testLogging('statusResultGenerate:',statusResultGenerate);
+    if(log)testLogging('resultGenerate:',resultGenerate);
     chai.assert.equal(200, statusResultGenerate);
     chai.expect(resultGenerate.data.error).to.be.null;
     chai.expect(resultGenerate.data.result).to.not.be.null;

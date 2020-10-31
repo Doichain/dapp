@@ -48,7 +48,7 @@ if(Meteor.isAppTest) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice@ci-doichain.org";
 
-            const dataLoginAlice = login(global.dappUrlAlice, global.dAppLogin, true); //log into dApp
+            const dataLoginAlice = login(global.dappUrlAlice, global.dAppLogin, false); //log into dApp
             requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, dataLoginAlice, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
             done();
         });
