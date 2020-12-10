@@ -28,7 +28,7 @@ if(Meteor.isAppTest) {
 
     global.dappUrlAlice = "http://localhost:3000";
     global.dappUrlBob = global.inside_docker?"http://172.20.0.8:4000":"http://localhost:4000";
-    global.dAppLogin = {"username":"admin","password":"generated-password"};
+    global.dAppLogin = {"username":"admin","password":"password"};
 
     describe('basic-doi-test-0', function () {
         this.timeout(0);
