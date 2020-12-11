@@ -19,9 +19,9 @@ if(!global.inside_docker){
     templateUrlB="http://localhost:4000/templates/emails/doichain-anmeldung-final-EN.html";
 }
 
-global.dAppLogin = {"username":"admin","password":"password"};
-const aliceALogin = {"username":"alice-a","password":"password"};
-const aliceBLogin = {"username":"alice-b","password":"password"};
+global.dAppLogin = {"username":"admin","password":"generated-password"};
+const aliceALogin = {"username":"alice-a","password":"generated-password"};
+const aliceBLogin = {"username":"alice-b","password":"passgenerated-passwordword"};
 
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
@@ -31,7 +31,7 @@ if(Meteor.isAppTest) {
         this.timeout(0);
         before(function () {
             logBlockchain("removing OptIns,Recipients,Senders");
-            global.dAppLogin = {"username":"admin","password":"password"};
+            global.dAppLogin = {"username":"admin","password":"generated-password"};
            // deleteOptInsFromAliceAndBob();
            //    deleteAllEmailsFromPop3(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, true);
            console.log('global.dappUrlAlice',global.dappUrlAlice) 
