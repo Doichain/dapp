@@ -48,6 +48,7 @@ blocknotify=curl -X GET http://localhost:${HTTP_PORT}/api/v1/blocknotify?block=%
 walletnotify=curl -X GET http://localhost:${HTTP_PORT}/api/v1/walletnotify?tx=%s
 
 [test]
+wallet=1
 rpcport=${_RPC_PORT}
 rpcbind=0.0.0.0
 rpcallowip=0.0.0.0/0
