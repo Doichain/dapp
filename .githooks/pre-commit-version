@@ -93,7 +93,8 @@ getVersionTag()
     }).then(function(){
         stageVersion().then((val)=>{console.log("version.json staged")});
         //update le-space testnet
-        //ssh -t le-space.de sudo docker exec -it testnet-le-space-v0.0.9.96 /home/doichain/scripts/dapp-start.sh start build
+        onsole.log( 'consider updating testnet via ssh!');
+        onsole.log( 'ssh -t le-space.de sudo docker exec -it testnet-le-space-v0.0.9.96 /home/doichain/scripts/dapp-start.sh build');
         //update testnet fallback 
-        //ssh -t root@explorer.doichain.org docker exec -it testnet-fallback-doichain-org_v0.0.9.96 /home/doichain/scripts/dapp-start.sh build
+        onsole.log( 'ssh -t root@explorer.doichain.org docker exec -it testnet-fallback-doichain-org_v0.0.9.96 /home/doichain/scripts/dapp-start.sh build start && sleep 5');
     })
