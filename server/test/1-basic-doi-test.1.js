@@ -53,7 +53,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should test if basic Doichain workflow is working without optional data', function (done) {
+        it.only('should test if basic Doichain workflow is working without optional data', function (done) {
             const recipient_mail = "alice@ci-doichain.org"; //please use this as an alernative when above standard is not possible
             const sender_mail = "bob@ci-doichain.org";
             //login to dApp & request DOI on alice via bob
@@ -62,7 +62,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should create two more users', function (done) {
+        it.only('should create two more users', function (done) {
             resetUsers();
             const logAdmin = login(global.dappUrlAlice, global.dAppLogin, false);
             let userA = createUser(global.dappUrlAlice, logAdmin, "alice-a", templateUrlA, true);
@@ -73,7 +73,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should test if Doichain workflow is using different templates for different users', function (done) {
+        it.only('should test if Doichain workflow is using different templates for different users', function (done) {
             resetUsers();
             const recipient_mail = "bob@ci-doichain.org"; //
             const sender_mail_alice_a = "alice-a@ci-doichain.org";
@@ -95,7 +95,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should test if users can export OptIns ', function (done) {
+        it.only('should test if users can export OptIns ', function (done) {
             resetUsers();
             const recipient_mail = "bob@ci-doichain.org"; //
             const sender_mail_alice_a = "alice-export_a@ci-doichain.org";
@@ -119,7 +119,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should test if admin can update user profiles', function () {
+        it.only('should test if admin can update user profiles', function () {
             resetUsers();
             let logAdmin = login(global.dappUrlAlice, global.dAppLogin, true);
             const userUp = createUser(global.dappUrlAlice, logAdmin, "updateUser", templateUrlA, true);
