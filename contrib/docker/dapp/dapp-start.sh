@@ -1,15 +1,30 @@
-#!/usr/bin/env bash
-#(cd /home/doichain/dapp; meteor run --settings /home/doichain/data/dapp/settings.json)
+#!/bin/bash
 
-#echo 'starting creating bundle $DAPP_HOST:$DAPP_PORT' && cd dapp && rm -rf build
-#meteor build build/ --architecture os.linux.x86_64 --directory #--server $DAPP_HOST:$DAPP_PORT
-#echo 'finished creating bundle' && cd build/bundle/programs/server && npm install && cd -
-#echo 'starting doichain dapp via node' && 
 export METEOR_SETTINGS=$(cat /home/doichain/data/dapp/settings.json)
 export PORT=$HTTP_PORT
 export ROOT_URL=http://$DAPP_HOST:$DAPP_PORT
 
+_BUILD=$1
+if [ $_BUILD = 'build' ]; then
+	git -C /home/doichain/dapp pull origin master
+	echo "starting creating bundle $DAPP_HOST:$DAPP_PORT" 
+	rm -rf /home/doichain/dapp/bundle 
+	cd /home/doichain/dapp/
+	meteor build build/ --architecture os.linux.x86_64 --directory --server $DAPP_HOST:$DAPP_PORT
+	cd /home/doichain/dapp/build/bundle/programs/server
+	npm install
+fi
+pidfile=/home/doichain/dapp/dapp.pid
+if [ -e $pidfile ]; then
+	echo "pidfile existiert"
+	if ps `cat /home/doichain/dapp/dapp.pid` > /dev/null
+	then
+		PID=`cat /home/doichain/dapp/dapp.pid`
+		echo "$PID is running"
+		kill -9 $PID
+	fi
+fi
 echo "starting dapp via node bundle"
-cd /home/doichain/dapp/build/bundle/programs/server
-npm install
-(cd /home/doichain/dapp; nohup node build/bundle/main.js &)
+cd /home/doichain/dapp 
+nohup node build/bundle/main.js > dapp.log  2>&1 & echo $! > dapp.pid
+sleep 5
