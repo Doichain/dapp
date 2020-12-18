@@ -20,8 +20,8 @@ if(!global.inside_docker){
 }
 
 global.dAppLogin = {"username":"admin","password":"generated-password"};
-const aliceALogin = {"username":"alice-a","password":"generated-password"};
-const aliceBLogin = {"username":"alice-b","password":"passgenerated-passwordword"};
+const aliceALogin = {"username":"alice-a","password":"password"};
+const aliceBLogin = {"username":"alice-b","password":"password"};
 
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
@@ -44,7 +44,7 @@ if(Meteor.isAppTest) {
             updateUser(global.dappUrlAlice, adLog, adLog.userId, {},false);
         });
 
-        it.only('should test if basic Doichain workflow is working with optional data', function (done) {
+        xit('should test if basic Doichain workflow is working with optional data', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice@ci-doichain.org";
 
@@ -53,7 +53,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it.only('should test if basic Doichain workflow is working without optional data', function (done) {
+        it('should test if basic Doichain workflow is working without optional data', function (done) {
             const recipient_mail = "alice@ci-doichain.org"; //please use this as an alernative when above standard is not possible
             const sender_mail = "bob@ci-doichain.org";
             //login to dApp & request DOI on alice via bob
@@ -62,14 +62,13 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it.only('should create two more users', function (done) {
+        it('should create two more users', function (done) {
             resetUsers();
             const logAdmin = login(global.dappUrlAlice, global.dAppLogin, false);
             let userA = createUser(global.dappUrlAlice, logAdmin, "alice-a", templateUrlA, true);
             chai.expect(findUser(userA)).to.not.be.undefined;
             let userB = createUser(global.dappUrlAlice, logAdmin, "alice-b", templateUrlB, true);
             chai.expect(findUser(userB)).to.not.be.undefined;
-
             done();
         });
 
@@ -78,7 +77,7 @@ if(Meteor.isAppTest) {
             const recipient_mail = "bob@ci-doichain.org"; //
             const sender_mail_alice_a = "alice-a@ci-doichain.org";
             const sender_mail_alice_b = "alice-b@ci-doichain.org";
-            const logAdmin = login(global.dappUrlAlice, global.dAppLogin, false);
+            const logAdmin = login(global.dappUrlAlice, global.dAppLogin, true);
 
             let userA = createUser(global.dappUrlAlice, logAdmin, "alice-a", templateUrlA, true);
             chai.expect(findUser(userA)).to.not.be.undefined;
@@ -90,12 +89,12 @@ if(Meteor.isAppTest) {
 
             //requestConfirmVerifyBasicDoi checks if the "log" value (if it is a String) is in the mail-text
             requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice,global.dappUrlAlice, logUserA, global.dappUrlBob, recipient_mail, sender_mail_alice_a, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", "kostenlose Anmeldung");
-            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logUserB, global.dappUrlBob, recipient_mail, sender_mail_alice_b, {'city': 'Simbach'}, "bob@ci-doichain.org", "bob", "free registration");
+                requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logUserB, global.dappUrlBob, recipient_mail, sender_mail_alice_b, {'city': 'Simbach'}, "bob@ci-doichain.org", "bob", "free registration");
 
             done();
         });
 
-        it.only('should test if users can export OptIns ', function (done) {
+        it('should test if users can export OptIns ', function (done) {
             resetUsers();
             const recipient_mail = "bob@ci-doichain.org"; //
             const sender_mail_alice_a = "alice-export_a@ci-doichain.org";
@@ -119,7 +118,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it.only('should test if admin can update user profiles', function () {
+        it('should test if admin can update user profiles', function () {
             resetUsers();
             let logAdmin = login(global.dappUrlAlice, global.dAppLogin, true);
             const userUp = createUser(global.dappUrlAlice, logAdmin, "updateUser", templateUrlA, true);

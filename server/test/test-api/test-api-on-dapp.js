@@ -595,24 +595,29 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     //generating a block so transaction gets confirmed and delivered to bob.
     generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
     let running = true;
-    let counter = 0;
     let confirmedLink = "";
     let lastError=null;
-    confirmedLink = await(async function loop() {
-        while(running && ++counter<50){ //trying 50x to get email from bobs mailbox
-            try{
-                testLogging('step 3: getting email from hostname!',os.hostname());
-                const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname()=='regtest')?'mail':'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, false);
-                testLogging('step 4: confirming link',link2Confirm);
-                if(link2Confirm!=undefined){running=false;
-                confirmedLink=link2Confirm;
-                testLogging('confirmed');
-                return link2Confirm;
+    let counter = 0;
+    confirmedLink = await (async function loop() {
+        while (running && (Number(++counter)) < 50) { //trying 50x to get email from bobs mailbox
+            console.log('counter',counter)
+            try {
+                testLogging('step 3: getting email from hostname!', os.hostname());
+                const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname() == 'regtest') ? 'mail' : 'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, true);
+                testLogging('step 4: confirming link', link2Confirm);
+                if (link2Confirm != undefined) {
+                    running = false;
+                    confirmedLink = link2Confirm;
+                    testLogging('confirmed');
+                    return link2Confirm;
                 }
-            }catch(ex){
-                lastError=ex;
-                testLogging('trying to get email - so far no success:',ex);
-                testLogging('trying to get email - so far no success:',counter);
+            } catch (ex) {
+                lastError = ex;
+                testLogging('trying to get email - so far no success:', ex);
+                testLogging('trying to get email - so far no success:', counter);
+                if(counter>10)
+                    generatetoaddress(node_url_alice, rpcAuthAlice, global.aliceAddress, 1, true);
+              //  if(counter.toNumber()>50) break;
                 await new Promise(resolve => setTimeout(resolve, 3000));
             }
         }

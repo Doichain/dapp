@@ -1,7 +1,7 @@
 # doichain/docker
 ## a docker image for the Doichain environment http://www.doichain.org
 
-### Usage
+### Usage (outdated! please rewrite with docker-compose!)
   - ``git clone https://github.com/Doichain/docker.git doichain-docker; cd doichain-docker``
   - run a testnet node ``make testnet-[my-doichain] HTTP_PORT=81 PORT=18338 RPC_PORT=18339``
   - run a testnet network with alice and bob ``make test_testnet``
@@ -12,7 +12,7 @@
   - run ``doichain-cli getnewaddress`` and send your testnet address to testnet@doichain.org with subject "send me money"
 
 
-### Installation Send - dApp
+### Installation Doichain dApp
 1. Install ``docker run -it --rm -e DAPP_SEND='true' -p 3000:3000  doichain/dapp:v0.0.9.73``
 2. Get auth token with: ``curl -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"password"}' http://localhost:3000/api/v1/login``
 
