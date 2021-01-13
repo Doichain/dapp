@@ -21,7 +21,7 @@ const exec = require('child_process').exec;
 const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
 
-const rpcAuth = "admin:generated-password";
+const rpcAuth = "admin:password";
 const dAppLogin = {"username":"admin","password":"password"};
 const log = true;
 

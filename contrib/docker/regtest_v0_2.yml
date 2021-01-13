@@ -1,0 +1,88 @@
+version: "2"
+services:
+  alice:
+    image: "doichain/node-only:v0.0.9.55" 
+    hostname: alice
+    ports:
+      - "18543:18332"
+    expose:
+      - "18332"
+    environment:
+      - REGTEST=true
+      - RPC_ALLOW_IP=::/0
+      - CONNECTION_NODE=bob
+      - RPC_PASSWORD=generated-password
+    dns_search: ci-doichain.org
+    volumes:
+      - ../scripts/docker-compose/resolv.conf:/etc/resolv.conf
+    stdin_open: true
+    tty: true
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.6
+
+  bob:
+    image: "doichain/node-only:v0.0.9.55"
+    hostname: bob
+    ports:
+      - "18544:18332"
+    expose:
+      - "18332"
+    environment:
+      - REGTEST=true
+      - CONNECTION_NODE=alice
+      - RPC_ALLOW_IP=::/0
+      - RPC_PASSWORD=generated-password
+      - DAPP_URL=http://172.20.0.9:4000/
+#      - DAPP_URL=http://172.20.0.8:4000 #use this when tests run inside docker
+    volumes:
+      - ../scripts/docker-compose/resolv.conf:/etc/resolv.conf
+    stdin_open: true
+    tty: true
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.7
+
+  altbob:
+    image: "doichain/node-only:v0.0.9.54"
+    hostname: altbob
+    ports:
+      - "18545:18332"
+    expose:
+      - "18332"
+    environment:
+      - REGTEST=true
+      - CONNECTION_NODE=alice
+      - RPC_ALLOW_IP=::/0
+      - RPC_PASSWORD=generated-password
+      - DAPP_URL=http://172.20.0.9:4000/
+#      - DAPP_URL=http://172.20.0.8:4000 #use this when tests run inside docker
+    dns_search: ci-doichain.org
+    volumes:
+      - ../scripts/docker-compose/resolv.conf:/etc/resolv.conf
+    stdin_open: true
+    tty: true
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.8
+
+  dockerhost:
+    image: qoomon/docker-host
+    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+#    volumes:
+#     - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
+    restart: on-failure
+    expose:
+      - "3000"
+      - "4000"
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.9
+
+networks:
+  static-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1

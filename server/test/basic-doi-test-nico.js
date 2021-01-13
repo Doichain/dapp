@@ -15,8 +15,8 @@ if(Meteor.isAppTest) {
     if(!global.inside_docker) global.node_url_alice = 'http://localhost:18543/';
     global.node_url_bob =   'http://172.20.0.7:18332/';
     if(!global.inside_docker) global.node_url_bob = 'http://localhost:18544/';
-    global.rpcAuthAlice = "admin:generated-password";
-    global.rpcAuth = "admin:generated-password";
+    global.rpcAuthAlice = "admin:password";
+    global.rpcAuth = "admin:password";
 
     global.privKeyAlice = "cNEuvnaPVkW7Xp3JS49k9aSqMBe4LSyws3aq1KvCU1utSDLtT9Dj";
     global.privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
@@ -70,12 +70,12 @@ if(Meteor.isAppTest) {
 // import {login, requestConfirmVerifyBasicDoi} from "./test-api/test-api-on-dapp";
 // const node_url_alice = 'http://172.20.0.6:18332/';
 // const node_url_bob =   'http://172.20.0.7:18332/';
-// const rpcAuth = "admin:generated-password";
+// const rpcAuth = "admin:password";
 // const privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj";
 // const log = true;
 //
 //
-// const rpcAuthAlice = "admin:generated-password";
+// const rpcAuthAlice = "admin:password";
 // const dappUrlAlice = "http://localhost:3000";
 // const dappUrlBob = "http://172.20.0.8:4000";
 // const dAppLogin = {"username":"admin","password":"password"};

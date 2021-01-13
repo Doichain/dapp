@@ -20,8 +20,8 @@ if(Meteor.isAppTest) {
     if(!global.inside_docker) global.node_url_alice = 'http://localhost:18543/';
     global.node_url_bob =   'http://172.20.0.7:18332/';
     if(!global.inside_docker) global.node_url_bob = 'http://localhost:18544/';
-    global.rpcAuthAlice = "admin:generated-password";
-    global.rpcAuth = "admin:generated-password";
+    global.rpcAuthAlice = "admin:password";
+    global.rpcAuth = "admin:password";
 
     global.privKeyAlice = "cNEuvnaPVkW7Xp3JS49k9aSqMBe4LSyws3aq1KvCU1utSDLtT9Dj";
     global.privKeyBob = "cP3EigkzsWuyKEmxk8cC6qXYb4ZjwUo5vzvZpAPmDQ83RCgXQruj"; //validator
