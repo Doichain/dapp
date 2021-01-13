@@ -7,7 +7,6 @@ const AddressesByAccount = () => {
   const meta = useTracker(() => MetaCollection.find({key:'addresses_by_account'}).fetch());
 
   if(!loading){
-    console.log(Object.keys(meta[0].value))
     const addresses = meta.length>0?Object.keys(meta[0].value):['empty']
       
     
