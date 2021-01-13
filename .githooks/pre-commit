@@ -1,9 +1,0 @@
-#!/bin/sh
-#git config core.hooksPath .githooks 
-    node `pwd`/.githooks/pre-commit-version
-    RETVAL=$?
-    
-    if [ $RETVAL -ne 0 ]
-    then 
-       exit 1
-    fi 
