@@ -13,7 +13,7 @@ ecmascript@0.14.4              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.5.0            # Server-side component of the `meteor shell` command
 
 msavin:mongol
-meteortesting:mocha@1.1.1
+meteortesting:mocha
 
 inspiraluna:useraccounts-react-material-ui
 aldeed:collection2
