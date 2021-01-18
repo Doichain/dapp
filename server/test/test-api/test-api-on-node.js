@@ -21,9 +21,13 @@ export function initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyAlice,
 
     try {
         const aliceContainerId = getContainerIdOfName('alice');
+        logBlockchain("aliceContainerId:" + aliceContainerId);
         const statusDocker = JSON.parse(getDockerStatus(aliceContainerId));
+        logBlockchain("statusDocker:" + statusDocker);
         logBlockchain("real balance :" + statusDocker.balance, (Number(statusDocker.balance) > 0));
         logBlockchain("connections:" + statusDocker.connections);
+        logBlockchain("node_url_alice:" + node_url_alice);
+        logBlockchain("rpcAuth:" + rpcAuth);
         if (Number(statusDocker.connections) == 0) {
             isNodeAlive(node_url_alice, rpcAuth, log);
             isNodeAliveAndConnectedToHost(node_url_bob, rpcAuth, 'alice', log);
@@ -119,11 +123,11 @@ export function isNodeAliveAndConnectedToHost(url, auth, host, log) {
 }
 
 export function importPrivKey(url, auth, privKey, rescan, log) {
-        if(log) testLogging('importPrivKey called','');
+        if(log) testLogging('importPrivKey called with auth',auth);
         const data_importprivkey = {"jsonrpc": "1.0", "id":"importprivkey", "method": "importprivkey", "params": [privKey] };
         const realdata_importprivkey = { auth: auth, data: data_importprivkey, headers: headers };
         const result = getHttpPOST(url, realdata_importprivkey);
-        if(log) testLogging('result:',result);
+        testLogging('result:',result);
 }
 
 export function getNewAddress(url, auth, log) {

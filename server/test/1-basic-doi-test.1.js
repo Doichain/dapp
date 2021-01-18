@@ -44,7 +44,7 @@ if(Meteor.isAppTest) {
             updateUser(global.dappUrlAlice, adLog, adLog.userId, {},false);
         });
 
-        xit('should test if basic Doichain workflow is working with optional data', function (done) {
+        it('should test if basic Doichain workflow is working with optional data', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice@ci-doichain.org";
 
@@ -72,7 +72,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it.only('should test if Doichain workflow is using different templates for different users', function (done) {
+        it('should test if Doichain workflow is using different templates for different users', function (done) {
             resetUsers();
             const recipient_mail = "bob@ci-doichain.org"; //
             const sender_mail_alice_a = "alice-a@ci-doichain.org";
@@ -102,12 +102,12 @@ if(Meteor.isAppTest) {
             const logAdmin = login(global.dappUrlAlice, global.dAppLogin, true);
             createUser(global.dappUrlAlice,logAdmin,"basicuser",templateUrlA,true);
             const logBasic = login(global.dappUrlAlice, {"username":"basicuser","password":"password"}, true);
-            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logBasic, global.dappUrlBob, recipient_mail, sender_mail_alice_a, {'city': 'München'}, "bob@ci-doichain.org", "bob", true);
-            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logAdmin, global.dappUrlBob, recipient_mail, sender_mail_alice_b, {'city': 'München'}, "bob@ci-doichain.org", "bob", true);
+            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logBasic, global.dappUrlBob, recipient_mail, sender_mail_alice_a, {'city': 'Jekaterinburg'}, "bob@ci-doichain.org", "bob", true);
+            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logAdmin, global.dappUrlBob, recipient_mail, sender_mail_alice_b, {'city': 'Jekaterinburg'}, "bob@ci-doichain.org", "bob", true);
             const exportedOptIns = exportOptIns(global.dappUrlAlice, logAdmin, true);
             chai.expect(exportedOptIns).to.not.be.undefined;
             chai.expect(exportedOptIns[0]).to.not.be.undefined;
-            chai.expect(exportedOptIns[0].data).to.be.equal('{"city":"Ekaterinburg"}');
+            chai.expect(exportedOptIns[0].data).to.be.equal('{"city":"Jekaterinburg"}');
             chai.expect(exportedOptIns[0].RecipientEmail.email).to.be.equal(recipient_mail);
 
             const exportedOptInsA = exportOptIns(global.dappUrlAlice, logBasic, true);
@@ -128,7 +128,7 @@ if(Meteor.isAppTest) {
             chai.expect(changedData).not.undefined;
         });
 
-        xit('should test if user can update own profile', function () {
+        it('should test if user can update own profile', function () {
             resetUsers();
             let logAdmin = login(global.dappUrlAlice, global.dAppLogin, true);
             const userUp = createUser(global.dappUrlAlice, logAdmin, "updateUser", templateUrlA, true);
@@ -140,7 +140,7 @@ if(Meteor.isAppTest) {
             chai.expect(changedData).not.undefined;
         });
 
-        xit('should test if coDoi works', function () {
+        it('should test if coDoi works', function () {
             const coDoiList = ["aliceCo1@doichain-ci.com", "aliceCo2@doichain-ci.com", "aliceCo3@doichain-ci.com"];
             const recipient_mail = "bob@ci-doichain.org";
             const sender_mail = coDoiList;
@@ -148,7 +148,7 @@ if(Meteor.isAppTest) {
             requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logAdmin, global.dappUrlBob, recipient_mail, sender_mail, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", true);
         });
 
-        xit('should find updated data in email', function (done) {
+        it('should find updated data in email', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice-update@ci-doichain.org";
             const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
@@ -157,7 +157,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should use URL params', function (done) {
+        it('should use URL params', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail_a = "alice-param-a@ci-doichain.org";
             const sender_mail_b = "alice-param-b@ci-doichain.org";
@@ -169,7 +169,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should use the text version', function(done){
+        it('should use the text version', function(done){
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail_a = "alice-text@ci-doichain.org";
             const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
@@ -179,7 +179,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should use the json/multipart version', function(done){
+        it.only('should use the json/multipart version', function(done){
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail_a = "alice-param-multi@ci-doichain.org";
             const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
@@ -189,7 +189,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        xit('should redirect if confirmation-link is clicked again',function(){
+        it('should redirect if confirmation-link is clicked again',function(){
             for (let index = 0; index < 3; index++) {
                 const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
                 const sender_mail = "alice_"+index+"@ci-doichain.org";

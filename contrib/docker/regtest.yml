@@ -77,7 +77,7 @@ services:
       - REGTEST=true
       - RPC_ALLOW_IP=::/0
       - CONNECTION_NODE=bob
-      - RPC_PASSWORD=generated-password
+      - RPC_PASSWORD=password
       - DAPP_URL=http://172.20.0.9:3000/
     dns:
       - 172.20.0.5
@@ -102,7 +102,7 @@ services:
       - REGTEST=true
       - CONNECTION_NODE=alice
       - RPC_ALLOW_IP=::/0
-      - RPC_PASSWORD=generated-password
+      - RPC_PASSWORD=password
       - DAPP_URL=http://172.20.0.9:4000/
 #      - DAPP_URL=http://172.20.0.8:4000 #use this when tests run inside docker
     dns:

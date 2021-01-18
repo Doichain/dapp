@@ -17,7 +17,7 @@
       "host": "localhost",
       "port": "18543",
       "username": "admin",
-      "password": "generated-password"
+      "password": "password"
     }
   },
   "confirm": {
@@ -25,7 +25,7 @@
       "host": "localhost",
       "port": "18543",
       "username": "admin",
-      "password": "generated-password",
+      "password": "password",
       "address": "miFQ8xomNTDH6PGKr3c7VVcfuJJsQ2zfuM"
     },
     "smtp": {
@@ -43,7 +43,7 @@
       "host": "localhost",
       "port": "18543",
       "username": "admin",
-      "password": "generated-password"
+      "password": "password"
     }
   }
 }
