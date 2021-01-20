@@ -1,5 +1,5 @@
-IMG=doichain/node-only:v0.0.9.55
-DOICHAIN_VER=dc0.20.1.5
+IMG=doichain/node-only:dc0.20.1.6
+DOICHAIN_VER=dc0.20.1.6
 
 default: build
 
