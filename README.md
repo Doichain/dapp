@@ -1,52 +1,16 @@
-# Doichain Protocol
+# Doichain dApp
+A reference implementation of the "Doichain Atomic Double-Opt-In Protocol"
 
-The leading edge fraud resistant (*) DOI verification and documentation
+Note: This is still experimental software. This module is not (yet) intended for use in production environments, or for use where real money is at stake, at this point.
+Please contact developers over Telegram @doichain for questions.
 
-[Launch](#launch)
-[Read whitepaper](https://github.com/Doichain/dapp/raw/master/doc/Doichain-WhitePaper.pdf)
-[Read old README](README_orig.md)
-
-## Whitepaper
-- Introduction
-    - Basic Information
-    - Wallets
-    - Exchanges
-- Protocol Overview 
-    - How Doichain works
-        - Basic Architecture (Doichain Core - Doichain dApp - doiContact Wallet)
-        - mother blockchain Namecoin 
-        - Doichain Core changes
-        - The Doichain Eco System
-    - Eco system participants
-        - classic email users
-        - email marketing advertizers 
-        - email provider and validators
-        - miners
-        - email domain stakers
-- Core Concepts
-    - SOI 
-    - DOI
-    - Validation processs
-    - Permission Verification
-    - Simple DOI protocol (v0.1)
-    - DIP001 - Simple DOI protocol with p2plib (v0.2)
-    - DIP002 - Remote transaction signing
-    - DIP003 - Email domain reward and staking model
-    - DIP004 - Storage fee price stability
-- Advanced Topics
-    - Fees
-    - Rewards
-    - Service Price Stability
-    - Mining
-- Developer Guides 
-    - Installing 
-
-
-## Launch 
-- [Launch doiContact wallet](https://dapp.doichain.org)
-- [Request a DOI](https://dapp.doichain.org)
-- [Integrate into your project running a Doichain Node] 
-    - Docker 
-    - Manually 
-- [Run a validator]
-
+## Table of Contents
+- [Docker Installation](doc/en/install-docker.md)
+- [Manual Installation](doc/en/install-manual-linux.md)
+- [JSON-RPC-API](doc/en/json-rpc-api.md)
+- [Setting up a Doichain Development Environment via RegTest](doc/en/dev-env-regtest.md)
+- [Setting up a Doichain Development Environment via Testnet](doc/en/dev-env-testnet.md)
+- [Bounty Program](doc/en/bounty.md)
+- [Settings](doc/en/settings.md)
+- [UML](doc/en/uml.md)
+- [Buy & Sell Doicoins (DOI)](https://bisq.network)
