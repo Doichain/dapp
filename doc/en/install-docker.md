@@ -51,10 +51,10 @@ docker volume create doichain-testnet-db
 #for mainnet
 docker volume create doichain
 docker run -d --restart always --network doinet --name mongo \
-    -v doichain-testnet-db:/data/db \
+    -v mongo-db:/data/db \
     -e MONGO_INITDB_ROOT_USERNAME=admin \
     -e MONGO_INITDB_ROOT_PASSWORD=secret \
-    mongo
+    mongo:3.6
 ```
 - create a user on Mongo DB https://docs.mongodb.com/manual/tutorial/create-users/
 ```mongo
