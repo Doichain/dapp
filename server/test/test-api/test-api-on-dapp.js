@@ -224,6 +224,7 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                         html = replaceAll(html,'http://172.20.0.8','http://localhost');  //TODO put this IP inside a config
                                     }
                                     let linkdata = null;
+                                    console.log('html'+html)
                                     chai.expect(html.indexOf(alicedapp_url),"dappUrl not found in email").to.not.equal(-1);
                                     linkdata =  html.substring(html.indexOf(alicedapp_url)).match(/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*[a-z,A-Z,0-9]{16,}/)[0];
 
@@ -515,12 +516,15 @@ export function createUser(url,auth,username,templateURL,log){
     }
     const mailTemplate = {
         "subject": "Hello i am "+username,
+        "senderName": "Max "+username,
         "redirect": "thank-you-de.html",
         "returnPath":  username+"-test@doichain.org",
         "templateURL": templateURL
     }
     const urlUsers = url+'/api/v1/users';
-    const dataUser = {"username":username,"email":username+"-test@doichain.org","password":"password","mailTemplate":mailTemplate}
+    const dataUser = {"username":username,
+    "email":username+"-test@doichain.org",
+    "password":"password","mailTemplate":mailTemplate}
 
     const realDataUser= { data: dataUser, headers: headersUser};
     if(log) testLogging('createUser:', realDataUser);
