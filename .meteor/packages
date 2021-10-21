@@ -30,5 +30,5 @@ seba:minifiers-autoprefixer
 accounts-base@1.7.1
 static-html
 email@2.0.0
-doichain:doichain-meteor-api@0.1.1
+doichain:doichain-meteor-api@0.5.19
 alanning:roles
