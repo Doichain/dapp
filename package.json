@@ -49,6 +49,7 @@
     "invariant": "^2.2.4",
     "match-sorter": "^4.0.1",
     "meteor-node-stubs": "^0.3.3",
+    "moment": "^2.24.0",
     "mui-datatables": "^2.4.0",
     "proptypes": "^1.1.0",
     "react": "^16.8.6",
@@ -61,8 +62,7 @@
     "react-table": "^7.0.0-alpha.30",
     "simpl-schema": "^1.5.5",
     "styled-components": "^4.3.2",
-    "useragent": "^2.3.0",
-    "moment": "^2.24.0"
+    "useragent": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
