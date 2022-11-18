@@ -214,12 +214,13 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                         if (msgcount > 0){
                             client.retr(1);
                             client.on("retr", function(status, msgnumber, maildata) {
-
+                            
                                 if (status === true) {
                                     if(log) testLogging("RETR success " + msgnumber);
 
                                     //https://github.com/emailjs/emailjs-mime-codec
                                     let html  = quotedPrintableDecode(maildata);
+                                    console.log("htmlmail",html)
                                     if(os.hostname()!=='regtest'){ //this is probably a selenium test from outside docker  - so replace URL so it can be confirmed
                                         html = replaceAll(html,'http://172.20.0.8','http://localhost');  //TODO put this IP inside a config
                                     }
@@ -507,7 +508,7 @@ async function verify_local(dAppUrl, dAppUrlAuth, node_url_alice, rpcAuthAlice, 
     }
 }
 
-export function createUser(url,auth,username,templateURL,log){
+export function createUser(url, auth, username, templateURL, log){
     const headersUser = {
         'Content-Type':'application/json',
         'X-User-Id':auth.userId,
@@ -515,6 +516,7 @@ export function createUser(url,auth,username,templateURL,log){
     }
     const mailTemplate = {
         "subject": "Hello i am "+username,
+        "senderName": username,
         "redirect": "thank-you-de.html",
         "returnPath":  username+"-test@doichain.org",
         "templateURL": templateURL
@@ -600,9 +602,8 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
     let counter = 0;
     confirmedLink = await (async function loop() {
         while (running && (Number(++counter)) < 50) { //trying 50x to get email from bobs mailbox
-            console.log('counter',counter)
             try {
-                testLogging('step 3: getting email from hostname!', os.hostname());
+                testLogging(`step ${counter}/3: getting email from hostname! `, os.hostname());
                 const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname() == 'regtest') ? 'mail' : 'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, true);
                 testLogging('step 4: confirming link', link2Confirm);
                 if (link2Confirm != undefined) {

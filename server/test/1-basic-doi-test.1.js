@@ -29,16 +29,24 @@ const recipient_pop3password = "bob";
 if(Meteor.isAppTest) {
     describe(  'basic-doi-test-01', function () {
         this.timeout(0);
+
         before(function () {
-            logBlockchain("removing OptIns,Recipients,Senders");
-            global.dAppLogin = {"username":"admin","password":"password"};
-           // deleteOptInsFromAliceAndBob();
-           //    deleteAllEmailsFromPop3(global.inside_docker?"mail":"localhost", 110, recipient_pop3username, recipient_pop3password, true);
-           console.log('global.dappUrlAlice',global.dappUrlAlice) 
-           console.log('global.dAppLogin',global.dAppLogin)
-           const adLog = login(global.dappUrlAlice, global.dAppLogin, true);
-           updateUser(global.dappUrlAlice, adLog, adLog.userId, {},true);
+          logBlockchain("removing OptIns,Recipients,Senders");
+          global.dAppLogin = { username: "admin", password: "password" };
+          deleteOptInsFromAliceAndBob();
+          deleteAllEmailsFromPop3(
+            global.inside_docker ? "mail" : "localhost",
+            110,
+            recipient_pop3username,
+            recipient_pop3password,
+            true
+          );
+          console.log("global.dappUrlAlice", global.dappUrlAlice);
+          console.log("global.dAppLogin", global.dAppLogin);
+          const adLog = login(global.dappUrlAlice, global.dAppLogin, true);
+          updateUser(global.dappUrlAlice, adLog, adLog.userId, {}, true);
         });
+
         afterEach(function(){
             const adLog = login(global.dappUrlAlice, global.dAppLogin, false);
             updateUser(global.dappUrlAlice, adLog, adLog.userId, {},false);
@@ -62,7 +70,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it('should create two more users', function (done) {
+        it.only('should create two more users', function (done) {
             resetUsers();
             const logAdmin = login(global.dappUrlAlice, global.dAppLogin, false);
             let userA = createUser(global.dappUrlAlice, logAdmin, "alice-a", templateUrlA, true);
@@ -72,7 +80,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it('should test if Doichain workflow is using different templates for different users', function (done) {
+        it.only('should test if Doichain workflow is using different templates for different users', function (done) {
             resetUsers();
             const recipient_mail = "bob@ci-doichain.org"; //
             const sender_mail_alice_a = "alice-a@ci-doichain.org";
@@ -88,8 +96,8 @@ if(Meteor.isAppTest) {
             const logUserB = login(global.dappUrlAlice, aliceBLogin, true);
 
             //requestConfirmVerifyBasicDoi checks if the "log" value (if it is a String) is in the mail-text
-            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice,global.dappUrlAlice, logUserA, global.dappUrlBob, recipient_mail, sender_mail_alice_a, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", "kostenlose Anmeldung");
-                requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logUserB, global.dappUrlBob, recipient_mail, sender_mail_alice_b, {'city': 'Simbach'}, "bob@ci-doichain.org", "bob", "free registration");
+            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice,global.dappUrlAlice, logUserA, global.dappUrlBob, recipient_mail, sender_mail_alice_a, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", "kostenlose Anmeldung",true);
+                requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logUserB, global.dappUrlBob, recipient_mail, sender_mail_alice_b, {'city': 'Simbach'}, "bob@ci-doichain.org", "bob", "free registration",true);
 
             done();
         });
@@ -179,7 +187,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it.only('should use the json/multipart version', function(done){
+        it('should use the json/multipart version', function(done){
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail_a = "alice-param-multi@ci-doichain.org";
             const adLog = login(global.dappUrlAlice, global.dAppLogin, false);

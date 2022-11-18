@@ -1,8 +1,9 @@
 version: "2"
 services:
   regtest-mongo:
+    container_name: mongo
     image: "mongo:3.2"
-    hostname: regtest-mongo
+    hostname: mongo
     expose:
       - "27017"
     ports:
@@ -17,6 +18,7 @@ services:
         ipv4_address: 172.20.0.3
 
   bind:
+    container_name: bind
     image: "sameersbn/bind:9.11.3-20180713"
     hostname: ns
     expose:
@@ -40,6 +42,7 @@ services:
         ipv4_address: 172.20.0.5
 
   mail:
+    container_name: mail
     image: "esminis/mail-server-postfix-vm-pop3d"
     hostname: mail
     expose:
@@ -67,7 +70,8 @@ services:
         ipv4_address: 172.20.0.4
 
   alice:
-    image: "doichain/node-only:v0.0.9.55" 
+    container_name: alice
+    image: "doichain/core:dc0.20.1.12" 
     hostname: alice
     ports:
       - "18543:18332"
@@ -92,7 +96,8 @@ services:
         ipv4_address: 172.20.0.6
 
   bob:
-    image: "doichain/node-only:v0.0.9.55"
+    container_name: bob
+    image: "doichain/core:dc0.20.1.12" 
     hostname: bob
     ports:
       - "18544:18332"

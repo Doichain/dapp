@@ -6,3 +6,4 @@ node_modules/
 packages/
 settings.json
 package-lock.json
+.vscode/

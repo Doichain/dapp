@@ -42,6 +42,7 @@ export function initBlockchain(node_url_alice,node_url_bob,rpcAuth,privKeyAlice,
         logBlockchain("connecting blockchain and mining some coins");
     }
     global.aliceAddress = getNewAddress(node_url_alice, rpcAuth, log);
+    // console.log("global.aliceAddress",global.aliceAddress)
     generatetoaddress(node_url_alice, rpcAuth, global.aliceAddress, 210);  //110 blocks to new address! 110 blöcke *25 coins
 
 }
@@ -78,7 +79,7 @@ function wait_to_start_container(startedContainerId,callback){
 
 function delete_options_from_alice_and_bob(callback){
 
-    const containerId = getContainerIdOfName('regtest-mongo');
+    const containerId = getContainerIdOfName('mongo');
     testLogging('containerId of mongo:',containerId);
     const command = ''+(global.inside_docker?'sudo':'')+'docker exec '+containerId+' bash -c "mongo < /tmp/delete_collections.sh"';
     exec(command, (e, stdout, stderr)=> {

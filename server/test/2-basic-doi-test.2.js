@@ -62,6 +62,7 @@ if(Meteor.isAppTest) {
             const nameId = getNameIdOfOptInFromRawTx(global.node_url_alice, rpcAuth, resultDataOptIn.data.id, true);
             if (log) testLogging('got nameId', nameId);
             //generating a block so transaction gets confirmed and delivered to bob.
+            console.log("global.aliceAddress",global.aliceAddressglobal.aliceAddress)
             generatetoaddress(global.node_url_alice, rpcAuth, global.aliceAddress, 10, true);
 
             var startedContainerId = startDockerBob(containerId);

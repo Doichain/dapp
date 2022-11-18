@@ -1,4 +1,4 @@
-import {chai} from 'meteor/practicalmeteor:chai';
+import { chai } from 'meteor/practicalmeteor:chai';
 import { testLog } from "meteor/doichain:doichain-meteor-api";
 import {
     deleteOptInsFromAliceAndBob, getBalance, initBlockchain
