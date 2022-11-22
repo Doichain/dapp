@@ -27,7 +27,7 @@ const recipient_pop3username = "bob@ci-doichain.org";
 const recipient_pop3password = "bob";
 
 if(Meteor.isAppTest) {
-    describe(  'basic-doi-test-01', function () {
+    describe('basic-doi-test-01', function () {
         this.timeout(0);
 
         before(function () {

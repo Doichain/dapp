@@ -182,7 +182,7 @@ export function fetchConfirmLinkFromPop3Mail(hostname,port,username,password,ali
     return syncFunc(hostname,port,username,password,alicedapp_url,log,mail_test_string);
 }
 
-function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alicedapp_url,log,mail_test_string,callback) {
+function fetch_confirm_link_from_pop3_mail(hostname,port,smtpUsername,smtpPassword,alicedapp_url,log,mail_test_string,callback) {
 
     testLogging("step 3 - getting email from bobs inbox");
     //https://github.com/ditesh/node-poplib/blob/master/demos/retrieve-all.js
@@ -194,7 +194,7 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
 
     client.on("connect", function() {
         testLogging("CONNECT success");
-        client.login(username, password);
+        client.login(smtpUsername, smtpPassword);
         client.on("login", function(status) {
             if (status) {
                 testLogging("LOGIN/PASS success");
@@ -229,7 +229,7 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,username,password,alice
                                     linkdata =  html.substring(html.indexOf(alicedapp_url)).match(/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*[a-z,A-Z,0-9]{16,}/)[0];
 
                                     chai.expect(linkdata,"no linkdata found").to.not.be.null;
-
+                                    //Todo get user from alice mongo db and find template data and compare SenderName with SenderName from email.
                                     if(mail_test_string)chai.expect(html.indexOf(mail_test_string),'teststring: "'+mail_test_string+'" not found').to.not.equal(-1);
 
                                     client.dele(msgnumber);
