@@ -7,7 +7,7 @@
     - mail server (smtp, pop) running on smtp port 25 (and pop3 for user alice and usr bob)
     - Doichain node running for Alice
     - Doichain node running for Bob
-    - !!!Doichain dApps for Alice and Bob - do not run inside docker compose because of performance issues!!!
+    - ***Remark Doichain dApps for Alice and Bob - should not run inside docker compose because of performance issues. This is why we run both directly on different ports on the console***
 3. Install Meteor from meteor.com
 4. Open a second terminal and start meteor for Bob (Confirmation dApp on port 4000)
     - ```meteor npm install```
