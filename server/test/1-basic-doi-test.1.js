@@ -52,7 +52,7 @@ if(Meteor.isAppTest) {
             updateUser(global.dappUrlAlice, adLog, adLog.userId, {},false);
         });
 
-        it('should test if basic Doichain workflow is working with optional data', function (done) {
+        it.only('should test if basic Doichain workflow is working with optional data', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice@ci-doichain.org";
 
@@ -70,7 +70,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it.only('should create two more users', function (done) {
+        it('should create two more users', function (done) {
             resetUsers();
             const logAdmin = login(global.dappUrlAlice, global.dAppLogin, false);
             let userA = createUser(global.dappUrlAlice, logAdmin, "alice-a", templateUrlA, true);
@@ -80,7 +80,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it.only('should test if Doichain workflow is using different templates for different users', function (done) {
+        it('should test if Doichain workflow is using different templates for different users', function (done) {
             resetUsers();
             const recipient_mail = "bob@ci-doichain.org"; //
             const sender_mail_alice_a = "alice-a@ci-doichain.org";
