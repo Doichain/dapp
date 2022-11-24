@@ -52,7 +52,7 @@ if(Meteor.isAppTest) {
             updateUser(global.dappUrlAlice, adLog, adLog.userId, {},false);
         });
 
-        it.only('should test if basic Doichain workflow is working with optional data', function (done) {
+        it('should test if basic Doichain workflow is working with optional data', function (done) {
             const recipient_mail = "bob@ci-doichain.org"; //please use this as standard to not confuse people!
             const sender_mail = "alice@ci-doichain.org";
 
@@ -80,7 +80,7 @@ if(Meteor.isAppTest) {
             done();
         });
 
-        it('should test if Doichain workflow is using different templates for different users', function (done) {
+        it.only('should test if Doichain workflow is using different templates for different users', function (done) {
             resetUsers();
             const recipient_mail = "bob@ci-doichain.org"; //
             const sender_mail_alice_a = "alice-a@ci-doichain.org";
@@ -94,10 +94,12 @@ if(Meteor.isAppTest) {
 
             const logUserA = login(global.dappUrlAlice, aliceALogin, true);
             const logUserB = login(global.dappUrlAlice, aliceBLogin, true);
+            let senderNameA = findUser(userA).profile.mailTemplate.senderName
+            let senderNameB = findUser(userB).profile.mailTemplate.senderName
 
             //requestConfirmVerifyBasicDoi checks if the "log" value (if it is a String) is in the mail-text
-            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice,global.dappUrlAlice, logUserA, global.dappUrlBob, recipient_mail, sender_mail_alice_a, {'city': 'Ekaterinburg'}, "bob@ci-doichain.org", "bob", "kostenlose Anmeldung",true);
-                requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice, global.dappUrlAlice, logUserB, global.dappUrlBob, recipient_mail, sender_mail_alice_b, {'city': 'Simbach'}, "bob@ci-doichain.org", "bob", "free registration",true);
+            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice,global.dappUrlAlice, logUserA, global.dappUrlBob, recipient_mail, sender_mail_alice_a, {'city': 'Ekaterinburg', 'senderName': senderNameA}, "bob@ci-doichain.org", "bob",true, "kostenlose Anmeldung");
+            requestConfirmVerifyBasicDoi(global.node_url_alice, global.rpcAuthAlice,global.dappUrlAlice, logUserB, global.dappUrlBob, recipient_mail, sender_mail_alice_b, {'city': 'Simbach', 'senderName': senderNameB}, "bob@ci-doichain.org", "bob",true, "free registration");
 
             done();
         });

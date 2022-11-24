@@ -177,12 +177,12 @@ async function get_nameid_of_optin_from_rawtx(url, auth, optInId, log, callback)
         callback(error,nameId);
     }
 }
-export function fetchConfirmLinkFromPop3Mail(hostname,port,username,password,alicedapp_url,log,mail_test_string="") {
+export function fetchConfirmLinkFromPop3Mail(hostname,port,username,password,alicedapp_url,log,mail_test_string="",optionalData) {
     const syncFunc = Meteor.wrapAsync(fetch_confirm_link_from_pop3_mail);
-    return syncFunc(hostname,port,username,password,alicedapp_url,log,mail_test_string);
+    return syncFunc(hostname,port,username,password,alicedapp_url,log,mail_test_string,optionalData);
 }
 
-function fetch_confirm_link_from_pop3_mail(hostname,port,smtpUsername,smtpPassword,alicedapp_url,log,mail_test_string,callback) {
+function fetch_confirm_link_from_pop3_mail(hostname,port,smtpUsername,smtpPassword,alicedapp_url,log,mail_test_string,optionalData,callback) {
 
     testLogging("step 3 - getting email from bobs inbox");
     //https://github.com/ditesh/node-poplib/blob/master/demos/retrieve-all.js
@@ -227,9 +227,13 @@ function fetch_confirm_link_from_pop3_mail(hostname,port,smtpUsername,smtpPasswo
                                     let linkdata = null;
                                     chai.expect(html.indexOf(alicedapp_url),"dappUrl not found in email").to.not.equal(-1);
                                     linkdata =  html.substring(html.indexOf(alicedapp_url)).match(/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*[a-z,A-Z,0-9]{16,}/)[0];
-
                                     chai.expect(linkdata,"no linkdata found").to.not.be.null;
+                                    let senderNameFromHtml = html.substring(html.indexOf("From: ")).match(/".*"/)[0];
+                                    chai.expect(senderNameFromHtml,"no senderNameFromHtml found").to.not.be.null;
+                                    chai.expect(html.indexOf(optionalData.senderName),"no senderName found in email").to.not.equal(-1);
+
                                     //Todo get user from alice mongo db and find template data and compare SenderName with SenderName from email.
+
                                     if(mail_test_string)chai.expect(html.indexOf(mail_test_string),'teststring: "'+mail_test_string+'" not found').to.not.equal(-1);
 
                                     client.dele(msgnumber);
@@ -604,7 +608,7 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
         while (running && (Number(++counter)) < 50) { //trying 50x to get email from bobs mailbox
             try {
                 testLogging(`step ${counter}/3: getting email from hostname! `, os.hostname());
-                const link2Confirm = fetchConfirmLinkFromPop3Mail((os.hostname() == 'regtest') ? 'mail' : 'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, true);
+                const link2Confirm  = fetchConfirmLinkFromPop3Mail((os.hostname() == 'regtest') ? 'mail' : 'localhost', 110, recipient_pop3username, recipient_pop3password, dappUrlBob, true, mail_test_string, optionalData);
                 testLogging('step 4: confirming link', link2Confirm);
                 if (link2Confirm != undefined) {
                     running = false;
@@ -633,6 +637,7 @@ async function request_confirm_verify_basic_doi(node_url_alice,rpcAuthAlice, dap
         testLogging('step 4: confirming link',confirmedLink);
         //Checking the redirect-parameters after confirming link
         let redirLink = clickConfirmLink(confirmedLink);
+
         if(optionalData && optionalData.redirectParam){
             testLogging('step 4.5: redirectLink after confirmation in case of optional data',{optionalData:optionalData,redirLink:redirLink});
             testLogging('redirLink.location:',redirLink.location);
